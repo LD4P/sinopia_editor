@@ -5,6 +5,8 @@ import _ from "lodash"
 const resourceFilenames = {
   "c7db5404-7d7d-40ac-b38e-c821d2c3ae3f": "test.json",
   "c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid": "invalid_rt.json",
+  "c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid-template":
+    "invalid_instance.json",
   "a4181509-8046-47c8-9327-6e576c517d70": "test2.json",
   "9c5bd9f5-1804-45bd-99ed-b6e3774c896e": "instance.json",
 }
@@ -134,6 +136,32 @@ export const resourceSearchResults = (uri) => {
           doc_count: 1,
         },
       ],
+    },
+  ]
+}
+
+export const getFixtureResourceVersions = () => {
+  return [
+    {
+      timestamp: "2021-10-22T13:26:35.238Z",
+      user: "jlittman",
+      group: "other",
+      editGroups: [],
+      templateId: "resourceTemplate:testing:uber1",
+    },
+    {
+      timestamp: "2021-10-22T22:25:58.305Z",
+      user: "jlittman",
+      group: "other",
+      editGroups: [],
+      templateId: "resourceTemplate:testing:uber1",
+    },
+    {
+      timestamp: "2021-10-22T22:30:19.732Z",
+      user: "jlittman",
+      group: "other",
+      editGroups: [],
+      templateId: "resourceTemplate:testing:uber1",
     },
   ]
 }

@@ -1,6 +1,5 @@
 import { addTemplateHistory } from "actions/history"
 import { clearErrors, addError } from "actions/errors"
-import { findRootResourceTemplateId } from "utilities/Utilities"
 import {
   addResourceFromDataset,
   addEmptyResource,
@@ -9,8 +8,10 @@ import {
   newPropertiesFromTemplates,
   chooseURI,
   defaultValuesFor,
+  loadResource,
+  resourceTemplateIdFromDataset,
 } from "./resourceHelpers"
-import { fetchResource, putResource, postResource } from "sinopiaApi"
+import { putResource, postResource } from "sinopiaApi"
 import {
   selectProperty,
   selectValue,
@@ -28,6 +29,8 @@ import {
   setUnusedRDF,
   loadResourceFinished,
   setResourceGroup,
+  setCurrentDiff,
+  clearVersions,
 } from "actions/resources"
 import { newValueSubject } from "utilities/valueFactory"
 import { selectUser } from "selectors/authenticate"
@@ -39,83 +42,55 @@ import { addResourceHistory } from "actionCreators/history"
 import _ from "lodash"
 import { setCurrentComponent } from "actions/index"
 
-/**
- * A thunk that loads an existing resource from Sinopia API and adds to state.
- * @return {boolean} true if successful
- */
-export const loadResource =
-  (uri, errorKey, asNewResource, preview) => (dispatch) => {
-    dispatch(clearErrors(errorKey))
-    return fetchResource(uri)
-      .then(([dataset, response]) => {
-        if (!dataset) return false
-        const resourceTemplateId = resourceTemplateIdFromDataset(uri, dataset)
-        return dispatch(
-          addResourceFromDataset(
-            dataset,
-            uri,
-            resourceTemplateId,
-            errorKey,
-            asNewResource,
-            _.pick(response, ["group", "editGroups"])
+export const loadResourceForEditor =
+  (uri, errorKey, { asNewResource = false } = {}) =>
+  (dispatch) =>
+    dispatch(loadResource(uri, errorKey, { asNewResource })).then((result) => {
+      if (!result) return false
+      const [response, resource] = result
+      dispatch(
+        setCurrentComponent(
+          resource.key,
+          resource.properties[0].key,
+          resource.properties[0].key
+        )
+      )
+      dispatch(setCurrentResource(resource.key))
+      if (!asNewResource) {
+        dispatch(addUserResourceHistory(uri))
+        dispatch(
+          addResourceHistory(
+            resource.uri,
+            resource.subjectTemplate.class,
+            response.group,
+            response.timestamp
           )
         )
-          .then(([resource, usedDataset]) => {
-            const unusedDataset = dataset.difference(usedDataset)
-            dispatch(
-              setUnusedRDF(
-                resource.key,
-                unusedDataset.size > 0 ? unusedDataset.toCanonical() : null
-              )
-            )
-            if (preview) {
-              dispatch(setCurrentPreviewResource(resource.key))
-            } else {
-              dispatch(
-                setCurrentComponent(
-                  resource.key,
-                  resource.properties[0].key,
-                  resource.properties[0].key
-                )
-              )
-              dispatch(setCurrentResource(resource.key))
-            }
-            if (!asNewResource) {
-              dispatch(addUserResourceHistory(uri))
-              dispatch(
-                addResourceHistory(
-                  resource.uri,
-                  resource.subjectTemplate.class,
-                  response.group,
-                  response.timestamp
-                )
-              )
-              dispatch(loadResourceFinished(resource.key))
-            }
-            return true
-          })
-          .catch((err) => {
-            // ResourceTemplateErrors have already been dispatched.
-            if (err.name !== "ResourceTemplateError") {
-              console.error(err)
-              dispatch(
-                addError(
-                  errorKey,
-                  `Error retrieving ${uri}: ${err.message || err}`
-                )
-              )
-            }
-            return false
-          })
-      })
-      .catch((err) => {
-        console.error(err)
-        dispatch(
-          addError(errorKey, `Error retrieving ${uri}: ${err.message || err}`)
-        )
-        return false
-      })
-  }
+        dispatch(loadResourceFinished(resource.key))
+      }
+      return true
+    })
+
+export const loadResourceForPreview =
+  (uri, errorKey, { version = null } = {}) =>
+  (dispatch) =>
+    dispatch(loadResource(uri, errorKey, { version })).then((result) => {
+      if (!result) return false
+      const [, resource] = result
+      dispatch(setCurrentPreviewResource(resource.key))
+      return true
+    })
+
+export const loadResourceForDiff =
+  (uri, errorKey, diffType, { version = null } = {}) =>
+  (dispatch) =>
+    dispatch(loadResource(uri, errorKey, { version })).then((result) => {
+      if (!result) return false
+      const [, resource] = result
+      // diffType: compareFromResourceKey or compareToResourceKey
+      dispatch(setCurrentDiff({ [diffType]: resource.key }))
+      return true
+    })
 
 /**
  * A thunk that creates a new resource from a resource template and adds to state.
@@ -226,15 +201,6 @@ export const newResourceFromDataset =
       })
   }
 
-const resourceTemplateIdFromDataset = (uri, dataset) => {
-  const resourceTemplateId = findRootResourceTemplateId(uri, dataset)
-  if (!resourceTemplateId)
-    throw new Error(
-      "A single resource template must be included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)"
-    )
-  return resourceTemplateId
-}
-
 // A thunk that publishes (saves) a new resource
 export const saveNewResource =
   (resourceKey, group, editGroups, errorKey) => (dispatch, getState) => {
@@ -283,6 +249,7 @@ export const saveResource =
             resource.group
           )
         )
+        dispatch(clearVersions(resourceKey))
       })
       .catch((err) => {
         console.error(err)

@@ -24,6 +24,9 @@ import {
   clearResourceFromEditor,
   saveResourceFinishedEditor,
   updateValue,
+  setCurrentDiffResources,
+  setVersions,
+  clearVersions,
 } from "reducers/resources"
 
 import { createState } from "stateUtils"
@@ -35,6 +38,7 @@ const reducers = {
   ADD_SUBJECT: addSubject,
   ADD_VALUE: addValue,
   CLEAR_RESOURCE: clearResource,
+  CLEAR_VERSIONS: clearVersions,
   HIDE_NAV_PROPERTY: hideNavProperty,
   HIDE_NAV_SUBJECT: hideNavSubject,
   HIDE_PROPERTY: hideProperty,
@@ -43,8 +47,10 @@ const reducers = {
   REMOVE_VALUE: removeValue,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
+  SET_CURRENT_DIFF_RESOURCES: setCurrentDiffResources,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
+  SET_VERSIONS: setVersions,
   SHOW_NAV_PROPERTY: showNavProperty,
   SHOW_NAV_SUBJECT: showNavSubject,
   SHOW_PROPERTY: showProperty,
@@ -790,6 +796,16 @@ describe("addValue()", () => {
 describe("clearResource()", () => {
   it("removes resource", () => {
     const oldState = createState({ hasResourceWithLiteral: true })
+    oldState.entities.versions = {
+      t9zVwg2zO: [
+        {
+          timestamp: "2019-10-16T17:13:45.084Z",
+          user: "michelle",
+          group: "stanford",
+          templateId: "ld4p:RT:bf2:Title:CollTitle",
+        },
+      ],
+    }
 
     const action = {
       type: "CLEAR_RESOURCE",
@@ -800,6 +816,7 @@ describe("clearResource()", () => {
     expect(Object.keys(newState.subjects)).toHaveLength(0)
     expect(Object.keys(newState.properties)).toHaveLength(0)
     expect(Object.keys(newState.values)).toHaveLength(0)
+    expect(Object.keys(newState.versions)).toHaveLength(0)
   })
 })
 
@@ -1581,5 +1598,102 @@ describe("updateValue()", () => {
         component: "InputURIComponent",
       })
     })
+  })
+})
+
+describe("setCurrentDiffResources()", () => {
+  it("replaces", () => {
+    const oldState = createState({ hasCurrentDiff: true })
+
+    const action = {
+      type: "SET_CURRENT_DIFF_RESOURCES",
+      payload: {
+        compareFromResourceKey: "i0SAJP-Zhd",
+        compareToResourceKey: "wihOjn-0Z",
+      },
+    }
+
+    const newState = reducer(oldState.editor, action)
+    expect(newState.currentDiff).toStrictEqual({
+      compareFrom: "i0SAJP-Zhd",
+      compareTo: "wihOjn-0Z",
+    })
+  })
+
+  it("clears when null", () => {
+    const oldState = createState({ hasCurrentDiff: true })
+
+    const action = {
+      type: "SET_CURRENT_DIFF_RESOURCES",
+      payload: {
+        compareFromResourceKey: null,
+        compareToResourceKey: null,
+      },
+    }
+
+    const newState = reducer(oldState.editor, action)
+    expect(newState.currentDiff).toStrictEqual({
+      compareFrom: null,
+      compareTo: null,
+    })
+  })
+
+  it("retains when undefined", () => {
+    const oldState = createState({ hasCurrentDiff: true })
+
+    const action = {
+      type: "SET_CURRENT_DIFF_RESOURCES",
+      payload: {
+        compareFromResourceKey: undefined,
+        compareToResourceKey: undefined,
+      },
+    }
+
+    const newState = reducer(oldState.editor, action)
+    expect(newState.currentDiff).toStrictEqual({
+      compareFrom: "7caLbfwwlf",
+      compareTo: "ljAblGiBW",
+    })
+  })
+})
+
+const versions = [
+  {
+    timestamp: "2019-10-16T17:13:45.084Z",
+    user: "michelle",
+    group: "stanford",
+    templateId: "ld4p:RT:bf2:Title:CollTitle",
+  },
+]
+
+describe("setVersions()", () => {
+  it("updates state", () => {
+    const oldState = createState()
+
+    const action = {
+      type: "SET_VERSIONS",
+      payload: {
+        resourceKey: "i0SAJP-Zhd",
+        versions,
+      },
+    }
+
+    const newState = reducer(oldState.entities, action)
+    expect(newState.versions["i0SAJP-Zhd"]).toEqual(versions)
+  })
+})
+
+describe("clearVersions()", () => {
+  it("updates state", () => {
+    const oldState = createState()
+    oldState.entities.versions = { "i0SAJP-Zhd": versions }
+
+    const action = {
+      type: "CLEAR_VERSIONS",
+      payload: "i0SAJP-Zhd",
+    }
+
+    const newState = reducer(oldState.entities, action)
+    expect(Object.entries(newState.versions)).toHaveLength(0)
   })
 })

@@ -3,7 +3,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import PanelProperty from "./PanelProperty"
-import PanelResourceNav from "components/editor/leftNav/PanelResourceNav"
+import LeftNav from "../leftNav/LeftNav"
 
 // Top-level resource
 const PanelResource = ({ resource, readOnly = false }) => {
@@ -12,7 +12,7 @@ const PanelResource = ({ resource, readOnly = false }) => {
 
   return (
     <div className="row">
-      {!readOnly && <PanelResourceNav resource={resource} />}
+      {!readOnly && <LeftNav resource={resource} />}
       <div className={resourceDivClass}>
         <form>
           {resource.propertyKeys.map((propertyKey, index) => (

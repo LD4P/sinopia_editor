@@ -1,7 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
-import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
 import ModalWrapper, {
   useDisplayStyle,
@@ -13,17 +12,15 @@ import {
   selectCurrentPreviewResourceKey,
   selectNormSubject,
 } from "selectors/resources"
-import { setCurrentPreviewResource } from "actions/resources"
+import { setCurrentPreviewResource, clearResource } from "actions/resources"
 import ResourceDisplay from "./ResourceDisplay"
-import usePermissions from "hooks/usePermissions"
-import MarcButton from "../actions/MarcButton"
-import TransferButtons from "../actions/TransferButtons"
 import ResourcePreviewHeader from "./ResourcePreviewHeader"
 
-const PreviewModal = (props) => {
+const VersionPreviewModal = () => {
   const dispatch = useDispatch()
-  const { canEdit, canCreate } = usePermissions()
-  const show = useSelector((state) => isCurrentModal(state, "PreviewModal"))
+  const show = useSelector((state) =>
+    isCurrentModal(state, "VersionPreviewModal")
+  )
 
   // Ensure there is a current resource before attempting to render a resource component
   const currentResourceKey = useSelector((state) =>
@@ -36,18 +33,8 @@ const PreviewModal = (props) => {
   const close = (event) => {
     event.preventDefault()
     dispatch(setCurrentPreviewResource(null))
-    // TODO: Remove from state.
     dispatch(hideModal())
-  }
-
-  const editAndClose = (event) => {
-    close(event)
-    props.handleEdit(currentResource.uri)
-  }
-
-  const copyAndClose = (event) => {
-    close(event)
-    props.handleCopy(currentResource.uri)
+    dispatch(clearResource(currentResourceKey))
   }
 
   const modal = (
@@ -67,7 +54,7 @@ const PreviewModal = (props) => {
         <div className="modal-content">
           <div className="modal-header">
             <h4 className="modal-title" id="view-resource-modal-title">
-              Preview Resource
+              Preview Resource Version
             </h4>
             <div className="view-resource-buttons">
               <button
@@ -86,34 +73,6 @@ const PreviewModal = (props) => {
               </>
             )}
           </div>
-          <div className="modal-footer">
-            {currentResourceKey && (
-              <MarcButton resourceKey={currentResourceKey} />
-            )}
-            {currentResourceKey && (
-              <TransferButtons resourceKey={currentResourceKey} />
-            )}
-            {canEdit(currentResource) && (
-              <button
-                className="btn btn-primary btn-view-resource"
-                onClick={editAndClose}
-                aria-label="Edit"
-                data-testid="edit-resource"
-              >
-                Edit
-              </button>
-            )}
-            {canCreate && (
-              <button
-                className="btn btn-primary btn-view-resource"
-                onClick={copyAndClose}
-                aria-label="Copy"
-                data-testid="copy-resource"
-              >
-                Copy
-              </button>
-            )}
-          </div>
         </div>
       </div>
     </div>
@@ -122,9 +81,4 @@ const PreviewModal = (props) => {
   return <ModalWrapper modal={modal} />
 }
 
-PreviewModal.propTypes = {
-  handleEdit: PropTypes.func.isRequired,
-  handleCopy: PropTypes.func.isRequired,
-}
-
-export default PreviewModal
+export default VersionPreviewModal

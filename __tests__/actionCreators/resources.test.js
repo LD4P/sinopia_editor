@@ -1,6 +1,8 @@
 import {
   newResourceFromDataset,
-  loadResource,
+  loadResourceForEditor,
+  loadResourceForPreview,
+  loadResourceForDiff,
   newResource,
   newResourceCopy,
   expandProperty,
@@ -381,7 +383,7 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 })
 
 describe("loadResource", () => {
-  describe("loading a resource", () => {
+  describe("loading a resource for editor", () => {
     const expectedAddResourceAction = require("../__action_fixtures__/loadResource-ADD_SUBJECT.json")
     const store = mockStore(createState())
     sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
@@ -392,7 +394,9 @@ describe("loadResource", () => {
     it("dispatches actions", async () => {
       const uri =
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-      const result = await store.dispatch(loadResource(uri, "testerrorkey"))
+      const result = await store.dispatch(
+        loadResourceForEditor(uri, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()
@@ -433,7 +437,7 @@ describe("loadResource", () => {
       const uri =
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
       const result = await store.dispatch(
-        loadResource(uri, "testerrorkey", true)
+        loadResourceForEditor(uri, "testerrorkey", { asNewResource: true })
       )
       expect(result).toBe(true)
 
@@ -452,14 +456,14 @@ describe("loadResource", () => {
     })
   })
 
-  describe("loading a preview resource", () => {
+  describe("loading a resource for preview", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
       const uri =
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
       const result = await store.dispatch(
-        loadResource(uri, "testerrorkey", false, true)
+        loadResourceForPreview(uri, "testerrorkey")
       )
       expect(result).toBe(true)
 
@@ -468,7 +472,29 @@ describe("loadResource", () => {
       expect(actions).toHaveAction("ADD_TEMPLATES")
       expect(actions).toHaveAction("SET_UNUSED_RDF")
       expect(actions).toHaveAction("SET_CURRENT_PREVIEW_RESOURCE")
-      expect(actions).toHaveAction("LOAD_RESOURCE_FINISHED")
+    })
+  })
+
+  describe("loading a resource for diff", () => {
+    const store = mockStore(createState())
+
+    it("dispatches actions", async () => {
+      const uri =
+        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      const result = await store.dispatch(
+        loadResourceForDiff(uri, "testerrorkey", "compareFromResourceKey", {
+          version: "2019-10-16T17:13:45.084Z",
+        })
+      )
+      expect(result).toBe(true)
+
+      const actions = store.getActions()
+      expect(actions).toHaveAction("CLEAR_ERRORS")
+      expect(actions).toHaveAction("ADD_TEMPLATES")
+      expect(actions).toHaveAction("SET_UNUSED_RDF")
+      expect(actions).toHaveAction("SET_CURRENT_DIFF_RESOURCES", {
+        compareFromResourceKey: "abc0",
+      })
     })
   })
 
@@ -478,7 +504,9 @@ describe("loadResource", () => {
     it("dispatches actions", async () => {
       const uri =
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid"
-      const result = await store.dispatch(loadResource(uri, "testerrorkey"))
+      const result = await store.dispatch(
+        loadResourceForEditor(uri, "testerrorkey")
+      )
       expect(result).toBe(false)
 
       const actions = store.getActions()
@@ -491,13 +519,34 @@ describe("loadResource", () => {
     })
   })
 
+  describe("loading a resource without a resource template", () => {
+    const store = mockStore(createState())
+
+    it("dispatches actions", async () => {
+      const uri =
+        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid-template"
+      const result = await store.dispatch(
+        loadResourceForEditor(uri, "testerrorkey")
+      )
+      expect(result).toBe(false)
+
+      const actions = store.getActions()
+      expect(actions).toHaveAction("CLEAR_ERRORS")
+      expect(actions).toHaveAction("ADD_ERROR", {
+        errorKey: "testerrorkey",
+        error:
+          "Error retrieving http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid-template: A single resource template must be included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)",
+      })
+    })
+  })
+
   describe("load error", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
       // http://error is a special URI that will cause an error to be thrown.
       const result = await store.dispatch(
-        loadResource("http://error", "testerrorkey")
+        loadResourceForEditor("http://error", "testerrorkey")
       )
       expect(result).toBe(false)
 
@@ -516,7 +565,9 @@ describe("loadResource", () => {
     it("should have nested resources from loading resource and templates", async () => {
       const uri =
         "http://localhost:3000/resource/a4181509-8046-47c8-9327-6e576c517d70"
-      const result = await store.dispatch(loadResource(uri, "testerrorkey"))
+      const result = await store.dispatch(
+        loadResourceForEditor(uri, "testerrorkey")
+      )
       expect(result).toBe(true)
 
       const actions = store.getActions()

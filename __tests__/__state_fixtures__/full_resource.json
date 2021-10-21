@@ -1,0 +1,1956 @@
+{
+  "key": "vX5R-HZ0W7j9I1kHhGsC1",
+  "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+  "group": "stanford",
+  "editGroups": ["cornell"],
+  "descUriOrLiteralValueKeys": [
+    "VPYqd1xcBdX9R2efo7Qhw",
+    "KZPCVlbaBefGKiyUZ6cpL",
+    "_gLYnkinYXQlEzQbhp5KX",
+    "4-GcfGxYsKNkrITQ5Ai_B",
+    "UGlBEolVe-5wq3DP9Zi04",
+    "yzD077UWwRFvQN2vzbJFM",
+    "vf9q7JJE47EHHVXY5jUY5",
+    "-2U26IodHl6YVR58LEupp",
+    "9PJ2Kv0ltpiqxrHcoAvZ_",
+    "5lmXnk-o7xuor0R0dmyM1",
+    "6lYbZH4ta03GNKBAe02I2",
+    "N7nukYt2OwG0t6GU9XZsk",
+    "mw0FJ2sv50-MrwuZnC26A",
+    "ZqHgp6ixAtcVgr6CaMxrr",
+    "pPKjBWCXAgjfOngLnu8hB",
+    "HPdoMQimI4qgtfJ_6rQ6r",
+    "8EbrhspSakkep2F8-P5BE",
+    "26VM7YUSkirGyZkrxWMQL",
+    "b0nX4RjwGM3PiFYxM7hSZ",
+    "732h53yafaiaD8FX57G8d",
+    "_-LI4cG4scu-rtL9GHKVP",
+    "apeEN3Az8Lo_9qvIJFvkw"
+  ],
+  "descWithErrorPropertyKeys": [
+    "6ynH0yOw2PuUPG58gqA9D",
+    "FPRsi6ue-MNxElg2crcX_"
+  ],
+  "subjectTemplateKey": "resourceTemplate:testing:uber1",
+  "valueSubjectOfKey": null,
+  "showNav": false,
+  "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+  "rootPropertyKey": null,
+  "labels": ["Uber template1"],
+  "bfAdminMetadataRefs": [],
+  "bfItemRefs": [],
+  "bfInstanceRefs": [],
+  "bfWorkRefs": [],
+  "label": "Example Label",
+  "propertyKeys": [
+    "6uklDAA3TijzPsJNCsovJ",
+    "Ju0IwOIn3oFsbvgxNZxeI",
+    "icXa3UHy2eaZdJS-LX_N2",
+    "BgDyGwTT3mMBVGsM7tTTf",
+    "vD5j1BODY7KQnl4OGyCGa",
+    "yg--O6q9-ZY0TxDxrG9vh",
+    "G6dSZ_Nk5od0uD05Ll5lJ",
+    "pMNXhziHED3jpcSke47dD",
+    "GLifxXoqZCSwZOPd8uugW",
+    "qeNLNrJAnM-VE1889KY-g",
+    "dCQ72E5BJzyTuK0sKdwa9",
+    "xZl0LYsHSd1Oig4kSDsHr",
+    "cqKxMencheXQH31cOIYO1",
+    "W9HoMaqZ2pC-LLudWyF0e",
+    "HGETY86xqt_OJvcMo5pjO",
+    "15-Za8EMv7Lm6O18viC9r",
+    "cEcKig4Bn6Rws8KEKR1P5",
+    "8ULlnmZXcCau8OuqQmv1p",
+    "x2JIfFnT5v3_FYSPHCSdx",
+    "QkrUdTTwXoZHYLVhCVgEA",
+    "I4RS-InaSrh5xXQMV6js8",
+    "UsvCBdEZfcoZJ8sBKTk7V",
+    "2OUNv1Hp1sdlRB6oF1ucq",
+    "z4jyrVfpvYvbEoT1BYidF",
+    "6ynH0yOw2PuUPG58gqA9D",
+    "Cz37Cm3bIxJqMJIZZ4iLr",
+    "ZYaormitusqtZEVLr1dca",
+    "FPRsi6ue-MNxElg2crcX_"
+  ],
+  "changed": true,
+  "subjectTemplate": {
+    "key": "resourceTemplate:testing:uber1",
+    "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber1",
+    "id": "resourceTemplate:testing:uber1",
+    "class": "http://id.loc.gov/ontologies/bibframe/Uber1",
+    "label": "Uber template1",
+    "author": "Justin Littman",
+    "remark": "Template for testing purposes.",
+    "date": "2020-07-27",
+    "suppressible": false,
+    "propertyTemplateKeys": [
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property3",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property4",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property5",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property6",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property7",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property8",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property9",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property10",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property11",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property12",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property13",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property14",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property15",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property16",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property17",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property18",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property19",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/adminMetadata",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasInstance",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/instanceOf",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasItem",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/itemOf",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property20",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property21",
+      "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
+      "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property22"
+    ],
+    "group": "stanford",
+    "editGroups": ["cornell"]
+  },
+  "properties": [
+    {
+      "key": "6uklDAA3TijzPsJNCsovJ",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+      "descUriOrLiteralValueKeys": [
+        "VPYqd1xcBdX9R2efo7Qhw",
+        "KZPCVlbaBefGKiyUZ6cpL",
+        "_gLYnkinYXQlEzQbhp5KX",
+        "4-GcfGxYsKNkrITQ5Ai_B",
+        "UGlBEolVe-5wq3DP9Zi04"
+      ],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property1"],
+      "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+      "valueKeys": [
+        "hPvpJz9nosea5BkXyrOou",
+        "8y2K463pFNEE630Sgn3tW",
+        "Jy-9cgAg07Za-eebn9aPN"
+      ],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property1",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "Multiple nested, repeatable resource templates.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [
+          "resourceTemplate:testing:uber2",
+          "resourceTemplate:testing:uber3"
+        ],
+        "authorities": [],
+        "type": "resource",
+        "component": "NestedResource"
+      },
+      "values": [
+        {
+          "key": "hPvpJz9nosea5BkXyrOou",
+          "literal": null,
+          "lang": null,
+          "uri": null,
+          "label": null,
+          "component": null,
+          "propertyKey": "6uklDAA3TijzPsJNCsovJ",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+          "valueSubjectKey": "b4IwKClqATq2JpNrHmXGl",
+          "errors": [],
+          "valueSubject": {
+            "key": "b4IwKClqATq2JpNrHmXGl",
+            "uri": null,
+            "descUriOrLiteralValueKeys": ["VPYqd1xcBdX9R2efo7Qhw"],
+            "descWithErrorPropertyKeys": [],
+            "subjectTemplateKey": "resourceTemplate:testing:uber2",
+            "valueSubjectOfKey": "hPvpJz9nosea5BkXyrOou",
+            "showNav": false,
+            "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+            "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+            "labels": [
+              "Uber template1",
+              "Uber template1, property1",
+              "Uber template2"
+            ],
+            "propertyKeys": ["SG0vRsmPIgL0Z6sOqd-w6"],
+            "subjectTemplate": {
+              "key": "resourceTemplate:testing:uber2",
+              "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber2",
+              "id": "resourceTemplate:testing:uber2",
+              "class": "http://id.loc.gov/ontologies/bibframe/Uber2",
+              "label": "Uber template2",
+              "author": null,
+              "remark": "Template for testing purposes with single repeatable literal.",
+              "date": null,
+              "suppressible": false,
+              "propertyTemplateKeys": [
+                "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
+              ],
+              "group": "stanford",
+              "editGroups": ["cornell"]
+            },
+            "properties": [
+              {
+                "key": "SG0vRsmPIgL0Z6sOqd-w6",
+                "show": true,
+                "subjectKey": "b4IwKClqATq2JpNrHmXGl",
+                "propertyTemplateKey": "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+                "descUriOrLiteralValueKeys": ["VPYqd1xcBdX9R2efo7Qhw"],
+                "descWithErrorPropertyKeys": [],
+                "showNav": false,
+                "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                "labels": [
+                  "Uber template1",
+                  "Uber template1, property1",
+                  "Uber template2",
+                  "Uber template2, property1"
+                ],
+                "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                "valueKeys": ["VPYqd1xcBdX9R2efo7Qhw"],
+                "propertyTemplate": {
+                  "key": "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+                  "subjectTemplateKey": "resourceTemplate:testing:uber2",
+                  "label": "Uber template2, property1",
+                  "uri": "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+                  "required": false,
+                  "repeatable": true,
+                  "ordered": false,
+                  "immutable": false,
+                  "remark": "A repeatable literal",
+                  "remarkUrl": null,
+                  "defaults": [],
+                  "valueSubjectTemplateKeys": [],
+                  "authorities": [],
+                  "type": "literal",
+                  "component": "InputLiteral"
+                },
+                "values": [
+                  {
+                    "key": "VPYqd1xcBdX9R2efo7Qhw",
+                    "literal": "Uber template2, property1",
+                    "lang": "eng",
+                    "uri": null,
+                    "label": null,
+                    "component": "InputLiteralValue",
+                    "propertyKey": "SG0vRsmPIgL0Z6sOqd-w6",
+                    "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                    "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                    "valueSubjectKey": null,
+                    "errors": [],
+                    "valueSubject": null
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "8y2K463pFNEE630Sgn3tW",
+          "literal": null,
+          "lang": null,
+          "uri": null,
+          "label": null,
+          "component": null,
+          "propertyKey": "6uklDAA3TijzPsJNCsovJ",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+          "valueSubjectKey": "s-3KeTmdF6dIB2eWNBlav",
+          "errors": [],
+          "valueSubject": {
+            "key": "s-3KeTmdF6dIB2eWNBlav",
+            "uri": null,
+            "descUriOrLiteralValueKeys": ["KZPCVlbaBefGKiyUZ6cpL"],
+            "descWithErrorPropertyKeys": [],
+            "subjectTemplateKey": "resourceTemplate:testing:uber2",
+            "valueSubjectOfKey": "8y2K463pFNEE630Sgn3tW",
+            "showNav": false,
+            "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+            "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+            "labels": [
+              "Uber template1",
+              "Uber template1, property1",
+              "Uber template2"
+            ],
+            "propertyKeys": ["XjegtJzgY7Ltc3aLTaDjW"],
+            "properties": [
+              {
+                "key": "XjegtJzgY7Ltc3aLTaDjW",
+                "show": true,
+                "subjectKey": "s-3KeTmdF6dIB2eWNBlav",
+                "propertyTemplateKey": "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+                "descUriOrLiteralValueKeys": ["KZPCVlbaBefGKiyUZ6cpL"],
+                "descWithErrorPropertyKeys": [],
+                "showNav": false,
+                "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                "labels": [
+                  "Uber template1",
+                  "Uber template1, property1",
+                  "Uber template2",
+                  "Uber template2, property1"
+                ],
+                "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                "valueKeys": ["KZPCVlbaBefGKiyUZ6cpL"],
+                "values": [
+                  {
+                    "key": "KZPCVlbaBefGKiyUZ6cpL",
+                    "literal": "Uber template2, property1b",
+                    "lang": "eng",
+                    "uri": null,
+                    "label": null,
+                    "component": "InputLiteralValue",
+                    "propertyKey": "XjegtJzgY7Ltc3aLTaDjW",
+                    "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                    "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                    "valueSubjectKey": null,
+                    "errors": [],
+                    "valueSubject": null
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "Jy-9cgAg07Za-eebn9aPN",
+          "literal": null,
+          "lang": null,
+          "uri": null,
+          "label": null,
+          "component": null,
+          "propertyKey": "6uklDAA3TijzPsJNCsovJ",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+          "valueSubjectKey": "uOW0ZaUk1I0b7vibpLFM7",
+          "errors": [],
+          "valueSubject": {
+            "key": "uOW0ZaUk1I0b7vibpLFM7",
+            "uri": null,
+            "descUriOrLiteralValueKeys": [
+              "_gLYnkinYXQlEzQbhp5KX",
+              "4-GcfGxYsKNkrITQ5Ai_B",
+              "UGlBEolVe-5wq3DP9Zi04"
+            ],
+            "descWithErrorPropertyKeys": [],
+            "subjectTemplateKey": "resourceTemplate:testing:uber3",
+            "valueSubjectOfKey": "Jy-9cgAg07Za-eebn9aPN",
+            "showNav": false,
+            "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+            "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+            "labels": [
+              "Uber template1",
+              "Uber template1, property1",
+              "Uber template3"
+            ],
+            "propertyKeys": ["juPbGJeJCz4xoudX40rt4", "RgNAvOmWEaBts7vSpW8RZ"],
+            "subjectTemplate": {
+              "key": "resourceTemplate:testing:uber3",
+              "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber3",
+              "id": "resourceTemplate:testing:uber3",
+              "class": "http://id.loc.gov/ontologies/bibframe/Uber3",
+              "label": "Uber template3",
+              "author": null,
+              "remark": "Template for testing purposes with multiple literal.",
+              "date": null,
+              "suppressible": false,
+              "propertyTemplateKeys": [
+                "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
+                "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property2"
+              ],
+              "group": "stanford",
+              "editGroups": ["cornell"]
+            },
+            "properties": [
+              {
+                "key": "juPbGJeJCz4xoudX40rt4",
+                "show": true,
+                "subjectKey": "uOW0ZaUk1I0b7vibpLFM7",
+                "propertyTemplateKey": "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
+                "descUriOrLiteralValueKeys": ["_gLYnkinYXQlEzQbhp5KX"],
+                "descWithErrorPropertyKeys": [],
+                "showNav": false,
+                "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                "labels": [
+                  "Uber template1",
+                  "Uber template1, property1",
+                  "Uber template3",
+                  "Uber template3, property1"
+                ],
+                "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                "valueKeys": ["_gLYnkinYXQlEzQbhp5KX"],
+                "propertyTemplate": {
+                  "key": "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
+                  "subjectTemplateKey": "resourceTemplate:testing:uber3",
+                  "label": "Uber template3, property1",
+                  "uri": "http://id.loc.gov/ontologies/bibframe/uber/template3/property1",
+                  "required": false,
+                  "repeatable": true,
+                  "ordered": false,
+                  "immutable": false,
+                  "remark": "A literal",
+                  "remarkUrl": null,
+                  "defaults": [],
+                  "valueSubjectTemplateKeys": [],
+                  "authorities": [],
+                  "type": "literal",
+                  "component": "InputLiteral"
+                },
+                "values": [
+                  {
+                    "key": "_gLYnkinYXQlEzQbhp5KX",
+                    "literal": "Uber template3, property1",
+                    "lang": "eng",
+                    "uri": null,
+                    "label": null,
+                    "component": "InputLiteralValue",
+                    "propertyKey": "juPbGJeJCz4xoudX40rt4",
+                    "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                    "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                    "valueSubjectKey": null,
+                    "errors": [],
+                    "valueSubject": null
+                  }
+                ]
+              },
+              {
+                "key": "RgNAvOmWEaBts7vSpW8RZ",
+                "show": true,
+                "subjectKey": "uOW0ZaUk1I0b7vibpLFM7",
+                "propertyTemplateKey": "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property2",
+                "descUriOrLiteralValueKeys": [
+                  "4-GcfGxYsKNkrITQ5Ai_B",
+                  "UGlBEolVe-5wq3DP9Zi04"
+                ],
+                "descWithErrorPropertyKeys": [],
+                "showNav": false,
+                "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                "labels": [
+                  "Uber template1",
+                  "Uber template1, property1",
+                  "Uber template3",
+                  "Uber template3, property2"
+                ],
+                "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                "valueKeys": ["4-GcfGxYsKNkrITQ5Ai_B", "UGlBEolVe-5wq3DP9Zi04"],
+                "propertyTemplate": {
+                  "key": "resourceTemplate:testing:uber3 > http://id.loc.gov/ontologies/bibframe/uber/template3/property2",
+                  "subjectTemplateKey": "resourceTemplate:testing:uber3",
+                  "label": "Uber template3, property2",
+                  "uri": "http://id.loc.gov/ontologies/bibframe/uber/template3/property2",
+                  "required": false,
+                  "repeatable": true,
+                  "ordered": false,
+                  "immutable": false,
+                  "remark": null,
+                  "remarkUrl": "http://access.rdatoolkit.org/1.0.html",
+                  "defaults": [],
+                  "valueSubjectTemplateKeys": [],
+                  "authorities": [],
+                  "type": "literal",
+                  "component": "InputLiteral"
+                },
+                "values": [
+                  {
+                    "key": "4-GcfGxYsKNkrITQ5Ai_B",
+                    "literal": "Uber template3, property2, value1",
+                    "lang": "eng",
+                    "uri": null,
+                    "label": null,
+                    "component": "InputLiteralValue",
+                    "propertyKey": "RgNAvOmWEaBts7vSpW8RZ",
+                    "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                    "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                    "valueSubjectKey": null,
+                    "errors": [],
+                    "valueSubject": null
+                  },
+                  {
+                    "key": "UGlBEolVe-5wq3DP9Zi04",
+                    "literal": "Uber template3, property2, value2",
+                    "lang": "eng",
+                    "uri": null,
+                    "label": null,
+                    "component": "InputLiteralValue",
+                    "propertyKey": "RgNAvOmWEaBts7vSpW8RZ",
+                    "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                    "rootPropertyKey": "6uklDAA3TijzPsJNCsovJ",
+                    "valueSubjectKey": null,
+                    "errors": [],
+                    "valueSubject": null
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "Ju0IwOIn3oFsbvgxNZxeI",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
+      "descUriOrLiteralValueKeys": ["yzD077UWwRFvQN2vzbJFM"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property2"],
+      "rootPropertyKey": "Ju0IwOIn3oFsbvgxNZxeI",
+      "valueKeys": ["yzD077UWwRFvQN2vzbJFM"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property2",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A repeatable literal.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "literal",
+        "component": "InputLiteral"
+      },
+      "values": [
+        {
+          "key": "yzD077UWwRFvQN2vzbJFM",
+          "literal": "Uber template1, property2",
+          "lang": "eng",
+          "uri": null,
+          "label": null,
+          "component": "InputLiteralValue",
+          "propertyKey": "Ju0IwOIn3oFsbvgxNZxeI",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "Ju0IwOIn3oFsbvgxNZxeI",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "icXa3UHy2eaZdJS-LX_N2",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property3",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property3"],
+      "rootPropertyKey": "icXa3UHy2eaZdJS-LX_N2",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property3",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property3",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property3",
+        "required": false,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "Multiple nested, non-repeatable resource templates.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [
+          "resourceTemplate:testing:uber2",
+          "resourceTemplate:testing:uber3"
+        ],
+        "authorities": [],
+        "type": "resource",
+        "component": "NestedResource"
+      },
+      "values": null
+    },
+    {
+      "key": "BgDyGwTT3mMBVGsM7tTTf",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property4",
+      "descUriOrLiteralValueKeys": ["vf9q7JJE47EHHVXY5jUY5"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property4"],
+      "rootPropertyKey": "BgDyGwTT3mMBVGsM7tTTf",
+      "valueKeys": ["vf9q7JJE47EHHVXY5jUY5"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property4",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property4",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property4",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A non-repeatable literal.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "literal",
+        "component": "InputLiteral"
+      },
+      "values": [
+        {
+          "key": "vf9q7JJE47EHHVXY5jUY5",
+          "literal": "Uber template1, property4",
+          "lang": "eng",
+          "uri": null,
+          "label": null,
+          "component": "InputLiteralValue",
+          "propertyKey": "BgDyGwTT3mMBVGsM7tTTf",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "BgDyGwTT3mMBVGsM7tTTf",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "vD5j1BODY7KQnl4OGyCGa",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property5",
+      "descUriOrLiteralValueKeys": ["-2U26IodHl6YVR58LEupp"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property5"],
+      "rootPropertyKey": "vD5j1BODY7KQnl4OGyCGa",
+      "valueKeys": ["-2U26IodHl6YVR58LEupp"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property5",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property5",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property5",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A non-repeatable URI.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "uri",
+        "component": "InputURI"
+      },
+      "values": [
+        {
+          "key": "-2U26IodHl6YVR58LEupp",
+          "literal": null,
+          "lang": "eng",
+          "uri": "http://example.edu/ubertemplate1:property5",
+          "label": "ubertemplate1:property5",
+          "component": "InputURIValue",
+          "propertyKey": "vD5j1BODY7KQnl4OGyCGa",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "vD5j1BODY7KQnl4OGyCGa",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "yg--O6q9-ZY0TxDxrG9vh",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property6",
+      "descUriOrLiteralValueKeys": ["9PJ2Kv0ltpiqxrHcoAvZ_"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property6"],
+      "rootPropertyKey": "yg--O6q9-ZY0TxDxrG9vh",
+      "valueKeys": ["9PJ2Kv0ltpiqxrHcoAvZ_"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property6",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property6",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property6",
+        "required": true,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A repeatable URI.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "uri",
+        "component": "InputURI"
+      },
+      "values": [
+        {
+          "key": "9PJ2Kv0ltpiqxrHcoAvZ_",
+          "literal": null,
+          "lang": null,
+          "uri": "ubertemplate1:property6",
+          "label": "ubertemplate1:property6",
+          "component": "InputURIValue",
+          "propertyKey": "yg--O6q9-ZY0TxDxrG9vh",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "yg--O6q9-ZY0TxDxrG9vh",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "G6dSZ_Nk5od0uD05Ll5lJ",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property7",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property7"],
+      "rootPropertyKey": "G6dSZ_Nk5od0uD05Ll5lJ",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property7",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property7",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property7",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A repeatable literal with defaults.",
+        "remarkUrl": null,
+        "defaults": [
+          {
+            "literal": "Default literal1",
+            "lang": null
+          },
+          {
+            "literal": "Default literal2",
+            "lang": null
+          }
+        ],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "literal",
+        "component": "InputLiteral"
+      },
+      "values": null
+    },
+    {
+      "key": "pMNXhziHED3jpcSke47dD",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property8",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property8"],
+      "rootPropertyKey": "pMNXhziHED3jpcSke47dD",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property8",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property8",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property8",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A repeatable URI with defaults.",
+        "remarkUrl": null,
+        "defaults": [
+          {
+            "uri": "http://sinopia.io/defaultURI1",
+            "label": "Default URI1"
+          },
+          {
+            "uri": "http://sinopia.io/defaultURI2",
+            "label": null
+          }
+        ],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "uri",
+        "component": "InputURI"
+      },
+      "values": null
+    },
+    {
+      "key": "GLifxXoqZCSwZOPd8uugW",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property9",
+      "descUriOrLiteralValueKeys": ["5lmXnk-o7xuor0R0dmyM1"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property9"],
+      "rootPropertyKey": "GLifxXoqZCSwZOPd8uugW",
+      "valueKeys": ["5lmXnk-o7xuor0R0dmyM1"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property9",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property9",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property9",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": null,
+        "remarkUrl": "http://access.rdatoolkit.org/2.13.html",
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "literal",
+        "component": "InputLiteral"
+      },
+      "values": [
+        {
+          "key": "5lmXnk-o7xuor0R0dmyM1",
+          "literal": "Uber template1, property9",
+          "lang": "eng",
+          "uri": null,
+          "label": null,
+          "component": "InputLiteralValue",
+          "propertyKey": "GLifxXoqZCSwZOPd8uugW",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "GLifxXoqZCSwZOPd8uugW",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "qeNLNrJAnM-VE1889KY-g",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property10",
+      "descUriOrLiteralValueKeys": ["6lYbZH4ta03GNKBAe02I2"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property10"],
+      "rootPropertyKey": "qeNLNrJAnM-VE1889KY-g",
+      "valueKeys": ["6lYbZH4ta03GNKBAe02I2"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property10",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property10",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property10",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A non-repeatable LOC lookup.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "https://id.loc.gov/vocabulary/mrectype",
+            "label": "type of recording",
+            "nonldLookup": false
+          }
+        ],
+        "type": "uri",
+        "component": "InputList"
+      },
+      "values": [
+        {
+          "key": "6lYbZH4ta03GNKBAe02I2",
+          "literal": null,
+          "lang": null,
+          "uri": "http://id.loc.gov/vocabulary/mrectype/analog",
+          "label": "analog",
+          "component": "InputURIValue",
+          "propertyKey": "qeNLNrJAnM-VE1889KY-g",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "qeNLNrJAnM-VE1889KY-g",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "dCQ72E5BJzyTuK0sKdwa9",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property11",
+      "descUriOrLiteralValueKeys": ["N7nukYt2OwG0t6GU9XZsk"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property11"],
+      "rootPropertyKey": "dCQ72E5BJzyTuK0sKdwa9",
+      "valueKeys": ["N7nukYt2OwG0t6GU9XZsk"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property11",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property11",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property11",
+        "required": true,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A repeatable LOC lookup.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "https://id.loc.gov/vocabulary/mrectype",
+            "label": "type of recording",
+            "nonldLookup": false
+          }
+        ],
+        "type": "uri",
+        "component": "InputList"
+      },
+      "values": [
+        {
+          "key": "N7nukYt2OwG0t6GU9XZsk",
+          "literal": null,
+          "lang": null,
+          "uri": "http://id.loc.gov/vocabulary/mrectype/digital",
+          "label": "digital",
+          "component": "InputURIValue",
+          "propertyKey": "dCQ72E5BJzyTuK0sKdwa9",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "dCQ72E5BJzyTuK0sKdwa9",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "xZl0LYsHSd1Oig4kSDsHr",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property12",
+      "descUriOrLiteralValueKeys": ["mw0FJ2sv50-MrwuZnC26A"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property12"],
+      "rootPropertyKey": "xZl0LYsHSd1Oig4kSDsHr",
+      "valueKeys": ["mw0FJ2sv50-MrwuZnC26A"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property12",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property12",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property12",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A LOC lookup with multiple authorities.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "https://id.loc.gov/vocabulary/mrectype",
+            "label": "type of recording",
+            "nonldLookup": false
+          },
+          {
+            "uri": "https://id.loc.gov/vocabulary/mrecmedium",
+            "label": "recording medium",
+            "nonldLookup": false
+          }
+        ],
+        "type": "uri",
+        "component": "InputList"
+      },
+      "values": [
+        {
+          "key": "mw0FJ2sv50-MrwuZnC26A",
+          "literal": null,
+          "lang": null,
+          "uri": "http://id.loc.gov/vocabulary/mrecmedium/mag",
+          "label": "magnetic",
+          "component": "InputURIValue",
+          "propertyKey": "xZl0LYsHSd1Oig4kSDsHr",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "xZl0LYsHSd1Oig4kSDsHr",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "cqKxMencheXQH31cOIYO1",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property13",
+      "descUriOrLiteralValueKeys": ["ZqHgp6ixAtcVgr6CaMxrr"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property13"],
+      "rootPropertyKey": "cqKxMencheXQH31cOIYO1",
+      "valueKeys": ["ZqHgp6ixAtcVgr6CaMxrr"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property13",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property13",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property13",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A non-repeatable QA lookup.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:qa:agrovoc",
+            "label": "AGROVOC (QA)",
+            "authority": "agrovoc_ld4l_cache",
+            "subauthority": "",
+            "nonldLookup": false
+          },
+          {
+            "uri": "urn:ld4p:qa:gettyaat",
+            "label": "GETTY_AAT  (QA)",
+            "authority": "getty_aat_ld4l_cache",
+            "subauthority": "",
+            "nonldLookup": false
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": [
+        {
+          "key": "ZqHgp6ixAtcVgr6CaMxrr",
+          "literal": null,
+          "lang": null,
+          "uri": "http://aims.fao.org/aos/agrovoc/c_35856",
+          "label": "summer squash",
+          "component": "InputURIValue",
+          "propertyKey": "cqKxMencheXQH31cOIYO1",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "cqKxMencheXQH31cOIYO1",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "W9HoMaqZ2pC-LLudWyF0e",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property14",
+      "descUriOrLiteralValueKeys": ["pPKjBWCXAgjfOngLnu8hB"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property14"],
+      "rootPropertyKey": "W9HoMaqZ2pC-LLudWyF0e",
+      "valueKeys": ["pPKjBWCXAgjfOngLnu8hB"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property14",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property14",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property14",
+        "required": true,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A repeatable QA lookup.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:qa:agrovoc",
+            "label": "AGROVOC (QA)",
+            "authority": "agrovoc_ld4l_cache",
+            "subauthority": "",
+            "nonldLookup": false
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": [
+        {
+          "key": "pPKjBWCXAgjfOngLnu8hB",
+          "literal": null,
+          "lang": null,
+          "uri": "http://aims.fao.org/aos/agrovoc/c_331388",
+          "label": "corn sheller",
+          "component": "InputURIValue",
+          "propertyKey": "W9HoMaqZ2pC-LLudWyF0e",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "W9HoMaqZ2pC-LLudWyF0e",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "HGETY86xqt_OJvcMo5pjO",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property15",
+      "descUriOrLiteralValueKeys": ["HPdoMQimI4qgtfJ_6rQ6r"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property15"],
+      "rootPropertyKey": "HGETY86xqt_OJvcMo5pjO",
+      "valueKeys": ["HPdoMQimI4qgtfJ_6rQ6r"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property15",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property15",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property15",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A QA lookup with multiple authorities.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:qa:agrovoc",
+            "label": "AGROVOC (QA)",
+            "authority": "agrovoc_ld4l_cache",
+            "subauthority": "",
+            "nonldLookup": false
+          },
+          {
+            "uri": "urn:ld4p:qa:geonames:spot",
+            "label": "GEONAMES spot (QA)",
+            "authority": "geonames_ld4l_cache",
+            "subauthority": "spot",
+            "nonldLookup": false
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": [
+        {
+          "key": "HPdoMQimI4qgtfJ_6rQ6r",
+          "literal": null,
+          "lang": null,
+          "uri": "http://sws.geonames.org/5098279/",
+          "label": "Freehold Borough High School (US)",
+          "component": "InputURIValue",
+          "propertyKey": "HGETY86xqt_OJvcMo5pjO",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "HGETY86xqt_OJvcMo5pjO",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "15-Za8EMv7Lm6O18viC9r",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property16",
+      "descUriOrLiteralValueKeys": ["8EbrhspSakkep2F8-P5BE"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property16"],
+      "rootPropertyKey": "15-Za8EMv7Lm6O18viC9r",
+      "valueKeys": ["8EbrhspSakkep2F8-P5BE"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property16",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property16",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property16",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A non-repeatable Sinopia lookup.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:sinopia:bibframe:instance",
+            "label": "Sinopia BIBFRAME instance resources",
+            "nonldLookup": false,
+            "type": "http://id.loc.gov/ontologies/bibframe/Instance"
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": [
+        {
+          "key": "8EbrhspSakkep2F8-P5BE",
+          "literal": null,
+          "lang": null,
+          "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+          "label": "Example Label",
+          "component": "InputURIValue",
+          "propertyKey": "15-Za8EMv7Lm6O18viC9r",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "15-Za8EMv7Lm6O18viC9r",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "cEcKig4Bn6Rws8KEKR1P5",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property17",
+      "descUriOrLiteralValueKeys": ["26VM7YUSkirGyZkrxWMQL"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property17"],
+      "rootPropertyKey": "cEcKig4Bn6Rws8KEKR1P5",
+      "valueKeys": ["26VM7YUSkirGyZkrxWMQL"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property17",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property17",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property17",
+        "required": true,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A repeatable Sinopia lookup.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:sinopia:bibframe:instance",
+            "label": "Sinopia BIBFRAME instance resources",
+            "nonldLookup": false,
+            "type": "http://id.loc.gov/ontologies/bibframe/Instance"
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": [
+        {
+          "key": "26VM7YUSkirGyZkrxWMQL",
+          "literal": null,
+          "lang": null,
+          "uri": "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+          "label": "Example Label",
+          "component": "InputURIValue",
+          "propertyKey": "cEcKig4Bn6Rws8KEKR1P5",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "cEcKig4Bn6Rws8KEKR1P5",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "8ULlnmZXcCau8OuqQmv1p",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property18",
+      "descUriOrLiteralValueKeys": ["b0nX4RjwGM3PiFYxM7hSZ"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property18"],
+      "rootPropertyKey": "8ULlnmZXcCau8OuqQmv1p",
+      "valueKeys": ["cm88_hFzpBu1Q9HK7xoM8"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property18",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property18",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property18",
+        "required": true,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "Mandatory nested resource templates.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": ["resourceTemplate:testing:uber4"],
+        "authorities": [],
+        "type": "resource",
+        "component": "NestedResource"
+      },
+      "values": [
+        {
+          "key": "cm88_hFzpBu1Q9HK7xoM8",
+          "literal": null,
+          "lang": null,
+          "uri": null,
+          "label": null,
+          "component": null,
+          "propertyKey": "8ULlnmZXcCau8OuqQmv1p",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "8ULlnmZXcCau8OuqQmv1p",
+          "valueSubjectKey": "3S9kQaGhQnXEuU5HHR_GD",
+          "errors": [],
+          "valueSubject": {
+            "key": "3S9kQaGhQnXEuU5HHR_GD",
+            "uri": null,
+            "descUriOrLiteralValueKeys": ["b0nX4RjwGM3PiFYxM7hSZ"],
+            "descWithErrorPropertyKeys": [],
+            "subjectTemplateKey": "resourceTemplate:testing:uber4",
+            "valueSubjectOfKey": "cm88_hFzpBu1Q9HK7xoM8",
+            "showNav": false,
+            "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+            "rootPropertyKey": "8ULlnmZXcCau8OuqQmv1p",
+            "labels": [
+              "Uber template1",
+              "Uber template1, property18",
+              "Uber template4"
+            ],
+            "propertyKeys": ["PG3G-xRZa6Xtq0MsfT3B5"],
+            "subjectTemplate": {
+              "key": "resourceTemplate:testing:uber4",
+              "uri": "http://localhost:3000/resource/resourceTemplate:testing:uber4",
+              "id": "resourceTemplate:testing:uber4",
+              "class": "http://id.loc.gov/ontologies/bibframe/Uber4",
+              "label": "Uber template4",
+              "author": null,
+              "remark": "Template for testing purposes with single repeatable, required literal.",
+              "date": null,
+              "suppressible": false,
+              "propertyTemplateKeys": [
+                "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1"
+              ],
+              "group": "stanford",
+              "editGroups": ["cornell"]
+            },
+            "properties": [
+              {
+                "key": "PG3G-xRZa6Xtq0MsfT3B5",
+                "show": true,
+                "subjectKey": "3S9kQaGhQnXEuU5HHR_GD",
+                "propertyTemplateKey": "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1",
+                "descUriOrLiteralValueKeys": ["b0nX4RjwGM3PiFYxM7hSZ"],
+                "descWithErrorPropertyKeys": [],
+                "showNav": false,
+                "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                "labels": [
+                  "Uber template1",
+                  "Uber template1, property18",
+                  "Uber template4",
+                  "Uber template4, property1"
+                ],
+                "rootPropertyKey": "8ULlnmZXcCau8OuqQmv1p",
+                "valueKeys": ["b0nX4RjwGM3PiFYxM7hSZ"],
+                "propertyTemplate": {
+                  "key": "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1",
+                  "subjectTemplateKey": "resourceTemplate:testing:uber4",
+                  "label": "Uber template4, property1",
+                  "uri": "http://id.loc.gov/ontologies/bibframe/uber/template4/property1",
+                  "required": true,
+                  "repeatable": true,
+                  "ordered": false,
+                  "immutable": false,
+                  "remark": "A repeatable, required literal",
+                  "remarkUrl": null,
+                  "defaults": [],
+                  "valueSubjectTemplateKeys": [],
+                  "authorities": [],
+                  "type": "literal",
+                  "component": "InputLiteral"
+                },
+                "values": [
+                  {
+                    "key": "b0nX4RjwGM3PiFYxM7hSZ",
+                    "literal": "Uber template4, property1",
+                    "lang": "eng",
+                    "uri": null,
+                    "label": null,
+                    "component": "InputLiteralValue",
+                    "propertyKey": "PG3G-xRZa6Xtq0MsfT3B5",
+                    "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                    "rootPropertyKey": "8ULlnmZXcCau8OuqQmv1p",
+                    "valueSubjectKey": null,
+                    "errors": [],
+                    "valueSubject": null
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "x2JIfFnT5v3_FYSPHCSdx",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property19",
+      "descUriOrLiteralValueKeys": [
+        "732h53yafaiaD8FX57G8d",
+        "_-LI4cG4scu-rtL9GHKVP"
+      ],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property19"],
+      "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+      "valueKeys": ["vH_I00tyVzpFuHHzcastt", "dKCM3HHtSPq8Pnzhs8Vsa"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property19",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property19",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property19",
+        "required": false,
+        "repeatable": true,
+        "ordered": true,
+        "immutable": false,
+        "remark": "Ordered nested resource templates.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": ["resourceTemplate:testing:uber4"],
+        "authorities": [],
+        "type": "resource",
+        "component": "NestedResource"
+      },
+      "values": [
+        {
+          "key": "vH_I00tyVzpFuHHzcastt",
+          "literal": null,
+          "lang": null,
+          "uri": null,
+          "label": null,
+          "component": null,
+          "propertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+          "valueSubjectKey": "MdVYojm9MZPb5DGHtc4zx",
+          "errors": [],
+          "valueSubject": {
+            "key": "MdVYojm9MZPb5DGHtc4zx",
+            "uri": null,
+            "descUriOrLiteralValueKeys": ["732h53yafaiaD8FX57G8d"],
+            "descWithErrorPropertyKeys": [],
+            "subjectTemplateKey": "resourceTemplate:testing:uber4",
+            "valueSubjectOfKey": "vH_I00tyVzpFuHHzcastt",
+            "showNav": false,
+            "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+            "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+            "labels": [
+              "Uber template1",
+              "Uber template1, property19",
+              "Uber template4"
+            ],
+            "propertyKeys": ["gZjOxXORSZU08q6vDiQI0"],
+            "properties": [
+              {
+                "key": "gZjOxXORSZU08q6vDiQI0",
+                "show": true,
+                "subjectKey": "MdVYojm9MZPb5DGHtc4zx",
+                "propertyTemplateKey": "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1",
+                "descUriOrLiteralValueKeys": ["732h53yafaiaD8FX57G8d"],
+                "descWithErrorPropertyKeys": [],
+                "showNav": false,
+                "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                "labels": [
+                  "Uber template1",
+                  "Uber template1, property19",
+                  "Uber template4",
+                  "Uber template4, property1"
+                ],
+                "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+                "valueKeys": ["732h53yafaiaD8FX57G8d"],
+                "values": [
+                  {
+                    "key": "732h53yafaiaD8FX57G8d",
+                    "literal": "Uber template4, property1, first",
+                    "lang": "eng",
+                    "uri": null,
+                    "label": null,
+                    "component": "InputLiteralValue",
+                    "propertyKey": "gZjOxXORSZU08q6vDiQI0",
+                    "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                    "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+                    "valueSubjectKey": null,
+                    "errors": [],
+                    "valueSubject": null
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "dKCM3HHtSPq8Pnzhs8Vsa",
+          "literal": null,
+          "lang": null,
+          "uri": null,
+          "label": null,
+          "component": null,
+          "propertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+          "valueSubjectKey": "yqJ4OcofnUX_f8F8IwvkI",
+          "errors": [],
+          "valueSubject": {
+            "key": "yqJ4OcofnUX_f8F8IwvkI",
+            "uri": null,
+            "descUriOrLiteralValueKeys": ["_-LI4cG4scu-rtL9GHKVP"],
+            "descWithErrorPropertyKeys": [],
+            "subjectTemplateKey": "resourceTemplate:testing:uber4",
+            "valueSubjectOfKey": "dKCM3HHtSPq8Pnzhs8Vsa",
+            "showNav": false,
+            "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+            "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+            "labels": [
+              "Uber template1",
+              "Uber template1, property19",
+              "Uber template4"
+            ],
+            "propertyKeys": ["GP87e68AgeJTiexF-kKZa"],
+            "properties": [
+              {
+                "key": "GP87e68AgeJTiexF-kKZa",
+                "show": true,
+                "subjectKey": "yqJ4OcofnUX_f8F8IwvkI",
+                "propertyTemplateKey": "resourceTemplate:testing:uber4 > http://id.loc.gov/ontologies/bibframe/uber/template4/property1",
+                "descUriOrLiteralValueKeys": ["_-LI4cG4scu-rtL9GHKVP"],
+                "descWithErrorPropertyKeys": [],
+                "showNav": false,
+                "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                "labels": [
+                  "Uber template1",
+                  "Uber template1, property19",
+                  "Uber template4",
+                  "Uber template4, property1"
+                ],
+                "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+                "valueKeys": ["_-LI4cG4scu-rtL9GHKVP"],
+                "values": [
+                  {
+                    "key": "_-LI4cG4scu-rtL9GHKVP",
+                    "literal": "Uber template4, property1, second",
+                    "lang": "eng",
+                    "uri": null,
+                    "label": null,
+                    "component": "InputLiteralValue",
+                    "propertyKey": "GP87e68AgeJTiexF-kKZa",
+                    "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+                    "rootPropertyKey": "x2JIfFnT5v3_FYSPHCSdx",
+                    "valueSubjectKey": null,
+                    "errors": [],
+                    "valueSubject": null
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "QkrUdTTwXoZHYLVhCVgEA",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/adminMetadata",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Admin metadata"],
+      "rootPropertyKey": "QkrUdTTwXoZHYLVhCVgEA",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/adminMetadata",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Admin metadata",
+        "uri": "http://id.loc.gov/ontologies/bibframe/adminMetadata",
+        "required": false,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": null,
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:sinopia:bibframe:adminMetadata",
+            "label": "Sinopia BIBFRAME admin metadata resources",
+            "nonldLookup": false,
+            "type": "http://id.loc.gov/ontologies/bibframe/AdminMetadata"
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": null
+    },
+    {
+      "key": "I4RS-InaSrh5xXQMV6js8",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasInstance",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Has instance"],
+      "rootPropertyKey": "I4RS-InaSrh5xXQMV6js8",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasInstance",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Has instance",
+        "uri": "http://id.loc.gov/ontologies/bibframe/hasInstance",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": null,
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:sinopia:bibframe:instance",
+            "label": "Sinopia BIBFRAME instance resources",
+            "nonldLookup": false,
+            "type": "http://id.loc.gov/ontologies/bibframe/Instance"
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": null
+    },
+    {
+      "key": "UsvCBdEZfcoZJ8sBKTk7V",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/instanceOf",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Instance of"],
+      "rootPropertyKey": "UsvCBdEZfcoZJ8sBKTk7V",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/instanceOf",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Instance of",
+        "uri": "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": null,
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:sinopia:bibframe:work",
+            "label": "Sinopia BIBFRAME work resources",
+            "nonldLookup": false,
+            "type": "http://id.loc.gov/ontologies/bibframe/Work"
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": null
+    },
+    {
+      "key": "2OUNv1Hp1sdlRB6oF1ucq",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasItem",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Has item"],
+      "rootPropertyKey": "2OUNv1Hp1sdlRB6oF1ucq",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/hasItem",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Has item",
+        "uri": "http://id.loc.gov/ontologies/bibframe/hasItem",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": null,
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:sinopia:bibframe:item",
+            "label": "Sinopia BIBFRAME item resources",
+            "nonldLookup": false,
+            "type": "http://id.loc.gov/ontologies/bibframe/Item"
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": null
+    },
+    {
+      "key": "z4jyrVfpvYvbEoT1BYidF",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/itemOf",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Item of"],
+      "rootPropertyKey": "z4jyrVfpvYvbEoT1BYidF",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/itemOf",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Item of",
+        "uri": "http://id.loc.gov/ontologies/bibframe/itemOf",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": null,
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [
+          {
+            "uri": "urn:ld4p:sinopia:bibframe:instance",
+            "label": "Sinopia BIBFRAME instance resources",
+            "nonldLookup": false,
+            "type": "http://id.loc.gov/ontologies/bibframe/Instance"
+          }
+        ],
+        "type": "uri",
+        "component": "InputLookup"
+      },
+      "values": null
+    },
+    {
+      "key": "6ynH0yOw2PuUPG58gqA9D",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property20",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": ["6ynH0yOw2PuUPG58gqA9D"],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property20"],
+      "rootPropertyKey": "6ynH0yOw2PuUPG58gqA9D",
+      "valueKeys": ["rGNQ7spX6tWB2IGRfTx9R"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property20",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property20",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property20",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "A required, repeatable literal with defaults.",
+        "remarkUrl": null,
+        "defaults": [
+          {
+            "literal": "Default required literal1",
+            "lang": null
+          },
+          {
+            "literal": "Default required literal2",
+            "lang": null
+          }
+        ],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "literal",
+        "component": "InputLiteral"
+      },
+      "values": [
+        {
+          "key": "rGNQ7spX6tWB2IGRfTx9R",
+          "literal": null,
+          "lang": "eng",
+          "uri": null,
+          "label": null,
+          "component": "InputLiteralValue",
+          "propertyKey": "6ynH0yOw2PuUPG58gqA9D",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "6ynH0yOw2PuUPG58gqA9D",
+          "valueSubjectKey": null,
+          "errors": ["Literal required"],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "Cz37Cm3bIxJqMJIZZ4iLr",
+      "show": false,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property21",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property21"],
+      "rootPropertyKey": "Cz37Cm3bIxJqMJIZZ4iLr",
+      "valueKeys": null,
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property21",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property21",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property21",
+        "required": false,
+        "repeatable": true,
+        "ordered": false,
+        "immutable": false,
+        "remark": "Nested, repeatable, suppressible resource template.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": ["resourceTemplate:testing:uber5"],
+        "authorities": [],
+        "type": "resource",
+        "component": "NestedResource"
+      },
+      "values": null
+    },
+    {
+      "key": "ZYaormitusqtZEVLr1dca",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
+      "descUriOrLiteralValueKeys": ["apeEN3Az8Lo_9qvIJFvkw"],
+      "descWithErrorPropertyKeys": [],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "rdfs label"],
+      "rootPropertyKey": "ZYaormitusqtZEVLr1dca",
+      "valueKeys": ["apeEN3Az8Lo_9qvIJFvkw"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "rdfs label",
+        "uri": "http://www.w3.org/2000/01/rdf-schema#label",
+        "required": false,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": false,
+        "remark": "rdfs label",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "literal",
+        "component": "InputLiteral"
+      },
+      "values": [
+        {
+          "key": "apeEN3Az8Lo_9qvIJFvkw",
+          "literal": "Example Label",
+          "lang": "",
+          "uri": null,
+          "label": null,
+          "component": "InputLiteralValue",
+          "propertyKey": "ZYaormitusqtZEVLr1dca",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "ZYaormitusqtZEVLr1dca",
+          "valueSubjectKey": null,
+          "errors": [],
+          "valueSubject": null
+        }
+      ]
+    },
+    {
+      "key": "FPRsi6ue-MNxElg2crcX_",
+      "show": true,
+      "subjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "propertyTemplateKey": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property22",
+      "descUriOrLiteralValueKeys": [],
+      "descWithErrorPropertyKeys": ["FPRsi6ue-MNxElg2crcX_"],
+      "showNav": false,
+      "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+      "labels": ["Uber template1", "Uber template1, property22"],
+      "rootPropertyKey": "FPRsi6ue-MNxElg2crcX_",
+      "valueKeys": ["sfvRsbV-1cuqAVaungZZs"],
+      "propertyTemplate": {
+        "key": "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property22",
+        "subjectTemplateKey": "resourceTemplate:testing:uber1",
+        "label": "Uber template1, property22",
+        "uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property22",
+        "required": true,
+        "repeatable": false,
+        "ordered": false,
+        "immutable": true,
+        "remark": "A non-repeatable, immutable literal.",
+        "remarkUrl": null,
+        "defaults": [],
+        "valueSubjectTemplateKeys": [],
+        "authorities": [],
+        "type": "literal",
+        "component": "InputLiteral"
+      },
+      "values": [
+        {
+          "key": "sfvRsbV-1cuqAVaungZZs",
+          "literal": null,
+          "lang": "eng",
+          "uri": null,
+          "label": null,
+          "component": "InputLiteralValue",
+          "propertyKey": "FPRsi6ue-MNxElg2crcX_",
+          "rootSubjectKey": "vX5R-HZ0W7j9I1kHhGsC1",
+          "rootPropertyKey": "FPRsi6ue-MNxElg2crcX_",
+          "valueSubjectKey": null,
+          "errors": ["Literal required"],
+          "valueSubject": null
+        }
+      ]
+    }
+  ]
+}

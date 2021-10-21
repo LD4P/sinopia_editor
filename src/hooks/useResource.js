@@ -1,6 +1,10 @@
 import { useLayoutEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { newResource, loadResource } from "actionCreators/resources"
+import {
+  newResource,
+  loadResourceForEditor,
+  loadResourceForPreview,
+} from "actionCreators/resources"
 import { selectErrors } from "selectors/errors"
 import {
   selectCurrentResourceKey,
@@ -48,7 +52,9 @@ const useResource = (errorKey, errorRef) => {
 
   const handleCopy = (resourceURI, event) => {
     if (event) event.preventDefault()
-    dispatch(loadResource(resourceURI, errorKey, true)).then((result) => {
+    dispatch(
+      loadResourceForEditor(resourceURI, errorKey, { asNewResource: true })
+    ).then((result) => {
       if (result) setNavigateEditor("copy")
     })
   }
@@ -60,7 +66,7 @@ const useResource = (errorKey, errorRef) => {
       dispatch(setCurrentResource(resourceUriMap[resourceURI]))
       setNavigateEditor("edit")
     } else {
-      dispatch(loadResource(resourceURI, errorKey)).then((result) => {
+      dispatch(loadResourceForEditor(resourceURI, errorKey)).then((result) => {
         if (result) setNavigateEditor("edit")
       })
     }
@@ -72,7 +78,7 @@ const useResource = (errorKey, errorRef) => {
       dispatch(setCurrentPreviewResource(resourceUriMap[resourceURI]))
       dispatch(showModal("PreviewModal"))
     } else {
-      dispatch(loadResource(resourceURI, errorKey, false, true)).then(() => {
+      dispatch(loadResourceForPreview(resourceURI, errorKey)).then(() => {
         dispatch(showModal("PreviewModal"))
       })
     }

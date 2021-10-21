@@ -81,6 +81,8 @@ export const selectCurrentResourceKey = (state) => state.editor.currentResource
 export const selectCurrentPreviewResourceKey = (state) =>
   state.editor.currentPreviewResource
 
+export const selectCurrentDiffResourceKeys = (state) => state.editor.currentDiff
+
 export const selectFullSubject = (state, key) => {
   const subject = selectNormSubject(state, key)
   if (_.isEmpty(subject)) return null
@@ -185,3 +187,6 @@ export const selectResourceLabel = (state, subjectKey) =>
 // Note that this will return a unique object every time.
 export const selectPickSubject = (state, key, props) =>
   _.pick(state.entities.subjects[key], props)
+
+export const selectVersions = (state, resourceKey) =>
+  state.entities.versions[resourceKey]
