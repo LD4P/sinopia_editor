@@ -518,6 +518,12 @@ describe("getLookupResult", () => {
             label:
               "Cartographic Item (BIBFRAME) (ld4p:RT:bf2:Cartographic:Item)",
             uri: "ld4p:RT:bf2:Cartographic:Item",
+            author: "LD4P",
+            date: "2019-08-19",
+            id: "ld4p:RT:bf2:Cartographic:Item",
+            remark: "based on LC template ld4p:RT:bf2:Cartographic:Item",
+            resourceLabel: "Cartographic Item (BIBFRAME)",
+            resourceURI: "http://id.loc.gov/ontologies/bibframe/Item",
           },
         ],
       })

@@ -290,8 +290,9 @@ const templateHitsToResult = (hits) => ({
 const templateLookupToResult = (hits) => ({
   totalHits: hits.total.value,
   results: hits.hits.map((row) => ({
-    uri: row._source.id,
+    ...row._source,
     label: `${row._source.resourceLabel} (${row._source.id})`,
+    uri: row._source.id,
   })),
 })
 

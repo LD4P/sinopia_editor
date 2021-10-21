@@ -13,23 +13,36 @@ const getSinopiaLookupResult = (query, authorityConfig, options) =>
       ...authorityConfig,
       error: result.error,
       totalHits: result.totalHits,
-      results: adaptResults(result.results),
+      results: adaptSinopiaResults(result.results),
     })
   )
 
 // Adapt Sinopia results to QA format
-const adaptResults = (results) =>
+const adaptSinopiaResults = (results) =>
   results.map((result) => ({
     uri: result.uri,
     id: result.uri,
-    label: result.label,
-    context: [
-      { property: "ID", values: [result.uri] },
-      { property: "Class", values: result.type },
-      { property: "Group", values: [result.group] },
-      { property: "Modified", values: [result.modified] },
-    ],
+    label: result.label || result.resourceLabel,
+    context: sinopiaContext(result),
   }))
+
+const sinopiaContext = (result) => {
+  const context = [
+    { property: "ID", values: [result.uri] },
+    { property: "Group", values: [result.group] },
+  ]
+  if (result.type) context.push({ property: "Class", values: result.type })
+  if (result.modified)
+    context.push({ property: "Modified", values: [result.modified] })
+  if (result.resourceURI)
+    context.push({ property: "Resource URI", values: [result.resourceURI] })
+  if (result.author)
+    context.push({ property: "Author", values: [result.author] })
+  if (result.date) context.push({ property: "Date", values: [result.date] })
+  if (result.remark)
+    context.push({ property: "Remark", values: [result.remark] })
+  return context
+}
 
 const getQALookupResult = (query, authorityConfig, options) =>
   createLookupPromise(query, authorityConfig, options).then((response) => {
