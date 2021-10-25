@@ -8,12 +8,14 @@ import { selectGroupMap } from "selectors/groups"
 
 const ResourcePreviewHeader = ({ resource }) => {
   const groupMap = useSelector((state) => selectGroupMap(state))
-  const editableBy = [...resource.editGroups, resource.group] // the creator can also edit!
+  const editableBy = resource.editGroups
     .map((group) => groupMap[group]) // look up the group name from the ID
     .filter((group) => group) // ditch any undefined group (an unmatched groupID for whatever reason)
     .join(", ")
   const maxGroupDisplay = 20
-  const shouldTruncate = editableBy.length > maxGroupDisplay
+  // truncate the display and show ellipses if we have more than one edit group and all of them are too long
+  const shouldTruncate =
+    editableBy.length > maxGroupDisplay && resource.editGroups.length > 1
   const [isCollapsed, setIsCollapsed] = useState(shouldTruncate)
   const editableByText = isCollapsed
     ? editableBy.slice(0, maxGroupDisplay - 1)
@@ -34,21 +36,25 @@ const ResourcePreviewHeader = ({ resource }) => {
           <ResourceURIMessage resourceKey={resource.key} />
         </div>
         <div className="col-2">
-          <strong>Owned by</strong>
+          <strong>Owned/editable by</strong>
           <p>{groupMap[resource.group] || "Unknown"}</p>
-          <strong>Editable by</strong>
-          <p>
-            {editableByText}
-            {isCollapsed && (
-              <button
-                data-testid="expand-groups-button"
-                className="p-0 btn btn-link"
-                onClick={handleClick}
-              >
-                ...
-              </button>
-            )}
-          </p>
+          {resource.editGroups.length > 0 && (
+            <>
+              <strong>Also editable by</strong>
+              <p>
+                {editableByText}
+                {isCollapsed && (
+                  <button
+                    data-testid="expand-groups-button"
+                    className="p-0 btn btn-link"
+                    onClick={handleClick}
+                  >
+                    ...
+                  </button>
+                )}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </React.Fragment>
