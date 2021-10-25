@@ -430,14 +430,6 @@
     "component": "lookup"
   },
   {
-    "label": "GETTY_AAT  (QA)",
-    "uri": "urn:ld4p:qa:gettyaat",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
     "label": "GETTY_AAT Styles_and_Periods (QA)",
     "uri": "urn:ld4p:qa:gettyaat:Styles_and_Periods",
     "authority": "getty_aat_ld4l_cache",

@@ -318,7 +318,7 @@
             },
             {
               "uri": "urn:ld4p:qa:gettyaat",
-              "label": "GETTY_AAT  (QA)",
+              "label": "GETTY_AAT all terms (QA)",
               "authority": "getty_aat_ld4l_cache",
               "subauthority": "",
               "nonldLookup": false
