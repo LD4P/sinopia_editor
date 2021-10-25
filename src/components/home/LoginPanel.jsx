@@ -42,7 +42,6 @@ const LoginPanel = () => {
           <div className="col-sm-9">
             <input
               id="username"
-              style={{ width: "300px" }}
               name="username"
               type="text"
               className="form-control"
@@ -53,14 +52,17 @@ const LoginPanel = () => {
           </div>
         </div>
         <div className="row">
-          <label htmlFor="password" className="col-sm-3 col-form-label">
+          <label
+            htmlFor="password"
+            style={{ "word-wrap": "normal" }}
+            className="col-sm-3 col-form-label"
+          >
             Password
           </label>
 
           <div className="col-sm-9">
             <input
               id="password"
-              style={{ width: "300px" }}
               name="password"
               type="password"
               className="form-control"
@@ -76,7 +78,7 @@ const LoginPanel = () => {
               Login
             </button>
           </div>
-          <div className="col-sm-4">
+          <div className="col-sm-9">
             <div className="row">
               <a href={Config.awsCognitoForgotPasswordUrl}>Forgot Password</a>
             </div>
