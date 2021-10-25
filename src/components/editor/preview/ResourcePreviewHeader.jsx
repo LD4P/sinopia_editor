@@ -13,7 +13,9 @@ const ResourcePreviewHeader = ({ resource }) => {
     .filter((group) => group) // ditch any undefined group (an unmatched groupID for whatever reason)
     .join(", ")
   const maxGroupDisplay = 20
-  const shouldTruncate = editableBy.length > maxGroupDisplay
+  // truncate the display and show elippses if we have at least one edit group (in addition to the owner) and it's too long
+  const shouldTruncate =
+    editableBy.length > maxGroupDisplay && resource.editGroups.length >= 1
   const [isCollapsed, setIsCollapsed] = useState(shouldTruncate)
   const editableByText = isCollapsed
     ? editableBy.slice(0, maxGroupDisplay - 1)
