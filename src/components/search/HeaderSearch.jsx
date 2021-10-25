@@ -65,9 +65,9 @@ const HeaderSearch = () => {
   }
 
   return (
-    <div className="d-flex">
-      <div className="input-group mb-3">
-        <label htmlFor="search" className="col-form-label pe-1">
+    <div className="flex-grow-1">
+      <div className="input-group mb-2">
+        <label htmlFor="search" className="col-form-label pe-1 ms-5">
           Search
         </label>
         <a
@@ -81,7 +81,7 @@ const HeaderSearch = () => {
           <FontAwesomeIcon className="info-icon" icon={faInfoCircle} />
         </a>
         <select
-          className="form-select"
+          className="flex-grow-0 form-select"
           id="searchType"
           value={uri}
           onChange={handleUriChange}
@@ -91,7 +91,7 @@ const HeaderSearch = () => {
           {options}
         </select>
         <input
-          className="form-control"
+          className="flex-grow-1 form-control"
           type="search"
           id="search"
           onChange={handleQueryChange}

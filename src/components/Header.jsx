@@ -65,56 +65,54 @@ const Header = (props) => {
         </div>
       </div>
       <nav className="navbar navbar-expand-lg editor-navtabs">
-        <div className="container-fluid pe-0">
-          <ul className="navbar-nav">
-            {/* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
+        <ul className="navbar-nav">
+          {/* Navlinks enable highlighting the appropriate tab based on route, active style is defined in css */}
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/dashboard">
+              Dashboard
+            </NavLink>
+          </li>
+          {props.hasResource && canCreate && (
             <li className="nav-item">
-              <NavLink className="nav-link" to="/dashboard">
-                Dashboard
+              <NavLink className="nav-link" to="/editor">
+                Editor
               </NavLink>
             </li>
-            {props.hasResource && canCreate && (
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/editor">
-                  Editor
-                </NavLink>
-              </li>
-            )}
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/templates">
-                Resource Templates
-              </NavLink>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className={`nav-link dropdown-toggle ${
-                  isActionsActive && "active"
-                }`}
-                data-bs-toggle="dropdown"
-                href="#"
-                role="button"
-                aria-expanded="false"
-              >
-                Actions
-              </a>
-              <ul className="dropdown-menu">
-                {canCreate && (
-                  <li>
-                    <NavLink className="dropdown-item" to="/load">
-                      Load RDF
-                    </NavLink>
-                  </li>
-                )}
+          )}
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/templates">
+              Resource Templates
+            </NavLink>
+          </li>
+          <li className="nav-item dropdown">
+            <a
+              className={`nav-link dropdown-toggle ${
+                isActionsActive && "active"
+              }`}
+              data-bs-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-expanded="false"
+            >
+              Actions
+            </a>
+            <ul className="dropdown-menu">
+              {canCreate && (
                 <li>
-                  <NavLink className="dropdown-item" to="/exports">
-                    Exports
+                  <NavLink className="dropdown-item" to="/load">
+                    Load RDF
                   </NavLink>
                 </li>
-              </ul>
-            </li>
-          </ul>
-          <HeaderSearch />
-        </div>
+              )}
+              <li>
+                <NavLink className="dropdown-item" to="/exports">
+                  Exports
+                </NavLink>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <HeaderSearch />
       </nav>
     </React.Fragment>
   )
