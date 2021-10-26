@@ -27,19 +27,18 @@
       margin-right: 0.4em;
     }
 
-    .btn {
-      color: $link-color;
-      h5 {
-        font-weight: bold;
-      }
-    }
-
     .current {
       color: $body-color;
     }
 
     .property-nav {
+      @extend .btn;
+      color: $link-color;
       padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+      text-align: left;
+      h5 {
+        font-weight: bold;
+      }
     }
 
     .fa-circle {
