@@ -38,30 +38,28 @@ const ResourceComponent = () => {
   }
 
   return (
-    <div className="ResourceTemplate">
-      <div id="resourceTemplate">
-        <Alerts errorKey={resourceEditWarningKey(resourceKey)} />
-        <Alerts errorKey={newResourceErrorKey} />
-        <section>
-          <h3>
-            {resource.label}
-            <CopyToNewButton />
-            <PreviewButton />
-          </h3>
-          <CopyToNewMessage />
-          <div className="row">
-            <div className="col-md-11">
-              <ResourceURIMessage resourceKey={resourceKey} />
-            </div>
-            <div className="col-md-1">
-              <PermissionsAction />
-            </div>
+    <div id="resourceTemplate">
+      <Alerts errorKey={resourceEditWarningKey(resourceKey)} />
+      <Alerts errorKey={newResourceErrorKey} />
+      <section className="resource-header">
+        <h3>
+          {resource.label}
+          <CopyToNewButton />
+          <PreviewButton />
+        </h3>
+        <CopyToNewMessage />
+        <div className="row">
+          <div className="col-md-11">
+            <ResourceURIMessage resourceKey={resourceKey} />
           </div>
-          <SaveAlert />
-        </section>
-        <UnusedRDFDisplay />
-        <PanelResource resource={resource} />
-      </div>
+          <div className="col-md-1">
+            <PermissionsAction />
+          </div>
+        </div>
+        <SaveAlert />
+      </section>
+      <UnusedRDFDisplay />
+      <PanelResource resource={resource} />
     </div>
   )
 }
