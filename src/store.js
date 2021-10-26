@@ -17,6 +17,10 @@ export const initialState = {
     currentResource: undefined,
     currentPreviewResource: undefined,
     currentComponent: {},
+    currentDiff: {
+      compareFrom: undefined,
+      compareTo: undefined,
+    },
     errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
     lastSave: {}, // {<resourceKey>: date}
     modal: {
@@ -38,6 +42,7 @@ export const initialState = {
     subjects: {},
     subjectTemplates: {},
     values: {},
+    versions: {}, // {<resourceKey>: [versions...]}
   },
   history: {
     templates: [],

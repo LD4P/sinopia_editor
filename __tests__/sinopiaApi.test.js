@@ -124,6 +124,29 @@ describe("fetchResource", () => {
       )
       expect(result[1].id).toBe("yale/61f2f457-31f5-432c-8acf-b4037f77541f")
       expect(result[1].user).toBe("tat2")
+      expect(global.fetch).toHaveBeenCalledWith(
+        "https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f",
+        { headers: { Accept: "application/json" } }
+      )
+    })
+
+    it("retrieves resource version", async () => {
+      // mocks call to Sinopia API for a resource
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue(resource),
+        ok: true,
+      })
+
+      const result = await fetchResource(
+        "https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f",
+        { version: "2019-10-16T17:13:45.084Z" }
+      )
+      expect(result[1].id).toBe("yale/61f2f457-31f5-432c-8acf-b4037f77541f")
+      expect(result[1].user).toBe("tat2")
+      expect(global.fetch).toHaveBeenCalledWith(
+        "https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f/version/2019-10-16T17:13:45.084Z",
+        { headers: { Accept: "application/json" } }
+      )
     })
 
     it("errors when unable to retrieve resource", async () => {

@@ -21,6 +21,7 @@ export const createState = (options = {}) => {
   buildExports(state, options)
   buildLookups(state, options)
   buildSearchResults(state, options)
+  buildCurrentDiff(state, options)
 
   return state
 }
@@ -1369,6 +1370,15 @@ const buildSearchResults = (state, options) => {
       resultsPerPage: 10,
       startOfRange: 0,
     },
+  }
+}
+
+const buildCurrentDiff = (state, options) => {
+  if (!options.hasCurrentDiff) return
+
+  state.editor.currentDiff = {
+    compareFrom: "7caLbfwwlf",
+    compareTo: "ljAblGiBW",
   }
 }
 

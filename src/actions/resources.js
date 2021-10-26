@@ -31,6 +31,11 @@ export const setCurrentPreviewResource = (resourceKey) => ({
   payload: resourceKey,
 })
 
+export const setCurrentDiff = (compareTo) => ({
+  type: "SET_CURRENT_DIFF_RESOURCES",
+  payload: compareTo, // Expected: {compareFromResourceKey, compareToResourceKey}
+})
+
 export const setResourceGroup = (resourceKey, group, editGroups) => ({
   type: "SET_RESOURCE_GROUP",
   payload: { resourceKey, group, editGroups },
@@ -126,4 +131,17 @@ export const setValueOrder = (valueKey, index) => ({
     valueKey,
     index,
   },
+})
+
+export const setVersions = (resourceKey, versions) => ({
+  type: "SET_VERSIONS",
+  payload: {
+    resourceKey,
+    versions,
+  },
+})
+
+export const clearVersions = (resourceKey) => ({
+  type: "CLEAR_VERSIONS",
+  payload: resourceKey,
 })

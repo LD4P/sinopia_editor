@@ -106,6 +106,24 @@ export const setCurrentPreviewResource = (state, action) => {
   return newState
 }
 
+export const setCurrentDiffResources = (state, action) => {
+  const { compareToResourceKey, compareFromResourceKey } = action.payload
+  const oldDiff = state.currentDiff
+  return {
+    ...state,
+    currentDiff: {
+      compareFrom:
+        compareFromResourceKey === undefined
+          ? oldDiff.compareFrom
+          : compareFromResourceKey,
+      compareTo:
+        compareToResourceKey === undefined
+          ? oldDiff.compareTo
+          : compareToResourceKey,
+    },
+  }
+}
+
 export const addSubject = (state, action) =>
   addSubjectToNewState(state, action.payload)
 
@@ -454,8 +472,10 @@ export const clearResourceFromEditor = (state, action) => {
   return newState
 }
 
-export const clearResource = (state, action) =>
-  clearSubjectFromNewState(state, action.payload)
+export const clearResource = (state, action) => {
+  const newState = clearSubjectFromNewState(state, action.payload)
+  return clearVersions(newState, action)
+}
 
 export const setResourceGroup = (state, action) => {
   const props = {
@@ -526,3 +546,21 @@ const addFirstValue = (state, propertyKey) => {
 
 // Re-export
 export { setSubjectChanged }
+
+export const setVersions = (state, action) => ({
+  ...state,
+  versions: {
+    ...state.versions,
+    [action.payload.resourceKey]: action.payload.versions,
+  },
+})
+
+export const clearVersions = (state, action) => {
+  const newVersions = { ...state.versions }
+  delete newVersions[action.payload]
+
+  return {
+    ...state,
+    versions: newVersions,
+  }
+}

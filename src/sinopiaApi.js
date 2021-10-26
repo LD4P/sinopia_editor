@@ -6,6 +6,7 @@ import Config from "Config"
 import {
   hasFixtureResource,
   getFixtureResource,
+  getFixtureResourceVersions,
 } from "../__tests__/testUtilities/fixtureLoaderHelper"
 import GraphBuilder from "GraphBuilder"
 import { v4 as uuidv4 } from "uuid"
@@ -16,10 +17,16 @@ import Auth from "@aws-amplify/auth"
  * @return {Promise{[rdf.Dataset, Object]} resource as dataset, response JSON.
  * @throws when error occurs retrieving or parsing the resource template.
  */
-export const fetchResource = (uri, isTemplate) => {
+export const fetchResource = (
+  uri,
+  { isTemplate = false, version = null } = {}
+) => {
+  const fetchUri = encodeURI(version ? `${uri}/version/${version}` : uri)
+
   let fetchPromise
   // Templates have special handling when using fixtures.
   // A template will raise when found; other resources will try API.
+  // Note that ignoring version of fixtures.
   if (Config.useResourceTemplateFixtures && hasFixtureResource(uri)) {
     try {
       fetchPromise = Promise.resolve(getFixtureResource(uri))
@@ -29,7 +36,7 @@ export const fetchResource = (uri, isTemplate) => {
   } else if (Config.useResourceTemplateFixtures && isTemplate) {
     fetchPromise = Promise.reject(new Error("Not found"))
   } else {
-    fetchPromise = fetch(uri, {
+    fetchPromise = fetch(fetchUri, {
       headers: { Accept: "application/json" },
     }).then((resp) => checkResp(resp).then(() => resp.json()))
   }
@@ -41,6 +48,18 @@ export const fetchResource = (uri, isTemplate) => {
     .catch((err) => {
       throw new Error(`Error parsing resource: ${err.message || err}`)
     })
+}
+
+export const fetchResourceVersions = (uri) => {
+  if (Config.useResourceTemplateFixtures && hasFixtureResource(uri)) {
+    return Promise.resolve(getFixtureResourceVersions())
+  }
+  return fetch(`${uri}/versions`, {
+    headers: { Accept: "application/json" },
+  })
+    .then((resp) => checkResp(resp))
+    .then((resp) => resp.json())
+    .then((json) => json.versions)
 }
 
 // Fetches list of groups
