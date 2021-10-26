@@ -1097,7 +1097,7 @@
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
-        "@value": "Multiple nested, non-repeatable resource templates."
+        "@value": "Multiple nested, non-repeatable resource templates with a link: https://www.stanford.edu"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
