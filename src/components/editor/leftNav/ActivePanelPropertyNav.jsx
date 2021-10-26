@@ -11,6 +11,7 @@ import useLeftNav from "hooks/useLeftNav"
 import _ from "lodash"
 import useNavLink from "hooks/useNavLink"
 
+// This draws a link for the left side navbar
 const ActivePanelPropertyNav = (props) => {
   const property = useSelector((state) =>
     selectNormProperty(state, props.propertyKey)
@@ -51,7 +52,7 @@ const ActivePanelPropertyNav = (props) => {
     subNavForProperty = <ul>{subNavItems}</ul>
   }
 
-  const buttonClasses = ["btn", "d-inline-flex", "property-nav"]
+  const buttonClasses = ["d-inline-flex", "property-nav"]
   if (isCurrentProperty) buttonClasses.push("current")
 
   const toggleLabel = isExpanded

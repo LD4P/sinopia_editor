@@ -7,7 +7,7 @@ import PanelResourceNav from "components/editor/leftNav/PanelResourceNav"
 
 // Top-level resource
 const PanelResource = ({ resource, readOnly = false }) => {
-  const resourceDivClass = readOnly ? "col-sm-12" : "col-sm-8"
+  const resourceDivClass = readOnly ? "col-md-12" : "col-md-7 col-lg-8 col-xl-9"
   const isTemplate = resource.subjectTemplateKey === "sinopia:template:resource"
 
   return (
