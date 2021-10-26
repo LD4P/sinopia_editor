@@ -11,7 +11,6 @@ const ResourcesNavTab = ({ resourceKey, active }) => {
   const dispatch = useDispatch()
 
   const label = useSelector((state) => selectResourceLabel(state, resourceKey))
-  const formattedLabel = label.length > 38 ? `${label.slice(0, 38)}...` : label
 
   const handleResourceNavClick = (event) => {
     event.preventDefault()
@@ -23,25 +22,25 @@ const ResourcesNavTab = ({ resourceKey, active }) => {
   if (active) {
     itemClasses.push("active")
   } else {
-    closeButton = <CloseButton css={"btn-close"} resourceKey={resourceKey} />
+    closeButton = (
+      <CloseButton
+        css={"btn-close pull-right mt-1"}
+        resourceKey={resourceKey}
+      />
+    )
   }
 
   return (
     <li className={itemClasses.join(" ")} key={resourceKey}>
-      <div className="container">
-        <div className="row">
-          <div className="col p-0">
-            <a
-              className="nav-link"
-              href="#resourceTemplate"
-              onClick={handleResourceNavClick}
-            >
-              {formattedLabel}
-            </a>
-          </div>
-          {closeButton}
-        </div>
-      </div>
+      <a
+        className="tab-link"
+        href="#resourceTemplate"
+        onClick={handleResourceNavClick}
+      >
+        {label}
+      </a>
+
+      {closeButton}
     </li>
   )
 }

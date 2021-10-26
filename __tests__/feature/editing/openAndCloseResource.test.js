@@ -19,7 +19,7 @@ describe("switching between multiple resources", () => {
 
     await screen.findByText("Abbreviated Title", { selector: "h3" })
     await screen.findByText("Abbreviated Title", {
-      selector: ".nav-item.active .nav-link",
+      selector: ".nav-item.active .tab-link",
     })
 
     // It does not have the the 'template' class for header color
@@ -31,7 +31,7 @@ describe("switching between multiple resources", () => {
     renderApp(store, history)
 
     await screen.findByText("Note", {
-      selector: ".nav-item:not(.active) .nav-link",
+      selector: ".nav-item:not(.active) .tab-link",
     })
   })
 
@@ -39,13 +39,13 @@ describe("switching between multiple resources", () => {
     renderApp(store, history)
 
     // Click the inactive tab
-    const noteTab = await screen.findByText("Note", { selector: ".nav-link" })
+    const noteTab = await screen.findByText("Note", { selector: ".tab-link" })
     fireEvent.click(noteTab)
 
     // Note is now the active resource and Abbreviated Title is now the inactive resource
     await screen.findByText("Note", { selector: "h3" })
     await screen.findByText("Abbreviated Title", {
-      selector: ".nav-item:not(.active) .nav-link",
+      selector: ".nav-item:not(.active) .tab-link",
     })
 
     // It does not have the the 'template' class for header color
@@ -62,9 +62,9 @@ describe("closing the resources", () => {
     renderApp(store, history)
 
     const abbreviatedTitleTab = screen.getByText("Abbreviated Title", {
-      selector: ".nav-link",
+      selector: ".tab-link",
     })
-    const noteTab = await screen.findByText("Note", { selector: ".nav-link" })
+    const noteTab = await screen.findByText("Note", { selector: ".tab-link" })
 
     // Closing the active tab will reveal the inactive resource as the one shown
     const closeBtn = screen.getAllByText("Close", { selector: "button" })
