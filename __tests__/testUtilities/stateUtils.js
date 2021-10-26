@@ -875,7 +875,8 @@ const buildResourceWithNestedResource = (state, options) => {
       id: "resourceTemplate:testing:uber2",
       class: "http://id.loc.gov/ontologies/bibframe/Uber2",
       label: "Uber template2",
-      remark: "Template for testing purposes with single repeatable literal.",
+      remark:
+        "Template for testing purposes with single repeatable literal with a link to Stanford at https://www.stanford.edu",
       group: "stanford",
       editGroups: ["cornell"],
       propertyTemplateKeys: [

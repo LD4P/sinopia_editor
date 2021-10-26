@@ -15,6 +15,15 @@ const PropertyLabelInfoTooltip = (props) => {
     return () => popover.hide
   }, [popoverRef])
 
+  const linkedRemarks = (remark) => {
+    const urlRegex =
+      /(\b(https?):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi
+    return remark.replace(
+      urlRegex,
+      (match) => `<a target="_blank" href="${match}">${match}</a>`
+    )
+  }
+
   return (
     <a
       href="#tooltip"
@@ -26,7 +35,8 @@ const PropertyLabelInfoTooltip = (props) => {
       data-bs-container="body"
       data-testid={props.propertyTemplate.label}
       title={props.propertyTemplate.label}
-      data-bs-content={props.propertyTemplate.remark}
+      data-bs-html="true"
+      data-bs-content={linkedRemarks(props.propertyTemplate.remark)}
       ref={popoverRef}
     >
       <FontAwesomeIcon className="info-icon" icon={faInfoCircle} />
