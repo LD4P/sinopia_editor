@@ -80,8 +80,8 @@ describe("<TypeFilter />", () => {
       screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
     )
 
-    // 4 checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(4)
+    // 3 checked with unselect (also clears Select/Deselect All)
+    expect(container.querySelectorAll("input:checked")).toHaveLength(3)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
@@ -142,8 +142,8 @@ describe("<TypeFilter />", () => {
       screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
     )
 
-    // 4 checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(4)
+    // 3 checked with clear (also clears Select/Deselect All)
+    expect(container.querySelectorAll("input:checked")).toHaveLength(3)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
@@ -162,5 +162,36 @@ describe("<TypeFilter />", () => {
       sortOrder: undefined,
       typeFilter: null,
     })
+  })
+
+  it("allows reselecting cleared filters before using them", async () => {
+    const mockGetSearchResults = jest.fn()
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
+      {},
+      facetResults,
+    ])
+
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<TypeFilter />, store)
+
+    fireEvent.click(screen.getByText("Filter by class"))
+    // all checked
+    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+
+    // Deselect individual filter
+    fireEvent.click(
+      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
+    )
+
+    // 3 checked with deselect (also clears Select/Deselect All)
+    expect(container.querySelectorAll("input:checked")).toHaveLength(3)
+
+    // Reselect individual filter
+    fireEvent.click(
+      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
+    )
+
+    // all checked (includes Select/Deselect All)
+    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
   })
 })

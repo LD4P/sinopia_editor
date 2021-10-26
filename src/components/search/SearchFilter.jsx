@@ -54,13 +54,18 @@ const SearchFilter = ({
     setShowDropdown(false)
   }
 
+  // toggle checkbox for an individual filter
   const toggleSelectedFilter = (event, toggleType) => {
     if (event.target?.type !== "checkbox") event.preventDefault()
 
     if (selectedFilters.includes(toggleType)) {
       setSelectedFilters(selectedFilters.filter((type) => type !== toggleType))
+      setAllSelected(false)
     } else {
-      setSelectedFilters([...selectedFilters, toggleType])
+      const newSelectedFilters = [...selectedFilters, toggleType]
+      setSelectedFilters(newSelectedFilters)
+      if (newSelectedFilters.length === facetResults.length)
+        setAllSelected(true)
     }
   }
 
