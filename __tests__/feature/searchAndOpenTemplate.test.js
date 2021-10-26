@@ -91,10 +91,10 @@ describe("searching and opening a resource", () => {
 
     // There are nav tabs and a duplicate resource
     await screen.findAllByText("Title note", {
-      selector: ".nav-item.active .nav-link",
+      selector: ".nav-item.active .tab-link",
     })
     await screen.findAllByText("Title note", {
-      selector: ".nav-item:not(.active) .nav-link",
+      selector: ".nav-item:not(.active) .tab-link",
     })
   })
 })

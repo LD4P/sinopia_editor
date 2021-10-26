@@ -419,7 +419,7 @@ describe("adding a template from Sinopia lookup", () => {
 
     // New tab with template is now present
     await screen.findByText("Testing wikidata lookup", {
-      selector: "a.nav-link",
+      selector: "a.tab-link",
     })
   })
 })

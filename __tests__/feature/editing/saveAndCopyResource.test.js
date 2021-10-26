@@ -57,10 +57,10 @@ describe("saving a resource", () => {
 
       // There are nav tabs and a duplicate resource with the same content
       await screen.findAllByText("foo", {
-        selector: ".nav-item.active .nav-link",
+        selector: ".nav-item.active .tab-link",
       })
       await screen.findAllByText("foo", {
-        selector: ".nav-item:not(.active) .nav-link",
+        selector: ".nav-item:not(.active) .tab-link",
       })
     })
   })
