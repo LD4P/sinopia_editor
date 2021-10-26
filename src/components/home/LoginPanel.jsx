@@ -54,7 +54,7 @@ const LoginPanel = () => {
         <div className="row">
           <label
             htmlFor="password"
-            style={{ "word-wrap": "normal" }}
+            style={{ wordWrap: "normal" }}
             className="col-sm-3 col-form-label"
           >
             Password
