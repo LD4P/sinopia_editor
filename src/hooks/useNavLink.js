@@ -1,10 +1,11 @@
-import { useLayoutEffect } from "react"
+import { useEffect } from "react"
 import { setCurrentComponent } from "actions/index"
 import { useDispatch, useSelector } from "react-redux"
 import {
   isCurrentProperty as isCurrentPropertySelector,
   isCurrentComponent as isCurrentComponentSelector,
 } from "selectors/index"
+import { isInViewport } from "utilities/Utilities"
 
 const useNavLink = (navObj) => {
   const dispatch = useDispatch()
@@ -23,9 +24,11 @@ const useNavLink = (navObj) => {
   const navTargetId = `navTarget-${navObj.key}`
 
   // This causes the component to scroll into view when first mounted if current component.
-  useLayoutEffect(() => {
-    if (isCurrentComponent)
-      document.querySelector(`#${navLinkId}`).scrollIntoView()
+  useEffect(() => {
+    if (!isCurrentComponent) return
+
+    const elem = document.querySelector(`#${navLinkId}`)
+    if (!isInViewport(elem)) elem.scrollIntoView()
     // This is only on initial mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -33,9 +36,8 @@ const useNavLink = (navObj) => {
   const handleNavLinkClick = (event) => {
     event.preventDefault()
 
-    document
-      .querySelector(`#${navTargetId}`)
-      .scrollIntoView({ behavior: "smooth" })
+    const elem = document.querySelector(`#${navTargetId}`)
+    if (!isInViewport(elem)) elem.scrollIntoView({ behavior: "smooth" })
     dispatch(
       setCurrentComponent(
         navObj.rootSubjectKey,

@@ -142,3 +142,17 @@ export const datasetFromRdf = (rdf) => {
 
 export const emptyValue = (value) =>
   !value.literal && !value.uri && !value.subjectValueKey
+
+export const isInViewport = (elem) => {
+  // Adapted from https://gomakethings.com/how-to-test-if-an-element-is-in-the-viewport-with-vanilla-javascript/
+  if (!elem) return false
+  const bounding = elem.getBoundingClientRect()
+  return (
+    bounding.top >= 0 &&
+    bounding.left >= 0 &&
+    bounding.bottom <=
+      (window.innerHeight || document.documentElement.clientHeight) &&
+    bounding.right <=
+      (window.innerWidth || document.documentElement.clientWidth)
+  )
+}
