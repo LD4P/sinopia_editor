@@ -81,13 +81,13 @@ const Editor = (props) => {
   return (
     <div id="editor">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <EditorActions />
       <EditorPreviewModal />
       {displayErrors && hasErrors && (
         <ErrorMessages resourceKey={resourceKey} />
       )}
       <GroupChoiceModal />
       <ResourcesNav />
+      <EditorActions />
       <ResourceComponent />
       <EditorActions />
     </div>
