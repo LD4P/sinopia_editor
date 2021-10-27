@@ -54,13 +54,18 @@ const SearchFilter = ({
     setShowDropdown(false)
   }
 
+  // toggle checkbox for an individual filter
   const toggleSelectedFilter = (event, toggleType) => {
     if (event.target?.type !== "checkbox") event.preventDefault()
 
     if (selectedFilters.includes(toggleType)) {
       setSelectedFilters(selectedFilters.filter((type) => type !== toggleType))
+      setAllSelected(false)
     } else {
-      setSelectedFilters([...selectedFilters, toggleType])
+      const newSelectedFilters = [...selectedFilters, toggleType]
+      setSelectedFilters(newSelectedFilters)
+      if (newSelectedFilters.length === facetResults.length)
+        setAllSelected(true)
     }
   }
 
@@ -80,9 +85,12 @@ const SearchFilter = ({
 
   if (_.isEmpty(facetResults)) return null
 
-  // This is acceptable because complaint is with clickable labels. However, the checkbox is still available for keyboard use.
+  // Disabling eslint rules is acceptable: linter complaint is about clickable labels.
+  // However, the checkbox is still available for keyboard use.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+
+  // individual filters
   const dropdownItems = facetResults.map((result) => {
     const key = `${facet}FilterDropdown-${result.key}`
     return (
@@ -114,6 +122,30 @@ const SearchFilter = ({
   if (showDropdown) dropDownMenuClasses.push("show")
   const id = `${facet}FilterDropdownButton`
 
+  // Select/Deselect all filter
+  const allNoneItem = (
+    <li key="allNone">
+      <button className="dropdown-item" type="button">
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id={`${id}-allNone`}
+            checked={allSelected}
+            onChange={toggleAllSelectedFilter}
+          />
+          <label
+            className="form-check-label"
+            htmlFor={`${id}-allNone`}
+            onClick={toggleAllSelectedFilter}
+          >
+            Select/Deselect all
+          </label>
+        </div>
+      </button>
+    </li>
+  )
+
   return (
     <div className="btn-group ms-2" role="group" aria-label={label}>
       <div className="dropdown">
@@ -128,26 +160,7 @@ const SearchFilter = ({
           {label}
         </button>
         <ul className={dropDownMenuClasses.join(" ")} aria-labelledby={id}>
-          <li key="allNone">
-            <button className="dropdown-item" type="button">
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id={`${id}-allNone`}
-                  checked={allSelected}
-                  onChange={toggleAllSelectedFilter}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor={`${id}-allNone`}
-                  onClick={toggleAllSelectedFilter}
-                >
-                  Select/Deselect all
-                </label>
-              </div>
-            </button>
-          </li>
+          {allNoneItem}
           {dropdownItems}
           {searchOptions[filterSearchOption] && (
             <button

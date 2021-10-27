@@ -78,8 +78,8 @@ describe("<GroupFilter />", () => {
     expect(container.querySelector(".show")).toBeInTheDocument()
     fireEvent.click(screen.getByText("Stanford University (5)"))
 
-    // 4 checked
-    expect(container.querySelectorAll("input:checked").length).toBe(4)
+    // 3 checked with unselect (also clears Select/Deselect All)
+    expect(container.querySelectorAll("input:checked").length).toBe(3)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
@@ -133,8 +133,8 @@ describe("<GroupFilter />", () => {
     fireEvent.click(screen.getByText("Filter by group"))
     fireEvent.click(screen.getByText("Stanford University (5)"))
 
-    // 4 checked
-    expect(container.querySelectorAll("input:checked").length).toBe(4)
+    // 3 checked with deselect (also clears Select/Deselect All)
+    expect(container.querySelectorAll("input:checked").length).toBe(3)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
@@ -153,5 +153,32 @@ describe("<GroupFilter />", () => {
       sortOrder: undefined,
       groupFilter: null,
     })
+  })
+
+  it("allows reselecting cleared filters before using them", async () => {
+    const mockGetSearchResults = jest.fn()
+    server.getSearchResultsWithFacets = mockGetSearchResults.mockResolvedValue([
+      {},
+      facetResults,
+    ])
+
+    const store = createStore(createInitialState())
+    const { container } = renderComponent(<GroupFilter />, store)
+
+    fireEvent.click(screen.getByText("Filter by group"))
+    // all checked
+    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+
+    // Deselect individual filter
+    fireEvent.click(screen.getByText("Stanford University (5)"))
+
+    // 3 checked with deselect (also clears Select/Deselect All)
+    expect(container.querySelectorAll("input:checked")).toHaveLength(3)
+
+    // Reselect individual filter
+    fireEvent.click(screen.getByText("Stanford University (5)"))
+
+    // all checked (includes Select/Deselect All)
+    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
   })
 })
