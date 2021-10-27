@@ -75,7 +75,7 @@ const InputLiteralOrURI = ({
           data-testid={`Add another ${propertyTemplate.label}`}
           onClick={handleAddAnotherClick}
         >
-          + Add another
+          + Add another {propertyTemplate.label}
         </button>
       )}
     </React.Fragment>
