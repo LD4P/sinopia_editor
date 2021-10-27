@@ -5,6 +5,7 @@ import {
   selectPropertyTemplate,
 } from "selectors/templates"
 import { selectLanguageLabel } from "selectors/languages"
+import Config from "Config"
 
 // Always use selectNormSubject/Property/Value in components.
 // selectSubject/Property/Value can be used in actionCreators.
@@ -162,6 +163,13 @@ export const selectResourceGroup = (state, resourceKey) =>
 
 export const selectUri = (state, resourceKey) =>
   state.entities.subjects[resourceKey]?.uri
+
+export const selectResourceId = (state, resourceKey) => {
+  const uri = selectUri(state, resourceKey)
+  if (!uri) return null
+
+  return uri.substr(`${Config.sinopiaApiBase}/resource/`.length)
+}
 
 export const selectSiblingValues = (state, valueKey) => {
   const value = selectNormValue(state, valueKey)

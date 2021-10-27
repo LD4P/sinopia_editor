@@ -7,13 +7,17 @@ import { hasUser } from "selectors/authenticate"
 import { loadUserData } from "actionCreators/user"
 
 export const authenticate = () => (dispatch, getState) => {
-  if (hasUser(getState())) return Promise.resolve()
+  if (hasUser(getState())) return Promise.resolve(true)
   return Auth.currentAuthenticatedUser()
     .then((cognitoUser) => {
       dispatch(setUser(toUser(cognitoUser)))
       dispatch(loadUserData(cognitoUser.username))
+      return true
     })
-    .catch(() => dispatch(removeUser()))
+    .catch(() => {
+      dispatch(removeUser())
+      return false
+    })
 }
 
 export const signIn = (username, password, errorKey) => (dispatch) => {

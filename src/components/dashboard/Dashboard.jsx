@@ -15,6 +15,7 @@ import SearchList from "./SearchList"
 import Alerts from "../Alerts"
 import _ from "lodash"
 import useResource from "hooks/useResource"
+import PreviewModal from "../editor/preview/PreviewModal"
 
 export const dashboardErrorKey = "dashboard"
 
@@ -39,6 +40,7 @@ const Dashboard = (props) => {
     <section id="dashboard">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <Alerts errorKey={dashboardErrorKey} />
+      <PreviewModal handleEdit={handleEdit} handleCopy={handleCopy} />
       {showWelcome && (
         <div>
           <h2>Welcome to Sinopia.</h2>

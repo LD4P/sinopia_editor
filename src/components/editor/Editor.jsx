@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import ResourceComponent from "./ResourceComponent"
 import Header from "../Header"
 import GroupChoiceModal from "./GroupChoiceModal"
@@ -13,11 +13,10 @@ import {
   displayResourceValidations,
   hasValidationErrors,
 } from "selectors/errors"
-import { selectCurrentResourceKey } from "selectors/resources"
-import { useParams, useHistory } from "react-router-dom"
-import { newResource as newResourceCreator } from "actionCreators/resources"
-import { newResourceErrorKey } from "../templates/SinopiaResourceTemplates"
+import { selectCurrentResourceKey, selectResourceId } from "selectors/resources"
+import { useHistory, useRouteMatch } from "react-router-dom"
 import EditorPreviewModal from "./preview/EditorPreviewModal"
+import { selectSubjectTemplateForSubject } from "selectors/templates"
 
 // Error key for errors that occur while editing a resource.
 export const resourceEditErrorKey = (resourceKey) =>
@@ -28,11 +27,23 @@ export const resourceEditWarningKey = (resourceKey) =>
   `resourceedit-warning-${resourceKey}`
 
 const Editor = (props) => {
-  const dispatch = useDispatch()
   const history = useHistory()
-  const { rtId } = useParams()
+  const editorTemplateMatch = useRouteMatch({
+    path: "/editor/:templateId",
+    exact: true,
+  })
+  const editorResourceMatch = useRouteMatch("/editor/resource/:resourceId")
 
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
+  // Resource ID is extracted from the URI. Presence indicates the resource has been saved.
+  const resourceId = useSelector((state) =>
+    selectResourceId(state, resourceKey)
+  )
+  const subjectTemplate = useSelector((state) =>
+    selectSubjectTemplateForSubject(state, resourceKey)
+  )
+  const subjectTemplateKey = subjectTemplate?.key
+
   const displayErrors = useSelector((state) =>
     displayResourceValidations(state, resourceKey)
   )
@@ -41,14 +52,31 @@ const Editor = (props) => {
   )
 
   useEffect(() => {
-    if (!resourceKey && rtId) {
-      dispatch(newResourceCreator(rtId, newResourceErrorKey)).then((result) => {
-        if (!result) history.push("/templates")
-      })
+    if (!resourceKey) return
+    // If resource has been saved.
+    if (resourceId) {
+      if (
+        !editorResourceMatch ||
+        editorResourceMatch.params.resourceId !== resourceId
+      ) {
+        history.replace(`/editor/resource/${resourceId}`)
+      }
+    } else if (
+      !editorTemplateMatch ||
+      editorTemplateMatch.params.templateId !== subjectTemplateKey
+    ) {
+      history.replace(`/editor/${subjectTemplateKey}`)
     }
-  }, [dispatch, rtId, resourceKey, history])
+  }, [
+    resourceKey,
+    editorTemplateMatch,
+    editorResourceMatch,
+    subjectTemplateKey,
+    resourceId,
+    history,
+  ])
 
-  if (!resourceKey) return null
+  if (!resourceKey) return <div id="editor">Loading ...</div>
 
   return (
     <div id="editor">

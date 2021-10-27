@@ -8,7 +8,6 @@ import {
 import { selectErrors } from "selectors/errors"
 import {
   selectCurrentResourceKey,
-  selectNormSubject,
   selectResourceUriMap,
 } from "selectors/resources"
 import _ from "lodash"
@@ -24,7 +23,6 @@ const useResource = (errorKey, errorRef) => {
   const history = useHistory()
   const errors = useSelector((state) => selectErrors(state, errorKey))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
-  const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   // These are resources that are already loaded
   const resourceUriMap = useSelector((state) => selectResourceUriMap(state))
 
@@ -32,21 +30,17 @@ const useResource = (errorKey, errorRef) => {
 
   useLayoutEffect(() => {
     // Forces a wait until the root resource has been set in state
-    if (navigateEditor && resource && _.isEmpty(errors)) {
-      if (navigateEditor === "new") {
-        history.push(`/editor/${resource.subjectTemplateKey}`)
-      } else {
-        history.push("/editor")
-      }
+    if (navigateEditor && resourceKey && _.isEmpty(errors)) {
+      history.push("/editor")
     } else if (!_.isEmpty(errors) && errorRef) {
       window.scrollTo(0, errorRef.current.offsetTop)
     }
-  }, [navigateEditor, resource, history, errors, errorRef])
+  }, [navigateEditor, resourceKey, history, errors, errorRef])
 
   const handleNew = (resourceTemplateId, event) => {
     if (event) event.preventDefault()
     dispatch(newResource(resourceTemplateId, errorKey)).then((result) => {
-      if (result) setNavigateEditor("new")
+      if (result) setNavigateEditor(true)
     })
   }
 
@@ -55,7 +49,7 @@ const useResource = (errorKey, errorRef) => {
     dispatch(
       loadResourceForEditor(resourceURI, errorKey, { asNewResource: true })
     ).then((result) => {
-      if (result) setNavigateEditor("copy")
+      if (result) setNavigateEditor(true)
     })
   }
 
@@ -64,10 +58,10 @@ const useResource = (errorKey, errorRef) => {
     // Check if already open
     if (resourceUriMap[resourceURI]) {
       dispatch(setCurrentResource(resourceUriMap[resourceURI]))
-      setNavigateEditor("edit")
+      setNavigateEditor(true)
     } else {
       dispatch(loadResourceForEditor(resourceURI, errorKey)).then((result) => {
-        if (result) setNavigateEditor("edit")
+        if (result) setNavigateEditor(true)
       })
     }
   }

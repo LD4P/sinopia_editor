@@ -3,23 +3,23 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
-import { clearResource } from "actions/resources"
 import {
   resourceHasChangesSinceLastSave,
   selectCurrentResourceKey,
 } from "selectors/resources"
-import { useHistory } from "react-router-dom"
 import CloseResourceModal from "./CloseResourceModal"
 import { showModal } from "actions/modals"
+import useEditor from "hooks/useEditor"
 
 const CloseButton = (props) => {
   const dispatch = useDispatch()
-  const history = useHistory()
 
   let resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   if (props.resourceKey) {
     resourceKey = props.resourceKey
   }
+  const { handleCloseResource } = useEditor(resourceKey)
+
   const resourceHasChanged = useSelector((state) =>
     resourceHasChangesSinceLastSave(state, resourceKey)
   )
@@ -28,7 +28,7 @@ const CloseButton = (props) => {
     if (resourceHasChanged) {
       dispatch(showModal(`CloseResourceModal-${resourceKey}`))
     } else {
-      closeResource()
+      handleCloseResource()
     }
     event.preventDefault()
   }
@@ -39,12 +39,6 @@ const CloseButton = (props) => {
   }
   const buttonLabel = props.label
   const buttonClasses = `btn ${btnClass}`
-
-  const closeResource = () => {
-    dispatch(clearResource(resourceKey))
-    // In case this is /editor/<rtId>, clear
-    history.push("/editor")
-  }
 
   return (
     <React.Fragment>
