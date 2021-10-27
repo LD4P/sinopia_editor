@@ -88,11 +88,12 @@ describe("End-to-end test", () => {
   })
 
   it("Opens a resource template", () => {
-    cy.get('a[title="Create resource for Work Title"]').click()
+    cy.get('a[title="Create resource for Work Title"]').last().click()
     cy.url().should("include", "/editor")
   })
 
-  it("Populates a resource template", () => {
+  // scrollBehavior: 'center' is to account for the sticky header
+  it("Populates a resource template", { scrollBehavior: "center" }, () => {
     // Add a value for the Preferred Title
     cy.get('textarea[placeholder="Preferred Title for Work"]').type(
       `${title}{enter}`
@@ -161,7 +162,7 @@ describe("End-to-end test", () => {
 
   it("Retains history", () => {
     // Go back to dashaboard
-    cy.contains("a", "Dashboard").click()
+    cy.contains("a", "Dashboard").click({ force: true })
     cy.url().should("include", "/dashboard")
 
     cy.contains("h2", "Recent templates")
@@ -175,6 +176,6 @@ describe("End-to-end test", () => {
   })
 
   it("Logs out", () => {
-    cy.contains("a", "Logout").scrollIntoView().click()
+    cy.contains("a", "Logout").click({ force: true })
   })
 })
