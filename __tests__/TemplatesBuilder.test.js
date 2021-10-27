@@ -56,7 +56,8 @@ _:b1_c14n0 <http://sinopia.io/vocabulary/hasRemark> "A repeatable literal."@eng 
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasRemarkUrl> <http://access.rdatoolkit.org/2.4.2.html> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyUri> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> .
 _:b1_c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/PropertyTemplate> .
-_:b1_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, property2"@eng .`
+_:b1_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, property2"@eng .
+<http://access.rdatoolkit.org/2.4.2.html> <http://www.w3.org/2000/01/rdf-schema#label> "Note on Manifestation"@eng .`
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, "").build()
     expect(subjectTemplate.propertyTemplates[0]).toStrictEqual({
@@ -70,6 +71,7 @@ _:b1_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
       immutable: true,
       remark: "A repeatable literal.",
       remarkUrl: "http://access.rdatoolkit.org/2.4.2.html",
+      remarkUrlLabel: "Note on Manifestation",
       defaults: [],
       valueSubjectTemplateKeys: [],
       authorities: [],
@@ -109,6 +111,7 @@ _:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/
       immutable: false,
       remark: null,
       remarkUrl: null,
+      remarkUrlLabel: null,
       defaults: [
         { literal: "default1", lang: "eng" },
         { literal: "default2", lang: null },
@@ -156,6 +159,7 @@ _:b3_c14n3 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
       immutable: false,
       remark: null,
       remarkUrl: null,
+      remarkUrlLabel: null,
       defaults: [
         { uri: "http://sinopia.io/uri1", label: "Test uri1" },
         { uri: "http://sinopia.io/uri2", label: null },
@@ -198,6 +202,7 @@ _:b4_c14n1 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
       immutable: false,
       remark: null,
       remarkUrl: null,
+      remarkUrlLabel: null,
       defaults: [],
       valueSubjectTemplateKeys: [
         "resourceTemplate:testing:uber2",
@@ -248,6 +253,7 @@ _:b5_c14n2 <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@eng .`
       immutable: false,
       remark: null,
       remarkUrl: null,
+      remarkUrlLabel: null,
       defaults: [{ uri: "http://sinopia.io/uri1", label: "URI1" }],
       valueSubjectTemplateKeys: [],
       authorities: [

@@ -55,6 +55,7 @@
           "immutable": false,
           "remark": "Multiple nested, repeatable resource templates.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [
             "resourceTemplate:testing:uber2",
@@ -75,6 +76,7 @@
           "immutable": false,
           "remark": "A repeatable literal.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [],
@@ -92,6 +94,7 @@
           "immutable": false,
           "remark": "Multiple nested, non-repeatable resource templates.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [
             "resourceTemplate:testing:uber2",
@@ -112,6 +115,7 @@
           "immutable": false,
           "remark": "A non-repeatable literal.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [],
@@ -129,6 +133,7 @@
           "immutable": false,
           "remark": "A non-repeatable URI.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [],
@@ -146,6 +151,7 @@
           "immutable": false,
           "remark": "A repeatable URI.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [],
@@ -163,6 +169,7 @@
           "immutable": false,
           "remark": "A repeatable literal with defaults.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [
             {
               "literal": "Default literal1",
@@ -189,6 +196,7 @@
           "immutable": false,
           "remark": "A repeatable URI with defaults.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [
             {
               "uri": "http://sinopia.io/defaultURI1",
@@ -215,6 +223,7 @@
           "immutable": false,
           "remark": null,
           "remarkUrl": "http://access.rdatoolkit.org/2.13.html",
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [],
@@ -232,6 +241,7 @@
           "immutable": false,
           "remark": "A non-repeatable LOC lookup.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -255,6 +265,7 @@
           "immutable": false,
           "remark": "A repeatable LOC lookup.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -278,6 +289,7 @@
           "immutable": false,
           "remark": "A LOC lookup with multiple authorities.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -306,6 +318,7 @@
           "immutable": false,
           "remark": "A non-repeatable QA lookup.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -338,6 +351,7 @@
           "immutable": false,
           "remark": "A repeatable QA lookup.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -363,6 +377,7 @@
           "immutable": false,
           "remark": "A QA lookup with multiple authorities.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -395,6 +410,7 @@
           "immutable": false,
           "remark": "A non-repeatable Sinopia lookup.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -419,6 +435,7 @@
           "immutable": false,
           "remark": "A repeatable Sinopia lookup.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -443,6 +460,7 @@
           "immutable": false,
           "remark": "Mandatory nested resource templates.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [
             "resourceTemplate:testing:uber4"
@@ -462,6 +480,7 @@
           "immutable": false,
           "remark": "Ordered nested resource templates.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [
             "resourceTemplate:testing:uber4"
@@ -481,6 +500,7 @@
           "immutable": false,
           "remark": null,
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -505,6 +525,7 @@
           "immutable": false,
           "remark": null,
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -529,6 +550,7 @@
           "immutable": false,
           "remark": null,
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -553,6 +575,7 @@
           "immutable": false,
           "remark": null,
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -577,6 +600,7 @@
           "immutable": false,
           "remark": null,
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [
@@ -601,6 +625,7 @@
           "immutable": false,
           "remark": "A required, repeatable literal with defaults.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [
             {
               "literal": "Default required literal1",
@@ -627,6 +652,7 @@
           "immutable": false,
           "remark": "Nested, repeatable, suppressible resource template.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [
             "resourceTemplate:testing:uber5"
@@ -646,6 +672,7 @@
           "immutable": false,
           "remark": "rdfs label",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [],
@@ -663,6 +690,7 @@
           "immutable": true,
           "remark": "A non-repeatable, immutable literal.",
           "remarkUrl": null,
+          "remarkUrlLabel": null,
           "defaults": [],
           "valueSubjectTemplateKeys": [],
           "authorities": [],
@@ -713,6 +741,7 @@
                     "immutable": false,
                     "remark": "A repeatable literal",
                     "remarkUrl": null,
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
@@ -770,6 +799,7 @@
                     "immutable": false,
                     "remark": "A literal",
                     "remarkUrl": null,
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
@@ -787,6 +817,7 @@
                     "immutable": false,
                     "remark": null,
                     "remarkUrl": "http://access.rdatoolkit.org/1.0.html",
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
@@ -859,6 +890,7 @@
                     "immutable": false,
                     "remark": "A repeatable literal",
                     "remarkUrl": null,
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
@@ -916,6 +948,7 @@
                     "immutable": false,
                     "remark": "A literal",
                     "remarkUrl": null,
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
@@ -933,6 +966,7 @@
                     "immutable": false,
                     "remark": null,
                     "remarkUrl": "http://access.rdatoolkit.org/1.0.html",
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
@@ -1108,6 +1142,7 @@
                     "immutable": false,
                     "remark": "A repeatable, required literal",
                     "remarkUrl": null,
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
@@ -1170,6 +1205,7 @@
                     "immutable": false,
                     "remark": "A repeatable, required literal",
                     "remarkUrl": null,
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
@@ -1281,6 +1317,7 @@
                     "immutable": false,
                     "remark": "A repeatable URI",
                     "remarkUrl": null,
+                    "remarkUrlLabel": null,
                     "defaults": [],
                     "valueSubjectTemplateKeys": [],
                     "authorities": [],
