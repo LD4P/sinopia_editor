@@ -8,7 +8,7 @@ import PropertyLabelInfoTooltip from "./PropertyLabelInfoTooltip"
 import _ from "lodash"
 
 const renderInfoLink = (props) => {
-  if (props.propertyTemplate.remarkUrl !== null) {
+  if (!_.isEmpty(props.propertyTemplate.remarkUrl)) {
     return <PropertyLabelInfoLink {...props} />
   }
   return null
