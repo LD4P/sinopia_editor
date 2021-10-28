@@ -32,6 +32,7 @@ import {
   setVersions,
   clearVersions,
 } from "./resources"
+import { setRelationships, clearRelationships } from "./relationships"
 import {
   hideValidationErrors,
   addError,
@@ -113,6 +114,7 @@ const entityHandlers = {
   ADD_SUBJECT: addSubject,
   ADD_TEMPLATES: addTemplates,
   ADD_VALUE: addValue,
+  CLEAR_RELATIONSHIPS: clearRelationships,
   CLEAR_RESOURCE: clearResource,
   CLEAR_VERSIONS: clearVersions,
   EXPORTS_RECEIVED: exportsReceived,
@@ -128,6 +130,7 @@ const entityHandlers = {
   REMOVE_VALUE: removeValue,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
+  SET_RELATIONSHIPS: setRelationships,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
   SET_VERSIONS: setVersions,

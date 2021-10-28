@@ -40,6 +40,7 @@ import {
 import { addResourceHistory } from "actionCreators/history"
 import _ from "lodash"
 import { setCurrentComponent } from "actions/index"
+import { loadRelationships } from "./relationships"
 
 /**
  * A thunk that loads an existing resource from Sinopia API and adds to state.
@@ -71,6 +72,7 @@ export const loadResource =
                 unusedDataset.size > 0 ? unusedDataset.toCanonical() : null
               )
             )
+            dispatch(loadRelationships(resource.key, uri, errorKey))
             return [response, resource, unusedDataset]
           })
           .catch((err) => {

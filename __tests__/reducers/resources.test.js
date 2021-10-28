@@ -806,6 +806,12 @@ describe("clearResource()", () => {
         },
       ],
     }
+    oldState.entities.relationships.t9zVwg2zO = {
+      bfAdminMetadataRefs: [],
+      bfItemRefs: [],
+      bfInstanceRefs: [],
+      bfWorkRefs: [],
+    }
 
     const action = {
       type: "CLEAR_RESOURCE",
@@ -817,6 +823,7 @@ describe("clearResource()", () => {
     expect(Object.keys(newState.properties)).toHaveLength(0)
     expect(Object.keys(newState.values)).toHaveLength(0)
     expect(Object.keys(newState.versions)).toHaveLength(0)
+    expect(Object.keys(newState.relationships)).toHaveLength(0)
   })
 })
 

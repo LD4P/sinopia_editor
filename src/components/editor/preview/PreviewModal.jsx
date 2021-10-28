@@ -57,7 +57,7 @@ const PreviewModal = ({ errorKey }) => {
     handleCopy()
   }
 
-  const handleClose = (event) => {
+  const handleCloseClick = (event) => {
     close(event)
     dispatch(clearResource(currentResourceKey))
   }
@@ -85,7 +85,7 @@ const PreviewModal = ({ errorKey }) => {
               <button
                 type="button"
                 className="btn-close"
-                onClick={handleClose}
+                onClick={handleCloseClick}
                 aria-label="Close"
               ></button>
             </div>
@@ -94,7 +94,10 @@ const PreviewModal = ({ errorKey }) => {
             {currentResource && (
               <>
                 <ResourcePreviewHeader resource={currentResource} />
-                <ResourceDisplay resourceKey={currentResourceKey} />
+                <ResourceDisplay
+                  resourceKey={currentResourceKey}
+                  errorKey={errorKey}
+                />
               </>
             )}
           </div>

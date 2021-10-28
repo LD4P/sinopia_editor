@@ -8,6 +8,7 @@ import ModalWrapper, { useDisplayStyle, useModalCss } from "../../ModalWrapper"
 import SaveAndPublishButton from "../actions/SaveAndPublishButton"
 import ResourceDisplay from "./ResourceDisplay"
 import { selectCurrentResourceKey } from "selectors/resources"
+import { resourceEditWarningKey } from "../Editor"
 
 const EditorPreviewModal = () => {
   const dispatch = useDispatch()
@@ -44,6 +45,8 @@ const EditorPreviewModal = () => {
               <ResourceDisplay
                 resourceKey={resourceKey}
                 defaultFormat="table"
+                displayRelationships={false}
+                errorKey={resourceEditWarningKey(resourceKey)}
               />
             )}
           </div>

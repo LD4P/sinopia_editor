@@ -28,6 +28,7 @@ import {
   clearPropertyFromNewState,
   clearValueFromNewState,
 } from "./resourceHelpers"
+import { clearRelationships } from "./relationships"
 
 export const setBaseURL = (state, action) =>
   mergeSubjectPropsToNewState(state, action.payload.resourceKey, {
@@ -473,8 +474,9 @@ export const clearResourceFromEditor = (state, action) => {
 }
 
 export const clearResource = (state, action) => {
-  const newState = clearSubjectFromNewState(state, action.payload)
-  return clearVersions(newState, action)
+  let newState = clearSubjectFromNewState(state, action.payload)
+  newState = clearVersions(newState, action)
+  return clearRelationships(newState, action)
 }
 
 export const setResourceGroup = (state, action) => {

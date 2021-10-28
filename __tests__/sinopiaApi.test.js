@@ -10,6 +10,7 @@ import {
   fetchUser,
   putUserHistory,
   postTransfer,
+  fetchResourceRelationships,
 } from "sinopiaApi"
 import { selectFullSubject } from "selectors/resources"
 import { selectUser } from "selectors/authenticate"
@@ -443,6 +444,79 @@ describe("postTransfer", () => {
             Authorization: "Bearer Secret-Token",
           },
         }
+      )
+    })
+  })
+})
+
+describe("fetchResourceRelationships", () => {
+  describe("when using fixtures", () => {
+    jest
+      .spyOn(Config, "useResourceTemplateFixtures", "get")
+      .mockReturnValue(true)
+
+    it("retrieves relationships", async () => {
+      const result = await fetchResourceRelationships(
+        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      )
+      expect(result).toEqual({
+        bfAdminMetadataInferredRefs: [],
+        bfItemInferredRefs: [],
+        bfInstanceInferredRefs: [],
+        bfWorkInferredRefs: [],
+      })
+    })
+  })
+
+  describe("when using the api", () => {
+    const refs = {
+      bfAdminMetadataInferredRefs: [
+        "http://localhost:3000/resource/72f2f457-31f5-432c-8acf-b4037f7754g",
+      ],
+      bfItemInferredRefs: [],
+      bfInstanceInferredRefs: [],
+      bfWorkInferredRefs: [
+        "http://localhost:3000/resource/83f2f457-31f5-432c-8acf-b4037f7754h",
+      ],
+    }
+
+    it("retrieves relationships", async () => {
+      // mocks call to Sinopia API for a resource
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue(refs),
+        ok: true,
+      })
+
+      const result = await fetchResourceRelationships(
+        "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f"
+      )
+      expect(result).toStrictEqual(refs)
+      expect(global.fetch).toHaveBeenCalledWith(
+        "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships",
+        { headers: { Accept: "application/json" } }
+      )
+    })
+
+    it("errors when unable to retrieve resource", async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        status: 404,
+        ok: false,
+        json: jest.fn().mockResolvedValue([
+          {
+            title: "Not Found",
+            details:
+              "not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships",
+            status: "404",
+          },
+        ]),
+      })
+
+      await expect(
+        fetchResource(
+          "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships"
+        )
+      ).rejects.toThrow(
+        "Error parsing resource: Not Found: not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships"
       )
     })
   })

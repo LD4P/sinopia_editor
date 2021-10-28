@@ -39,6 +39,7 @@ export const initialState = {
     exports: [],
     properties: {},
     propertyTemplates: {},
+    relationships: {}, // Inferred relationship loaded from API: {<resourceKey>: {bfAdminMetadataRefs, bfItemRefs, bfInstanceRefs, bfWorkRefs}
     subjects: {},
     subjectTemplates: {},
     values: {},

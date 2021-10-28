@@ -7,6 +7,7 @@ import {
   hasFixtureResource,
   getFixtureResource,
   getFixtureResourceVersions,
+  getFixtureResourceRelationships,
 } from "../__tests__/testUtilities/fixtureLoaderHelper"
 import GraphBuilder from "GraphBuilder"
 import { v4 as uuidv4 } from "uuid"
@@ -93,6 +94,18 @@ export const fetchResourceVersions = (uri) => {
     .then((resp) => checkResp(resp))
     .then((resp) => resp.json())
     .then((json) => json.versions)
+}
+
+export const fetchResourceRelationships = (uri) => {
+  if (Config.useResourceTemplateFixtures && hasFixtureResource(uri)) {
+    return Promise.resolve(getFixtureResourceRelationships())
+  }
+
+  return fetch(`${uri}/relationships`, {
+    headers: { Accept: "application/json" },
+  })
+    .then((resp) => checkResp(resp))
+    .then((resp) => resp.json())
 }
 
 // Fetches list of groups

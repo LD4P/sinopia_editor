@@ -5,11 +5,21 @@ import PropTypes from "prop-types"
 import { useSelector } from "react-redux"
 import RDFDisplay from "./RDFDisplay"
 import { selectFullSubject } from "selectors/resources"
+import { hasRelationships as hasRelationshipsSelector } from "selectors/relationships"
 import GraphBuilder from "GraphBuilder"
 import PanelResource from "../property/PanelResource"
+import RelationshipsDisplay from "../leftNav/RelationshipsDisplay"
 
-const ResourceDisplay = ({ resourceKey, defaultFormat = "form" }) => {
+const ResourceDisplay = ({
+  resourceKey,
+  errorKey,
+  defaultFormat = "form",
+  displayRelationships = true,
+}) => {
   const resource = useSelector((state) => selectFullSubject(state, resourceKey))
+  const hasRelationships = useSelector((state) =>
+    hasRelationshipsSelector(state, resourceKey)
+  )
   const dataset = useMemo(() => new GraphBuilder(resource).graph, [resource])
   const [format, setFormat] = useState(defaultFormat)
 
@@ -18,11 +28,23 @@ const ResourceDisplay = ({ resourceKey, defaultFormat = "form" }) => {
     event.preventDefault()
   }
 
+  let display = <RDFDisplay dataset={dataset} format={format} />
+  if (format === "form")
+    display = <PanelResource resource={resource} readOnly={true} />
+  if (format === "relationships")
+    display = (
+      <RelationshipsDisplay
+        resourceKey={resourceKey}
+        errorKey={errorKey}
+        displayActions={false}
+      />
+    )
+
   return (
     <React.Fragment>
       <div className="row mb-3">
         <label htmlFor="format" className="col-form-label col-sm-1">
-          Format:{" "}
+          View:{" "}
         </label>
         <div className="col-sm-3">
           <select
@@ -35,6 +57,9 @@ const ResourceDisplay = ({ resourceKey, defaultFormat = "form" }) => {
             value={format}
           >
             <option value="form">Form view</option>
+            {displayRelationships && hasRelationships && (
+              <option value="relationships">Relationships</option>
+            )}
             <option value="jsonld">JSON-LD</option>
             <option value="n-triples">N-Triples</option>
             <option value="table">Table (RDF)</option>
@@ -42,18 +67,16 @@ const ResourceDisplay = ({ resourceKey, defaultFormat = "form" }) => {
           </select>
         </div>
       </div>
-      {format === "form" ? (
-        <PanelResource resource={resource} readOnly={true} />
-      ) : (
-        <RDFDisplay dataset={dataset} format={format} />
-      )}
+      {display}
     </React.Fragment>
   )
 }
 
 ResourceDisplay.propTypes = {
   resourceKey: PropTypes.string.isRequired,
+  errorKey: PropTypes.string.isRequired,
   defaultFormat: PropTypes.string,
+  displayRelationships: PropTypes.bool,
 }
 
 export default ResourceDisplay
