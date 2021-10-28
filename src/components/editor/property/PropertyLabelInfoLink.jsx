@@ -12,7 +12,7 @@ const PropertyLabelInfoLink = (props) => {
     <a
       href={url}
       className="prop-remark"
-      title={props.propertyTemplate.remarkUrl}
+      title={props.propertyTemplate.remarkUrlLabel || url}
       target="_blank"
       rel="noopener noreferrer"
     >

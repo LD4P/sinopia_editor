@@ -289,6 +289,7 @@ The following are only in the resource subject (that is, the base subject).
   defaults: [{literal: <literal>, lang: <lang>}, {uri: <uri>, label: <label>},...]
   remark: <remark>,
   remarkUrl: <remark url, e.g., "http://access.rdatoolkit.org/2.13.html">
+  remarkUrlLabel: <a descriptive label about the remark url, e.g., "Title Proper">
   type: <resource | uri | literal>,
   component: <InputLookup | InputLookupQA | InputList | InputLiteral | InputURI>,
   valueSubjectTemplateKeys: [<subject template keys>]

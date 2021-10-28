@@ -2,6 +2,8 @@ import _ from "lodash"
 import { findAuthorityConfig } from "utilities/authorityConfig"
 import rdf from "rdf-ext"
 
+const rdfsLabel = "http://www.w3.org/2000/01/rdf-schema#label"
+
 export default class TemplatesBuilder {
   constructor(dataset, uri, group = null, editGroups = []) {
     this.dataset = dataset
@@ -41,10 +43,7 @@ export default class TemplatesBuilder {
         this.resourceTerm,
         "http://sinopia.io/vocabulary/hasClass"
       ),
-      label: this.valueFor(
-        this.resourceTerm,
-        "http://www.w3.org/2000/01/rdf-schema#label"
-      ),
+      label: this.valueFor(this.resourceTerm, rdfsLabel),
       author: this.valueFor(
         this.resourceTerm,
         "http://sinopia.io/vocabulary/hasAuthor"
@@ -155,14 +154,19 @@ export default class TemplatesBuilder {
       propertyTerm,
       "http://sinopia.io/vocabulary/hasPropertyAttribute"
     )
+    const remarkUrl = this.valueFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasRemarkUrl"
+    )
+    const remarkUrlLabel = remarkUrl
+      ? this.valueFor(remarkUrl, rdfsLabel)
+      : null
+
     return {
       // This key will be unique for resource templates, property templates.
       key: `${this.subjectTemplate.key} > ${propertyUri}`,
       subjectTemplateKey: this.subjectTemplate.key,
-      label: this.valueFor(
-        propertyTerm,
-        "http://www.w3.org/2000/01/rdf-schema#label"
-      ),
+      label: this.valueFor(propertyTerm, rdfsLabel),
       uri: propertyUri,
       required: propertyAttrValues.includes(
         "http://sinopia.io/vocabulary/propertyAttribute/required"
@@ -180,10 +184,8 @@ export default class TemplatesBuilder {
         propertyTerm,
         "http://sinopia.io/vocabulary/hasRemark"
       ),
-      remarkUrl: this.valueFor(
-        propertyTerm,
-        "http://sinopia.io/vocabulary/hasRemarkUrl"
-      ),
+      remarkUrl,
+      remarkUrlLabel,
       defaults: [],
       valueSubjectTemplateKeys: [],
       authorities: [],

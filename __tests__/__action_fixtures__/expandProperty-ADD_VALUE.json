@@ -107,6 +107,7 @@
               "ordered": false,
               "immutable": false,
               "remark": "A repeatable literal",
+              "remarkUrlLabel": null,
               "remarkUrl": null,
               "defaults": [],
               "valueSubjectTemplateKeys": [],
