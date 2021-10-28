@@ -176,7 +176,7 @@ describe("searching and preview a resource", () => {
       ).toContain("show")
       expect(
         await screen.findAllByText("Note", {
-          selector: "label",
+          selector: "span",
         })
       ).toHaveLength(1)
 

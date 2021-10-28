@@ -13,7 +13,6 @@ import { expandProperty, contractProperty } from "actionCreators/resources"
 import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import useNavTarget from "hooks/useNavTarget"
-import { nanoid } from "nanoid"
 import _ from "lodash"
 
 const PanelProperty = ({
@@ -44,9 +43,6 @@ const PanelProperty = ({
     cardClassName.push("template")
   }
 
-  // used to associate the PropertyComponent field to be labeled with the PropertyLabel
-  const propertyLabelId = `labelled-by-${nanoid()}`
-
   // On preview, don't display empty properties.
   if (readOnly && _.isEmpty(property.descUriOrLiteralValueKeys)) return null
 
@@ -64,8 +60,8 @@ const PanelProperty = ({
         <div className="prop-heading">
           <h5>
             <PropertyLabel
-              forId={propertyLabelId}
-              propertyTemplate={propertyTemplate}
+              required={propertyTemplate.required}
+              label={propertyTemplate.label}
             />
             <PropertyLabelInfo propertyTemplate={propertyTemplate} />
             {nbsp}
