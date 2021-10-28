@@ -4,17 +4,16 @@ import React from "react"
 import PropTypes from "prop-types"
 import { hideModal } from "actions/modals"
 import { useDispatch, useSelector } from "react-redux"
-import { clearResource } from "actions/resources"
 import ModalWrapper, { useDisplayStyle, useModalCss } from "../../ModalWrapper"
 import { isCurrentModal } from "selectors/modals"
-import { useHistory } from "react-router-dom"
+import useEditor from "hooks/useEditor"
 
-const CloseResourceModal = (props) => {
+const CloseResourceModal = ({ resourceKey }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
+  const { handleCloseResource } = useEditor(resourceKey)
 
   const show = useSelector((state) =>
-    isCurrentModal(state, `CloseResourceModal-${props.resourceKey}`)
+    isCurrentModal(state, `CloseResourceModal-${resourceKey}`)
   )
 
   const handleClose = (event) => {
@@ -22,12 +21,9 @@ const CloseResourceModal = (props) => {
     event.preventDefault()
   }
 
-  const handleCloseResource = (event) => {
-    dispatch(clearResource(props.resourceKey))
+  const handleCloseResourceClick = (event) => {
     dispatch(hideModal())
-    // In case this is /editor/<rtId>, clear
-    history.push("/editor")
-    event.preventDefault()
+    handleCloseResource(event)
   }
 
   const modal = (
@@ -69,7 +65,7 @@ const CloseResourceModal = (props) => {
                 <button
                   className="btn btn-primary btn-sm"
                   data-dismiss="modal"
-                  onClick={handleCloseResource}
+                  onClick={handleCloseResourceClick}
                 >
                   Close
                 </button>

@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useEffect, useLayoutEffect } from "react"
+import React, { useEffect, useLayoutEffect, useState } from "react"
 import { Helmet, HelmetProvider } from "react-helmet-async"
 import Config from "Config"
 import "react-bootstrap-typeahead/css/Typeahead.css"
@@ -9,8 +9,8 @@ import HomePage from "./home/HomePage"
 import "../styles/main.scss"
 import Editor from "./editor/Editor"
 import Footer from "./Footer"
-import Dashboard from "./dashboard/Dashboard"
-import { Route, Switch, Redirect } from "react-router-dom"
+import Dashboard, { dashboardErrorKey } from "./dashboard/Dashboard"
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom"
 import ResourceTemplate from "./templates/ResourceTemplate"
 import LoadResource from "./load/LoadResource"
 import Search from "./search/Search"
@@ -21,15 +21,29 @@ import { fetchGroups } from "actionCreators/groups"
 import { fetchLanguages } from "actionCreators/languages"
 import { fetchExports } from "actionCreators/exports"
 import Exports, { exportsErrorKey } from "./exports/Exports"
-import { selectCurrentResourceKey } from "selectors/resources"
 import { authenticate } from "actionCreators/authenticate"
 import { hasUser as hasUserSelector } from "selectors/authenticate"
 import { isModalOpen as isModalOpenSelector } from "selectors/modals"
+import {
+  newResource as newResourceCreator,
+  loadResource,
+  dispatchResourceForPreview,
+  dispatchResourceForEditor,
+} from "actionCreators/resources"
+import { newResourceErrorKey } from "./templates/SinopiaResourceTemplates"
+import usePermissions from "hooks/usePermissions"
+import { showModal } from "actions/modals"
 
 const FourOhFour = () => <h1>404</h1>
 
 const App = (props) => {
   const dispatch = useDispatch()
+  const history = useHistory()
+  const { canCreate, canEdit } = usePermissions()
+  const [isFirstMountWithUser, setFirstMountWithUser] = useState(true)
+
+  const hasUser = useSelector((state) => hasUserSelector(state))
+  const isModalOpen = useSelector((state) => isModalOpenSelector(state))
 
   useEffect(() => {
     dispatch(fetchLanguages())
@@ -38,9 +52,60 @@ const App = (props) => {
     dispatch(authenticate())
   }, [dispatch])
 
-  const hasResource = useSelector((state) => !!selectCurrentResourceKey(state))
-  const hasUser = useSelector((state) => hasUserSelector(state))
-  const isModalOpen = useSelector((state) => isModalOpenSelector(state))
+  const editorTemplateMatch = useRouteMatch({
+    path: "/editor/:templateId",
+    exact: true,
+  })
+  const editorExactMatch = useRouteMatch({ path: "/editor", exact: true })
+  const editorResourceMatch = useRouteMatch("/editor/resource/:resourceId")
+
+  useEffect(() => {
+    if (isFirstMountWithUser && hasUser) {
+      setFirstMountWithUser(false)
+      if (editorTemplateMatch) {
+        if (canCreate) {
+          dispatch(
+            newResourceCreator(
+              editorTemplateMatch.params.templateId,
+              newResourceErrorKey
+            )
+          ).then((result) => {
+            if (!result) history.push("/templates")
+          })
+        } else {
+          history.push("/dashboard")
+        }
+      } else if (editorExactMatch) {
+        history.push("/dashboard")
+      } else if (editorResourceMatch) {
+        const uri = `${Config.sinopiaApiBase}/resource/${editorResourceMatch.params.resourceId}`
+        dispatch(loadResource(uri, dashboardErrorKey)).then((result) => {
+          if (!result) {
+            history.push("/dashboard")
+            return
+          }
+          const [, resource] = result
+          if (canEdit(resource)) {
+            dispatch(dispatchResourceForEditor(result, uri))
+          } else {
+            dispatch(dispatchResourceForPreview(result))
+            dispatch(showModal("PreviewModal"))
+            history.push("/dashboard")
+          }
+        })
+      }
+    }
+  }, [
+    hasUser,
+    editorExactMatch,
+    editorTemplateMatch,
+    editorResourceMatch,
+    canCreate,
+    canEdit,
+    history,
+    dispatch,
+    isFirstMountWithUser,
+  ])
 
   // We do not use standard bootstrap modals (i.e. they are not triggered automatically)
   //  due to complexities in the interaction between JS and React/redux.
@@ -68,32 +133,15 @@ const App = (props) => {
           />
         )}
       />
-      {!hasResource && (
-        <Route
-          exact
-          path="/editor/:rtId"
-          render={(renderProps) => (
-            <Editor
-              {...renderProps}
-              triggerHandleOffsetMenu={props.handleOffsetMenu}
-            />
-          )}
-        />
-      )}
-
-      {hasResource ? (
-        <Route
-          path="/editor"
-          render={(renderProps) => (
-            <Editor
-              {...renderProps}
-              triggerHandleOffsetMenu={props.handleOffsetMenu}
-            />
-          )}
-        />
-      ) : (
-        <Redirect from="/editor" to="/templates" />
-      )}
+      <Route
+        path="/editor"
+        render={(renderProps) => (
+          <Editor
+            {...renderProps}
+            triggerHandleOffsetMenu={props.handleOffsetMenu}
+          />
+        )}
+      />
       <Route
         exact
         path="/templates"
@@ -101,7 +149,6 @@ const App = (props) => {
           <ResourceTemplate
             {...renderProps}
             triggerHandleOffsetMenu={props.handleOffsetMenu}
-            key="import-resource-template"
           />
         )}
       />
