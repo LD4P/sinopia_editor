@@ -50,6 +50,16 @@ const mockStore = configureMockStore([thunk])
 // This removes circular references.
 const safeAction = (action) => JSON.parse(JSON.safeStringify(action))
 
+const cloneAddResourceActionAsNewResource = (addResourceAction) => {
+  const clonedAction = _.cloneDeep(addResourceAction)
+
+  clonedAction.payload.uri = null
+  clonedAction.payload.group = null
+  clonedAction.payload.editGroups = []
+
+  return clonedAction
+}
+
 const uri =
   "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
 const resourceTemplateId = "resourceTemplate:testing:uber1"
@@ -323,10 +333,9 @@ _:c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
       // URI should not be set for resource.
       expect(addSubjectAction.payload.uri).toBeNull()
 
-      const newExpectedAddResourceAction = _.cloneDeep(
+      const newExpectedAddResourceAction = cloneAddResourceActionAsNewResource(
         expectedAddResourceAction
       )
-      newExpectedAddResourceAction.payload.uri = null
       expect(safeAction(addSubjectAction)).toEqual(newExpectedAddResourceAction)
 
       // LOAD_RESOURCE_FINISHED marks the resource as unchanged, which isn't wanted when new.
@@ -431,17 +440,32 @@ describe("loadResource", () => {
   })
 
   describe("loading a new resource", () => {
+    const expectedAddResourceAction = require("../__action_fixtures__/loadResource-ADD_SUBJECT.json")
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
       const uri =
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
       const result = await store.dispatch(
-        loadResourceForEditor(uri, "testerrorkey", { asNewResource: true })
+        loadResourceForEditor(uri, "testerrorkey", {
+          asNewResource: true,
+        })
       )
       expect(result).toBe(true)
 
       const actions = store.getActions()
+      const addSubjectAction = actions.find(
+        (action) => action.type === "ADD_SUBJECT"
+      )
+      expect(addSubjectAction).not.toBeNull()
+
+      const newExpectedAddResourceAction = cloneAddResourceActionAsNewResource(
+        expectedAddResourceAction
+      )
+
+      // safeStringify is used because it removes circular references
+      expect(safeAction(addSubjectAction)).toEqual(newExpectedAddResourceAction)
+
       expect(actions).toHaveAction("CLEAR_ERRORS")
       expect(actions).toHaveAction("ADD_TEMPLATES")
       expect(actions).toHaveAction("ADD_SUBJECT")
