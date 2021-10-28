@@ -4,17 +4,18 @@ import * as sinopiaSearch from "sinopiaSearch"
 import { resourceSearchResults } from "fixtureLoaderHelper"
 import { featureSetup } from "featureUtils"
 
-jest.mock("sinopiaSearch")
 featureSetup()
 
 describe("searching and preview a resource", () => {
   describe("for a resource that is not a BF:instance", () => {
-    // Setup search component to return known resource
     const uri =
       "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-    sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-      resourceSearchResults(uri)
-    )
+    beforeEach(() => {
+      // Setup search component to return known resource
+      jest
+        .spyOn(sinopiaSearch, "getSearchResultsWithFacets")
+        .mockResolvedValue(resourceSearchResults(uri))
+    })
 
     it("renders a modal without edit controls", async () => {
       renderApp()
@@ -44,20 +45,18 @@ describe("searching and preview a resource", () => {
       fireEvent.click(screen.getByTestId(`View ${uri}`))
 
       // Modal has now rendered
-      expect(
-        (await screen.findByTestId("view-resource-modal")).classList
-      ).toContain("show")
-      expect(
-        await screen.findAllByText("Uber template1, property1", {
-          selector: "label",
-        })
-      ).toHaveLength(1)
+      expect(await screen.findByTestId("view-resource-modal")).toHaveClass(
+        "show"
+      )
+      screen.getByText("Uber template1, property1", {
+        selector: "h5 span",
+      })
 
       // Literals are rendered
-      screen.findByText("Uber template3, property2, value1 [English]", {
+      screen.getByText("Uber template3, property2, value1 [English]", {
         selector: "p",
       })
-      screen.findByText("Uber template3, property2, value2 [English]", {
+      screen.getByText("Uber template3, property2, value2 [English]", {
         selector: "p",
       })
 
@@ -99,10 +98,10 @@ describe("searching and preview a resource", () => {
       )
 
       // Modal has edit and copy buttons
-      expect(screen.getByTestId("edit-resource")).toBeInTheDocument()
-      expect(screen.getByTestId("copy-resource")).toBeInTheDocument()
+      screen.getByTestId("edit-resource")
+      screen.getByTestId("copy-resource")
 
-      // But on MARC and Export buttons
+      // But no MARC and Export buttons
       expect(
         screen.queryByText("Request MARC", { selector: "button" })
       ).not.toBeInTheDocument()
@@ -114,21 +113,15 @@ describe("searching and preview a resource", () => {
       fireEvent.click(
         screen.getByLabelText("Edit", { selector: "button", exact: true })
       )
-      expect(
-        screen.getByText("Example Label", { selector: "h3" })
-      ).toBeInTheDocument()
-      expect(
-        screen.getByText("Copy URI", { selector: "button" })
-      ).toBeInTheDocument()
+      await screen.findByText("Example Label", { selector: "h3" })
+      screen.getByText("Copy URI", { selector: "button" })
 
       // Make sure nav panel didn't disappear
       fireEvent.click(screen.getByText("Resource Templates", { selector: "a" }))
       fireEvent.click(
         await screen.findByTitle("Create resource for Title note")
       )
-      expect(
-        await screen.findByTestId("Go to Note Text", { selector: "button" })
-      ).toBeInTheDocument()
+      await screen.findByTestId("Go to Note Text", { selector: "button" })
 
       // Confirm search query is still in place (stored in state and not cleared)
       expect(await screen.getByLabelText("Search").value).toEqual(uri)
@@ -136,14 +129,16 @@ describe("searching and preview a resource", () => {
   })
 
   describe("for a resource that is a BF:instance", () => {
-    // Setup search component to return known resource
     const uri =
       "http://localhost:3000/resource/9c5bd9f5-1804-45bd-99ed-b6e3774c896e"
-    sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-      resourceSearchResults(uri)
-    )
+    beforeEach(() => {
+      // Setup search component to return known resource
+      jest
+        .spyOn(sinopiaSearch, "getSearchResultsWithFacets")
+        .mockResolvedValue(resourceSearchResults(uri))
+    })
 
-    it.only("renders a modal without edit controls but with MARC button and Export button", async () => {
+    it("renders a modal without edit controls but with MARC button and Export button", async () => {
       renderApp()
 
       fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
@@ -154,9 +149,7 @@ describe("searching and preview a resource", () => {
       fireEvent.click(screen.getByTestId("Submit search"))
 
       await screen.findByText(uri)
-      expect(
-        screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture")
-      ).toBeInTheDocument()
+      screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture")
 
       // Modal hasn't rendered yet
       expect(
@@ -167,13 +160,12 @@ describe("searching and preview a resource", () => {
       )
 
       // Click the view icon next to the search result row
-      expect(screen.getByTestId(`View ${uri}`)).toBeInTheDocument()
       fireEvent.click(screen.getByTestId(`View ${uri}`))
 
       // Modal has now rendered
-      expect(
-        (await screen.findByTestId("view-resource-modal")).classList
-      ).toContain("show")
+      expect(await screen.findByTestId("view-resource-modal")).toHaveClass(
+        "show"
+      )
       expect(
         await screen.findAllByText("Note", {
           selector: "span",

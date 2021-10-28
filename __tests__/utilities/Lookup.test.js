@@ -3,27 +3,33 @@ import * as sinopiaSearch from "sinopiaSearch"
 import * as qaSearch from "utilities/QuestioningAuthority"
 import { findAuthorityConfig } from "utilities/authorityConfig"
 
+jest.mock("sinopiaSearch")
+jest.mock("utilities/QuestioningAuthority")
+
 describe("getLookupResult()", () => {
   describe("Sinopia lookup", () => {
-    sinopiaSearch.getLookupResult = jest.fn().mockResolvedValue({
-      totalHits: 1,
-      results: [
-        {
-          uri: "http://localhost:3000/resource/d336dee4-65e3-457f-9215-740531104681",
-          label: "Foo",
-          modified: "2021-10-15T21:10:12.615Z",
-          type: ["http://id.loc.gov/ontologies/bibframe/Instance"],
-          group: "other",
-          editGroups: [],
-        },
-      ],
-      error: undefined,
+    beforeEach(() => {
+      sinopiaSearch.getLookupResult.mockResolvedValue({
+        totalHits: 1,
+        results: [
+          {
+            uri: "http://localhost:3000/resource/d336dee4-65e3-457f-9215-740531104681",
+            label: "Foo",
+            modified: "2021-10-15T21:10:12.615Z",
+            type: ["http://id.loc.gov/ontologies/bibframe/Instance"],
+            group: "other",
+            editGroups: [],
+          },
+        ],
+        error: undefined,
+      })
     })
     it("returns result", async () => {
       const authorityConfig = findAuthorityConfig(
         "urn:ld4p:sinopia:bibframe:work"
       )
       const result = await getLookupResult("foo", authorityConfig, 10)
+
       expect(result).toEqual({
         totalHits: 1,
         results: [
@@ -36,12 +42,12 @@ describe("getLookupResult()", () => {
                 ],
               },
               {
-                property: "Class",
-                values: ["http://id.loc.gov/ontologies/bibframe/Instance"],
-              },
-              {
                 property: "Group",
                 values: ["other"],
+              },
+              {
+                property: "Class",
+                values: ["http://id.loc.gov/ontologies/bibframe/Instance"],
               },
               {
                 property: "Modified",
@@ -65,23 +71,25 @@ describe("getLookupResult()", () => {
   })
 
   describe("Sinopia template lookup", () => {
-    sinopiaSearch.getLookupResult = jest.fn().mockResolvedValue({
-      totalHits: 1,
-      results: [
-        {
-          id: "foo:bar2",
-          uri: "http://localhost:3000/resource/foo:bar2",
-          author: "Justin7",
-          resourceLabel: "Foo Bar",
-          resourceURI: "http://foo/bar",
-          group: "stanford",
-          editGroups: [],
-          groupLabel: "Stanford",
-        },
-      ],
-      error: undefined,
+    beforeEach(() => {
+      sinopiaSearch.getLookupResult.mockResolvedValue({
+        totalHits: 1,
+        results: [
+          {
+            id: "foo:bar2",
+            uri: "http://localhost:3000/resource/foo:bar2",
+            author: "Justin7",
+            resourceLabel: "Foo Bar",
+            resourceURI: "http://foo/bar",
+            group: "stanford",
+            editGroups: [],
+            groupLabel: "Stanford",
+          },
+        ],
+        error: undefined,
+      })
     })
-    it.only("returns result", async () => {
+    it("returns result", async () => {
       const authorityConfig = findAuthorityConfig(
         "urn:ld4p:sinopia:resourceTemplate"
       )
@@ -125,30 +133,32 @@ describe("getLookupResult()", () => {
   })
 
   describe("QA lookup", () => {
-    qaSearch.createLookupPromise = jest.fn().mockResolvedValue({
-      ok: true,
-      url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true",
-      status: 200,
-      statusText: "OK",
-      body: {
-        response_header: {
-          start_record: 1,
-          requested_records: 1,
-          retrieved_records: 1,
-          total_records: 1,
-        },
-        results: [
-          {
-            uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-            id: "http://aims.fao.org/aos/agrovoc/c_331388",
-            label: "corn sheller",
+    beforeEach(() => {
+      qaSearch.createLookupPromise.mockResolvedValue({
+        ok: true,
+        url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true",
+        status: 200,
+        statusText: "OK",
+        body: {
+          response_header: {
+            start_record: 1,
+            requested_records: 1,
+            retrieved_records: 1,
+            total_records: 1,
           },
-        ],
-      },
-      authLabel: "AGROVOC (QA)",
-      authURI: "urn:ld4p:qa:agrovoc",
-      label: "AGROVOC (QA)",
-      id: "urn:ld4p:qa:agrovoc",
+          results: [
+            {
+              uri: "http://aims.fao.org/aos/agrovoc/c_331388",
+              id: "http://aims.fao.org/aos/agrovoc/c_331388",
+              label: "corn sheller",
+            },
+          ],
+        },
+        authLabel: "AGROVOC (QA)",
+        authURI: "urn:ld4p:qa:agrovoc",
+        label: "AGROVOC (QA)",
+        id: "urn:ld4p:qa:agrovoc",
+      })
     })
     it("returns result", async () => {
       const authorityConfig = findAuthorityConfig("urn:ld4p:qa:agrovoc")
