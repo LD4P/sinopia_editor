@@ -23,7 +23,7 @@ export const languagesReceived = (state, action) => {
   return {
     ...state,
     languageLookup: options,
-    languages: createMap(options),
+    languages: createMap(options.sort((a, b) => a.label > b.label)),
   }
 }
 
