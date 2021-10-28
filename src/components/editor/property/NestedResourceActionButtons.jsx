@@ -78,12 +78,12 @@ const NestedResourceActionButtons = ({ value }) => {
     <div className="btn-group pull-right" role="group">
       {showAddButton && (
         <button
-          className="btn btn-sm btn-add-property btn-add-another"
+          className="btn btn-sm btn-add-property"
           aria-label={`Add another ${subjectTemplate.label}`}
           data-testid={`Add another ${subjectTemplate.label}`}
           onClick={addAnother}
         >
-          + Add another
+          + Add another {subjectTemplate.label}
         </button>
       )}
       {showRemoveButton && (
