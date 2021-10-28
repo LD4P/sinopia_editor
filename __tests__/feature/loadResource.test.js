@@ -46,7 +46,7 @@ describe("loading saved resource", () => {
 
       // Headings
       screen.getByText("Example Label", { selector: "h3" })
-      screen.getByText("Uber template1, property1", { selector: "label" })
+      screen.getByText("Uber template1, property1", { selector: "span" })
       screen.getAllByText("Uber template2", { selector: "h5" })
       screen.getAllByText("Uber template3", { selector: "h5" })
       // Length is the heading and the value.

@@ -56,13 +56,12 @@ const NestedPropertyHeader = (props) => {
           aria-label={`Add ${props.propertyTemplate.label}`}
           data-testid={`Add ${props.propertyTemplate.label}`}
           data-id={props.property.key}
-          id={props.property.key}
         >
           + Add{" "}
           <strong>
             <PropertyLabel
-              forId={props.property.key}
-              propertyTemplate={props.propertyTemplate}
+              required={props.propertyTemplate.required}
+              label={props.propertyTemplate.label}
             />
           </strong>
         </button>
@@ -82,8 +81,8 @@ const NestedPropertyHeader = (props) => {
       />
       <strong>
         <PropertyLabel
-          forId={props.id}
-          propertyTemplate={props.propertyTemplate}
+          required={props.propertyTemplate.required}
+          label={props.propertyTemplate.label}
         />
       </strong>
       <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
