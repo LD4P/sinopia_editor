@@ -13,7 +13,7 @@ import {
   selectCurrentPreviewResourceKey,
   selectNormSubject,
 } from "selectors/resources"
-import { setCurrentPreviewResource } from "actions/resources"
+import { setCurrentPreviewResource, clearResource } from "actions/resources"
 import ResourceDisplay from "./ResourceDisplay"
 import usePermissions from "hooks/usePermissions"
 import MarcButton from "../actions/MarcButton"
@@ -36,8 +36,8 @@ const PreviewModal = (props) => {
   const close = (event) => {
     event.preventDefault()
     dispatch(setCurrentPreviewResource(null))
-    // TODO: Remove from state.
     dispatch(hideModal())
+    dispatch(clearResource(currentResourceKey))
   }
 
   const editAndClose = (event) => {
