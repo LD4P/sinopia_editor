@@ -1145,7 +1145,8 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       id: "resourceTemplate:testing:uber1",
       class: "http://id.loc.gov/ontologies/bibframe/Uber1",
       label: "Uber template1",
-      remark: "Template for testing purposes.",
+      remark: null,
+      remarkUrl: "https://www.stanford.edu",
       group: "stanford",
       editGroups: ["cornell"],
       propertyTemplateKeys: [
@@ -1158,6 +1159,7 @@ const buildResourceWithTwoNestedResources = (state, options) => {
       class: "http://id.loc.gov/ontologies/bibframe/Uber2",
       label: "Uber template2",
       remark: "Template for testing purposes with single repeatable literal.",
+      remarkUrl: "https://www.stanford.edu",
       group: "stanford",
       editGroups: ["cornell"],
       propertyTemplateKeys: [
