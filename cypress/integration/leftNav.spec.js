@@ -84,70 +84,82 @@ describe("Left-nav test", () => {
     cy.url().should("include", "/editor")
   })
 
-  it("Displays child nav when expanding nav", () => {
-    cy.get(".left-nav-header").should("not.contain", "Uber template2")
-    cy.get(".left-nav-header").should("not.contain", "Uber template3")
-    cy.get(".left-nav-header").should(
-      "not.contain",
-      "Uber template2, property1"
-    )
+  it(
+    "Displays child nav when expanding nav",
+    { scrollBehavior: "center" },
+    () => {
+      cy.get(".left-nav-header").should("not.contain", "Uber template2")
+      cy.get(".left-nav-header").should("not.contain", "Uber template3")
+      cy.get(".left-nav-header").should(
+        "not.contain",
+        "Uber template2, property1"
+      )
 
-    cy.get(
-      'button[aria-label="Show navigation for Uber template1, property1"]'
-    ).click()
+      cy.get(
+        'button[aria-label="Show navigation for Uber template1, property1"]'
+      ).click()
 
-    cy.get(".left-nav-header").should("contain", "Uber template2")
-    cy.get(".left-nav-header").should("contain", "Uber template3")
-    cy.get(".left-nav-header").should(
-      "not.contain",
-      "Uber template2, property1"
-    )
+      cy.get(".left-nav-header").should("contain", "Uber template2")
+      cy.get(".left-nav-header").should("contain", "Uber template3")
+      cy.get(".left-nav-header").should(
+        "not.contain",
+        "Uber template2, property1"
+      )
 
-    cy.get('button[aria-label="Show navigation for Uber template2"]').click()
-    cy.get(".left-nav-header").should("contain", "Uber template2, property1")
-  })
+      cy.get('button[aria-label="Show navigation for Uber template2"]').click()
+      cy.get(".left-nav-header").should("contain", "Uber template2, property1")
+    }
+  )
 
-  it("Hides child nav when contracting nav", () => {
-    cy.get('button[aria-label="Hide navigation for Uber template2"]').click()
-    cy.get(".left-nav-header").should("contain", "Uber template2")
-    cy.get(".left-nav-header").should("contain", "Uber template3")
-    cy.get(".left-nav-header").should(
-      "not.contain",
-      "Uber template2, property1"
-    )
+  it(
+    "Hides child nav when contracting nav",
+    { scrollBehavior: "center" },
+    () => {
+      cy.get('button[aria-label="Hide navigation for Uber template2"]').click()
+      cy.get(".left-nav-header").should("contain", "Uber template2")
+      cy.get(".left-nav-header").should("contain", "Uber template3")
+      cy.get(".left-nav-header").should(
+        "not.contain",
+        "Uber template2, property1"
+      )
 
-    cy.get(
-      'button[aria-label="Hide navigation for Uber template1, property1"]'
-    ).click()
-    cy.get(".left-nav-header").should("not.contain", "Uber template2")
-    cy.get(".left-nav-header").should("not.contain", "Uber template3")
-    cy.get(".left-nav-header").should(
-      "not.contain",
-      "Uber template2, property1"
-    )
-  })
+      cy.get(
+        'button[aria-label="Hide navigation for Uber template1, property1"]'
+      ).click()
+      cy.get(".left-nav-header").should("not.contain", "Uber template2")
+      cy.get(".left-nav-header").should("not.contain", "Uber template3")
+      cy.get(".left-nav-header").should(
+        "not.contain",
+        "Uber template2, property1"
+      )
+    }
+  )
 
-  it("Pops up tooltips for properties with remarks", () => {
-    // Verifies that tooltip pops up when clicked and hides when something else is clicked
-    const tooltipText = "Multiple nested, repeatable resource templates."
-    cy.get("body").should("not.contain", tooltipText)
-    cy.get('a[data-testid="Uber template1, property1"]')
-      .scrollIntoView()
-      .click()
-    // Tooltip appears when clicked
-    cy.get("body").should("contain", tooltipText)
-    // And disappears when anything else is clicked
-    cy.get('button[aria-label="Go to Uber template1, property1"]').click()
-    cy.get("body").should("not.contain", tooltipText)
-    // Clicks tooltip for property at the bottom of the page
-    cy.get('a[data-testid="Uber template1, property20"]')
-      .scrollIntoView()
-      .click()
-    // Ensure the viewport didn't shift to the top of the package
-    cy.get('a[data-testid="Uber template1, property20"]').should("be.visible")
-  })
+  it(
+    "Pops up tooltips for properties with remarks",
+    { scrollBehavior: "center" },
+    () => {
+      // Verifies that tooltip pops up when clicked and hides when something else is clicked
+      const tooltipText = "Multiple nested, repeatable resource templates."
+      cy.get("body").should("not.contain", tooltipText)
+      cy.get('a[data-testid="Uber template1, property1"]')
+        .scrollIntoView()
+        .click({ force: true })
+      // Tooltip appears when clicked
+      cy.get("body").should("contain", tooltipText)
+      // And disappears when anything else is clicked
+      cy.get('button[aria-label="Go to Uber template1, property1"]').click()
+      cy.get("body").should("not.contain", tooltipText)
+      // Clicks tooltip for property at the bottom of the page
+      cy.get('a[data-testid="Uber template1, property20"]')
+        .scrollIntoView()
+        .click()
+      // Ensure the viewport didn't shift to the top of the package
+      cy.get('a[data-testid="Uber template1, property20"]').should("be.visible")
+    }
+  )
 
-  it("Marks properties with errors", () => {
+  it("Marks properties with errors", { scrollBehavior: "center" }, () => {
     cy.get(".left-nav-header.text-danger").should("not.exist")
     cy.get("button.editor-save").first().scrollIntoView().click({ force: true })
     cy.get(".left-nav-header.text-danger").should(
@@ -156,18 +168,22 @@ describe("Left-nav test", () => {
     )
   })
 
-  it("Fixing error removes marking as error", () => {
-    cy.get('textarea[placeholder="Uber template1, property4"]').type(
-      "bar{enter}",
-      { force: true }
-    )
-    cy.get(".left-nav-header.text-danger").should(
-      "not.contain",
-      "Uber template1, property4"
-    )
-  })
+  it(
+    "Fixing error removes marking as error",
+    { scrollBehavior: "center" },
+    () => {
+      cy.get('textarea[placeholder="Uber template1, property4"]').type(
+        "bar{enter}",
+        { force: true }
+      )
+      cy.get(".left-nav-header.text-danger").should(
+        "not.contain",
+        "Uber template1, property4"
+      )
+    }
+  )
 
-  it("Highlights nav when panel clicked", () => {
+  it("Highlights nav when panel clicked", { scrollBehavior: "center" }, () => {
     cy.get("button.current .left-nav-header").should(
       "not.contain",
       "Uber template1, property6"
@@ -192,7 +208,7 @@ describe("Left-nav test", () => {
   // })
 
   it("Logs out", () => {
-    cy.contains("a", "Logout").click()
+    cy.contains("a", "Logout").click({ force: true })
   })
 })
 
