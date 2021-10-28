@@ -101,7 +101,7 @@ jobs:
             ./cc-test-reporter before-build
       - run:
           name: Run tests
-          command: npm run test
+          command: DEBUG_PRINT_LIMIT=200000 npm run test
       - run:
           name: Send coverage report to Code Climate
           command: |
