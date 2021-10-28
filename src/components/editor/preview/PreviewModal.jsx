@@ -37,17 +37,21 @@ const PreviewModal = (props) => {
     event.preventDefault()
     dispatch(setCurrentPreviewResource(null))
     dispatch(hideModal())
-    dispatch(clearResource(currentResourceKey))
   }
 
-  const editAndClose = (event) => {
+  const handleEdit = (event) => {
     close(event)
     props.handleEdit(currentResource.uri)
   }
 
-  const copyAndClose = (event) => {
+  const handleCopy = (event) => {
     close(event)
     props.handleCopy(currentResource.uri)
+  }
+
+  const handleClose = (event) => {
+    close(event)
+    dispatch(clearResource(currentResourceKey))
   }
 
   const modal = (
@@ -73,7 +77,7 @@ const PreviewModal = (props) => {
               <button
                 type="button"
                 className="btn-close"
-                onClick={close}
+                onClick={handleClose}
                 aria-label="Close"
               ></button>
             </div>
@@ -96,7 +100,7 @@ const PreviewModal = (props) => {
             {canEdit(currentResource) && (
               <button
                 className="btn btn-primary btn-view-resource"
-                onClick={editAndClose}
+                onClick={handleEdit}
                 aria-label="Edit"
                 data-testid="edit-resource"
               >
@@ -106,7 +110,7 @@ const PreviewModal = (props) => {
             {canCreate && (
               <button
                 className="btn btn-primary btn-view-resource"
-                onClick={copyAndClose}
+                onClick={handleCopy}
                 aria-label="Copy"
                 data-testid="copy-resource"
               >
