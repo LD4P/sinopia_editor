@@ -1,5 +1,5 @@
 import { renderApp } from "testUtils"
-import { fireEvent, screen, waitFor } from "@testing-library/react"
+import { fireEvent, screen } from "@testing-library/react"
 import { featureSetup } from "featureUtils"
 
 featureSetup()
@@ -13,8 +13,6 @@ describe("creating new resource template ", () => {
 
     // Click the new resource template button
     fireEvent.click(screen.getByText("New template"))
-    await waitFor(() =>
-      expect(screen.getByText("Resource Template (dummy)", { selector: "h3" }))
-    )
+    await screen.findByText("Resource template", { selector: "h3" })
   }, 15000)
 })

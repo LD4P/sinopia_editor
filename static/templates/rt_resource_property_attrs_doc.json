@@ -1,0 +1,86 @@
+[
+  {
+    "@id": "_:b2",
+    "@type": ["http://sinopia.io/vocabulary/PropertyTemplate"],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Resource Template IDs"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Resource Template IDs, e.g., ld4p:RT:bf2:Title:AbbrTitle."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/vocabulary/hasResourceTemplateId"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/required"
+      },
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b3"
+      }
+    ]
+  },
+  {
+    "@id": "_:b3",
+    "@type": ["http://sinopia.io/vocabulary/LookupPropertyTemplate"],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "urn:ld4p:sinopia:resourceTemplate"
+      }
+    ]
+  },
+  {
+    "@id": "sinopia:template:property:resource",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": ["http://sinopia.io/vocabulary/ResourceTemplate"],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@value": "sinopia:template:property:resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Resource attributes"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Attributes for a nested resource."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b2"
+          }
+        ]
+      }
+    ]
+  }
+]
