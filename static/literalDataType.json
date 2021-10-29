@@ -1,0 +1,18 @@
+[
+  {
+    "uri": "http://www.w3.org/2001/XMLSchema/integer",
+    "label": "Integer (xsd:integer)"
+  },
+  {
+    "uri": "http://www.w3.org/2001/XMLSchema/dateTime",
+    "label": "Date and time with or without timezone (xsd:dateTime)"
+  },
+  {
+    "uri": "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
+    "label": "Date and time with required timezone (xsd:dateTimeStamp)"
+  },
+  {
+    "uri": "http://id.loc.gov/datatypes/edtf",
+    "label": "Extended Date/Time Format (EDTF)"
+  }
+]
