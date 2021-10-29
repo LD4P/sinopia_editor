@@ -49,18 +49,24 @@ const HeaderSearch = () => {
     event.preventDefault()
   }
 
-  const handleSearchClick = (event) => {
+  const runSearch = (event) => {
     event.preventDefault()
-    if (query === "") {
-      return
-    }
-    fetchNewSearchResults(query, uri)
+
+    if (query === "") return
+
+    if (!uri.startsWith(sinopiaSearchUri)) fetchNewSearchResults(query, uri)
+
+    // The URI may have a /{className} suffix, which we translate into a filter for the search
+    const options = {}
+    const [baseUri, filter] = uri.split("/")
+    if (filter)
+      options.typeFilter = `http://id.loc.gov/ontologies/bibframe/${filter}`
+    fetchNewSearchResults(query, baseUri, options)
   }
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter" && query !== "") {
-      fetchNewSearchResults(query, uri)
-      event.preventDefault()
+    if (event.key === "Enter") {
+      runSearch(event)
     }
   }
 
@@ -88,6 +94,16 @@ const HeaderSearch = () => {
           onBlur={handleUriChange}
         >
           <option value={sinopiaSearchUri}>Sinopia</option>
+          <option value={`${sinopiaSearchUri}/Work`}>
+            Sinopia BIBFRAME work resources
+          </option>
+          <option value={`${sinopiaSearchUri}/Instance`}>
+            Sinopia BIBFRAME instance resources
+          </option>
+          <option value={`${sinopiaSearchUri}/Item`}>
+            Sinopia BIBFRAME Items
+          </option>
+
           {options}
         </select>
         <input
@@ -104,7 +120,7 @@ const HeaderSearch = () => {
           type="button"
           aria-label="Submit search"
           data-testid="Submit search"
-          onClick={handleSearchClick}
+          onClick={runSearch}
         >
           <FontAwesomeIcon icon={faSearch} />
         </button>

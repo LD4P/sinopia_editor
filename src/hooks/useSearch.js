@@ -81,8 +81,8 @@ const useSearch = () => {
     }
   }
 
-  const fetchNewSearchResults = (queryString, uri) => {
-    fetchSearchResults(queryString, uri, {}, 0)
+  const fetchNewSearchResults = (queryString, uri, searchOptions = {}) => {
+    fetchSearchResults(queryString, uri, searchOptions, 0)
     history.push("/search")
   }
 
