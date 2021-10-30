@@ -19,8 +19,11 @@ import usePermissions from "hooks/usePermissions"
 import MarcButton from "../actions/MarcButton"
 import TransferButtons from "../actions/TransferButtons"
 import ResourcePreviewHeader from "./ResourcePreviewHeader"
+import useResource from "hooks/useResource"
+import CopyButton from "../../buttons/CopyButton"
+import EditButton from "../../buttons/EditButton"
 
-const PreviewModal = (props) => {
+const PreviewModal = ({ errorKey }) => {
   const dispatch = useDispatch()
   const { canEdit, canCreate } = usePermissions()
   const show = useSelector((state) => isCurrentModal(state, "PreviewModal"))
@@ -33,20 +36,25 @@ const PreviewModal = (props) => {
     selectNormSubject(state, currentResourceKey)
   )
 
+  const { handleEdit, handleCopy, isLoadingEdit, isLoadingCopy } = useResource(
+    errorKey,
+    { resourceURI: currentResource?.uri }
+  )
+
   const close = (event) => {
     event.preventDefault()
     dispatch(setCurrentPreviewResource(null))
     dispatch(hideModal())
   }
 
-  const handleEdit = (event) => {
+  const handleEditClick = (event) => {
     close(event)
-    props.handleEdit(currentResource.uri)
+    handleEdit()
   }
 
-  const handleCopy = (event) => {
+  const handleCopyClick = (event) => {
     close(event)
-    props.handleCopy(currentResource.uri)
+    handleCopy()
   }
 
   const handleClose = (event) => {
@@ -98,24 +106,18 @@ const PreviewModal = (props) => {
               <TransferButtons resourceKey={currentResourceKey} />
             )}
             {canEdit(currentResource) && (
-              <button
-                className="btn btn-primary btn-view-resource"
-                onClick={handleEdit}
-                aria-label="Edit"
-                data-testid="edit-resource"
-              >
-                Edit
-              </button>
+              <EditButton
+                handleClick={handleEditClick}
+                label={currentResource.label}
+                isLoading={isLoadingEdit}
+              />
             )}
-            {canCreate && (
-              <button
-                className="btn btn-primary btn-view-resource"
-                onClick={handleCopy}
-                aria-label="Copy"
-                data-testid="copy-resource"
-              >
-                Copy
-              </button>
+            {currentResource && canCreate && (
+              <CopyButton
+                handleClick={handleCopyClick}
+                label={currentResource.label}
+                isLoading={isLoadingCopy}
+              />
             )}
           </div>
         </div>
@@ -127,8 +129,7 @@ const PreviewModal = (props) => {
 }
 
 PreviewModal.propTypes = {
-  handleEdit: PropTypes.func.isRequired,
-  handleCopy: PropTypes.func.isRequired,
+  errorKey: PropTypes.string.isRequired,
 }
 
 export default PreviewModal

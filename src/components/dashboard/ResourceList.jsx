@@ -4,12 +4,9 @@
 import React from "react"
 import PropTypes from "prop-types"
 import SearchResultRows from "../search/SearchResultRows"
-import useResource from "hooks/useResource"
 import { dashboardErrorKey } from "./Dashboard"
 
 const ResourceList = (props) => {
-  const { handleCopy, handleEdit, handleView } = useResource(dashboardErrorKey)
-
   if (props.resources.length === 0) {
     return null
   }
@@ -34,9 +31,7 @@ const ResourceList = (props) => {
             <tbody>
               <SearchResultRows
                 searchResults={props.resources}
-                handleEdit={handleEdit}
-                handleCopy={handleCopy}
-                handleView={handleView}
+                errorKey={dashboardErrorKey}
               />
             </tbody>
           </table>

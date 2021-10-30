@@ -10,18 +10,12 @@ import GroupFilter from "./GroupFilter"
 import SearchResultRows from "./SearchResultRows"
 import SinopiaSort from "./SinopiaSort"
 import PreviewModal from "../editor/preview/PreviewModal"
-import useResource from "hooks/useResource"
 
 // Errors from retrieving a resource from this page.
 export const searchRetrieveErrorKey = "searchresource"
 
 const SinopiaSearchResults = () => {
   const errorsRef = useRef(null)
-
-  const { handleCopy, handleEdit, handleView } = useResource(
-    searchRetrieveErrorKey,
-    errorsRef
-  )
 
   const searchResults = useSelector((state) =>
     selectSearchResults(state, "resource")
@@ -33,7 +27,7 @@ const SinopiaSearchResults = () => {
 
   return (
     <React.Fragment>
-      <PreviewModal handleEdit={handleEdit} handleCopy={handleCopy} />
+      <PreviewModal errorKey={searchRetrieveErrorKey} />
       <div ref={errorsRef}>
         <Alerts errorKey={searchRetrieveErrorKey} />
       </div>
@@ -63,9 +57,7 @@ const SinopiaSearchResults = () => {
             <tbody>
               <SearchResultRows
                 searchResults={searchResults}
-                handleEdit={handleEdit}
-                handleCopy={handleCopy}
-                handleView={handleView}
+                errorKey={searchRetrieveErrorKey}
               />
             </tbody>
           </table>

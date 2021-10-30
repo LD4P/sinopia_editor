@@ -1,13 +1,12 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useRef } from "react"
+import React from "react"
 import { useSelector } from "react-redux"
 import _ from "lodash"
 import Alerts from "../Alerts"
 import ResourceTemplateSearchResult from "./ResourceTemplateSearchResult"
 import { selectHistoricalTemplates } from "selectors/history"
 import { selectSearchResults } from "selectors/search"
-import useResource from "hooks/useResource"
 
 // Errors from loading a new resource from this page.
 export const newResourceErrorKey = "newresource"
@@ -21,13 +20,6 @@ const SinopiaResourceTemplates = () => {
   )
   const historicalTemplates = useSelector((state) =>
     selectHistoricalTemplates(state)
-  )
-
-  const topRef = useRef(null)
-
-  const { handleNew, handleCopy, handleEdit } = useResource(
-    newResourceErrorKey,
-    topRef
   )
 
   let history
@@ -52,9 +44,7 @@ const SinopiaResourceTemplates = () => {
         >
           <ResourceTemplateSearchResult
             results={historicalTemplates}
-            handleClick={handleNew}
-            handleEdit={handleEdit}
-            handleCopy={handleCopy}
+            errorKey={newResourceErrorKey}
           />
         </div>
       </div>
@@ -62,7 +52,7 @@ const SinopiaResourceTemplates = () => {
   }
 
   return (
-    <section id="resource-templates" ref={topRef}>
+    <section id="resource-templates">
       <Alerts errorKey={newResourceErrorKey} />
       {history}
       {_.isEmpty(searchResults) ? (
@@ -72,9 +62,7 @@ const SinopiaResourceTemplates = () => {
       ) : (
         <ResourceTemplateSearchResult
           results={searchResults}
-          handleClick={handleNew}
-          handleEdit={handleEdit}
-          handleCopy={handleCopy}
+          errorKey={newResourceErrorKey}
         />
       )}
     </section>
