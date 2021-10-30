@@ -112,8 +112,15 @@ export const addResourceFromDataset =
         errorKey
       )
     ).then((resource) => {
-      dispatch(addSubjectAction(_.merge(resource, otherResourceAttrs)))
-      return [resource, usedDataset]
+      // Do not copy group or editGroups (passed in via otherResourceAttrs) if resource is new (i.e., copied)
+      const newResource = _.merge(resource, otherResourceAttrs)
+      if (asNewResource) {
+        newResource.group = null
+        newResource.editGroups = []
+      }
+
+      dispatch(addSubjectAction(newResource))
+      return [newResource, usedDataset]
     })
   }
 
