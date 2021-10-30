@@ -1,17 +1,25 @@
 [
   {
     "@id": "_:b2",
-    "@type": [
-      "http://sinopia.io/vocabulary/PropertyTemplate"
-    ],
+    "@type": ["http://sinopia.io/vocabulary/PropertyTemplate"],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
-        "@value": "Note"
+        "@value": "Defaults"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Default literals."
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
       {
-        "@id": "http://www.w3.org/2000/01/rdf-schema#label"
+        "@id": "http://sinopia.io/vocabulary/hasDefault"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyType": [
@@ -21,28 +29,31 @@
     ]
   },
   {
-    "@id": "http://localhost:3000/resource/sinopia:template:resource",
+    "@id": "sinopia:template:property:literal",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
         "@value": "sinopia:template:resource"
       }
     ],
-    "@type": [
-      "http://sinopia.io/vocabulary/ResourceTemplate"
-    ],
+    "@type": ["http://sinopia.io/vocabulary/ResourceTemplate"],
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
-        "@value": "sinopia:template:resource"
+        "@value": "sinopia:template:property:literal"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [
       {
-        "@id": "http://sinopia.io/vocabulary/ResourceTemplate"
+        "@id": "http://sinopia.io/vocabulary/LiteralPropertyTemplate"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
-        "@value": "Resource Template (dummy)"
+        "@value": "Literal attributes"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Attributes for a literal property."
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyTemplate": [

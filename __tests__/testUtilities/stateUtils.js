@@ -106,7 +106,7 @@ const buildTemplateWithLiteral = (state, options) => {
       uri: "http://localhost:3000/resource/sinopia:template:resource",
       id: "sinopia:template:resource",
       class: "http://sinopia.io/vocabulary/ResourceTemplate",
-      label: "Resource Template (dummy)",
+      label: "Resource Template",
       author: null,
       remark: null,
       date: null,
@@ -156,7 +156,7 @@ const buildTemplateWithLiteral = (state, options) => {
         uri: "http://localhost:3000/resource/sinopia:template:resource",
         id: "sinopia:template:resource",
         class: "http://sinopia.io/vocabulary/ResourceTemplate",
-        label: "Resource Template (dummy)",
+        label: "Resource Template",
         author: null,
         remark: null,
         date: null,
@@ -164,7 +164,7 @@ const buildTemplateWithLiteral = (state, options) => {
           "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
         ],
       },
-      labels: ["Resource Template (dummy)"],
+      labels: ["Resource Template"],
     },
   }
   state.entities.properties = {
@@ -176,7 +176,7 @@ const buildTemplateWithLiteral = (state, options) => {
       propertyTemplateKey:
         "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
       valueKeys: ["SgS9CqKjmb"],
-      labels: ["Resource Template (dummy)", "Note"],
+      labels: ["Resource Template", "Note"],
       showNav: false,
     },
   }
@@ -184,7 +184,7 @@ const buildTemplateWithLiteral = (state, options) => {
     SgS9CqKjmb: {
       key: "SgS9CqKjmb",
       resourceKey: "8VrbxGPeF",
-      literal: "Resource Template (dummy)",
+      literal: "Resource Template",
       lang: "",
       uri: null,
       label: null,

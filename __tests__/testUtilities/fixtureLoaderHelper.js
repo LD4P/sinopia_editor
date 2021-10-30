@@ -32,7 +32,6 @@ const templateFilenames = {
   "resourceTemplate:testing:uber3": "uber_template3.json",
   "resourceTemplate:testing:uber4": "uber_template4.json",
   "resourceTemplate:testing:uber5": "uber_template5.json",
-  "sinopia:template:resource": "ResourceTemplate.json",
   "resourceTemplate:bf2:Instance": "Instance.json",
 }
 

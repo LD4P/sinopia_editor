@@ -11,6 +11,23 @@ import {
 import GraphBuilder from "GraphBuilder"
 import { v4 as uuidv4 } from "uuid"
 import Auth from "@aws-amplify/auth"
+import rtLiteralPropertyAttrs from "../static/templates/rt_literal_property_attrs_doc.json"
+import rtLookupPropertyAttrs from "../static/templates/rt_lookup_property_attrs_doc.json"
+import rtPropertyTemplate from "../static/templates/rt_property_template_doc.json"
+import rtResourcePropertyAttrs from "../static/templates/rt_resource_property_attrs_doc.json"
+import rtResourceRemplate from "../static/templates/rt_resource_template_doc.json"
+import rtUri from "../static/templates/rt_uri_doc.json"
+import rtUriPropertyAttrs from "../static/templates/rt_uri_property_attrs_doc.json"
+
+const baseTemplates = {
+  "sinopia:template:property:literal": rtLiteralPropertyAttrs,
+  "sinopia:template:property:lookup": rtLookupPropertyAttrs,
+  "sinopia:template:property": rtPropertyTemplate,
+  "sinopia:template:property:resource": rtResourcePropertyAttrs,
+  "sinopia:template:resource": rtResourceRemplate,
+  "sinopia:template:uri": rtUri,
+  "sinopia:template:property:uri": rtUriPropertyAttrs,
+}
 
 /**
  * Fetches a resource from the Sinopia API.
@@ -33,6 +50,8 @@ export const fetchResource = (
     } catch (err) {
       fetchPromise = Promise.reject(err)
     }
+  } else if (isBaseTemplateUri(uri)) {
+    fetchPromise = loadBaseTemplate(uri)
   } else if (Config.useResourceTemplateFixtures && isTemplate) {
     fetchPromise = Promise.reject(new Error("Not found"))
   } else {
@@ -48,6 +67,20 @@ export const fetchResource = (
     .catch((err) => {
       throw new Error(`Error parsing resource: ${err.message || err}`)
     })
+}
+
+const isBaseTemplateUri = (uri) =>
+  uri.startsWith(`${Config.sinopiaApiBase}/resource/sinopia:template:`)
+
+const loadBaseTemplate = (uri) => {
+  const templateId = uri.slice(`${Config.sinopiaApiBase}/resource/`.length)
+  const template = baseTemplates[templateId]
+
+  // Insert the expected URI for base subject.
+  const baseNode = template.find((node) => node["@id"] === templateId)
+  if (baseNode) baseNode["@id"] = uri
+
+  return Promise.resolve({ data: template })
 }
 
 export const fetchResourceVersions = (uri) => {
