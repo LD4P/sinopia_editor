@@ -13,6 +13,13 @@ import useNavTarget from "hooks/useNavTarget"
 const NestedResource = (props) => {
   const { handleNavTargetClick, navTargetId } = useNavTarget(props.valueSubject)
 
+  // On the preview page, don't show this nested resource if no values are present
+  if (
+    props.readOnly &&
+    props.valueSubject.descUriOrLiteralValueKeys.length === 0
+  )
+    return null
+
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-static-element-interactions */

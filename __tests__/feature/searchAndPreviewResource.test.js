@@ -128,6 +128,62 @@ describe("searching and preview a resource", () => {
     }, 10000)
   })
 
+  describe("for a resource that does not have every value set", () => {
+    // Setup search component to return known resource
+    const uri =
+      "http://localhost:3000/resource/a4181509-8046-47c8-9327-6e576c517d70"
+
+    beforeEach(() => {
+      // Setup search component to return known resource
+      jest
+        .spyOn(sinopiaSearch, "getSearchResultsWithFacets")
+        .mockResolvedValue(resourceSearchResults(uri))
+    })
+
+    it.only("renders a modal without the empty resource and properties", async () => {
+      renderApp()
+
+      fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
+
+      fireEvent.change(screen.getByLabelText("Search"), {
+        target: { value: uri },
+      })
+      fireEvent.click(screen.getByTestId("Submit search"))
+
+      await screen.findByText(uri)
+
+      // Modal hasn't rendered yet
+      expect(
+        screen.queryByRole("dialog", { name: "Preview Resource" })
+      ).not.toBeInTheDocument()
+      expect(screen.getByTestId("view-resource-modal").classList).not.toContain(
+        "show"
+      )
+
+      // Click the view icon next to the search result row
+      expect(screen.getByTestId(`View ${uri}`)).toBeInTheDocument()
+      fireEvent.click(screen.getByTestId(`View ${uri}`))
+
+      // Modal has now rendered
+      expect(
+        (await screen.findByTestId("view-resource-modal")).classList
+      ).toContain("show")
+      expect(
+        await screen.findAllByText("Uber template1, property1", {
+          selector: "h5 span",
+        })
+      ).toHaveLength(1)
+
+      // Nested resource is suppressed
+      expect(screen.queryByText("Uber template2")).not.toBeInTheDocument()
+
+      // Empty value is suppressed
+      expect(
+        await screen.queryByText("Uber template1, property2")
+      ).not.toBeInTheDocument()
+    }, 10000)
+  })
+
   describe("for a resource that is a BF:instance", () => {
     const uri =
       "http://localhost:3000/resource/9c5bd9f5-1804-45bd-99ed-b6e3774c896e"
