@@ -48,6 +48,10 @@ const vocabulary = {
       "The template used in creating, editing, or updating a resource",
     url: "http://sinopia.io/vocabulary/hasResourceTemplate",
   },
+  hasValidationDataType: {
+    description: "Data Type to validate the literal, e.g. integer or dateTime",
+    url: "http://sinopia.io/vocabulary/hasValidationDataType",
+  },
   hasValidationRegex: {
     description: "Regular Expression to validate a literal",
     url: "http://sinopia.io/vocabulary/hasValidationRegex",
