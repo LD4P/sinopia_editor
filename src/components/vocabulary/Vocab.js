@@ -48,6 +48,10 @@ const vocabulary = {
       "The template used in creating, editing, or updating a resource",
     url: "http://sinopia.io/vocabulary/hasResourceTemplate",
   },
+  hasValidationRegex: {
+    description: "Regular Expression to validate a literal",
+    url: "http://sinopia.io/vocabulary/hasValidationRegex",
+  },
   PropertyTemplate: {
     description: "",
     url: "http://sinopia.io/vocabulary/PropertyTemplate",
