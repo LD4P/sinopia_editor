@@ -10,6 +10,10 @@ const vocabulary = {
     description: "Contact information associated with the template",
     url: "http://sinopia.io/vocabulary/hasAuthor",
   },
+  hasAuthority: {
+    description: "An authority associated with a lookup",
+    url: "http://sinopia.io/vocabulary/hasAuthority",
+  },
   hasClass: {
     description: "The RDF class for a property",
     url: "http://sinopia.io/vocabulary/hasClass",
@@ -17,6 +21,18 @@ const vocabulary = {
   hasDate: {
     description: "Date associated with the template",
     url: "http://sinopia.io/vocabulary/hasDate",
+  },
+  hasDefault: {
+    description: "Default value(s) specific to a property",
+    url: "http://sinopia.io/vocabulary/hasDefault",
+  },
+  hasLiteralAttributes: {
+    description: "Attributes for a literal",
+    url: "http://sinopia.io/vocabulary/hasLiteralAttributes",
+  },
+  hasLookupAttributes: {
+    description: "Attributes for a lookup",
+    url: "http://sinopia.io/vocabulary/hasLookupAttributes",
   },
   hasPropertyAttribute: {
     description: "Attributes specific to a property (e.g., repeatable)",
@@ -39,14 +55,35 @@ const vocabulary = {
       "Comment or guiding statement intended to be presented as supplementary information in user display",
     url: "https://sinopia.io/vocabulary/hasRemark",
   },
-  hasResourceAttribute: {
+  hasRemarkUrl: {
+    description: "The property's remark as a URL",
+    url: "http://sinopia.io/vocabulary/hasRemarkUrl",
+  },
+  hasResourceAttributes: {
     description: "Attributes specific to a resource (e.g., suppressible)",
-    url: "http://sinopia.io/vocabulary/hasResourceAttribute",
+    url: "http://sinopia.io/vocabulary/hasResourceAttributes",
+  },
+  hasResourceId: {
+    description: "The resource's ID",
+    url: "http://sinopia.io/vocabulary/hasResourceId",
   },
   hasResourceTemplate: {
     description:
       "The template used in creating, editing, or updating a resource",
     url: "http://sinopia.io/vocabulary/hasResourceTemplate",
+  },
+  hasResourceTemplateId: {
+    description:
+      "The resource's Template ID, e.g., ld4p:RT:bf2:Title:AbbrTitle",
+    url: "http://sinopia.io/vocabulary/hasResourceTemplateId",
+  },
+  hasUri: {
+    description: "URI",
+    url: "http://sinopia.io/vocabulary/hasUri",
+  },
+  hasUriAttributes: {
+    description: "Attributes for a URI",
+    url: "http://sinopia.io/vocabulary/hasUriAttributes",
   },
   hasValidationDataType: {
     description: "Data Type to validate the literal, e.g. integer or dateTime",
@@ -56,9 +93,29 @@ const vocabulary = {
     description: "Regular Expression to validate a literal",
     url: "http://sinopia.io/vocabulary/hasValidationRegex",
   },
+  LookupPropertyTemplate: {
+    description: "Class for a lookup property template",
+    url: "http://sinopia.io/vocabulary/LookupPropertyTemplate",
+  },
   PropertyTemplate: {
-    description: "",
+    description: "Class for a property template",
     url: "http://sinopia.io/vocabulary/PropertyTemplate",
+  },
+  "propertyAttribute/immutable": {
+    description: "Value cannot be changed once assigned (for IDs)",
+    url: "http://sinopia.io/vocabulary/propertyAttribute/immutable",
+  },
+  "propertyAttribute/ordered": {
+    description: "Values are ordered",
+    url: "http://sinopia.io/vocabulary/propertyAttribute/ordered",
+  },
+  "propertyAttribute/repeatable": {
+    description: "Multiple values are allowed for the property",
+    url: "http://sinopia.io/vocabulary/propertyAttribute/repeatable",
+  },
+  "propertyAttribute/required": {
+    description: "Property value is required",
+    url: "http://sinopia.io/vocabulary/propertyAttribute/required",
   },
   "propertyType/literal": {
     description: "Literal property value",
@@ -72,13 +129,26 @@ const vocabulary = {
     description: "URI property value",
     url: "http://sinopia.io/vocabulary/propertyType/uri",
   },
+  "resourceAttribute/suppressible": {
+    description:
+      "whether resource is suppressible (must have only one property which is a lookup or URI)",
+    url: "http://sinopia.io/vocabulary/resourceAttribute/suppressible",
+  },
   ResourcePropertyTemplate: {
     description: "Class for a resource property template",
     url: "http://sinopia.io/vocabulary/ResourcePropertyTemplate",
   },
   ResourceTemplate: {
-    description: "Class for a resource template",
+    description: "Class for a resource template ('template' or 'resource')",
     url: "http://sinopia.io/vocabulary/ResourceTemplate",
+  },
+  Uri: {
+    description: "Class for a URI template",
+    url: "http://sinopia.io/vocabulary/Uri",
+  },
+  UriPropertyTemplate: {
+    description: "Class for a URI property template",
+    url: "http://sinopia.io/vocabulary/UriPropertyTemplate",
   },
 }
 
