@@ -29,6 +29,68 @@
     ]
   },
   {
+    "@id": "_:b3",
+    "@type": ["http://sinopia.io/vocabulary/PropertyTemplate"],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Validation Regular Expression"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Regular Expression to validate the literal."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/vocabulary/hasValidationRegex"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ]
+  },
+  {
+    "@id": "_:b4",
+    "@type": ["http://sinopia.io/vocabulary/PropertyTemplate"],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Validation Data Type"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Data Type to validate the literal, e.g. integer or dateTime."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/vocabulary/hasValidationDataType"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b5"
+      }
+    ]
+  },
+  {
+    "@id": "_:b5",
+    "@type": ["http://sinopia.io/vocabulary/LookupPropertyTemplate"],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "file:/literalDataType.json"
+      }
+    ]
+  },
+  {
     "@id": "sinopia:template:property:literal",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
@@ -61,6 +123,12 @@
         "@list": [
           {
             "@id": "_:b2"
+          },
+          {
+            "@id": "_:b3"
+          },
+          {
+            "@id": "_:b4"
           }
         ]
       }

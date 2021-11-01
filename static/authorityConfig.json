@@ -2291,5 +2291,10 @@
     "label": "resourceAttribute",
     "uri": "file:/resourceAttribute.json",
     "component": "list"
+  },
+  {
+    "label": "literal validation data type",
+    "uri": "file:/literalDataType.json",
+    "component": "list"
   }
 ]
