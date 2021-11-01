@@ -309,10 +309,11 @@ The following are only in the resource subject (that is, the base subject).
   remarkUrl: <remark url, e.g., "http://access.rdatoolkit.org/2.13.html">
   remarkUrlLabel: <a descriptive label about the remark url, e.g., "Title Proper">
   type: <resource | uri | literal>,
+  validationRegex: <regex as a string>,
+  validationDataType: <uri for integer, dateTime, etc.>,
   component: <InputLookup | InputLookupQA | InputList | InputLiteral | InputURI>,
-  valueSubjectTemplateKeys: [<subject template keys>]
+  valueSubjectTemplateKeys: [<subject template keys>],
   authorities: [{authority}, ...]
-
 }
 ```
 
