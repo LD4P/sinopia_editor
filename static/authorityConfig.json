@@ -2068,6 +2068,15 @@
     "nonldLookup": true
   },
   {
+    "label": "Publisher Cities",
+    "uri": "urn:qa:publisherCities",
+    "authority": "local",
+    "subauthority": "publisher_cities_select_list",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "MARC relator terms",
     "uri": "https://id.loc.gov/vocabulary/relators",
     "component": "list"
