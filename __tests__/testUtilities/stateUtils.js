@@ -247,6 +247,12 @@ const buildResourceWithLiteral = (state, options) => {
     ]
   }
 
+  if (options.hasValidationDataTypeInteger) {
+    state.entities.propertyTemplates[
+      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+    ].validationDataType = "http://www.w3.org/2001/XMLSchema/integer"
+  }
+
   state.entities.subjects = {
     t9zVwg2zO: {
       key: "t9zVwg2zO",

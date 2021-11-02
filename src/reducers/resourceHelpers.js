@@ -177,6 +177,9 @@ const removeFromKeyArray = (obj, key, value) => {
   obj[key] = [...obj[key]].filter((checkValue) => checkValue !== value)
 }
 
+// refactor this into more than one function;  move into separate file
+//   look at how we validate templates ... maybe use that as a model??
+//   (see actionCreators/templateValidationHelpers)
 export const updateValueErrors = (state, valueKey) => {
   const value = state.values[valueKey]
   const property = state.properties[value.propertyKey]
@@ -201,6 +204,16 @@ export const updateValueErrors = (state, valueKey) => {
     }
     if (value.uri && !isValidURI(value.uri)) errors.push("Invalid URI")
   }
+
+  if (
+    propertyTemplate.type === "literal" &&
+    propertyTemplate.validationDataType ===
+      "http://www.w3.org/2001/XMLSchema/integer" &&
+    Number.isNaN(parseInt(value.literal, 10))
+  )
+    errors.push(
+      `Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/integer' but '${value.literal}' is not an integer`
+    )
 
   return mergeValuePropsToNewState(state, valueKey, { errors })
 }
