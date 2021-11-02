@@ -20,10 +20,8 @@ const PanelResourceNav = (props) => {
     />
   ))
   return (
-    <div className="col-md-5 col-lg-4 col-xl-3 left-nav">
-      <div className={classNames.join(" ")} data-testid={classNames[1]}>
-        <ul>{navItems}</ul>
-      </div>
+    <div className={classNames.join(" ")} data-testid={classNames[1]}>
+      <ul>{navItems}</ul>
     </div>
   )
 }

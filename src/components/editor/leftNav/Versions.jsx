@@ -54,7 +54,7 @@ const Versions = ({ resource }) => {
   }, [resource.uri, resource.key, versions, dispatch])
 
   if (!versions) {
-    return <div className="col-sm-4 left-nav">Loading ...</div>
+    return <React.Fragment>Loading ...</React.Fragment>
   }
 
   const handleCompareFromClick = (event) => {
@@ -169,20 +169,18 @@ const Versions = ({ resource }) => {
 
   return (
     <React.Fragment>
-      <div className="col-sm-4 left-nav">
-        <div className="row">
-          <div className="col form-text">Compare from/to</div>
-        </div>
-        {rows}
-        <button
-          type="button"
-          className="btn btn-secondary btn-sm"
-          disabled={!canDiff}
-          onClick={handleCompareClick}
-        >
-          Compare
-        </button>
+      <div className="row">
+        <div className="col form-text">Compare from/to</div>
       </div>
+      {rows}
+      <button
+        type="button"
+        className="btn btn-secondary btn-sm"
+        disabled={!canDiff}
+        onClick={handleCompareClick}
+      >
+        Compare
+      </button>
       <VersionPreviewModal />
       <DiffModal />
     </React.Fragment>

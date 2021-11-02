@@ -17,13 +17,10 @@ const LeftNav = ({ resource }) => {
     return tabClasses.join(" ")
   }
 
-  if (!resource.uri) {
-    return <PanelResourceNav resource={resource} />
-  }
-
-  /* eslint-disable jsx-a11y/anchor-is-valid */
-  return (
-    <React.Fragment>
+  let pills = null
+  if (resource.uri)
+    /* eslint-disable jsx-a11y/anchor-is-valid */
+    pills = (
       <ul className="nav nav-pills">
         <li className="nav-item" key="nav">
           <a
@@ -44,8 +41,15 @@ const LeftNav = ({ resource }) => {
           </a>
         </li>
       </ul>
-      {currentTab === "nav" && <PanelResourceNav resource={resource} />}
-      {currentTab === "versions" && <Versions resource={resource} />}
+    )
+
+  return (
+    <React.Fragment>
+      {pills}
+      <div className="col-md-5 col-lg-4 col-xl-3 left-nav">
+        {currentTab === "nav" && <PanelResourceNav resource={resource} />}
+        {currentTab === "versions" && <Versions resource={resource} />}
+      </div>
     </React.Fragment>
   )
 }
