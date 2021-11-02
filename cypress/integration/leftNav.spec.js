@@ -75,7 +75,7 @@ describe("Left-nav test", () => {
   })
 
   it("Opens a resource template", () => {
-    cy.get('a[title="Create resource for Uber template1"]')
+    cy.get('button[aria-label="Create resource for Uber template1"]')
       .first()
       .scrollIntoView()
       .click({ force: true })

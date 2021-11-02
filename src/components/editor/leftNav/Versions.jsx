@@ -6,8 +6,6 @@ import PropTypes from "prop-types"
 import { fetchResourceVersions } from "sinopiaApi"
 import TimeAgo from "javascript-time-ago"
 import en from "javascript-time-ago/locale/en.json"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEye } from "@fortawesome/free-solid-svg-icons"
 import {
   loadResourceForDiff,
   loadResourceForPreview,
@@ -19,6 +17,7 @@ import VersionPreviewModal from "../preview/VersionPreviewModal"
 import DiffModal from "./DiffModal"
 import { selectVersions } from "selectors/resources"
 import _ from "lodash"
+import ViewButton from "../../buttons/ViewButton"
 
 const Versions = ({ resource }) => {
   const dispatch = useDispatch()
@@ -27,11 +26,13 @@ const Versions = ({ resource }) => {
   const [compareFrom, setCompareFrom] = useState()
   const [compareTo, setCompareTo] = useState("current")
   const [canDiff, setCanDiff] = useState(true)
+  const [isLoadingView, setLoadingView] = useState(false)
   TimeAgo.addLocale(en)
   const timeAgo = new TimeAgo()
 
   const handleView = (event, timestamp) => {
     event.preventDefault()
+    setLoadingView(timestamp)
     dispatch(
       loadResourceForPreview(
         resource.uri,
@@ -39,6 +40,7 @@ const Versions = ({ resource }) => {
         { version: timestamp }
       )
     ).then((result) => {
+      setLoadingView(false)
       if (result) dispatch(showModal("VersionPreviewModal"))
     })
   }
@@ -139,15 +141,12 @@ const Versions = ({ resource }) => {
       <div className="col-auto">
         {label}
         {id !== "current" && (
-          <button
-            className="btn btn-link"
-            title="View"
-            aria-label={`View version {versionIndex}`}
-            data-testid={`View version {versionIndex}`}
-            onClick={(event) => handleView(event, id)}
-          >
-            <FontAwesomeIcon icon={faEye} className="icon-sm" />
-          </button>
+          <ViewButton
+            label={`version {versionIndex}`}
+            handleClick={(event) => handleView(event, id)}
+            size="sm"
+            isLoading={isLoadingView === id}
+          />
         )}
       </div>
     </div>

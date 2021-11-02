@@ -45,7 +45,7 @@ describe("switching between multiple resources", () => {
     await screen.findByText("resourceTemplate:bf2:Title:Note")
 
     // open the template
-    fireEvent.click(await screen.findByTitle("Create resource for Title note"))
+    fireEvent.click(await screen.findByTestId("Create resource for Title note"))
     await screen.findByText("Title note", { selector: "h3" })
 
     // Open another template
@@ -56,7 +56,7 @@ describe("switching between multiple resources", () => {
     )
 
     fireEvent.click(
-      await screen.findByTitle("Create resource for Instance Title")
+      await screen.findByTestId("Create resource for Instance Title")
     )
     await screen.findByText("Instance Title", { selector: "h3" })
 

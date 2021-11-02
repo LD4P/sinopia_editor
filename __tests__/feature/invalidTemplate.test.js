@@ -1,5 +1,5 @@
 import { renderApp, createHistory, createStore } from "testUtils"
-import { act, fireEvent, screen } from "@testing-library/react"
+import { fireEvent, screen } from "@testing-library/react"
 import * as sinopiaSearch from "sinopiaSearch"
 import { featureSetup } from "featureUtils"
 
@@ -9,7 +9,6 @@ featureSetup({ noMockSinopiaApi: true })
 describe("an invalid resource template", () => {
   const history = createHistory(["/templates"])
   const store = createStore()
-  const promise = Promise.resolve()
 
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
     results: [
@@ -45,20 +44,14 @@ describe("an invalid resource template", () => {
     await fireEvent.change(input, { target: { value: "Not found" } })
 
     // try to open the template
-    const link = await screen.findByTitle(
+    const link = await screen.findByTestId(
       "Create resource for Not found value template refs"
     )
     fireEvent.click(link)
 
-    // wait for the resource template to be loaded into the list of recently used templates
-    await act(() => promise)
-    // wait for the error message to be loaded
-    await act(() => promise)
-
     // check that the dismissable error message appears
-    screen.findByText(
-      "The following referenced resource templates are not available in Sinopia:"
+    await screen.findByText(
+      /The following referenced resource templates are not available in Sinopia/
     )
-    screen.findByText("x", { selector: "button" })
   })
 })

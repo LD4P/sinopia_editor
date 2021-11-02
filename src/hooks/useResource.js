@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import {
   newResource,
@@ -18,7 +18,10 @@ import {
 } from "actions/resources"
 import { useHistory } from "react-router-dom"
 
-const useResource = (errorKey, errorRef) => {
+const useResource = (
+  errorKey,
+  { resourceTemplateId = null, resourceURI = null }
+) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const errors = useSelector((state) => selectErrors(state, errorKey))
@@ -27,52 +30,59 @@ const useResource = (errorKey, errorRef) => {
   const resourceUriMap = useSelector((state) => selectResourceUriMap(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
+  const [status, setStatus] = useState("ready")
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Forces a wait until the root resource has been set in state
     if (navigateEditor && resourceKey && _.isEmpty(errors)) {
       history.push("/editor")
-    } else if (!_.isEmpty(errors) && errorRef) {
-      window.scrollTo(0, errorRef.current.offsetTop)
     }
-  }, [navigateEditor, resourceKey, history, errors, errorRef])
+  }, [navigateEditor, resourceKey, history, errors])
 
-  const handleNew = (resourceTemplateId, event) => {
+  const handleNew = (event) => {
     if (event) event.preventDefault()
+    setStatus("loading new")
     dispatch(newResource(resourceTemplateId, errorKey)).then((result) => {
+      setStatus("ready")
       if (result) setNavigateEditor(true)
     })
   }
 
-  const handleCopy = (resourceURI, event) => {
+  const handleCopy = (event) => {
     if (event) event.preventDefault()
+    setStatus("loading copy")
     dispatch(
       loadResourceForEditor(resourceURI, errorKey, { asNewResource: true })
     ).then((result) => {
+      setStatus("ready")
       if (result) setNavigateEditor(true)
     })
   }
 
-  const handleEdit = (resourceURI, event) => {
+  const handleEdit = (event) => {
     if (event) event.preventDefault()
     // Check if already open
     if (resourceUriMap[resourceURI]) {
       dispatch(setCurrentResource(resourceUriMap[resourceURI]))
       setNavigateEditor(true)
     } else {
+      setStatus("loading edit")
       dispatch(loadResourceForEditor(resourceURI, errorKey)).then((result) => {
+        setStatus("ready")
         if (result) setNavigateEditor(true)
       })
     }
   }
 
-  const handleView = (resourceURI, event) => {
+  const handleView = (event) => {
     if (event) event.preventDefault()
     if (resourceUriMap[resourceURI]) {
       dispatch(setCurrentPreviewResource(resourceUriMap[resourceURI]))
       dispatch(showModal("PreviewModal"))
     } else {
+      setStatus("loading view")
       dispatch(loadResourceForPreview(resourceURI, errorKey)).then(() => {
+        setStatus("ready")
         dispatch(showModal("PreviewModal"))
       })
     }
@@ -83,6 +93,10 @@ const useResource = (errorKey, errorRef) => {
     handleCopy,
     handleEdit,
     handleView,
+    isLoadingNew: status === "loading new",
+    isLoadingCopy: status === "loading copy",
+    isLoadingEdit: status === "loading edit",
+    isLoadingView: status === "loading view",
   }
 }
 

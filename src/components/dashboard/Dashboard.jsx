@@ -14,7 +14,6 @@ import ResourceTemplateSearchResult from "../templates/ResourceTemplateSearchRes
 import SearchList from "./SearchList"
 import Alerts from "../Alerts"
 import _ from "lodash"
-import useResource from "hooks/useResource"
 import PreviewModal from "../editor/preview/PreviewModal"
 
 export const dashboardErrorKey = "dashboard"
@@ -29,7 +28,6 @@ const Dashboard = (props) => {
   const historicalResources = useSelector((state) =>
     selectHistoricalResources(state)
   )
-  const { handleNew, handleCopy, handleEdit } = useResource(dashboardErrorKey)
 
   const showWelcome =
     _.isEmpty(historicalTemplates) &&
@@ -40,7 +38,7 @@ const Dashboard = (props) => {
     <section id="dashboard">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <Alerts errorKey={dashboardErrorKey} />
-      <PreviewModal handleEdit={handleEdit} handleCopy={handleCopy} />
+      <PreviewModal errorKey={dashboardErrorKey} />
       {showWelcome && (
         <div>
           <h2>Welcome to Sinopia.</h2>
@@ -55,9 +53,7 @@ const Dashboard = (props) => {
           <h2>Recent templates</h2>
           <ResourceTemplateSearchResult
             results={historicalTemplates}
-            handleClick={handleNew}
-            handleEdit={handleEdit}
-            handleCopy={handleCopy}
+            errorKey={dashboardErrorKey}
           />
         </div>
       )}
