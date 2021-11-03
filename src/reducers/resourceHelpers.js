@@ -215,6 +215,37 @@ export const updateValueErrors = (state, valueKey) => {
       `Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/integer' but '${value.literal}' is not an integer`
     )
 
+  const xsdDateTimeRegex = new RegExp(
+    [
+      // "(-)?", // year can be negative but punting on this
+      "(\\d{4})", // year; cannot be 0000
+      "-",
+      "(\\d{2})", // month; must be 01-12
+      "-",
+      "(\\d{2})", // day; must be 01-31
+      "T",
+      "(\\d{2})", // hour; must be 00-23, with a weird exception for 24
+      ":",
+      "(\\d{2})", // minutes; must be 00-59
+      ":",
+      "(\\d{2}(\\.\\d+)?)", // seconds (00-59) incl optional decimal fraction
+      // "(Z|[+-](\\d{2}):(\\d{2}))", // time zone
+    ].join("")
+  )
+
+  const isValidXsdDateTime = (value) =>
+    xsdDateTimeRegex.test(value) && new Date(value) !== "Invalid Date"
+
+  if (
+    propertyTemplate.type === "literal" &&
+    propertyTemplate.validationDataType ===
+      "http://www.w3.org/2001/XMLSchema/dateTime" &&
+    !isValidXsdDateTime(value.literal)
+  )
+    errors.push(
+      `Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/dateTime' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'`
+    )
+
   return mergeValuePropsToNewState(state, valueKey, { errors })
 }
 

@@ -79,7 +79,7 @@ describe("new literal value with validationDataType of integer", () => {
             key: "DxGx7WMh3",
             property: { key: "JQEtq-vmq8" },
             literal: "8",
-            lang: "eng",
+            lang: null,
             uri: null,
             label: null,
             valueSubjectKey: null,
@@ -97,7 +97,7 @@ describe("new literal value with validationDataType of integer", () => {
         rootSubjectKey: "t9zVwg2zO",
         rootPropertyKey: "JQEtq-vmq8",
         literal: "8",
-        lang: "eng",
+        lang: null,
         uri: null,
         label: null,
         valueSubjectKey: null,
@@ -129,7 +129,7 @@ describe("new literal value with validationDataType of integer", () => {
             key: "DxGx7WMh3",
             property: { key: "JQEtq-vmq8" },
             literal: "abc",
-            lang: "eng",
+            lang: null,
             uri: null,
             label: null,
             valueSubjectKey: null,
@@ -147,13 +147,324 @@ describe("new literal value with validationDataType of integer", () => {
         rootSubjectKey: "t9zVwg2zO",
         rootPropertyKey: "JQEtq-vmq8",
         literal: "abc",
-        lang: "eng",
+        lang: null,
         uri: null,
         label: null,
         valueSubjectKey: null,
         validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
         errors: [
           "Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/integer' but 'abc' is not an integer",
+        ],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
+        "JQEtq-vmq8"
+      )
+    })
+  })
+})
+
+describe("new literal value with validationDataType of dateTime", () => {
+  describe("when value is dateTime without seconds", () => {
+    it("updates state", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasValidationDataTypeDateTime: true,
+      })
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "JQEtq-vmq8" },
+            literal: "2021-11-03T10:23:00",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+            validationDataType: "http://www.w3.org/2001/XMLSchema/dateTime",
+            errors: [],
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "2021-11-03T10:23:00",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/dateTime",
+        errors: [],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("DxGx7WMh3")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
+        "DxGx7WMh3"
+      )
+    })
+  })
+
+  describe("when value is dateTime with seconds", () => {
+    it("updates state", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasValidationDataTypeDateTime: true,
+      })
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "JQEtq-vmq8" },
+            literal: "2021-11-03T10:23:00.66",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+            validationDataType: "http://www.w3.org/2001/XMLSchema/dateTime",
+            errors: [],
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "2021-11-03T10:23:00.66",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/dateTime",
+        errors: [],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("DxGx7WMh3")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
+        "DxGx7WMh3"
+      )
+    })
+  })
+
+  describe("when value is NOT a valid dateTime", () => {
+    it("updates state including error", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasValidationDataTypeDateTime: true,
+      })
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "JQEtq-vmq8" },
+            literal: "this-is-not-a-dateTime",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+            validationDataType: "http://www.w3.org/2001/XMLSchema/dateTime",
+            errors: [],
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "this-is-not-a-dateTime",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/dateTime",
+        errors: [
+          "Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/dateTime' but 'this-is-not-a-dateTime' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'",
+        ],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
+        "JQEtq-vmq8"
+      )
+    })
+  })
+})
+
+describe("new literal value with validationDataType of dateTimeStamp", () => {
+  describe("when value is dateTimeStamp without seconds", () => {
+    it("updates state", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasValidationDataTypeDateTimeStamp: true,
+      })
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "JQEtq-vmq8" },
+            literal: "2021-11-03T10:23:00",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+            validationDataType:
+              "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
+            errors: [],
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "2021-11-03T10:23:00",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
+        errors: [],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("DxGx7WMh3")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
+        "DxGx7WMh3"
+      )
+    })
+  })
+
+  describe("when value is dateTimeStamp with seconds", () => {
+    it("updates state", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasValidationDataTypeDateTimeStamp: true,
+      })
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "JQEtq-vmq8" },
+            literal: "2021-11-03T10:23:00.66",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+            validationDataType:
+              "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
+            errors: [],
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "2021-11-03T10:23:00.66",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
+        errors: [],
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("DxGx7WMh3")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
+        "DxGx7WMh3"
+      )
+    })
+  })
+
+  describe("when value is NOT a valid dateTimeStamp", () => {
+    it("updates state including error", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasValidationDataTypeDateTimeStamp: true,
+      })
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            property: { key: "JQEtq-vmq8" },
+            literal: "this-is-not-a-datetimestamp",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+            validationDataType:
+              "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
+            errors: [],
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3).toStrictEqual({
+        key: "DxGx7WMh3",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "this-is-not-a-datetimestamp",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
+        errors: [
+          "Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/dateTimeStamp' but 'this-is-not-a-datetimestamp' is not a dateTimeStamp",
         ],
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")

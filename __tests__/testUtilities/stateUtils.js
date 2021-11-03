@@ -253,6 +253,18 @@ const buildResourceWithLiteral = (state, options) => {
     ].validationDataType = "http://www.w3.org/2001/XMLSchema/integer"
   }
 
+  if (options.hasValidationDataTypeDateTime) {
+    state.entities.propertyTemplates[
+      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+    ].validationDataType = "http://www.w3.org/2001/XMLSchema/dateTime"
+  }
+
+  if (options.hasValidationDataTypeDateTimeStamp) {
+    state.entities.propertyTemplates[
+      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+    ].validationDataType = "http://www.w3.org/2001/XMLSchema/dateTimeStamp"
+  }
+
   state.entities.subjects = {
     t9zVwg2zO: {
       key: "t9zVwg2zO",
