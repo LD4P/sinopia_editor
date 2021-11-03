@@ -1,72 +1,22 @@
 // import { updateValueErrors } from "reducers/resources"
 import Config from "Config"
-// import configureMockStore from "redux-mock-store"
-// import thunk from "redux-thunk"
 import { createState } from "stateUtils"
 import { createReducer } from "reducers/index"
-import {
-  // addProperty,
-  // addSubject,
-  addValue,
-  // clearResource,
-  // hideNavProperty,
-  // hideNavSubject,
-  // hideProperty,
-  // removeSubject,
-  // removeValue,
-  // saveResourceFinished,
-  // setBaseURL,
-  // setCurrentEditResource,
-  // setCurrentPreviewResource,
-  // setUnusedRDF,
-  // showNavProperty,
-  // showNavSubject,
-  // showProperty,
-  // loadResourceFinished,
-  // setResourceGroup,
-  // setValueOrder,
-  // clearResourceFromEditor,
-  // saveResourceFinishedEditor,
-  // updateValue,
-  // setCurrentDiffResources,
-  // setVersions,
-  // clearVersions,
-} from "reducers/resources"
+import { addValue, updateValue } from "reducers/resources"
 
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, "useResourceTemplateFixtures", "get").mockReturnValue(true)
 
-// const mockStore = configureMockStore([thunk])
-
 const reducers = {
-  // ADD_PROPERTY: addProperty,
-  // ADD_SUBJECT: addSubject,
   ADD_VALUE: addValue,
-  // CLEAR_RESOURCE: clearResource,
-  // CLEAR_VERSIONS: clearVersions,
-  // HIDE_NAV_PROPERTY: hideNavProperty,
-  // HIDE_NAV_SUBJECT: hideNavSubject,
-  // HIDE_PROPERTY: hideProperty,
-  // LOAD_RESOURCE_FINISHED: loadResourceFinished,
-  // REMOVE_SUBJECT: removeSubject,
-  // REMOVE_VALUE: removeValue,
-  // SAVE_RESOURCE_FINISHED: saveResourceFinished,
-  // SET_BASE_URL: setBaseURL,
-  // SET_CURRENT_DIFF_RESOURCES: setCurrentDiffResources,
-  // SET_RESOURCE_GROUP: setResourceGroup,
-  // SET_VALUE_ORDER: setValueOrder,
-  // SET_VERSIONS: setVersions,
-  // SHOW_NAV_PROPERTY: showNavProperty,
-  // SHOW_NAV_SUBJECT: showNavSubject,
-  // SHOW_PROPERTY: showProperty,
-  // UPDATE_VALUE: updateValue,
+  UPDATE_VALUE: updateValue,
 }
 
 const reducer = createReducer(reducers)
 
 describe("new literal value with validationDataType of integer", () => {
   describe("when value IS an integer", () => {
-    it("updates state", () => {
+    it("validates and updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
         hasIntegerValidation: true,
@@ -116,7 +66,7 @@ describe("new literal value with validationDataType of integer", () => {
   })
 
   describe("when value is NOT an integer", () => {
-    it("updates state including error", () => {
+    it("validates and updates state including error", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
         hasIntegerValidation: true,
@@ -168,9 +118,60 @@ describe("new literal value with validationDataType of integer", () => {
   })
 })
 
+describe("update literal value with validationDataType", () => {
+  describe("when value IS NOT an integer", () => {
+    it("validates and updates state", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasIntegerValidation: true,
+      })
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "CxGx7WMh2",
+          literal: "88.9",
+          lang: null,
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.CxGx7WMh2).toStrictEqual({
+        key: "CxGx7WMh2",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "88.9",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
+        errors: [
+          "Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/integer' but '88.9' is not an integer",
+        ],
+        component: "InputLiteralValue",
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("CxGx7WMh2")
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
+        "JQEtq-vmq8"
+      )
+
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+    })
+  })
+})
+
 describe("new literal value with validationDataType of dateTime", () => {
   describe("when value is dateTime without seconds", () => {
-    it("updates state", () => {
+    it("validates and updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
         hasDateTimeValidation: true,
@@ -220,7 +221,7 @@ describe("new literal value with validationDataType of dateTime", () => {
   })
 
   describe("when value is dateTime with seconds", () => {
-    it("updates state", () => {
+    it("validates and updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
         hasDateTimeValidation: true,
@@ -270,7 +271,7 @@ describe("new literal value with validationDataType of dateTime", () => {
   })
 
   describe("when value is NOT a valid dateTime", () => {
-    it("updates state including error", () => {
+    it("validates and updates state including error", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
         hasDateTimeValidation: true,
@@ -324,7 +325,7 @@ describe("new literal value with validationDataType of dateTime", () => {
 
 describe("new literal value with validationDataType of dateTimeStamp", () => {
   describe("when value is dateTimeStamp without seconds (GMT)", () => {
-    it("updates state", () => {
+    it("validates and updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
         hasDateTimeStampValidation: true,
@@ -375,7 +376,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
   })
 
   describe("when value is dateTimeStamp with seconds and offset time zone", () => {
-    it("updates state", () => {
+    it("validates and updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
         hasDateTimeStampValidation: true,
@@ -426,7 +427,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
   })
 
   describe("when value is NOT a valid dateTimeStamp", () => {
-    it("updates state including error", () => {
+    it("validates and updates state including error", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
         hasDateTimeStampValidation: true,

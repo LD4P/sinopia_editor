@@ -265,6 +265,16 @@ const buildResourceWithLiteral = (state, options) => {
     ].validationDataType = "http://www.w3.org/2001/XMLSchema/dateTimeStamp"
   }
 
+  const validationDataType = () => {
+    if (options.hasIntegerValidation)
+      return "http://www.w3.org/2001/XMLSchema/integer"
+    if (options.hasDateTimeValidation)
+      return "http://www.w3.org/2001/XMLSchema/dateTime"
+    if (options.hasDateTimeStampValidation)
+      return "http://www.w3.org/2001/XMLSchema/dateTimeStamp"
+    return null
+  }
+
   state.entities.subjects = {
     t9zVwg2zO: {
       key: "t9zVwg2zO",
@@ -315,6 +325,7 @@ const buildResourceWithLiteral = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
+      validationDataType: validationDataType(),
       errors: options.hasError ? ["Literal required"] : [],
       component: "InputLiteralValue",
     },

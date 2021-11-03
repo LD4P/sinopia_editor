@@ -177,7 +177,8 @@ const removeFromKeyArray = (obj, key, value) => {
   obj[key] = [...obj[key]].filter((checkValue) => checkValue !== value)
 }
 
-// refactor this into more than one function;  move into separate file
+// Shameless Green: getting literal validations working first.
+// TODO: refactor this into more than one function;  move into separate file
 //   look at how we validate templates ... maybe use that as a model??
 //   (see actionCreators/templateValidationHelpers)
 export const updateValueErrors = (state, valueKey) => {
@@ -205,11 +206,14 @@ export const updateValueErrors = (state, valueKey) => {
     if (value.uri && !isValidURI(value.uri)) errors.push("Invalid URI")
   }
 
+  // because parseInt('88.9') is 88 rather than NaN
+  const integerRegex = /^\d+$/
   if (
     propertyTemplate.type === "literal" &&
     propertyTemplate.validationDataType ===
       "http://www.w3.org/2001/XMLSchema/integer" &&
-    Number.isNaN(parseInt(value.literal, 10))
+    (!integerRegex.test(value.literal) ||
+      Number.isNaN(parseInt(value.literal, 10)))
   )
     errors.push(
       `Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/integer' but '${value.literal}' is not an integer`
