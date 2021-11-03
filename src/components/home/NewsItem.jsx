@@ -17,10 +17,11 @@ const NewsItem = () => (
       </i>
     </p>
     <ul>
-      <li>Context for Sinopia lookups</li>
-      <li>Collapsible left navigation</li>
-      <li>Search moved to top navigation</li>
-      <li>RDF preview viewable even without edit permission</li>
+      <li>Resource versions and display of differences</li>
+      <li>URLs for bookmarking and sharing resources</li>
+      <li>BIBFRAME relationships displayed</li>
+      <li>Editor layout improvements</li>
+      <li>Improved tooltips (remarks) for templates</li>
     </ul>
   </div>
 )
