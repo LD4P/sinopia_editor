@@ -22,10 +22,12 @@ import ResourcePreviewHeader from "./ResourcePreviewHeader"
 import useResource from "hooks/useResource"
 import CopyButton from "../../buttons/CopyButton"
 import EditButton from "../../buttons/EditButton"
+import useAlerts from "hooks/useAlerts"
 
-const PreviewModal = ({ errorKey }) => {
+const PreviewModal = () => {
   const dispatch = useDispatch()
   const { canEdit, canCreate } = usePermissions()
+  const errorKey = useAlerts()
   const show = useSelector((state) => isCurrentModal(state, "PreviewModal"))
 
   // Ensure there is a current resource before attempting to render a resource component
@@ -126,10 +128,6 @@ const PreviewModal = ({ errorKey }) => {
   )
 
   return <ModalWrapper modal={modal} />
-}
-
-PreviewModal.propTypes = {
-  errorKey: PropTypes.string.isRequired,
 }
 
 export default PreviewModal

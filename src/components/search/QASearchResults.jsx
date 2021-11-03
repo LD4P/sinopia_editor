@@ -4,8 +4,6 @@ import React, {
   useMemo,
   useState,
   useEffect,
-  useRef,
-  useLayoutEffect,
 } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { clearErrors, addError } from "actions/errors"
@@ -15,19 +13,14 @@ import { getTerm, getContextValues } from "utilities/QuestioningAuthority"
 import useRdfResource from "hooks/useRdfResource"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCopy } from "@fortawesome/free-solid-svg-icons"
-import Alerts from "../Alerts"
-import { selectErrors } from "selectors/errors"
 import _ from "lodash"
 import { datasetFromN3 } from "utilities/Utilities"
 import { selectSearchUri, selectSearchResults } from "selectors/search"
-
-// Errors from retrieving a resource from this page.
-export const searchQARetrieveErrorKey = "searchqaresource"
+import useAlerts from "hooks/useAlerts"
 
 const QASearchResults = () => {
   const dispatch = useDispatch()
-
-  const errorsRef = useRef(null)
+  const errorKey = useAlerts()
 
   const searchResults = useSelector((state) =>
     selectSearchResults(state, "resource")
@@ -43,7 +36,7 @@ const QASearchResults = () => {
     dataset,
     resourceURI,
     resourceTemplateId,
-    searchQARetrieveErrorKey
+    errorKey
   )
 
   // Retrieve N3 from QA
@@ -51,26 +44,19 @@ const QASearchResults = () => {
     if (!resourceURI || !searchUri) {
       return
     }
-    dispatch(clearErrors(searchQARetrieveErrorKey))
+    dispatch(clearErrors(errorKey))
     getTerm(resourceURI, resourceId, searchUri)
       .then((resourceN3) => {
         datasetFromN3(resourceN3)
           .then((newDataset) => setDataset(newDataset))
           .catch((err) =>
-            dispatch(addError(`Error parsing resource: ${err.message || err}`))
+            dispatch(addError(errorKey, `Error parsing resource: ${err.message || err}`))
           )
       })
       .catch((err) =>
-        dispatch(addError(`Error retrieving resource: ${err.message || err}`))
+        dispatch(addError(errorKey, `Error retrieving resource: ${err.message || err}`))
       )
   }, [dispatch, resourceId, resourceURI, searchUri])
-
-  const errors = useSelector((state) =>
-    selectErrors(state, searchQARetrieveErrorKey)
-  )
-  useLayoutEffect(() => {
-    if (!_.isEmpty(errors)) window.scrollTo(0, errorsRef.current.offsetTop)
-  }, [errors])
 
   // Transform the results into the format to be displayed in the table.
   const tableData = useMemo(
@@ -188,33 +174,28 @@ const QASearchResults = () => {
   }
 
   return (
-    <React.Fragment>
-      <div ref={errorsRef}>
-        <Alerts errorKey={searchQARetrieveErrorKey} />
+    <div id="search-results" className="row">
+      <div className="col">
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th className="search-header" style={{ width: "40%" }}>
+                Label / ID
+              </th>
+              <th className="search-header" style={{ width: "25%" }}>
+                Class
+              </th>
+              <th className="search-header" style={{ width: "25%" }}>
+                Context
+              </th>
+              <th className="search-header" style={{ width: "10%" }} />
+            </tr>
+          </thead>
+          <tbody>{generateRows()}</tbody>
+        </table>
       </div>
-      <div id="search-results" className="row">
-        <div className="col">
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th className="search-header" style={{ width: "40%" }}>
-                  Label / ID
-                </th>
-                <th className="search-header" style={{ width: "25%" }}>
-                  Class
-                </th>
-                <th className="search-header" style={{ width: "25%" }}>
-                  Context
-                </th>
-                <th className="search-header" style={{ width: "10%" }} />
-              </tr>
-            </thead>
-            <tbody>{generateRows()}</tbody>
-          </table>
-        </div>
-        <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
-      </div>
-    </React.Fragment>
+      <ResourceTemplateChoiceModal choose={chooseResourceTemplate} />
+    </div>
   )
 }
 

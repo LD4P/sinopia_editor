@@ -11,15 +11,12 @@ import useRdfResource from "hooks/useRdfResource"
 import { clearErrors, addError } from "actions/errors"
 import { showModal } from "actions/modals"
 import ResourceTemplateChoiceModal from "../ResourceTemplateChoiceModal"
-import Alerts from "../Alerts"
-
 import _ from "lodash"
-
-// Errors from retrieving a resource from this page.
-export const loadResourceByRDFErrorKey = "loadrdfresource"
+import useAlerts from "hooks/useAlerts"
 
 const LoadByRDFForm = () => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
 
   const [baseURI, setBaseURI] = useState("")
   const [rdf, setRdf] = useState("")
@@ -29,7 +26,7 @@ const LoadByRDFForm = () => {
     dataset,
     baseURI,
     resourceTemplateId,
-    loadResourceByRDFErrorKey
+    errorKey
   )
 
   // Passed into resource template chooser to allow it to pass back selected resource template id.
@@ -41,11 +38,11 @@ const LoadByRDFForm = () => {
     // Clear resource template id so that useRdfResource doesn't trigger with previous resource template id.
     setResourceTemplateId(null)
     // Clear errors
-    if (!dataset) dispatch(clearErrors(loadResourceByRDFErrorKey))
+    if (!dataset) dispatch(clearErrors(errorKey))
   }, [dispatch, dataset])
 
   const changeRdf = (event) => {
-    dispatch(clearErrors(loadResourceByRDFErrorKey))
+    dispatch(clearErrors(errorKey))
     setRdf(event.target.value)
     // This will get set on submit.
     setDataset(false)
@@ -55,14 +52,14 @@ const LoadByRDFForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     setDataset(false)
-    dispatch(clearErrors(loadResourceByRDFErrorKey))
+    dispatch(clearErrors(errorKey))
     // Try parsing
     datasetFromRdf(rdf)
       .then((newDataset) => {
         // Determine if base URI must be provided.
         if (!hasQuadsForRootResourceTemplateId(baseURI, newDataset)) {
           dispatch(
-            addError(loadResourceByRDFErrorKey, "Base URI must be provided.")
+            addError(errorKey, "Base URI must be provided.")
           )
           return
         }
@@ -80,7 +77,7 @@ const LoadByRDFForm = () => {
         setDataset(newDataset)
       })
       .catch((err) => {
-        dispatch(addError(loadResourceByRDFErrorKey, `Error parsing: ${err}`))
+        dispatch(addError(errorKey, `Error parsing: ${err}`))
       })
   }
 
@@ -96,8 +93,6 @@ const LoadByRDFForm = () => {
   return (
     <div>
       <h3>Load RDF into Editor</h3>
-      <Alerts errorKey={loadResourceByRDFErrorKey} />
-
       <form id="loadForm" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="resourceTextArea">

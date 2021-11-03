@@ -4,9 +4,10 @@ import React, { useMemo } from "react"
 import PropTypes from "prop-types"
 import Header from "../Header"
 import { useSelector } from "react-redux"
-import Alerts from "../Alerts"
 import Config from "Config"
 import { selectExports } from "selectors/exports"
+import Alert from "../Alert"
+import AlertsProvider from "../AlertsProvider"
 
 export const exportsErrorKey = "exports"
 
@@ -31,16 +32,18 @@ const Exports = (props) => {
   ))
 
   return (
-    <div id="exports">
-      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <h3>Exports</h3>
-      <Alerts errorKey={exportsErrorKey} />
-      <p className="text-muted">
-        Exports are regenerated weekly. Each zip file contains separate files
-        per record (as JSON-LD).
-      </p>
-      <ul className="list-unstyled">{exportFileList}</ul>
-    </div>
+    <AlertsProvider value={exportsErrorKey}>
+      <div id="exports">
+        <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
+        <Alert />
+        <h3>Exports</h3>
+        <p className="text-muted">
+          Exports are regenerated weekly. Each zip file contains separate files
+          per record (as JSON-LD).
+        </p>
+        <ul className="list-unstyled">{exportFileList}</ul>
+      </div>
+    </AlertsProvider>
   )
 }
 

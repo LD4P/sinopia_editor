@@ -4,12 +4,19 @@ import React from "react"
 import PropTypes from "prop-types"
 import Header from "../Header"
 import TemplateSearch from "./TemplateSearch"
+import Alert from "../Alert"
+import AlertsProvider from "../AlertsProvider"
+
+export const templateErrorKey = "template"
 
 const ResourceTemplate = (props) => (
-  <section id="resourceTemplate">
-    <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-    <TemplateSearch history={props.history} />
-  </section>
+  <AlertsProvider value={templateErrorKey}>
+    <section id="resourceTemplate">
+      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
+      <Alert />
+      <TemplateSearch history={props.history} />
+    </section>
+  </AlertsProvider>
 )
 
 ResourceTemplate.propTypes = {

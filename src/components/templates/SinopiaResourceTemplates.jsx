@@ -8,9 +8,6 @@ import ResourceTemplateSearchResult from "./ResourceTemplateSearchResult"
 import { selectHistoricalTemplates } from "selectors/history"
 import { selectSearchResults } from "selectors/search"
 
-// Errors from loading a new resource from this page.
-export const newResourceErrorKey = "newresource"
-
 /**
  * This is the list view of all the templates
  */
@@ -44,7 +41,6 @@ const SinopiaResourceTemplates = () => {
         >
           <ResourceTemplateSearchResult
             results={historicalTemplates}
-            errorKey={newResourceErrorKey}
           />
         </div>
       </div>
@@ -53,7 +49,6 @@ const SinopiaResourceTemplates = () => {
 
   return (
     <section id="resource-templates">
-      <Alerts errorKey={newResourceErrorKey} />
       {history}
       {_.isEmpty(searchResults) ? (
         <div className="alert alert-warning" id="no-rt-warning">
@@ -62,7 +57,6 @@ const SinopiaResourceTemplates = () => {
       ) : (
         <ResourceTemplateSearchResult
           results={searchResults}
-          errorKey={newResourceErrorKey}
         />
       )}
     </section>

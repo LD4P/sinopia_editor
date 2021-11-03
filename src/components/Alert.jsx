@@ -1,32 +1,29 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import PropTypes from "prop-types"
 import React from "react"
+import { useSelector } from "react-redux"
+import {selectErrors} from "selectors/errors"
+import useAlerts from "hooks/useAlerts"
 
-const Alert = (props) => {
-  if (!props.text) {
-    return null
-  }
+const Alert = () => {
+  const errorKey = useAlerts()
+
+  console.log('alert', errorKey)
+
+  const errors = useSelector((state) => selectErrors(state, errorKey))
+  if (_.isEmpty(errors)) return null
+
+  const errorText = errors.map((error) => <p key={error}>{error}</p>)
 
   return (
     <div className="row">
       <div className="col" style={{ marginTop: "10px" }}>
-        <div className="alert alert-danger alert-dismissible" role="alert">
-          {props.text}
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
+        <div className="alert alert-danger" role="alert">
+          {errorText}
         </div>
       </div>
     </div>
   )
-}
-
-Alert.propTypes = {
-  text: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 }
 
 export default Alert

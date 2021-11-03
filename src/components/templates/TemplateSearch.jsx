@@ -20,6 +20,7 @@ import {
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
+import { templateErrorKey } from "./ResourceTemplate"
 
 const TemplateSearch = (props) => {
   const dispatch = useDispatch()
@@ -27,7 +28,7 @@ const TemplateSearch = (props) => {
   // search, but causes result to be ignored.
   const tokens = useRef([])
 
-  const error = useSelector((state) => selectSearchError(state, "template"))
+  const error = useSelector((state) => selectSearchError(state, templateErrorKey))
   const lastQueryString = useSelector((state) =>
     selectSearchQuery(state, "template")
   )
@@ -88,7 +89,6 @@ const TemplateSearch = (props) => {
   return (
     <React.Fragment>
       <div id="search">
-        <Alert text={error} />
         <div className="row">
           <div className="col-md-10">
             <form

@@ -7,11 +7,13 @@ import ViewButton from "../buttons/ViewButton"
 import EditButton from "../buttons/EditButton"
 import CopyButton from "../buttons/CopyButton"
 import useResource from "../../hooks/useResource"
+import useAlerts from "hooks/useAlerts"
 
 /**
  * Generates HTML row of all search results
  */
-const SearchResultRow = ({ row, errorKey, canEdit, canCreate, groupMap }) => {
+const SearchResultRow = ({ row, canEdit, canCreate, groupMap }) => {
+  const errorKey = useAlerts()
   const {
     handleView,
     handleEdit,
@@ -20,7 +22,7 @@ const SearchResultRow = ({ row, errorKey, canEdit, canCreate, groupMap }) => {
     isLoadingEdit,
     isLoadingCopy,
   } = useResource(errorKey, { resourceURI: row.uri })
-
+  
   return (
     <tr key={row.uri}>
       <td>
@@ -72,7 +74,6 @@ const SearchResultRow = ({ row, errorKey, canEdit, canCreate, groupMap }) => {
 
 SearchResultRow.propTypes = {
   row: PropTypes.object.isRequired,
-  errorKey: PropTypes.string.isRequired,
   canEdit: PropTypes.bool.isRequired,
   canCreate: PropTypes.bool.isRequired,
   groupMap: PropTypes.object.isRequired,

@@ -30,7 +30,7 @@ import {
   dispatchResourceForPreview,
   dispatchResourceForEditor,
 } from "actionCreators/resources"
-import { newResourceErrorKey } from "./templates/SinopiaResourceTemplates"
+import { templateErrorKey } from "./templates/ResourceTemplate"
 import usePermissions from "hooks/usePermissions"
 import { showModal } from "actions/modals"
 
@@ -67,7 +67,7 @@ const App = (props) => {
           dispatch(
             newResourceCreator(
               editorTemplateMatch.params.templateId,
-              newResourceErrorKey
+              templateErrorKey
             )
           ).then((result) => {
             if (!result) history.push("/templates")

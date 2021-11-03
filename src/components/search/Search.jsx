@@ -18,6 +18,10 @@ import {
 } from "selectors/search"
 import { sinopiaSearchUri } from "utilities/authorityConfig"
 import useSearch from "hooks/useSearch"
+import AlertsProvider from "../AlertsProvider"
+
+
+const searchErrorKey = "resourcesearch"
 
 const Search = (props) => {
   const { fetchSearchResults } = useSearch()
@@ -25,7 +29,7 @@ const Search = (props) => {
   const searchOptions = useSelector((state) =>
     selectSearchOptions(state, "resource")
   )
-  const error = useSelector((state) => selectSearchError(state, "resource"))
+  const error = useSelector((state) => selectSearchError(state, searchErrorKey))
   const uri = useSelector((state) => selectSearchUri(state, "resource"))
   const queryString = useSelector((state) =>
     selectSearchQuery(state, "resource")
@@ -39,24 +43,24 @@ const Search = (props) => {
   }
 
   return (
-    <div id="search">
-      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <Alert
-        text={error && `An error occurred while searching: ${error.toString()}`}
-      />
-      {uri === sinopiaSearchUri ? (
-        <SinopiaSearchResults />
-      ) : (
-        <QASearchResults />
-      )}
-      <SearchResultsPaging
-        resultsPerPage={searchOptions.resultsPerPage}
-        startOfRange={searchOptions.startOfRange}
-        totalResults={totalResults}
-        changePage={changeSearchPage}
-      />
-      <SearchResultsMessage />
-    </div>
+    <AlertsProvider value={searchErrorKey}>
+      <div id="search">
+        <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
+        <Alert />
+        {uri === sinopiaSearchUri ? (
+          <SinopiaSearchResults />
+        ) : (
+          <QASearchResults />
+        )}
+        <SearchResultsPaging
+          resultsPerPage={searchOptions.resultsPerPage}
+          startOfRange={searchOptions.startOfRange}
+          totalResults={totalResults}
+          changePage={changeSearchPage}
+        />
+        <SearchResultsMessage />
+      </div>
+    </AlertsProvider>
   )
 }
 
