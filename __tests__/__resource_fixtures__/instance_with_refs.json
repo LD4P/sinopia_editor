@@ -1,0 +1,33 @@
+[
+  {
+    "@id": "http://localhost:3000/resource/a5c5f4c0-e7cd-4ca5-a20f-2a37fe1080d5",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "resourceTemplate:bf2:Instance"
+      }
+    ],
+    "@type": [
+      "http://id.loc.gov/ontologies/bibframe/Instance"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Instance1",
+        "@language": "eng"
+      }
+    ],
+    "http://id.loc.gov/ontologies/bibframe/instanceOf": [
+      {
+        "@id": "http://localhost:3000/resource/f6ee6410-5206-492b-8e48-3b6333010c33"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/resource/f6ee6410-5206-492b-8e48-3b6333010c33",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Work1",
+        "@language": "eng"
+      }
+    ]
+  }
+]

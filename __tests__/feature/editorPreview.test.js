@@ -34,6 +34,7 @@ describe("preview within editor", () => {
 
     // Wait for RDF Preview Modal and selects turtle Format
     await screen.findByText(/Preview/)
+    screen.getByText("Turtle")
     fireEvent.change(screen.getByTestId("Format Selection"), {
       target: { value: "turtle" },
     })
@@ -43,9 +44,13 @@ describe("preview within editor", () => {
     expect(rdfDisplay.textContent).toContain(rdf)
 
     // Now test for form view
+    screen.getByText("Form view")
     fireEvent.change(screen.getByTestId("Format Selection"), {
       target: { value: "form" },
     })
     screen.getByText("Default literal1 [No language specified]")
+
+    // Verify that does not have relationships view
+    expect(screen.queryByText("Relationships")).not.toBeInTheDocument()
   }, 15000)
 })

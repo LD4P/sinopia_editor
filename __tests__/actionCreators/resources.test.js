@@ -23,6 +23,7 @@ import { datasetFromN3 } from "utilities/Utilities"
 import { nanoid } from "nanoid"
 import _ from "lodash"
 import FakeTimers from "@sinonjs/fake-timers"
+import * as relationshipActionCreators from "actionCreators/relationships"
 
 // This won't be required after Jest 27
 jest.useFakeTimers("modern")
@@ -399,6 +400,7 @@ describe("loadResource", () => {
     sinopiaSearch.getSearchResultsByUris = jest
       .fn()
       .mockResolvedValue({ results: [] })
+    jest.spyOn(relationshipActionCreators, "loadRelationships")
 
     it("dispatches actions", async () => {
       const uri =
@@ -435,6 +437,13 @@ describe("loadResource", () => {
         "resource",
         "fa69abf421c862f9a62aa2192c61caa8",
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      )
+
+      // loadRelationships is invoked async and do not wait for results
+      expect(relationshipActionCreators.loadRelationships).toHaveBeenCalledWith(
+        "abc0",
+        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+        "testerrorkey"
       )
     })
   })

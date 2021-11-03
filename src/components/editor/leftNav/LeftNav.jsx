@@ -1,10 +1,16 @@
 import React, { useState } from "react"
+import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import PanelResourceNav from "./PanelResourceNav"
 import Versions from "./Versions"
+import Relationships from "./Relationships"
+import { hasRelationships as hasRelationshipsSelector } from "selectors/relationships"
 
 const LeftNav = ({ resource }) => {
   const [currentTab, setCurrentTab] = useState("nav")
+  const hasRelationships = useSelector((state) =>
+    hasRelationshipsSelector(state, resource.key)
+  )
 
   const handleTabClick = (event, tab) => {
     event.preventDefault()
@@ -31,15 +37,28 @@ const LeftNav = ({ resource }) => {
             Navigation
           </a>
         </li>
-        <li className="nav-item" key="versions">
-          <a
-            className={tabClasses("versions")}
-            href="#"
-            onClick={(event) => handleTabClick(event, "versions")}
-          >
-            Versions
-          </a>
-        </li>
+        {resource.uri && (
+          <li className="nav-item" key="versions">
+            <a
+              className={tabClasses("versions")}
+              href="#"
+              onClick={(event) => handleTabClick(event, "versions")}
+            >
+              Versions
+            </a>
+          </li>
+        )}
+        {hasRelationships && (
+          <li className="nav-item" key="relationships">
+            <a
+              className={tabClasses("relationships")}
+              href="#"
+              onClick={(event) => handleTabClick(event, "relationships")}
+            >
+              Relationships
+            </a>
+          </li>
+        )}
       </ul>
     )
 
@@ -49,6 +68,9 @@ const LeftNav = ({ resource }) => {
       <div className="col-md-5 col-lg-4 col-xl-3 left-nav">
         {currentTab === "nav" && <PanelResourceNav resource={resource} />}
         {currentTab === "versions" && <Versions resource={resource} />}
+        {currentTab === "relationships" && (
+          <Relationships resourceKey={resource.key} />
+        )}
       </div>
     </React.Fragment>
   )

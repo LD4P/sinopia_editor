@@ -186,12 +186,26 @@ describe("searching and preview a resource", () => {
 
   describe("for a resource that is a BF:instance", () => {
     const uri =
-      "http://localhost:3000/resource/9c5bd9f5-1804-45bd-99ed-b6e3774c896e"
+      "http://localhost:3000/resource/a5c5f4c0-e7cd-4ca5-a20f-2a37fe1080d5"
     beforeEach(() => {
       // Setup search component to return known resource
       jest
         .spyOn(sinopiaSearch, "getSearchResultsWithFacets")
         .mockResolvedValue(resourceSearchResults(uri))
+
+      jest.spyOn(sinopiaSearch, "getSearchResultsByUris").mockResolvedValue({
+        totalHits: 1,
+        results: [
+          {
+            uri: "http://localhost:3000/resource/f6ee6410-5206-492b-8e48-3b6333010c33",
+            label: "Work1",
+            modified: "2021-10-30T18:06:01.265Z",
+            type: ["http://id.loc.gov/ontologies/bibframe/Work"],
+            group: "stanford",
+            editGroups: [],
+          },
+        ],
+      })
     })
 
     it("renders a modal without edit controls but with MARC button and Export button", async () => {
@@ -230,6 +244,13 @@ describe("searching and preview a resource", () => {
 
       screen.getByText("Request MARC", { selector: "button" })
       screen.getByText(/Export to/, { selector: "button" })
+
+      // Switch to relationships
+      fireEvent.change(screen.getByLabelText(/Format/), {
+        target: { value: "relationships" },
+      })
+      await screen.findByText("Works", { selector: "h5" })
+      screen.getByText("Work1", { selector: "li" })
     }, 10000)
   })
 })
