@@ -1,7 +1,7 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import PropTypes from "prop-types"
 import React from "react"
+import PropTypes from "prop-types"
 
 const Alert = (props) => {
   if (!props.text) {
