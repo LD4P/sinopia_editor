@@ -48,7 +48,9 @@ describe("<Search />", () => {
       },
     })
     const client = {
-      apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } },
+      apis: {
+        SearchQuery: { GET_nonldSearchWithSubauthority: mockActionFunction },
+      },
     }
     Swagger.mockResolvedValue(client)
 
@@ -61,10 +63,10 @@ describe("<Search />", () => {
 
     // Select an authority
     fireEvent.change(screen.getByDisplayValue("Sinopia"), {
-      target: { value: "urn:ld4p:qa:sharevde_stanford_ld4l_cache:all" },
+      target: { value: "urn:discogs:master" },
     })
 
-    screen.getByText("SHAREVDE STANFORD")
+    screen.getByText("DISCOGS Releases")
 
     // Enter a query
     fireEvent.change(screen.getByLabelText("Search"), {
