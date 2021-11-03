@@ -216,7 +216,7 @@ export const updateValueErrors = (state, valueKey) => {
       Number.isNaN(parseInt(value.literal, 10)))
   )
     errors.push(
-      `Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/integer' but '${value.literal}' is not an integer`
+      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/integer' but '${value.literal}' is not an integer.`
     )
 
   // this regex not restrictive enough, but with new Date instantiation as part
@@ -234,7 +234,7 @@ export const updateValueErrors = (state, valueKey) => {
     !isValidXsdDateTime(value.literal)
   )
     errors.push(
-      `Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/dateTime' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'`
+      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTime' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'.`
     )
 
   // this regex not restrictive enough, but with new Date instantiation as part
@@ -253,7 +253,7 @@ export const updateValueErrors = (state, valueKey) => {
     !isValidXsdDateTimeStamp(value.literal)
   )
     errors.push(
-      `Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/dateTimeStamp' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'`
+      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTimeStamp' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'.`
     )
 
   return mergeValuePropsToNewState(state, valueKey, { errors })

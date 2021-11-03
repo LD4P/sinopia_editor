@@ -103,7 +103,7 @@ describe("new literal value with validationDataType of integer", () => {
         valueSubjectKey: null,
         validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
         errors: [
-          "Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/integer' but 'abc' is not an integer",
+          "Expected datatype is 'http://www.w3.org/2001/XMLSchema/integer' but 'abc' is not an integer.",
         ],
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
@@ -149,7 +149,7 @@ describe("update literal value with validationDataType", () => {
         valueSubjectKey: null,
         validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
         errors: [
-          "Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/integer' but '88.9' is not an integer",
+          "Expected datatype is 'http://www.w3.org/2001/XMLSchema/integer' but '88.9' is not an integer.",
         ],
         component: "InputLiteralValue",
       })
@@ -308,7 +308,7 @@ describe("new literal value with validationDataType of dateTime", () => {
         valueSubjectKey: null,
         validationDataType: "http://www.w3.org/2001/XMLSchema/dateTime",
         errors: [
-          "Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/dateTime' but '2021-11-03T10:23:00Z-07:00' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'",
+          "Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTime' but '2021-11-03T10:23:00Z-07:00' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'.",
         ],
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
@@ -465,7 +465,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
         valueSubjectKey: null,
         validationDataType: "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
         errors: [
-          "Literal validationDataType is 'http://www.w3.org/2001/XMLSchema/dateTimeStamp' but '2021-11-03T10:23:00' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'",
+          "Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTimeStamp' but '2021-11-03T10:23:00' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'.",
         ],
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
