@@ -69,7 +69,7 @@ describe("new literal value with validationDataType of integer", () => {
     it("updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
-        hasValidationDataTypeInteger: true,
+        hasIntegerValidation: true,
       })
 
       const action = {
@@ -119,7 +119,7 @@ describe("new literal value with validationDataType of integer", () => {
     it("updates state including error", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
-        hasValidationDataTypeInteger: true,
+        hasIntegerValidation: true,
       })
 
       const action = {
@@ -173,7 +173,7 @@ describe("new literal value with validationDataType of dateTime", () => {
     it("updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
-        hasValidationDataTypeDateTime: true,
+        hasDateTimeValidation: true,
       })
 
       const action = {
@@ -223,7 +223,7 @@ describe("new literal value with validationDataType of dateTime", () => {
     it("updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
-        hasValidationDataTypeDateTime: true,
+        hasDateTimeValidation: true,
       })
 
       const action = {
@@ -273,7 +273,7 @@ describe("new literal value with validationDataType of dateTime", () => {
     it("updates state including error", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
-        hasValidationDataTypeDateTime: true,
+        hasDateTimeValidation: true,
       })
 
       const action = {
@@ -327,7 +327,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
     it("updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
-        hasValidationDataTypeDateTimeStamp: true,
+        hasDateTimeStampValidation: true,
       })
 
       const action = {
@@ -378,7 +378,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
     it("updates state", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
-        hasValidationDataTypeDateTimeStamp: true,
+        hasDateTimeStampValidation: true,
       })
 
       const action = {
@@ -429,7 +429,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
     it("updates state including error", () => {
       const oldState = createState({
         hasResourceWithLiteral: true,
-        hasValidationDataTypeDateTimeStamp: true,
+        hasDateTimeStampValidation: true,
       })
 
       const action = {
