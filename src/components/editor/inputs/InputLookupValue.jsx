@@ -15,6 +15,7 @@ import Lookup from "./Lookup"
 import { defaultLanguageId } from "utilities/Utilities"
 import ResourceList from "../property/ResourceList"
 import RemoveButton from "./RemoveButton"
+import ValuePropertyURI from "../property/ValuePropertyURI"
 import _ from "lodash"
 
 const InputLookupValue = ({
@@ -120,6 +121,7 @@ const InputLookupValue = ({
 
   return (
     <React.Fragment>
+      <ValuePropertyURI propertyTemplate={propertyTemplate} value={value} />
       <div className="row my-2">
         <div className="col">
           <div className="form-label text-end">

@@ -10,6 +10,7 @@ import {
 import {
   mergeSubjectPropsToNewState,
   mergePropertyPropsToNewState,
+  mergeValuePropsToNewState,
   replaceSubjectInNewState,
   replacePropertyInNewState,
   replaceValueInNewState,
@@ -249,11 +250,7 @@ const addPropertyToNewState = (state, property) => {
   // Remove existing values
   const oldValueKeys = oldProperty?.valueKeys || []
   oldValueKeys.forEach((valueKey) => {
-    newState = removeBibframeRefs(
-      newState,
-      newState.values[valueKey],
-      oldProperty
-    )
+    newState = removeBibframeRefs(newState, newState.values[valueKey])
     newState = clearValueFromNewState(newState, valueKey)
   })
 
@@ -413,7 +410,7 @@ export const removeValue = (state, action) => {
 
   newState = removeFromDescUriOrLiteralValueKeys(newState, value.key)
 
-  newState = removeBibframeRefs(newState, value, property)
+  newState = removeBibframeRefs(newState, value)
 
   // Recursively remove value
   newState = clearValueFromNewState(newState, value.key)
@@ -512,28 +509,28 @@ const addFirstValue = (state, propertyKey) => {
     case "InputLiteral":
       return addValueToNewState(
         state,
-        newBlankLiteralValue(property),
+        newBlankLiteralValue(property, propertyTemplate.defaultUri),
         null,
         propertyTemplate.required
       )
     case "InputURI":
       return addValueToNewState(
         state,
-        newBlankUriValue(property),
+        newBlankUriValue(property, propertyTemplate.defaultUri),
         null,
         propertyTemplate.required
       )
     case "InputLookup":
       return addValueToNewState(
         state,
-        newBlankLookupValue(property),
+        newBlankLookupValue(property, propertyTemplate.defaultUri),
         null,
         propertyTemplate.required
       )
     case "InputList":
       return addValueToNewState(
         state,
-        newBlankListValue(property),
+        newBlankListValue(property, propertyTemplate.defaultUri),
         null,
         propertyTemplate.required
       )
@@ -561,4 +558,14 @@ export const clearVersions = (state, action) => {
     ...state,
     versions: newVersions,
   }
+}
+
+export const setValuePropertyURI = (state, action) => {
+  const { valueKey, uri } = action.payload
+  return mergeValuePropsToNewState(state, valueKey, { propertyUri: uri })
+}
+
+export const setPropertyPropertyURI = (state, action) => {
+  const { propertyKey, uri } = action.payload
+  return mergePropertyPropsToNewState(state, propertyKey, { propertyUri: uri })
 }

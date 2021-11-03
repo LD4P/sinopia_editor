@@ -34,7 +34,7 @@ export default class TemplatesBuilder {
         this.resourceTerm,
         "http://sinopia.io/vocabulary/hasResourceId"
       ),
-      uri: this.uri,
+      uri: _.isEmpty(this.uri) ? null : this.uri,
       id: this.valueFor(
         this.resourceTerm,
         "http://sinopia.io/vocabulary/hasResourceId"
@@ -146,10 +146,15 @@ export default class TemplatesBuilder {
   }
 
   newBasePropertyTemplate(propertyTerm) {
-    const propertyUri = this.valueFor(
+    const propertyUriTerms = this.objectsFor(
       propertyTerm,
       "http://sinopia.io/vocabulary/hasPropertyUri"
     )
+    const propertyUrisMap = {}
+    propertyUriTerms.forEach((propertyUriTerm) => {
+      const label = this.valueFor(propertyUriTerm, rdfsLabel)
+      propertyUrisMap[propertyUriTerm.value] = label || propertyUriTerm.value
+    })
     const propertyAttrValues = this.valuesFor(
       propertyTerm,
       "http://sinopia.io/vocabulary/hasPropertyAttribute"
@@ -164,10 +169,13 @@ export default class TemplatesBuilder {
 
     return {
       // This key will be unique for resource templates, property templates.
-      key: `${this.subjectTemplate.key} > ${propertyUri}`,
+      key: `${this.subjectTemplate.key} > ${Object.keys(propertyUrisMap)
+        .sort()
+        .join(", ")}`,
       subjectTemplateKey: this.subjectTemplate.key,
       label: this.valueFor(propertyTerm, rdfsLabel),
-      uri: propertyUri,
+      uris: propertyUrisMap,
+      defaultUri: _.first(Object.keys(propertyUrisMap)),
       required: propertyAttrValues.includes(
         "http://sinopia.io/vocabulary/propertyAttribute/required"
       ),

@@ -3,7 +3,6 @@
 import React from "react"
 import { render } from "@testing-library/react"
 import { createState } from "stateUtils"
-import { selectSubjectAndPropertyTemplates } from "selectors/templates"
 import configureMockStore from "redux-mock-store"
 import PropertyLabelInfo from "components/editor/property/PropertyLabelInfo"
 import { Provider } from "react-redux"
@@ -14,17 +13,17 @@ describe("<PropertyLabelInfo />", () => {
   it("displays remark only when no remark URL is present", () => {
     const state = createState({ hasResourceWithNestedResource: true })
     const store = mockStore(state)
-    const propertyTemplate = selectSubjectAndPropertyTemplates(
-      state,
-      "resourceTemplate:testing:uber1"
-    )
+    const propertyTemplate =
+      state.entities.propertyTemplates[
+        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1"
+      ]
     const label = render(
       <Provider store={store}>
         <PropertyLabelInfo propertyTemplate={propertyTemplate} />
       </Provider>
     )
     expect(label.getByRole("link").getAttribute("data-bs-content")).toBe(
-      "Template for testing purposes."
+      "Nested, repeatable resource template."
     )
     expect(label.getAllByRole("link").length).toBe(1) // only one link present, the remark
   })
@@ -32,10 +31,11 @@ describe("<PropertyLabelInfo />", () => {
   it("displays remark URL only when no remark is present", () => {
     const state = createState({ hasResourceWithTwoNestedResources: true })
     const store = mockStore(state)
-    const propertyTemplate = selectSubjectAndPropertyTemplates(
-      state,
-      "resourceTemplate:testing:uber1"
-    )
+    const propertyTemplate =
+      state.entities.propertyTemplates[
+        "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1"
+      ]
+
     const label = render(
       <Provider store={store}>
         <PropertyLabelInfo propertyTemplate={propertyTemplate} />
@@ -50,10 +50,11 @@ describe("<PropertyLabelInfo />", () => {
   it("displays both remark and remark URL when both are present", () => {
     const state = createState({ hasResourceWithTwoNestedResources: true })
     const store = mockStore(state)
-    const propertyTemplate = selectSubjectAndPropertyTemplates(
-      state,
-      "resourceTemplate:testing:uber2"
-    )
+    const propertyTemplate =
+      state.entities.propertyTemplates[
+        "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
+      ]
+
     const label = render(
       <Provider store={store}>
         <PropertyLabelInfo propertyTemplate={propertyTemplate} />
@@ -63,12 +64,13 @@ describe("<PropertyLabelInfo />", () => {
   })
 
   it("displays no links when neither the remark nor the remark URL are present", () => {
-    const state = createState({ hasTemplateWithLiteral: true })
+    const state = createState({ hasResourceWithLiteral: true })
     const store = mockStore(state)
-    const propertyTemplate = selectSubjectAndPropertyTemplates(
-      state,
-      "sinopia:template:resource"
-    )
+    const propertyTemplate =
+      state.entities.propertyTemplates[
+        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+      ]
+
     const label = render(
       <Provider store={store}>
         <PropertyLabelInfo propertyTemplate={propertyTemplate} />

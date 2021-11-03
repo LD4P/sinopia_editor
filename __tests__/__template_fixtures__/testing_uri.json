@@ -1,0 +1,106 @@
+[
+  {
+    "@id": "_:b11",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "URI input",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Uri/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:testing:uri",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@value": "resourceTemplate:testing:uri",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://sinopia.io/testing/Uri"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "URI",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "A template that contains a single URI input.",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/resourceAttribute/suppressible"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b11"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Uri",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "URI",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Uri/property1",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property1",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/propertyType/uri",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "uri"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/resourceAttribute/suppressible",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "suppressible"
+      }
+    ]
+  }
+]

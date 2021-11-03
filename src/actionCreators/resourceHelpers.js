@@ -87,15 +87,20 @@ export const addResourceFromDataset =
   (dispatch) => {
     const subjectTerm = rdf.namedNode(chooseURI(dataset, uri))
     const newUri = asNewResource ? null : uri
-    const usedDataset = rdf.dataset()
-    usedDataset.addAll(
-      dataset.match(
+    const context = {
+      usedDataset: rdf.dataset(),
+      dataset,
+      errorKey,
+      resourceTemplatePromises: {},
+    }
+    context.usedDataset.addAll(
+      context.dataset.match(
         subjectTerm,
         rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate")
       )
     )
-    usedDataset.addAll(
-      dataset.match(
+    context.usedDataset.addAll(
+      context.dataset.match(
         subjectTerm,
         rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
       )
@@ -106,10 +111,7 @@ export const addResourceFromDataset =
         newUri,
         resourceTemplateId,
         false,
-        {},
-        dataset,
-        usedDataset,
-        errorKey
+        context
       )
     ).then((resource) => {
       // Do not copy group or editGroups (passed in via otherResourceAttrs) if resource is new (i.e., copied)
@@ -120,7 +122,7 @@ export const addResourceFromDataset =
       }
 
       dispatch(addSubjectAction(newResource))
-      return [newResource, usedDataset]
+      return [newResource, context.usedDataset]
     })
   }
 
@@ -154,7 +156,11 @@ const expandProperty = (property, errorKey) => (dispatch) => {
             dispatch(newPropertiesFromTemplates(subject, false, errorKey)).then(
               (properties) => {
                 subject.properties = properties
-                const newValue = newValueSubject(property, subject)
+                const newValue = newValueSubject(
+                  property,
+                  property.propertyTemplate.defaultUri,
+                  subject
+                )
                 property.values.push(newValue)
                 property.show = true
               }
@@ -169,44 +175,43 @@ const expandProperty = (property, errorKey) => (dispatch) => {
 }
 
 export const recursiveResourceFromDataset =
-  (
-    subjectTerm,
-    uri,
-    resourceTemplateId,
-    suppress,
-    resourceTemplatePromises,
-    dataset,
-    usedDataset,
-    errorKey
-  ) =>
-  (dispatch) =>
+  (subjectTerm, uri, resourceTemplateId, suppress, context) => (dispatch) =>
     dispatch(
-      newSubject(uri, resourceTemplateId, resourceTemplatePromises, errorKey)
+      newSubject(
+        uri,
+        resourceTemplateId,
+        context.resourceTemplatePromises,
+        context.errorKey
+      )
     ).then((subject) =>
-      dispatch(newPropertiesFromTemplates(subject, true, errorKey)).then(
-        (properties) =>
-          Promise.all(
-            properties.map((property) =>
-              dispatch(
-                newValuesFromDataset(
-                  subjectTerm,
-                  property,
-                  suppress,
-                  resourceTemplatePromises,
-                  dataset,
-                  usedDataset,
-                  errorKey
-                )
-              ).then((values) => {
-                const compactValues = _.compact(values)
-                if (!_.isEmpty(compactValues)) property.values = compactValues
-                return compactValues
-              })
-            )
-          ).then(() => {
-            subject.properties = properties
-            return subject
-          })
+      dispatch(
+        newPropertiesFromTemplates(subject, true, context.errorKey)
+      ).then((properties) =>
+        Promise.all(
+          properties.map((property) =>
+            dispatch(
+              newValuesFromDatasetByProperty(
+                subjectTerm,
+                property,
+                suppress,
+                context
+              )
+            ).then((values) => {
+              const compactValues = _.compact(_.flatten(values))
+              if (!_.isEmpty(compactValues)) {
+                property.values = compactValues
+                // If ordered, set property uri
+                if (property.propertyTemplate.ordered)
+                  property.propertyUri = _.first(compactValues).propertyUri
+              }
+
+              return compactValues
+            })
+          )
+        ).then(() => {
+          subject.properties = properties
+          return subject
+        })
       )
     )
 
@@ -246,25 +251,32 @@ export const newPropertiesFromTemplates =
       )
     )
 
-const newValuesFromDataset =
-  (
-    subjectTerm,
-    property,
-    suppress,
-    resourceTemplatePromises,
-    dataset,
-    usedDataset,
-    errorKey
-  ) =>
-  (dispatch) => {
+const newValuesFromDatasetByProperty =
+  (subjectTerm, property, suppress, context) => (dispatch) =>
+    Promise.all(
+      Object.keys(property.propertyTemplate.uris).flatMap((propertyUri) =>
+        dispatch(
+          newValuesFromDatasetByPropertyUri(
+            subjectTerm,
+            property,
+            propertyUri,
+            suppress,
+            context
+          )
+        )
+      )
+    )
+
+const newValuesFromDatasetByPropertyUri =
+  (subjectTerm, property, propertyUri, suppress, context) => (dispatch) => {
     // Get the objects for the values. How depends on whether property is ordered or suppressed.
     let objects = null
     if (suppress) {
       objects = [subjectTerm]
     } else if (property.propertyTemplate.ordered) {
-      objects = orderedObjects(subjectTerm, property, dataset, usedDataset)
+      objects = orderedObjects(subjectTerm, propertyUri, context)
     } else {
-      objects = unorderedObjects(subjectTerm, property, dataset, usedDataset)
+      objects = unorderedObjects(subjectTerm, propertyUri, context)
     }
 
     if (property.propertyTemplate.type === "resource") {
@@ -272,14 +284,7 @@ const newValuesFromDataset =
       const objPromises = _.compact(
         objects.map((obj) =>
           dispatch(
-            newNestedResourceFromObject(
-              obj,
-              property,
-              resourceTemplatePromises,
-              dataset,
-              usedDataset,
-              errorKey
-            )
+            newNestedResourceFromObject(obj, property, propertyUri, context)
           )
         )
       )
@@ -287,7 +292,7 @@ const newValuesFromDataset =
         if (_.isEmpty(valuesFromObjs)) return []
         const templatePromises = templatePromisesFor(
           property,
-          errorKey,
+          context.errorKey,
           dispatch
         )
         return Promise.all(templatePromises).then((valuesFromTemplates) =>
@@ -300,11 +305,11 @@ const newValuesFromDataset =
         if (obj.termType === "NamedNode") {
           // URI
           return Promise.resolve(
-            newUriFromObject(obj, property, dataset, usedDataset)
+            newUriFromObject(obj, property, propertyUri, context)
           )
         }
         // Literal
-        return Promise.resolve(newLiteralFromObject(obj, property))
+        return Promise.resolve(newLiteralFromObject(obj, property, propertyUri))
       })
     )
   }
@@ -317,7 +322,11 @@ const templatePromisesFor = (property, errorKey, dispatch) =>
         dispatch(newPropertiesFromTemplates(subject, false, errorKey)).then(
           (properties) => {
             subject.properties = properties
-            return newValueSubject(property, subject)
+            return newValueSubject(
+              property,
+              property.propertyTemplate.defaultUri,
+              subject
+            )
           }
         )
     )
@@ -330,10 +339,9 @@ const mergeValues = (valuesFromTemplates, valuesFromObjs) => {
   valuesFromTemplates.forEach((valueFromTemplate) => {
     // Use values from dataset.
     // Otherwise, use values from template.
-    const subjectTemplateKey =
-      valueFromTemplate.valueSubject.subjectTemplate.key
-    if (valuesFromObjsMap[subjectTemplateKey]) {
-      valuesFromObjsMap[subjectTemplateKey].forEach((valueFromObj) =>
+    const key = valuesMapKeyFor(valueFromTemplate)
+    if (valuesFromObjsMap[key]) {
+      valuesFromObjsMap[key].forEach((valueFromObj) =>
         newValues.push(valueFromObj)
       )
     } else {
@@ -343,79 +351,78 @@ const mergeValues = (valuesFromTemplates, valuesFromObjs) => {
   return newValues
 }
 
-// Construct map of subject template key to value
+// Construct map of subject template key and property uri to value
 const valuesMapFor = (values) => {
   const valuesMap = {}
   values.forEach((value) => {
     if (_.isEmpty(value)) return
-    const subjectTemplateKey = value.valueSubject.subjectTemplate.key
-    if (!valuesMap[subjectTemplateKey]) valuesMap[subjectTemplateKey] = []
-    valuesMap[subjectTemplateKey].push(value)
+    const key = valuesMapKeyFor(value)
+    if (!valuesMap[key]) valuesMap[key] = []
+    valuesMap[key].push(value)
   })
   return valuesMap
 }
 
-const orderedObjects = (subjectTerm, property, dataset, usedDataset) => {
-  // All quads for this property
-  const quads = dataset
-    .match(subjectTerm, rdf.namedNode(property.propertyTemplate.uri))
+const valuesMapKeyFor = (value) =>
+  [
+    value.valueSubject.subjectTemplate.key,
+    value.propertyKey || value.property.key,
+  ].join("-")
+
+const orderedObjects = (subjectTerm, propertyUri, context) => {
+  // All quads for this property uri
+  const quads = context.dataset
+    .match(subjectTerm, rdf.namedNode(propertyUri))
     .toArray()
   // Should only be one.
   if (quads.length > 1) {
-    console.error(
-      `More than one quad for ordered property ${property.propertyTemplate.uri}.`
-    )
+    console.error(`More than one quad for ordered property ${propertyUri}.`)
     return []
   }
   if (quads.length === 0) return []
-  usedDataset.addAll(quads)
+  context.usedDataset.addAll(quads)
   const objects = []
-  recursiveOrderedObjects(quads[0].object, objects, dataset, usedDataset)
+  recursiveOrderedObjects(quads[0].object, objects, context)
   return objects
 }
 
-const recursiveOrderedObjects = (
-  subjectTerm,
-  objects,
-  dataset,
-  usedDataset
-) => {
-  const firstQuad = dataset
+const recursiveOrderedObjects = (subjectTerm, objects, context) => {
+  const firstQuad = context.dataset
     .match(
       subjectTerm,
       rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
     )
     .toArray()[0]
-  usedDataset.add(firstQuad)
+  if (!firstQuad) return
+  context.usedDataset.add(firstQuad)
   objects.push(firstQuad.object)
-  const restQuad = dataset
+  const restQuad = context.dataset
     .match(
       subjectTerm,
       rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
     )
     .toArray()[0]
-  usedDataset.add(restQuad)
+  context.usedDataset.add(restQuad)
   if (
     restQuad.object.value !== "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"
   )
-    recursiveOrderedObjects(restQuad.object, objects, dataset, usedDataset)
+    recursiveOrderedObjects(restQuad.object, objects, context)
 }
 
-const unorderedObjects = (subjectTerm, property, dataset, usedDataset) => {
-  // All quads for this property
-  const quads = dataset
-    .match(subjectTerm, rdf.namedNode(property.propertyTemplate.uri))
+const unorderedObjects = (subjectTerm, propertyUri, context) => {
+  // All quads for this property uri
+  const quads = context.dataset
+    .match(subjectTerm, rdf.namedNode(propertyUri))
     .toArray()
-  usedDataset.addAll(quads)
+  context.usedDataset.addAll(quads)
   return quads.map((quad) => quad.object)
 }
 
 const newNestedResourceFromObject =
-  (obj, property, resourceTemplatePromises, dataset, usedDataset, errorKey) =>
-  (dispatch) => {
+  (obj, property, propertyUri, context) => (dispatch) => {
     // Only build this embedded resource if can find the resource template.
     // Multiple types may be provided.
-    const typeQuads = dataset
+    const typeQuads = context.dataset
       .match(
         obj,
         rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
@@ -430,8 +437,7 @@ const newNestedResourceFromObject =
           selectResourceTemplateId(
             property.propertyTemplate,
             typeQuad.object.value,
-            resourceTemplatePromises,
-            errorKey
+            context
           )
         )
       )
@@ -446,7 +452,7 @@ const newNestedResourceFromObject =
       if (_.isEmpty(compactChildRtIds)) {
         return null
       }
-      usedDataset.addAll(typeQuads)
+      context.usedDataset.addAll(typeQuads)
 
       // One resource template
       const suppress = obj.termType === "NamedNode"
@@ -456,17 +462,14 @@ const newNestedResourceFromObject =
           null,
           compactChildRtIds[0],
           suppress,
-          resourceTemplatePromises,
-          dataset,
-          usedDataset,
-          errorKey
+          context
         )
-      ).then((subject) => newValueSubject(property, subject))
+      ).then((subject) => newValueSubject(property, propertyUri, subject))
     })
   }
 
 const selectResourceTemplateId =
-  (propertyTemplate, resourceURI, resourceTemplatePromises, errorKey) =>
+  (propertyTemplate, resourceURI, { resourceTemplatePromises, errorKey }) =>
   (dispatch) =>
     Promise.all(
       // The keys are resource template ids. They may or may not be in state
@@ -483,12 +486,12 @@ const selectResourceTemplateId =
       )
     )
 
-const newLiteralFromObject = (obj, property) =>
-  newLiteralValue(property, obj.value, obj.language)
+const newLiteralFromObject = (obj, property, propertyUri) =>
+  newLiteralValue(property, propertyUri, obj.value, obj.language)
 
-const newUriFromObject = (obj, property, dataset, usedDataset) => {
+const newUriFromObject = (obj, property, propertyUri, context) => {
   const uri = obj.value
-  const labelQuads = dataset
+  const labelQuads = context.dataset
     .match(obj, rdf.namedNode("http://www.w3.org/2000/01/rdf-schema#label"))
     .toArray()
   let label = uri
@@ -502,9 +505,9 @@ const newUriFromObject = (obj, property, dataset, usedDataset) => {
     label = labelQuad.object.value
     lang = labelQuad.object.language || null
     // Adding all to usedData, even though only using first. This is to avoid user confusion over extra triples, e.g., https://github.com/LD4P/sinopia_editor/issues/2634
-    usedDataset.addAll(labelQuads)
+    context.usedDataset.addAll(labelQuads)
   }
-  return newUriValue(property, uri, label, lang)
+  return newUriValue(property, propertyUri, uri, label, lang)
 }
 
 const newProperty =
@@ -516,11 +519,16 @@ const newProperty =
       propertyTemplate,
       values: null,
       show: false,
+      propertyUri: null,
     }
     if (!noDefaults && !_.isEmpty(property.propertyTemplate.defaults)) {
       property.values = defaultValuesFor(property)
       if (!_.isEmpty(property.values)) property.show = true
     }
+
+    // If ordered, then set property uri
+    if (propertyTemplate.ordered)
+      property.propertyUri = propertyTemplate.defaultUri
 
     // If required and we do not already have some default values, then expand the property.
     if (propertyTemplate.required && !property.values) {
@@ -539,9 +547,19 @@ const newProperty =
 export function defaultValuesFor(property) {
   return property.propertyTemplate.defaults.map((defaultValue) => {
     if (property.propertyTemplate.type === "uri") {
-      return newUriValue(property, defaultValue.uri, defaultValue.label)
+      return newUriValue(
+        property,
+        property.propertyTemplate.defaultUri,
+        defaultValue.uri,
+        defaultValue.label
+      )
     }
-    return newLiteralValue(property, defaultValue.literal, defaultValue.lang)
+    return newLiteralValue(
+      property,
+      property.propertyTemplate.defaultUri,
+      defaultValue.literal,
+      defaultValue.lang
+    )
   })
 }
 
@@ -557,7 +575,11 @@ const valuesForExpandedProperty =
                   newPropertiesFromTemplates(subject, noDefaults, errorKey)
                 ).then((properties) => {
                   subject.properties = properties
-                  return newValueSubject(property, subject)
+                  return newValueSubject(
+                    property,
+                    property.propertyTemplate.defaultUri,
+                    subject
+                  )
                 })
             )
         )
@@ -568,18 +590,13 @@ const valuesForExpandedProperty =
 
 export const newSubjectCopy = (subjectKey, value) => (dispatch, getState) => {
   const subject = selectSubject(getState(), subjectKey)
-  const newSubject = { ...subject }
+  const newSubject = _.pick(subject, ["subjectTemplate"])
 
   // Add to value
   if (value) value.valueSubject = newSubject
 
-  // New key
-  const key = nanoid()
-  newSubject.key = key
-
-  // Clear some values
+  newSubject.key = nanoid()
   newSubject.uri = null
-  delete newSubject.propertyKeys
   newSubject.properties = []
 
   // Add properties
@@ -592,19 +609,17 @@ export const newSubjectCopy = (subjectKey, value) => (dispatch, getState) => {
 
 const newPropertyCopy = (propertyKey, subject) => (dispatch, getState) => {
   const property = selectProperty(getState(), propertyKey)
-  const newProperty = { ...property }
+  const newProperty = _.pick(property, [
+    "propertyTemplate",
+    "propertyUri",
+    "show",
+  ])
 
   // Add to subject
   subject.properties.push(newProperty)
 
-  // New key
-  const key = nanoid()
-  newProperty.key = key
-
-  // Clear some values
-  delete newProperty.subjectKey
+  newProperty.key = nanoid()
   newProperty.subject = subject
-  delete newProperty.valueKeys
   newProperty.values = property.valueKeys === null ? null : []
 
   // Add values
@@ -620,19 +635,20 @@ const newPropertyCopy = (propertyKey, subject) => (dispatch, getState) => {
 
 const newValueCopy = (valueKey, property) => (dispatch, getState) => {
   const value = selectValue(getState(), valueKey)
-  const newValue = { ...value }
+  const newValue = _.pick(value, [
+    "literal",
+    "lang",
+    "uri",
+    "label",
+    "propertyUri",
+    "component",
+  ])
 
   // Add to property
   property.values.push(newValue)
 
-  // New key
-  const key = nanoid()
-  newValue.key = key
-
-  // Clear some values
-  delete newValue.propertyKey
-  newValue.property = property
-  delete newValue.valueSubjectKey
+  newValue.key = nanoid()
+  newValue.propertyKey = property.key
   newValue.valueSubject = null
 
   if (value.valueSubject) {

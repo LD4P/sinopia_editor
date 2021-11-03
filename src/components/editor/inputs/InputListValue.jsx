@@ -5,6 +5,7 @@ import { updateURIValue, removeValue } from "actions/resources"
 import { fetchLookup } from "actionCreators/lookups"
 import { selectLookup } from "selectors/lookups"
 import RemoveButton from "./RemoveButton"
+import ValuePropertyURI from "../property/ValuePropertyURI"
 import _ from "lodash"
 
 const InputListValue = ({
@@ -92,6 +93,7 @@ const InputListValue = ({
 
   return (
     <React.Fragment>
+      <ValuePropertyURI propertyTemplate={propertyTemplate} value={value} />
       <div className="row my-2">
         <div className="col">
           <select

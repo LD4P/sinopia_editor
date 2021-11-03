@@ -14,6 +14,7 @@ import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelectio
 import useDiacritics from "hooks/useDiacritics"
 import { isHttp } from "utilities/Utilities"
 import RemoveButton from "./RemoveButton"
+import ValuePropertyURI from "../property/ValuePropertyURI"
 import _ from "lodash"
 
 const InputURIValue = ({
@@ -118,6 +119,7 @@ const InputURIValue = ({
 
   return (
     <React.Fragment>
+      <ValuePropertyURI propertyTemplate={propertyTemplate} value={value} />
       <div className="row my-2">
         <div className="col">
           <label htmlFor={uriId} className="form-label">

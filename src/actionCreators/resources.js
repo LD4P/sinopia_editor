@@ -340,7 +340,11 @@ export const expandProperty =
                 newPropertiesFromTemplates(subject, false, errorKey)
               ).then((properties) => {
                 subject.properties = properties
-                const newValue = newValueSubject(property, subject)
+                const newValue = newValueSubject(
+                  property,
+                  property.propertyTemplate.defaultUri,
+                  subject
+                )
                 return dispatch(addValueAction(newValue))
               })
           )
@@ -348,7 +352,20 @@ export const expandProperty =
     } else {
       property.values = defaultValuesFor(property)
       if (!_.isEmpty(property.values)) property.show = true
-      promises = [dispatch(addPropertyAction(property))]
+      promises = [
+        dispatch(
+          addPropertyAction(
+            _.pick(property, [
+              "key",
+              "subjectKey",
+              "propertyTemplateKey",
+              "propertyUri",
+              "show",
+              "values",
+            ])
+          )
+        ),
+      ]
     }
     return Promise.all(promises).then(() =>
       dispatch(showProperty(property.key))
@@ -377,7 +394,11 @@ export const addSiblingValueSubject =
       dispatch(newPropertiesFromTemplates(subject, false, errorKey)).then(
         (properties) => {
           subject.properties = properties
-          const newValue = newValueSubject(value.property, subject)
+          const newValue = newValueSubject(
+            value.property,
+            value.propertyUri,
+            subject
+          )
           return dispatch(addValueAction(newValue, valueKey))
         }
       )

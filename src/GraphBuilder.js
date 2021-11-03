@@ -43,7 +43,7 @@ export default class GraphBuilder {
   buildProperty(property, subjectTerm) {
     if (!this.shouldAddProperty(property)) return
 
-    if (property.propertyTemplate.ordered) {
+    if (property.propertyTemplate?.ordered) {
       const values = property.values.filter((value) =>
         this.checkValueHasValue(value)
       )
@@ -53,7 +53,8 @@ export default class GraphBuilder {
       this.dataset.add(
         rdf.quad(
           subjectTerm,
-          rdf.namedNode(property.propertyTemplate.uri),
+          // For ordered, get propertyUri from property.
+          rdf.namedNode(property.propertyUri),
           nextNode
         )
       )
@@ -73,7 +74,8 @@ export default class GraphBuilder {
         this.buildValue(
           value,
           thisNode,
-          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
+          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"),
+          property
         )
       })
     } else {
@@ -85,15 +87,16 @@ export default class GraphBuilder {
         this.buildValue(
           value,
           subjectTerm,
-          rdf.namedNode(property.propertyTemplate.uri)
+          rdf.namedNode(value.propertyUri),
+          property
         )
       )
     }
   }
 
-  buildValue(value, subjectTerm, propertyTerm) {
+  buildValue(value, subjectTerm, propertyTerm, property) {
     // Can't use type to distinguish between uri and literal because inputlookups allow providing a literal for a uri.
-    if (value.property.propertyTemplate.type === "resource") {
+    if (property.propertyTemplate.type === "resource") {
       this.buildValueSubject(value, subjectTerm, propertyTerm)
     } else if (value.uri) {
       this.buildUriValue(value, subjectTerm, propertyTerm)
@@ -151,9 +154,6 @@ export default class GraphBuilder {
     )
     if (!_.isEmpty(literalValues)) {
       const bnode = rdf.blankNode()
-      const literalPropertyTerm = rdf.namedNode(
-        value.valueSubject.properties[0].propertyTemplate.uri
-      )
       this.dataset.add(rdf.quad(subjectTerm, propertyTerm, bnode))
       this.dataset.add(
         rdf.quad(
@@ -163,7 +163,11 @@ export default class GraphBuilder {
         )
       )
       literalValues.forEach((literalValue) => {
-        this.buildLiteralValue(literalValue, bnode, literalPropertyTerm)
+        this.buildLiteralValue(
+          literalValue,
+          bnode,
+          rdf.namedNode(literalValue.propertyUri)
+        )
       })
     }
   }

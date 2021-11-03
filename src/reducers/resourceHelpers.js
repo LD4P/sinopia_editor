@@ -13,7 +13,7 @@ export const mergePropertyPropsToNewState = (state, propertyKey, props) => {
   return replacePropertyInNewState(state, { ...oldProperty, ...props })
 }
 
-const mergeValuePropsToNewState = (state, valueKey, props) => {
+export const mergeValuePropsToNewState = (state, valueKey, props) => {
   const oldValue = state.values[valueKey]
 
   return replaceValueInNewState(state, { ...oldValue, ...props })
@@ -89,7 +89,8 @@ export const updateResourceLabel = (state, value) => {
     state.propertyTemplates[possibleLabelProperty.propertyTemplateKey]
   const rootSubjectKey = possibleLabelProperty.rootSubjectKey
   if (
-    propertyTemplate.uri === "http://www.w3.org/2000/01/rdf-schema#label" &&
+    propertyTemplate.defaultUri ===
+      "http://www.w3.org/2000/01/rdf-schema#label" &&
     possibleLabelProperty.subjectKey === rootSubjectKey
   ) {
     const labelValue = value.literal || possibleLabelProperty.labels[0]
@@ -102,11 +103,8 @@ export const updateResourceLabel = (state, value) => {
 
 export const updateBibframeRefs = (state, value) => {
   if (!value.uri) return state
-  const property = state.properties[value.propertyKey]
-  const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
   const newSubject = { ...state.subjects[value.rootSubjectKey] }
-
-  switch (propertyTemplate.uri) {
+  switch (value.propertyUri) {
     case "http://id.loc.gov/ontologies/bibframe/adminMetadata":
       // References admin metadata
       addToKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
@@ -140,12 +138,11 @@ const addToKeyArray = (obj, key, value) => {
   }
 }
 
-export const removeBibframeRefs = (state, value, property) => {
+export const removeBibframeRefs = (state, value) => {
   if (!value.uri) return state
 
-  const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
   const newSubject = { ...state.subjects[value.rootSubjectKey] }
-  switch (propertyTemplate.uri) {
+  switch (value.propertyUri) {
     case "http://id.loc.gov/ontologies/bibframe/adminMetadata":
       // References admin metadata
       removeFromKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)

@@ -1,0 +1,134 @@
+[
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:testing:ordered",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@value": "resourceTemplate:testing:ordered",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://sinopia.io/testing/Ordered"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Ordered",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "A template that contains an ordered nested resource.",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@id": "_:b5",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Ordered nested resource",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Ordered/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/ordered"
+      },
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttributes": [
+      {
+        "@id": "_:b6"
+      }
+    ]
+  },
+  {
+    "@id": "_:b6",
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
+      {
+        "@id": "resourceTemplate:testing:literal"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Ordered/property1",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property1",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Ordered",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Ordered",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/propertyAttribute/ordered",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "ordered"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/propertyType/resource",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "nested resource"
+      }
+    ]
+  },
+  {
+    "@id": "resourceTemplate:testing:literal",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Literal",
+        "@language": "eng"
+      }
+    ]
+  }
+]

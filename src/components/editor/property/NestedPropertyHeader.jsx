@@ -9,11 +9,11 @@ import PropertyLabel from "./PropertyLabel"
 import PropertyLabelInfo from "./PropertyLabelInfo"
 import { displayResourceValidations } from "selectors/errors"
 import { showProperty, hideProperty } from "actions/resources"
-import _ from "lodash"
 import { expandProperty, contractProperty } from "actionCreators/resources"
 import { bindActionCreators } from "redux"
 import ToggleButton from "../ToggleButton"
 import useAlerts from "hooks/useAlerts"
+import PropertyPropertyURI from "./PropertyPropertyURI"
 
 const NestedPropertyHeader = (props) => {
   const errorKey = useAlerts()
@@ -24,14 +24,6 @@ const NestedPropertyHeader = (props) => {
   const trashIcon = faTrashAlt
 
   const isAdd = !props.readOnly && !props.property.valueKeys
-
-  let error
-  let groupClasses = "rOutline-header"
-
-  if (props.displayValidations && !_.isEmpty(props.property.errors)) {
-    groupClasses += " is-invalid"
-    error = props.property.errors.join(",")
-  }
 
   const toggleProperty = (event) => {
     event.preventDefault()
@@ -44,55 +36,67 @@ const NestedPropertyHeader = (props) => {
 
   if (isAdd) {
     return (
-      <div className={groupClasses}>
-        <button
-          type="button"
-          className="btn btn-add btn-add-property"
-          onClick={() => props.expandProperty(props.property.key, errorKey)}
-          aria-label={`Add ${props.propertyTemplate.label}`}
-          data-testid={`Add ${props.propertyTemplate.label}`}
-          data-id={props.property.key}
-        >
-          + Add{" "}
-          <strong>
-            <PropertyLabel
-              required={props.propertyTemplate.required}
-              label={props.propertyTemplate.label}
-            />
-          </strong>
-        </button>
-        <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
-        {error && <span className="invalid-feedback">{error}</span>}
-      </div>
+      <React.Fragment>
+        <div className="row">
+          <div className="col">
+            <button
+              type="button"
+              className="btn btn-add btn-add-property"
+              onClick={() => props.expandProperty(props.property.key, errorKey)}
+              aria-label={`Add ${props.propertyTemplate.label}`}
+              data-testid={`Add ${props.propertyTemplate.label}`}
+              data-id={props.property.key}
+            >
+              + Add{" "}
+              <strong>
+                <PropertyLabel
+                  required={props.propertyTemplate.required}
+                  label={props.propertyTemplate.label}
+                />
+              </strong>
+            </button>
+            <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
+          </div>
+        </div>
+        <PropertyPropertyURI
+          propertyTemplate={props.propertyTemplate}
+          property={props.property}
+          readOnly={props.readOnly}
+        />
+      </React.Fragment>
     )
   }
 
   return (
-    <div className={groupClasses}>
-      <ToggleButton
-        handleClick={toggleProperty}
-        isExpanded={props.property.show}
-        isDisabled={isAdd}
-        label={toggleLabel}
-      />
-      <strong>
-        <PropertyLabel
-          required={props.propertyTemplate.required}
-          label={props.propertyTemplate.label}
+    <div className="row">
+      <div className="col">
+        <ToggleButton
+          handleClick={toggleProperty}
+          isExpanded={props.property.show}
+          isDisabled={isAdd}
+          label={toggleLabel}
         />
-      </strong>
-      <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
+        <strong>
+          <PropertyLabel
+            required={props.propertyTemplate.required}
+            label={props.propertyTemplate.label}
+          />
+        </strong>
+        <PropertyLabelInfo propertyTemplate={props.propertyTemplate} />
+      </div>
       {!props.readOnly && (
-        <button
-          type="button"
-          className="btn btn-sm btn-remove pull-right"
-          onClick={() => props.contractProperty(props.property.key)}
-          aria-label={`Remove ${props.propertyTemplate.label}`}
-          data-testid={`Remove ${props.propertyTemplate.label}`}
-          data-id={props.property.key}
-        >
-          <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
-        </button>
+        <div className="col">
+          <button
+            type="button"
+            className="btn btn-sm btn-remove pull-right"
+            onClick={() => props.contractProperty(props.property.key)}
+            aria-label={`Remove ${props.propertyTemplate.label}`}
+            data-testid={`Remove ${props.propertyTemplate.label}`}
+            data-id={props.property.key}
+          >
+            <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
+          </button>
+        </div>
       )}
     </div>
   )

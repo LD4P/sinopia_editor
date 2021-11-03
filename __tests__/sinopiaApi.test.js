@@ -45,7 +45,7 @@ const resource = {
   bfItemRefs: [],
   bfWorkRefs: [],
   group: "yale",
-  editGroups: "cornell",
+  editGroups: ["cornell"],
   types: ["https://w3id.org/arm/core/ontology/0.1/Enclosure"],
   user: "tat2",
   timestamp: "2020-02-18T21:12:19.053Z",
@@ -194,7 +194,7 @@ describe("postResource", () => {
       resource.subjectTemplate.id = "sinopia:template:resource"
       resource.properties.push({
         propertyTemplate: {
-          uri: "http://sinopia.io/vocabulary/hasResourceId",
+          defaultUri: "http://sinopia.io/vocabulary/hasResourceId",
           type: "literal",
         },
         values: [

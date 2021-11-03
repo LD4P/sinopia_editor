@@ -27,11 +27,14 @@ import {
   setCurrentDiffResources,
   setVersions,
   clearVersions,
+  setValuePropertyURI,
+  setPropertyPropertyURI,
 } from "reducers/resources"
 
 import { createState } from "stateUtils"
 import { createReducer } from "reducers/index"
 import { nanoid } from "nanoid"
+import StateResourceBuilder from "stateResourceBuilderUtils"
 
 const reducers = {
   ADD_PROPERTY: addProperty,
@@ -48,8 +51,10 @@ const reducers = {
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_CURRENT_DIFF_RESOURCES: setCurrentDiffResources,
+  SET_PROPERTY_PROPERTY_URI: setPropertyPropertyURI,
   SET_RESOURCE_GROUP: setResourceGroup,
   SET_VALUE_ORDER: setValueOrder,
+  SET_VALUE_PROPERTY_URI: setValuePropertyURI,
   SET_VERSIONS: setVersions,
   SHOW_NAV_PROPERTY: showNavProperty,
   SHOW_NAV_SUBJECT: showNavSubject,
@@ -71,6 +76,8 @@ const editorReducer = createReducer(editorReducers)
 
 jest.mock("nanoid")
 nanoid.mockReturnValue("abc123")
+
+const build = new StateResourceBuilder()
 
 describe("addProperty()", () => {
   describe("new property with no values", () => {
@@ -396,6 +403,7 @@ describe("addValue()", () => {
         uri: "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
         label: "How to Cook Everything",
         valueSubjectKey: null,
+        propertyUri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
       },
     },
   }
@@ -409,7 +417,7 @@ describe("addValue()", () => {
         payload: {
           value: {
             key: "DxGx7WMh3",
-            property: { key: "JQEtq-vmq8" },
+            propertyKey: "JQEtq-vmq8",
             literal: "bar",
             lang: "eng",
             uri: null,
@@ -610,19 +618,14 @@ describe("addValue()", () => {
       // change propertyTemplate to be one for rdfs label
       oldState.entities.propertyTemplates = {
         "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label":
-          {
+          build.propertyTemplate({
             key: "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
             subjectTemplateKey: "resourceTemplate:testing:uber1",
             label: "rdfs label",
-            uri: "http://www.w3.org/2000/01/rdf-schema#label",
-            required: false,
-            repeatable: false,
-            defaults: [],
-            remarkUrl: null,
+            uris: { "http://www.w3.org/2000/01/rdf-schema#label": "label" },
             type: "literal",
             component: "InputLiteral",
-            authorities: [],
-          },
+          }),
       }
       oldState.entities.properties["JQEtq-vmq8"].propertyTemplateKey =
         "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label"
@@ -723,6 +726,7 @@ describe("addValue()", () => {
         label: "How to Cook Everything",
         valueSubjectKey: null,
         errors: [],
+        propertyUri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
       })
       expect(newState.properties["i0SAJP-Zhd"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["i0SAJP-Zhd"].show).toBe(true)
@@ -739,11 +743,19 @@ describe("addValue()", () => {
   describe("new uri value that is a bf Instance ref", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLookup: true })
-      oldState.entities.propertyTemplates[
-        "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"
-      ].uri = "http://id.loc.gov/ontologies/bibframe/hasInstance"
 
-      const newState = reducer(oldState.entities, addUriAction)
+      const newAddUriAction = {
+        ...addUriAction,
+        payload: {
+          ...addUriAction.payload,
+          value: {
+            ...addUriAction.payload.value,
+            propertyUri: "http://id.loc.gov/ontologies/bibframe/hasInstance",
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, newAddUriAction)
 
       expect(newState.subjects["wihOjn-0Z"].bfAdminMetadataRefs).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfInstanceRefs).toEqual([
@@ -757,12 +769,19 @@ describe("addValue()", () => {
   describe("new uri value that is a bf Item ref", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLookup: true })
-      // Ignore the key here.
-      oldState.entities.propertyTemplates[
-        "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"
-      ].uri = "http://id.loc.gov/ontologies/bibframe/hasItem"
 
-      const newState = reducer(oldState.entities, addUriAction)
+      const newAddUriAction = {
+        ...addUriAction,
+        payload: {
+          ...addUriAction.payload,
+          value: {
+            ...addUriAction.payload.value,
+            propertyUri: "http://id.loc.gov/ontologies/bibframe/hasItem",
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, newAddUriAction)
 
       expect(newState.subjects["wihOjn-0Z"].bfAdminMetadataRefs).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfInstanceRefs).toHaveLength(0)
@@ -776,12 +795,19 @@ describe("addValue()", () => {
   describe("new uri value that is a bf Admin Metadata ref", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLookup: true })
-      // Ignore the key here.
-      oldState.entities.propertyTemplates[
-        "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf"
-      ].uri = "http://id.loc.gov/ontologies/bibframe/adminMetadata"
 
-      const newState = reducer(oldState.entities, addUriAction)
+      const newAddUriAction = {
+        ...addUriAction,
+        payload: {
+          ...addUriAction.payload,
+          value: {
+            ...addUriAction.payload.value,
+            propertyUri: "http://id.loc.gov/ontologies/bibframe/adminMetadata",
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, newAddUriAction)
 
       expect(newState.subjects["wihOjn-0Z"].bfAdminMetadataRefs).toEqual([
         "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
@@ -1330,6 +1356,7 @@ describe("updateValue()", () => {
         valueSubjectKey: null,
         errors: [],
         component: "InputLiteralValue",
+        propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(
@@ -1371,6 +1398,7 @@ describe("updateValue()", () => {
         valueSubjectKey: null,
         errors: ["Literal required"],
         component: "InputLiteralValue",
+        propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(
@@ -1395,22 +1423,19 @@ describe("updateValue()", () => {
       // change propertyTemplate to be one for rdfs label
       oldState.entities.propertyTemplates = {
         "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label":
-          {
+          build.propertyTemplate({
             key: "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label",
             subjectTemplateKey: "resourceTemplate:testing:uber1",
             label: "rdfs label",
-            uri: "http://www.w3.org/2000/01/rdf-schema#label",
-            required: false,
-            repeatable: false,
-            defaults: [],
-            remarkUrl: null,
+            uris: { "http://www.w3.org/2000/01/rdf-schema#label": "label" },
             type: "literal",
             component: "InputLiteral",
-            authorities: [],
-          },
+          }),
       }
       oldState.entities.properties["JQEtq-vmq8"].propertyTemplateKey =
         "resourceTemplate:testing:uber1 > http://www.w3.org/2000/01/rdf-schema#label"
+      oldState.entities.values.CxGx7WMh2.propertyUri =
+        "http://www.w3.org/2000/01/rdf-schema#label"
 
       const newLabelValue = "resource root subject NEW label value!"
       const action = {
@@ -1436,6 +1461,7 @@ describe("updateValue()", () => {
         valueSubjectKey: null,
         errors: [],
         component: "InputLiteralValue",
+        propertyUri: "http://www.w3.org/2000/01/rdf-schema#label",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(newState.subjects.t9zVwg2zO.label).toEqual(newLabelValue)
@@ -1470,6 +1496,8 @@ describe("updateValue()", () => {
         valueSubjectKey: null,
         errors: [],
         component: "InputURIValue",
+        propertyUri:
+          "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
       })
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain(
         "a_-Jp0pY6pH6ytCtfr-mx"
@@ -1511,6 +1539,8 @@ describe("updateValue()", () => {
         valueSubjectKey: null,
         errors: ["URI required"],
         component: "InputURIValue",
+        propertyUri:
+          "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
       })
 
       expect(
@@ -1550,6 +1580,8 @@ describe("updateValue()", () => {
         valueSubjectKey: null,
         errors: ["Label required"],
         component: "InputURIValue",
+        propertyUri:
+          "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
       })
 
       expect(
@@ -1702,5 +1734,45 @@ describe("clearVersions()", () => {
 
     const newState = reducer(oldState.entities, action)
     expect(Object.entries(newState.versions)).toHaveLength(0)
+  })
+})
+
+describe("setValuePropertyURI()", () => {
+  it("updates state", () => {
+    const oldState = createState({ hasResourceWithLiteral: true })
+
+    const action = {
+      type: "SET_VALUE_PROPERTY_URI",
+      payload: {
+        valueKey: "CxGx7WMh2",
+        uri: "http://id.loc.gov/ontologies/bibframe/alternateTitle",
+      },
+    }
+
+    const newState = reducer(oldState.entities, action)
+
+    expect(newState.values.CxGx7WMh2.propertyUri).toEqual(
+      "http://id.loc.gov/ontologies/bibframe/alternateTitle"
+    )
+  })
+})
+
+describe("setPropertyPropertyURI()", () => {
+  it("updates state", () => {
+    const oldState = createState({ hasResourceWithLiteral: true })
+
+    const action = {
+      type: "SET_PROPERTY_PROPERTY_URI",
+      payload: {
+        propertyKey: "JQEtq-vmq8",
+        uri: "http://id.loc.gov/ontologies/bibframe/alternateTitle",
+      },
+    }
+
+    const newState = reducer(oldState.entities, action)
+
+    expect(newState.properties["JQEtq-vmq8"].propertyUri).toEqual(
+      "http://id.loc.gov/ontologies/bibframe/alternateTitle"
+    )
   })
 })

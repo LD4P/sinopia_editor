@@ -1,6 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for licenseimport React from 'react'
 import { initialState } from "store"
+import StateResourceBuilder from "./stateResourceBuilderUtils"
 import _ from "lodash"
+
+const build = new StateResourceBuilder()
 
 export const createState = (options = {}) => {
   const state = _.cloneDeep(initialState)
@@ -101,98 +104,56 @@ const buildTemplateWithLiteral = (state, options) => {
 
   state.editor.currentResource = "8VrbxGPeF"
   state.entities.subjectTemplates = {
-    "sinopia:template:resource": {
-      key: "sinopia:template:resource",
+    "sinopia:template:resource": build.subjectTemplate({
       uri: "http://localhost:3000/resource/sinopia:template:resource",
       id: "sinopia:template:resource",
-      class: "http://sinopia.io/vocabulary/ResourceTemplate",
+      clazz: "http://sinopia.io/vocabulary/ResourceTemplate",
       label: "Resource Template",
-      author: null,
-      remark: null,
-      date: null,
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
       ],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
-    "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label": {
-      key: "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
-      subjectTemplateKey: "sinopia:template:resource",
-      label: "Note",
-      uri: "http://www.w3.org/2000/01/rdf-schema#label",
-      required: false,
-      repeatable: false,
-      ordered: false,
-      immutable: false,
-      remark: null,
-      remarkUrl: null,
-      defaults: [],
-      valueSubjectTemplateKeys: [],
-      authorities: [],
-      type: "literal",
-      component: "InputLiteral",
-    },
+    "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label":
+      build.propertyTemplate({
+        subjectTemplateKey: "sinopia:template:resource",
+        label: "Note",
+        uris: { "http://www.w3.org/2000/01/rdf-schema#label": "Label" },
+        type: "literal",
+        component: "InputLiteral",
+      }),
   }
   state.entities.subjects = {
-    "8VrbxGPeF": {
+    "8VrbxGPeF": build.resource({
       key: "8VrbxGPeF",
       uri: "http://localhost:3000/resource/sinopia:template:resource",
-      resourceKey: "8VrbxGPeF",
-      group: null,
-      editGroups: [],
       subjectTemplateKey: "sinopia:template:resource",
-      bfAdminMetadataRefs: [],
-      bfItemRefs: [],
-      bfInstanceRefs: [],
-      bfWorkRefs: [],
       propertyKeys: ["mLi9ZqIjjx"],
-      changed: false,
-      showNav: false,
-      subjectTemplate: {
-        key: "sinopia:template:resource",
-        uri: "http://localhost:3000/resource/sinopia:template:resource",
-        id: "sinopia:template:resource",
-        class: "http://sinopia.io/vocabulary/ResourceTemplate",
-        label: "Resource Template",
-        author: null,
-        remark: null,
-        date: null,
-        propertyTemplateKeys: [
-          "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
-        ],
-      },
       labels: ["Resource Template"],
-    },
+    }),
   }
   state.entities.properties = {
-    mLi9ZqIjjx: {
+    mLi9ZqIjjx: build.property({
       key: "mLi9ZqIjjx",
       resourceKey: "8VrbxGPeF",
-      show: true,
       subjectKey: "8VrbxGPeF",
       propertyTemplateKey:
         "sinopia:template:resource > http://www.w3.org/2000/01/rdf-schema#label",
       valueKeys: ["SgS9CqKjmb"],
       labels: ["Resource Template", "Note"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {
-    SgS9CqKjmb: {
+    SgS9CqKjmb: build.literalValue({
       key: "SgS9CqKjmb",
       resourceKey: "8VrbxGPeF",
       literal: "Resource Template",
       lang: "",
-      uri: null,
-      label: null,
+      rootSubjectKey: "8VrbxGPeF",
       propertyKey: "mLi9ZqIjjx",
-      valueSubjectKey: null,
-      errors: [],
-      component: "InputLiteralValue",
-    },
+      propertyUri: "http://www.w3.org/2000/01/rdf-schema#label",
+    }),
   }
 }
 
@@ -204,102 +165,67 @@ const buildResourceWithLiteral = (state, options) => {
   state.editor.currentResource = "t9zVwg2zO"
   state.editor.resources = ["t9zVwg2zO"]
   state.entities.subjectTemplates = {
-    "ld4p:RT:bf2:Title:AbbrTitle": {
-      key: "ld4p:RT:bf2:Title:AbbrTitle",
+    "ld4p:RT:bf2:Title:AbbrTitle": build.subjectTemplate({
       id: "ld4p:RT:bf2:Title:AbbrTitle",
-      class: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
+      clazz: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
       label: "Abbreviated Title",
       author: "LD4P",
       date: "2019-08-19",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       ],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle":
-      {
-        key: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+      build.propertyTemplate({
         subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
         label: "Abbreviated Title",
-        uri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/mainTitle": "Main title",
+        },
         required: !!options.hasError,
-        repeatable: false,
-        immutable: false,
-        defaults: [],
-        remarkUrl: null,
+        defaults: options.hasDefaultLiterals
+          ? [{ literal: "Default literal1", lang: null }]
+          : [],
         type: "literal",
         component: "InputLiteral",
-        authorities: [],
-      },
-  }
-
-  if (options.hasDefaultLiterals) {
-    state.entities.propertyTemplates[
-      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
-    ].defaults = [
-      {
-        literal: "Default literal1",
-        lang: null,
-      },
-    ]
+      }),
   }
 
   state.entities.subjects = {
-    t9zVwg2zO: {
+    t9zVwg2zO: build.resource({
       key: "t9zVwg2zO",
-      rootSubjectKey: "t9zVwg2zO",
-      rootPropertyKey: null,
-      valueSubjectOfKey: null,
       uri: "https://api.sinopia.io/resource/0894a8b3",
       subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
       propertyKeys: ["JQEtq-vmq8"],
-      bfAdminMetadataRefs: [],
-      bfInstanceRefs: [],
-      bfItemRefs: [],
-      bfWorkRefs: [],
-      group: null,
-      editGroups: [],
-      changed: false,
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: options.hasError ? ["JQEtq-vmq8"] : [],
       labels: ["Abbreviated Title"],
-      label: "Abbreviated Title",
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    "JQEtq-vmq8": {
+    "JQEtq-vmq8": build.property({
       key: "JQEtq-vmq8",
       subjectKey: "t9zVwg2zO",
-      rootSubjectKey: "t9zVwg2zO",
-      rootPropertyKey: "JQEtq-vmq8",
       propertyTemplateKey:
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       valueKeys: ["CxGx7WMh2"],
-      show: true,
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
       descWithErrorPropertyKeys: options.hasError ? ["JQEtq-vmq8"] : [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {
-    CxGx7WMh2: {
+    CxGx7WMh2: build.literalValue({
       key: "CxGx7WMh2",
       propertyKey: "JQEtq-vmq8",
       rootSubjectKey: "t9zVwg2zO",
       rootPropertyKey: "JQEtq-vmq8",
       literal: options.hasError ? null : "foo",
-      lang: "eng",
-      uri: null,
-      label: null,
-      valueSubjectKey: null,
       errors: options.hasError ? ["Literal required"] : [],
-      component: "InputLiteralValue",
-    },
+      propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
+    }),
   }
 }
 
@@ -309,158 +235,105 @@ const buildTwoLiteralResources = (state, options) => {
   state.editor.currentResource = "t9zVwg2zO"
   state.editor.resources = ["t9zVwg2zO", "u0aWxh3a1"]
   state.entities.subjectTemplates = {
-    "ld4p:RT:bf2:Title:AbbrTitle": {
-      key: "ld4p:RT:bf2:Title:AbbrTitle",
+    "ld4p:RT:bf2:Title:AbbrTitle": build.subjectTemplate({
       id: "ld4p:RT:bf2:Title:AbbrTitle",
-      class: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
+      clazz: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
       label: "Abbreviated Title",
       author: "LD4P",
       date: "2019-08-19",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       ],
-    },
-    "ld4p:RT:bf2:Note": {
-      key: "ld4p:RT:bf2:Note",
+    }),
+    "ld4p:RT:bf2:Note": build.subjectTemplate({
       id: "ld4p:RT:bf2:Note",
-      class: "http://id.loc.gov/ontologies/bibframe/Note",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Note",
       label: "Note",
       author: "LD4P",
       date: "2019-08-19",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note",
       ],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle":
-      {
-        key: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+      build.propertyTemplate({
         subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
         label: "Abbreviated Title",
-        uri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
-        required: false,
-        repeatable: false,
-        immutable: false,
-        defaults: [],
-        remarkUrl: null,
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/mainTitle": "Main title",
+        },
         type: "literal",
         component: "InputLiteral",
-        authorities: [],
-      },
-    "ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note": {
-      key: "ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note",
-      subjectTemplateKey: "ld4p:RT:bf2:Note",
-      label: "Note",
-      uri: "http://id.loc.gov/ontologies/bibframe/note",
-      required: false,
-      repeatable: false,
-      immutable: false,
-      defaults: [],
-      remarkUrl: null,
-      type: "literal",
-      component: "InputLiteral",
-      authorities: [],
-    },
+      }),
+    "ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note":
+      build.propertyTemplate({
+        subjectTemplateKey: "ld4p:RT:bf2:Note",
+        label: "Note",
+        uris: { "http://id.loc.gov/ontologies/bibframe/note": "Note" },
+        type: "literal",
+        component: "InputLiteral",
+      }),
   }
   state.entities.subjects = {
-    t9zVwg2zO: {
+    t9zVwg2zO: build.resource({
       key: "t9zVwg2zO",
-      rootSubjectKey: "t9zVwg2zO",
-      rootPropertyKey: null,
-      valueSubjectOfKey: null,
       uri: "https://api.sinopia.io/resource/0894a8b3",
       subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
       propertyKeys: ["JQEtq-vmq8"],
-      changed: false,
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
-      descWithErrorPropertyKeys: [],
-      group: "stanford",
-      editGroups: ["cornell"],
       labels: ["Abbreviated Title"],
       label: "Abbreviated Title",
-      showNav: false,
-    },
-    u0aWxh3a1: {
+    }),
+    u0aWxh3a1: build.subject({
       key: "u0aWxh3a1",
-      rootSubjectKey: "u0aWxh3a1",
-      rootPropertyKey: null,
-      valueSubjectOfKey: null,
       uri: "https://api.sinopia.io/resource/0704b9c4",
       subjectTemplateKey: "ld4p:RT:bf2:Note",
       propertyKeys: ["KRFur-wnr9"],
-      changed: false,
       descUriOrLiteralValueKeys: ["DyHy8XNi3"],
-      descWithErrorPropertyKeys: [],
-      group: "stanford",
-      editGroups: ["cornell"],
       labels: ["Note"],
       label: "Note",
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    "JQEtq-vmq8": {
+    "JQEtq-vmq8": build.property({
       key: "JQEtq-vmq8",
       subjectKey: "t9zVwg2zO",
       rootSubjectKey: "t9zVwg2zO",
-      rootPropertyKey: "JQEtq-vmq8",
       propertyTemplateKey:
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       valueKeys: ["CxGx7WMh2"],
-      show: true,
       descUriOrLiteralValueKeys: ["CxGx7WMh2"],
-      descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
-      showNav: false,
-    },
-    "KRFur-wnr9": {
+    }),
+    "KRFur-wnr9": build.property({
       key: "KRFur-wnr9",
       subjectKey: "u0aWxh3a1",
-      rootSubjectKey: "u0aWxh3a1",
-      rootPropertyKey: "KRFur-wnr9",
       propertyTemplateKey:
         "ld4p:RT:bf2:Note > http://id.loc.gov/ontologies/bibframe/note",
       valueKeys: ["DyHy8XNi3"],
-      show: true,
-      errors: [],
       descUriOrLiteralValueKeys: ["DyHy8XNi3"],
-      descWithErrorPropertyKeys: [],
       labels: ["Note", "Note"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {
-    CxGx7WMh2: {
+    CxGx7WMh2: build.literalValue({
       key: "CxGx7WMh2",
       propertyKey: "JQEtq-vmq8",
       rootSubjectKey: "t9zVwg2zO",
-      rootPropertyKey: "JQEtq-vmq8",
       literal: "foo",
       lang: "eng",
-      uri: null,
-      label: null,
-      valueSubjectKey: null,
-      errors: [],
-      component: "InputLiteralValue",
-    },
-    DyHy8XNi3: {
+      propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
+    }),
+    DyHy8XNi3: build.literalValue({
       key: "DyHy8XNi3",
       propertyKey: "KRFur-wnr9",
       rootSubjectKey: "u0aWxh3a1",
-      rootPropertyKey: "KRFur-wnr9",
       literal: "This is a note",
       lang: "eng",
-      uri: null,
-      label: null,
-      valueSubjectKey: null,
-      errors: [],
-      component: "InputLiteralValue",
-    },
+      propertyUri: "http://id.loc.gov/ontologies/bibframe/note",
+    }),
   }
 }
 
@@ -470,95 +343,65 @@ const buildResourceWithUri = (state, options) => {
   state.editor.currentResource = "wihOjn-0Z"
   state.editor.resources = ["wihOjn-0Z"]
   state.entities.subjectTemplates = {
-    "resourceTemplate:testing:uber5": {
-      key: "resourceTemplate:testing:uber5",
+    "resourceTemplate:testing:uber5": build.subjectTemplate({
       uri: "http://localhost:3000/resource/resourceTemplate:testing:uber5",
       id: "resourceTemplate:testing:uber5",
-      class: "http://id.loc.gov/ontologies/bibframe/Uber5",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Uber5",
       label: "Uber template5",
-      author: null,
       remark: "Template for testing purposes with suppressed, repeatable URI.",
-      date: null,
       suppressible: true,
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
       ],
-      group: "stanford",
-      editGroups: ["cornell"],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1":
-      {
-        key: "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+      build.propertyTemplate({
         subjectTemplateKey: "resourceTemplate:testing:uber5",
         label: "Uber template5, property1",
-        uri: "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
-        required: false,
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template5/property1":
+            "Property1",
+        },
         repeatable: true,
-        ordered: false,
-        immutable: false,
         remark: "A repeatable URI",
-        remarkUrl: null,
-        defaults: [],
-        valueSubjectTemplateKeys: [],
-        authorities: [],
         type: "uri",
         component: "InputURI",
-      },
+      }),
   }
 
   state.entities.subjects = {
-    FYPd18JgfhSGaeviY7NNu: {
+    FYPd18JgfhSGaeviY7NNu: build.resource({
       key: "FYPd18JgfhSGaeviY7NNu",
-      uri: null,
       descUriOrLiteralValueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
-      descWithErrorPropertyKeys: [],
       subjectTemplateKey: "resourceTemplate:testing:uber5",
-      valueSubjectOfKey: null,
-      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
-      rootPropertyKey: null,
       labels: ["Uber template5"],
-      group: null,
-      editGroups: [],
-      bfAdminMetadataRefs: [],
-      bfItemRefs: [],
-      bfInstanceRefs: [],
-      bfWorkRefs: [],
       propertyKeys: ["RPaGmJ_8IQi8roZ1oj1uK"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    RPaGmJ_8IQi8roZ1oj1uK: {
+    RPaGmJ_8IQi8roZ1oj1uK: build.property({
       key: "RPaGmJ_8IQi8roZ1oj1uK",
-      show: false,
       subjectKey: "FYPd18JgfhSGaeviY7NNu",
       propertyTemplateKey:
         "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
       descUriOrLiteralValueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
-      descWithErrorPropertyKeys: [],
-      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
       labels: ["Uber template5", "Uber template5, property1"],
-      rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
       valueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {
-    "a_-Jp0pY6pH6ytCtfr-mx": {
+    "a_-Jp0pY6pH6ytCtfr-mx": build.uriValue({
       key: "a_-Jp0pY6pH6ytCtfr-mx",
-      literal: null,
-      lang: "eng",
       uri: "https://id.loc.gov/authorities/names/n81079286",
       label: "Kelsey, Michael R.",
       propertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
       rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
       rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
-      valueSubjectKey: null,
-      errors: [],
-      component: "InputURIValue",
-    },
+      propertyUri:
+        "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+    }),
   }
 }
 
@@ -568,38 +411,29 @@ const buildResourceWithList = (state, options) => {
   state.editor.currentResource = "wihOjn-0Z"
   state.editor.resources = ["wihOjn-0Z"]
   state.entities.subjectTemplates = {
-    "resourceTemplate:testing:uber5": {
-      key: "resourceTemplate:testing:uber5",
+    "resourceTemplate:testing:uber5": build.subjectTemplate({
       uri: "http://localhost:3000/resource/resourceTemplate:testing:uber5",
       id: "resourceTemplate:testing:uber5",
-      class: "http://id.loc.gov/ontologies/bibframe/Uber5",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Uber5",
       label: "Uber template5",
-      author: null,
       remark: "Template for testing purposes with repeatable list.",
-      date: null,
       suppressible: true,
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
       ],
-      group: "stanford",
-      editGroups: ["cornell"],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1":
-      {
-        key: "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+      build.propertyTemplate({
         subjectTemplateKey: "resourceTemplate:testing:uber5",
         label: "Uber template5, property1",
-        uri: "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
-        required: false,
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template5/property1":
+            "Property1",
+        },
         repeatable: true,
-        ordered: false,
-        immutable: false,
         remark: "A repeatable list",
-        remarkUrl: null,
-        defaults: [],
-        valueSubjectTemplateKeys: [],
         authorities: [
           {
             uri: "https://id.loc.gov/vocabulary/mrectype",
@@ -609,60 +443,39 @@ const buildResourceWithList = (state, options) => {
         ],
         type: "uri",
         component: "InputList",
-      },
+      }),
   }
 
   state.entities.subjects = {
-    FYPd18JgfhSGaeviY7NNu: {
+    FYPd18JgfhSGaeviY7NNu: build.resource({
       key: "FYPd18JgfhSGaeviY7NNu",
-      uri: null,
       descUriOrLiteralValueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
-      descWithErrorPropertyKeys: [],
       subjectTemplateKey: "resourceTemplate:testing:uber5",
-      valueSubjectOfKey: null,
-      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
-      rootPropertyKey: null,
       labels: ["Uber template5"],
-      group: null,
-      editGroups: [],
-      bfAdminMetadataRefs: [],
-      bfItemRefs: [],
-      bfInstanceRefs: [],
-      bfWorkRefs: [],
       propertyKeys: ["RPaGmJ_8IQi8roZ1oj1uK"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    RPaGmJ_8IQi8roZ1oj1uK: {
+    RPaGmJ_8IQi8roZ1oj1uK: build.property({
       key: "RPaGmJ_8IQi8roZ1oj1uK",
-      show: false,
       subjectKey: "FYPd18JgfhSGaeviY7NNu",
       propertyTemplateKey:
         "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
       descUriOrLiteralValueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
-      descWithErrorPropertyKeys: [],
-      rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
       labels: ["Uber template5", "Uber template5, property1"],
-      rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
       valueKeys: ["a_-Jp0pY6pH6ytCtfr-mx"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {
-    "a_-Jp0pY6pH6ytCtfr-mx": {
+    "a_-Jp0pY6pH6ytCtfr-mx": build.value({
       key: "a_-Jp0pY6pH6ytCtfr-mx",
-      literal: null,
-      lang: null,
-      uri: null,
-      label: null,
       propertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
       rootSubjectKey: "FYPd18JgfhSGaeviY7NNu",
       rootPropertyKey: "RPaGmJ_8IQi8roZ1oj1uK",
-      valueSubjectKey: null,
-      errors: [],
       component: "InputListValue",
-    },
+      propertyUri:
+        "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
+    }),
   }
 }
 
@@ -672,35 +485,26 @@ const buildResourceWithLookup = (state, options) => {
   state.editor.currentResource = "wihOjn-0Z"
   state.editor.resources = ["wihOjn-0Z"]
   state.entities.subjectTemplates = {
-    "test:resource:SinopiaLookup": {
-      key: "test:resource:SinopiaLookup",
+    "test:resource:SinopiaLookup": build.subjectTemplate({
       id: "test:resource:SinopiaLookup",
-      class: "http://id.loc.gov/ontologies/bibframe/Instance",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Instance",
       label: "Testing sinopia lookup",
-      author: null,
       remark: "This hits elasticsearch",
-      date: null,
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
       ],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf":
-      {
-        key: "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
+      build.propertyTemplate({
         subjectTemplateKey: "test:resource:SinopiaLookup",
         label: "Instance of (lookup)",
-        uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/instanceOf": "Instance of",
+        },
         required: true,
-        repeatable: false,
-        immutable: false,
         remark: "lookup",
-        remarkUrl: null,
-        defaults: [],
-        valueSubjectTemplateKeys: [],
         authorities: [
           {
             uri: "urn:ld4p:sinopia:bibframe:instance",
@@ -715,63 +519,45 @@ const buildResourceWithLookup = (state, options) => {
         ],
         type: "uri",
         component: "InputLookup",
-      },
+      }),
   }
 
   state.entities.subjects = {
-    "wihOjn-0Z": {
+    "wihOjn-0Z": build.resource({
       key: "wihOjn-0Z",
-      uri: null,
-      rootSubjectKey: "wihOjn-0Z",
-      rootPropertyKey: null,
-      valueSubjectOfKey: null,
       subjectTemplateKey: "test:resource:SinopiaLookup",
-      group: null,
-      editGroups: [],
-      bfAdminMetadataRefs: [],
-      bfItemRefs: [],
-      bfInstanceRefs: [],
       bfWorkRefs: [
         "http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738",
       ],
       propertyKeys: ["i0SAJP-Zhd"],
       changed: true,
       descUriOrLiteralValueKeys: ["s8-qt3-uu"],
-      descWithErrorPropertyKeys: [],
       labels: ["Testing sinopia lookup"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    "i0SAJP-Zhd": {
+    "i0SAJP-Zhd": build.property({
       key: "i0SAJP-Zhd",
       rootSubjectKey: "wihOjn-0Z",
       rootPropertyKey: "i0SAJP-Zhd",
-      show: true,
       subjectKey: "wihOjn-0Z",
       propertyTemplateKey:
         "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
       valueKeys: ["s8-qt3-uu"],
       descUriOrLiteralValueKeys: ["s8-qt3-uu"],
-      descWithErrorPropertyKeys: [],
       labels: ["Testing sinopia lookup", "Instance of (lookup)"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {
-    "s8-qt3-uu": {
+    "s8-qt3-uu": build.uriValue({
       key: "s8-qt3-uu",
       rootSubjectKey: "wihOjn-0Z",
       rootPropertyKey: "i0SAJP-Zhd",
-      literal: null,
-      lang: "eng",
       uri: "http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738",
       label: "How to Cook Everything Vegetarian",
       propertyKey: "i0SAJP-Zhd",
-      valueSubjectKey: null,
-      errors: [],
-      component: "InputURIValue",
-    },
+      propertyUri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+    }),
   }
 }
 
@@ -781,74 +567,50 @@ const buildResourceWithContractedLiteral = (state, options) => {
   state.editor.currentResource = "t9zVwg2zO"
   state.editor.resources = ["t9zVwg2zO"]
   state.entities.subjectTemplates = {
-    "ld4p:RT:bf2:Title:AbbrTitle": {
-      key: "ld4p:RT:bf2:Title:AbbrTitle",
+    "ld4p:RT:bf2:Title:AbbrTitle": build.subjectTemplate({
       id: "ld4p:RT:bf2:Title:AbbrTitle",
-      class: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
+      clazz: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
       label: "Abbreviated Title",
       author: "LD4P",
       date: "2019-08-19",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       ],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle":
-      {
+      build.propertyTemplate({
         key: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
         subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
         label: "Abbreviated Title",
-        uri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
-        required: false,
-        repeatable: false,
-        immutable: false,
-        defaults: [],
-        remarkUrl: null,
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/mainTitle": "Main title",
+        },
         type: "literal",
         component: "InputLiteral",
-        authorities: [],
-      },
+      }),
   }
   state.entities.subjects = {
-    t9zVwg2zO: {
+    t9zVwg2zO: build.resource({
       key: "t9zVwg2zO",
       rootSubjectKey: "t9zVwg2zO",
-      rootPropertyKey: null,
-      valueSubjectOfKey: null,
       uri: "https://api.sinopia.io/resource/0894a8b3",
       subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
       propertyKeys: ["JQEtq-vmq8"],
-      changed: false,
-      bfAdminMetadataRefs: [],
-      bfInstanceRefs: [],
-      bfItemRefs: [],
-      bfWorkRefs: [],
-      group: null,
-      editGroups: [],
-      descUriOrLiteralValueKeys: [],
-      descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    "JQEtq-vmq8": {
+    "JQEtq-vmq8": build.property({
       key: "JQEtq-vmq8",
       subjectKey: "t9zVwg2zO",
-      rootSubjectKey: "t9zVwg2zO",
       rootPropertyKey: "JQEtq-vmq8",
       propertyTemplateKey:
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
-      valueKeys: null,
       show: true,
-      descUriOrLiteralValueKeys: [],
-      descWithErrorPropertyKeys: [],
       labels: ["Abbreviated Title", "Abbreviated Title"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {}
 }
@@ -859,91 +621,68 @@ const buildResourceWithNestedResource = (state, options) => {
   state.editor.currentResource = "ljAblGiBW"
   state.editor.resources = ["ljAblGiBW"]
   state.entities.subjectTemplates = {
-    "resourceTemplate:testing:uber1": {
-      key: "resourceTemplate:testing:uber1",
+    "resourceTemplate:testing:uber1": build.subjectTemplate({
       id: "resourceTemplate:testing:uber1",
-      class: "http://id.loc.gov/ontologies/bibframe/Uber1",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Uber1",
       label: "Uber template1",
       remark: "Template for testing purposes.",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       ],
-    },
-    "resourceTemplate:testing:uber2": {
-      key: "resourceTemplate:testing:uber2",
+    }),
+    "resourceTemplate:testing:uber2": build.subjectTemplate({
       id: "resourceTemplate:testing:uber2",
-      class: "http://id.loc.gov/ontologies/bibframe/Uber2",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Uber2",
       label: "Uber template2",
       remark:
         "Template for testing purposes with single repeatable literal with a link to Stanford at https://www.stanford.edu",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       ],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
-      {
+      build.propertyTemplate({
         key: "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
         subjectTemplateKey: "resourceTemplate:testing:uber1",
         label: "Uber template1, property1",
-        uri: "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-        required: false,
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "Property1",
+        },
         repeatable: true,
-        immutable: false,
-        defaults: [],
         remark: "Nested, repeatable resource template.",
-        remarkUrl: null,
         type: "resource",
         component: "InputURI",
         valueSubjectTemplateKeys: ["resourceTemplate:testing:uber2"],
-        authorities: [],
-      },
+      }),
     "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1":
-      {
+      build.propertyTemplate({
         key: "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
         subjectTemplateKey: "resourceTemplate:testing:uber2",
         label: "Uber template2, property1",
-        uri: "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
-        required: false,
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template2/property1":
+            "Property1",
+        },
         repeatable: true,
-        immutable: false,
-        defaults: [],
         remark: "A repeatable literal",
-        remarkUrl: null,
         type: "literal",
         component: "InputLiteral",
-        authorities: [],
-      },
+      }),
   }
   state.entities.subjects = {
-    ljAblGiBW: {
+    ljAblGiBW: build.resource({
       key: "ljAblGiBW",
-      uri: null,
-      rootSubjectKey: "ljAblGiBW",
-      rootPropertyKey: null,
-      valueSubjectOfKey: null,
       subjectTemplateKey: "resourceTemplate:testing:uber1",
       propertyKeys: ["v1o90QO1Qx"],
-      changed: false,
-      bfAdminMetadataRefs: [],
-      bfInstanceRefs: [],
-      bfItemRefs: [],
-      bfWorkRefs: [],
-      group: "stanford",
-      editGroups: ["cornell"],
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
       labels: ["Uber template1"],
-      showNav: false,
-    },
-    XPb8jaPWo: {
+    }),
+    XPb8jaPWo: build.subject({
       key: "XPb8jaPWo",
-      uri: null,
       subjectTemplateKey: "resourceTemplate:testing:uber2",
       rootSubjectKey: "ljAblGiBW",
       rootPropertyKey: "v1o90QO1Qx",
@@ -952,24 +691,20 @@ const buildResourceWithNestedResource = (state, options) => {
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
       labels: ["Uber template1", "Uber template1, property1", "Uber template2"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    v1o90QO1Qx: {
+    v1o90QO1Qx: build.property({
       key: "v1o90QO1Qx",
       subjectKey: "ljAblGiBW",
-      rootSubjectKey: "ljAblGiBW",
-      rootPropertyKey: "v1o90QO1Qx",
       propertyTemplateKey:
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       valueKeys: ["VDOeQCnFA8"],
-      show: true,
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
       labels: ["Uber template1", "Uber template1, property1"],
-    },
-    "7caLbfwwle": {
+    }),
+    "7caLbfwwle": build.property({
       key: "7caLbfwwle",
       subjectKey: "XPb8jaPWo",
       rootSubjectKey: "ljAblGiBW",
@@ -977,7 +712,6 @@ const buildResourceWithNestedResource = (state, options) => {
       propertyTemplateKey:
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       valueKeys: ["pRJ0lO_mT-"],
-      show: true,
       descUriOrLiteralValueKeys: ["pRJ0lO_mT-"],
       descWithErrorPropertyKeys: options.hasError ? ["7caLbfwwle"] : [],
       labels: [
@@ -986,36 +720,28 @@ const buildResourceWithNestedResource = (state, options) => {
         "Uber template2",
         "Uber template2, property1",
       ],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {
-    VDOeQCnFA8: {
+    VDOeQCnFA8: build.subjectValue({
       key: "VDOeQCnFA8",
       propertyKey: "v1o90QO1Qx",
       rootSubjectKey: "ljAblGiBW",
-      rootPropertyKey: "v1o90QO1Qx",
-      literal: null,
-      lang: null,
-      uri: null,
-      label: null,
       valueSubjectKey: "XPb8jaPWo",
-      errors: [],
-      component: null,
-    },
-    "pRJ0lO_mT-": {
+      propertyUri:
+        "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+    }),
+    "pRJ0lO_mT-": build.literalValue({
       key: "pRJ0lO_mT-",
       propertyKey: "7caLbfwwle",
       rootSubjectKey: "ljAblGiBW",
       rootPropertyKey: "v1o90QO1Qx",
       literal: options.hasError ? null : "foo",
       lang: "eng",
-      uri: null,
-      label: null,
-      valueSubjectKey: null,
       errors: options.hasError ? ["Literal required"] : [],
-      component: "InputLiteralValue",
-    },
+      propertyUri:
+        "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+    }),
   }
 }
 
@@ -1025,75 +751,51 @@ const buildResourceWithContractedNestedResource = (state, options) => {
   state.editor.currentResource = "ljAblGiBW"
   state.editor.resources = ["ljAblGiBW"]
   state.entities.subjectTemplates = {
-    "resourceTemplate:testing:uber1": {
-      key: "resourceTemplate:testing:uber1",
+    "resourceTemplate:testing:uber1": build.subjectTemplate({
       id: "resourceTemplate:testing:uber1",
-      class: "http://id.loc.gov/ontologies/bibframe/Uber1",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Uber1",
       label: "Uber template1",
       remark: "Template for testing purposes.",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       ],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
-      {
-        key: "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+      build.propertyTemplate({
         subjectTemplateKey: "resourceTemplate:testing:uber1",
         label: "Uber template1, property1",
-        uri: "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+        },
         required: !!options.hasError,
         repeatable: true,
-        immutable: false,
-        defaults: [],
         remark: "Nested, repeatable resource template.",
-        remarkUrl: null,
         type: "resource",
         component: "InputURI",
         valueSubjectTemplateKeys: ["resourceTemplate:testing:uber2"],
-        authorities: [],
-      },
+      }),
   }
   state.entities.subjects = {
-    ljAblGiBW: {
+    ljAblGiBW: build.resource({
       key: "ljAblGiBW",
-      uri: null,
       rootSubjectKey: "ljAblGiBW",
-      rootPropertyKey: null,
-      valueSubjectOfKey: null,
       subjectTemplateKey: "resourceTemplate:testing:uber1",
       propertyKeys: ["v1o90QO1Qx"],
-      changed: false,
-      bfAdminMetadataRefs: [],
-      bfInstanceRefs: [],
-      bfItemRefs: [],
-      bfWorkRefs: [],
-      group: null,
-      editGroups: [],
-      descUriOrLiteralValueKeys: [],
-      descWithErrorPropertyKeys: [],
       labels: ["Uber template1"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    v1o90QO1Qx: {
+    v1o90QO1Qx: build.property({
       key: "v1o90QO1Qx",
       subjectKey: "ljAblGiBW",
       rootSubjectKey: "ljAblGiBW",
-      rootPropertyKey: "v1o90QO1Qx",
       propertyTemplateKey:
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      valueKeys: null,
-      show: true,
-      descUriOrLiteralValueKeys: [],
-      descWithErrorPropertyKeys: [],
       labels: ["Uber template1", "Uber template1, property1"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {}
 }
@@ -1140,184 +842,137 @@ const buildResourceWithTwoNestedResources = (state, options) => {
   state.editor.currentResource = "ljAblGiBW"
   state.editor.resources = ["ljAblGiBW"]
   state.entities.subjectTemplates = {
-    "resourceTemplate:testing:uber1": {
-      key: "resourceTemplate:testing:uber1",
+    "resourceTemplate:testing:uber1": build.subjectTemplate({
       id: "resourceTemplate:testing:uber1",
-      class: "http://id.loc.gov/ontologies/bibframe/Uber1",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Uber1",
       label: "Uber template1",
-      remark: null,
-      remarkUrl: "https://www.stanford.edu",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       ],
-    },
-    "resourceTemplate:testing:uber2": {
-      key: "resourceTemplate:testing:uber2",
+    }),
+    "resourceTemplate:testing:uber2": build.subjectTemplate({
       id: "resourceTemplate:testing:uber2",
-      class: "http://id.loc.gov/ontologies/bibframe/Uber2",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Uber2",
       label: "Uber template2",
       remark: "Template for testing purposes with single repeatable literal.",
-      remarkUrl: "https://www.stanford.edu",
-      group: "stanford",
-      editGroups: ["cornell"],
       propertyTemplateKeys: [
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       ],
-    },
+    }),
   }
   state.entities.propertyTemplates = {
     "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
-      {
-        key: "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+      build.propertyTemplate({
         subjectTemplateKey: "resourceTemplate:testing:uber1",
         label: "Uber template1, property1",
-        uri: "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-        required: false,
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "Property1",
+        },
         repeatable: true,
-        immutable: false,
-        defaults: [],
-        remark: "Nested, repeatable resource template.",
-        remarkUrl: null,
+        remarkUrl: "https://www.stanford.edu",
         type: "resource",
         component: "InputURI",
         valueSubjectTemplateKeys: ["resourceTemplate:testing:uber2"],
-        authorities: [],
-      },
+      }),
     "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1":
-      {
-        key: "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+      build.propertyTemplate({
         subjectTemplateKey: "resourceTemplate:testing:uber2",
         label: "Uber template2, property1",
-        uri: "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
-        required: false,
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template2/property1":
+            "Property1",
+        },
         repeatable: true,
-        immutable: false,
-        defaults: [],
         remark: "A repeatable literal",
-        remarkUrl: null,
+        remarkUrl: "https://www.stanford.edu",
         type: "literal",
         component: "InputLiteral",
-        authorities: [],
-      },
+      }),
   }
   state.entities.subjects = {
-    ljAblGiBW: {
+    ljAblGiBW: build.resource({
       key: "ljAblGiBW",
-      uri: null,
-      resourceKey: "ljAblGiBW",
       subjectTemplateKey: "resourceTemplate:testing:uber1",
       propertyKeys: ["v1o90QO1Qx"],
-      changed: false,
-      bfAdminMetadataRefs: [],
-      bfInstanceRefs: [],
-      bfItemRefs: [],
-      bfWorkRefs: [],
-      group: null,
-      editGroups: [],
       labels: ["Uber template1"],
-      showNav: false,
-    },
-    XPb8jaPWo: {
+    }),
+    XPb8jaPWo: build.subject({
       key: "XPb8jaPWo",
-      uri: null,
       subjectTemplateKey: "resourceTemplate:testing:uber2",
       resourceKey: "ljAblGiBW",
       propertyKeys: ["7caLbfwwle"],
       labels: ["Uber template2"],
-      showNav: false,
-    },
-    XPb8jaPWp: {
+    }),
+    XPb8jaPWp: build.subject({
       key: "XPb8jaPWp",
-      uri: null,
       subjectTemplateKey: "resourceTemplate:testing:uber2",
       resourceKey: "ljAblGiBW",
       propertyKeys: ["7caLbfwwlf"],
       labels: ["Uber template2"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.properties = {
-    v1o90QO1Qx: {
+    v1o90QO1Qx: build.property({
       key: "v1o90QO1Qx",
       subjectKey: "ljAblGiBW",
-      resourceKey: "ljAblGiBW",
       propertyTemplateKey:
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
       valueKeys: ["VDOeQCnFA8", "VDOeQCnFA9"],
-      show: true,
       labels: ["Uber template1", "Uber template1, property1"],
-      showNav: false,
-    },
-    "7caLbfwwle": {
+    }),
+    "7caLbfwwle": build.property({
       key: "7caLbfwwle",
       subjectKey: "XPb8jaPWo",
       resourceKey: "ljAblGiBW",
       propertyTemplateKey:
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       valueKeys: ["pRJ0lO_mT-"],
-      show: true,
       labels: ["Uber template2", "Uber template2, property1"],
-      showNav: false,
-    },
-    "7caLbfwwlf": {
+    }),
+    "7caLbfwwlf": build.property({
       key: "7caLbfwwlf",
       subjectKey: "XPb8jaPWp",
       resourceKey: "ljAblGiBW",
       propertyTemplateKey:
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
       valueKeys: ["pRJ0lO_mU-"],
-      show: true,
       labels: ["Uber template2", "Uber template2, property1"],
-      showNav: false,
-    },
+    }),
   }
   state.entities.values = {
-    VDOeQCnFA8: {
+    VDOeQCnFA8: build.subjectValue({
       key: "VDOeQCnFA8",
       propertyKey: "v1o90QO1Qx",
-      resourceKey: "ljAblGiBW",
-      literal: null,
-      lang: null,
-      uri: null,
-      label: null,
+      rootSubjectKey: "ljAblGiBW",
       valueSubjectKey: "XPb8jaPWo",
-      component: null,
-    },
-    VDOeQCnFA9: {
+      propertyUri:
+        "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+    }),
+    VDOeQCnFA9: build.subjectValue({
       key: "VDOeQCnFA9",
       propertyKey: "v1o90QO1Qx",
-      resourceKey: "ljAblGiBW",
-      literal: null,
-      lang: null,
-      uri: null,
-      label: null,
+      rootSubjectKey: "ljAblGiBW",
       valueSubjectKey: "XPb8jaPWp",
-      component: null,
-    },
-    "pRJ0lO_mT-": {
+      propertyUri:
+        "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+    }),
+    "pRJ0lO_mT-": build.literalValue({
       key: "pRJ0lO_mT-",
       propertyKey: "7caLbfwwle",
-      resourceKey: "ljAblGiBW",
+      rootSubjectKey: "ljAblGiBW",
       literal: "foo",
-      lang: "eng",
-      uri: null,
-      label: null,
-      valueSubjectKey: null,
-      component: "InputLiteralValue",
-    },
-    "pRJ0lO_mU-": {
+      propertyUri:
+        "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+    }),
+    "pRJ0lO_mU-": build.literalValue({
       key: "pRJ0lO_mU-",
       propertyKey: "7caLbfwwlf",
-      resourceKey: "ljAblGiBW",
+      rootSubjectKey: "ljAblGiBW",
       literal: "bar",
-      lang: "eng",
-      uri: null,
-      label: null,
-      valueSubjectKey: null,
-      component: "InputLiteralValue",
-    },
+      propertyUri:
+        "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
+    }),
   }
 }
 

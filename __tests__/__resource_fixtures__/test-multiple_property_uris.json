@@ -1,0 +1,77 @@
+[
+  {
+    "@id": "http://localhost:3000/resource/c7c5f4c0-e7cd-4ca5-a20f-2a37fe1080d7",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "resourceTemplate:testing:multiplePropertyUris"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/testing/MultiplePropertyUris"
+    ],
+    "http://sinopia.io/testing/MultiplePropertyUris/property1b": [
+      {
+        "@value": "A literal value",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/testing/MultiplePropertyUris/property2b": [
+      {
+        "@id": "http://uri/value"
+      }
+    ],
+    "http://sinopia.io/testing/MultiplePropertyUris/property3b": [
+      {
+        "@id": "http://aims.fao.org/aos/agrovoc/c_331388"
+      }
+    ],
+    "http://sinopia.io/testing/MultiplePropertyUris/property4b": [
+      {
+        "@id": "http://id.loc.gov/vocabulary/carriers/sq"
+      }
+    ],
+    "http://sinopia.io/testing/MultiplePropertyUris/property5b": [
+      {
+        "@id": "_:b2"
+      }
+    ]
+  },
+  {
+    "@id": "_:b2",
+    "@type": [
+      "http://sinopia.io/testing/Literal"
+    ],
+    "http://sinopia.io/testing/Literal/property1": [
+      {
+        "@value": "A nested resource",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://aims.fao.org/aos/agrovoc/c_331388",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "corn sheller",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/vocabulary/carriers/sq",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "audio roll"
+      }
+    ]
+  },
+  {
+    "@id": "http://uri/value",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "A URI value",
+        "@language": "eng"
+      }
+    ]
+  }
+]

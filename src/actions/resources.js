@@ -158,3 +158,19 @@ export const clearRelationships = (resourceKey) => ({
   type: "CLEAR_RELATIONSHIPS",
   payload: resourceKey,
 })
+
+export const setValuePropertyURI = (valueKey, uri) => ({
+  type: "SET_VALUE_PROPERTY_URI",
+  payload: {
+    valueKey,
+    uri,
+  },
+})
+
+export const setPropertyPropertyURI = (propertyKey, uri) => ({
+  type: "SET_PROPERTY_PROPERTY_URI",
+  payload: {
+    propertyKey,
+    uri,
+  },
+})
