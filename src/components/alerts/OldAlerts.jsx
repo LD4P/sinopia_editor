@@ -5,7 +5,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { selectErrors } from "selectors/errors"
 import { generateMD5 } from "utilities/Utilities"
-import Alert from "./Alert"
+import Alert from "components/alerts/OldAlert"
 import _ from "lodash"
 
 const Alerts = (props) => {

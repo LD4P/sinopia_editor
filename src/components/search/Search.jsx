@@ -8,7 +8,7 @@ import SinopiaSearchResults from "./SinopiaSearchResults"
 import QASearchResults from "./QASearchResults"
 import SearchResultsPaging from "./SearchResultsPaging"
 import SearchResultsMessage from "./SearchResultsMessage"
-import Alert from "../Alert"
+import Alert from "components/alerts/OldAlert"
 import {
   selectSearchError,
   selectSearchQuery,

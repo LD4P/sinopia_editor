@@ -4,7 +4,7 @@
 import React, { useRef } from "react"
 import { useSelector } from "react-redux"
 import { selectSearchResults } from "selectors/search"
-import Alerts from "../Alerts"
+import Alerts from "components/alerts/OldAlerts"
 import TypeFilter from "./TypeFilter"
 import GroupFilter from "./GroupFilter"
 import SearchResultRows from "./SearchResultRows"

@@ -7,7 +7,7 @@ import {
   clearSearchResults as clearSearchResultsAction,
   setSearchResults,
 } from "actions/search"
-import Alert from "../Alert"
+import Alert from "components/alerts/OldAlert"
 import SinopiaResourceTemplates from "./SinopiaResourceTemplates"
 import SearchResultsPaging from "components/search/SearchResultsPaging"
 import NewResourceTemplateButton from "./NewResourceTemplateButton"

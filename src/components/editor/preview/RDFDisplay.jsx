@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import { n3FromDataset, jsonldFromDataset } from "utilities/Utilities"
-import Alert from "components/Alert"
+import Alert from "components/alerts/OldAlert"
 
 const RDFDisplay = ({ format, dataset }) => {
   const [error, setError] = useState(false)

@@ -3,7 +3,7 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import _ from "lodash"
-import Alerts from "../Alerts"
+import Alerts from "components/alerts/OldAlerts"
 import ResourceTemplateSearchResult from "./ResourceTemplateSearchResult"
 import { selectHistoricalTemplates } from "selectors/history"
 import { selectSearchResults } from "selectors/search"

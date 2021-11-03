@@ -4,7 +4,7 @@ import React, { useMemo } from "react"
 import PropTypes from "prop-types"
 import Header from "../Header"
 import { useSelector } from "react-redux"
-import Alerts from "../Alerts"
+import Alerts from "components/alerts/OldAlerts"
 import Config from "Config"
 import { selectExports } from "selectors/exports"
 

@@ -9,7 +9,7 @@ import CopyToNewButton from "./actions/CopyToNewButton"
 import PreviewButton from "./actions/PreviewButton"
 import PermissionsAction from "./actions/PermissionsAction"
 import SaveAlert from "./SaveAlert"
-import Alerts from "../Alerts"
+import Alerts from "components/alerts/OldAlerts"
 import { newResourceErrorKey } from "./property/ResourceList"
 import { resourceEditErrorKey, resourceEditWarningKey } from "./Editor"
 import {

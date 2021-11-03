@@ -4,7 +4,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import { selectValidationErrors } from "selectors/errors"
-import Alert from "../Alert"
+import Alert from "components/alerts/OldAlert"
 import _ from "lodash"
 
 const ErrorMessages = ({ resourceKey }) => {

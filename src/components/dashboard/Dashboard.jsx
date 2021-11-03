@@ -12,7 +12,7 @@ import Header from "../Header"
 import ResourceList from "./ResourceList"
 import ResourceTemplateSearchResult from "../templates/ResourceTemplateSearchResult"
 import SearchList from "./SearchList"
-import Alerts from "../Alerts"
+import Alerts from "components/alerts/OldAlerts"
 import _ from "lodash"
 import PreviewModal from "../editor/preview/PreviewModal"
 

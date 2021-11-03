@@ -11,7 +11,7 @@ import useRdfResource from "hooks/useRdfResource"
 import { clearErrors, addError } from "actions/errors"
 import { showModal } from "actions/modals"
 import ResourceTemplateChoiceModal from "../ResourceTemplateChoiceModal"
-import Alerts from "../Alerts"
+import Alerts from "components/alerts/OldAlerts"
 
 import _ from "lodash"
 
