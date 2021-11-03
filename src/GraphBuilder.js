@@ -1,7 +1,5 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import N3Writer from "n3/lib/N3Writer"
-import Stream from "stream"
 import rdf from "rdf-ext"
 import _ from "lodash"
 
@@ -27,24 +25,6 @@ export default class GraphBuilder {
       this.buildSubject(this.resource, resourceTerm)
     }
     return this.dataset
-  }
-
-  /**
-   * @return {string} a Turtle representation of a graph
-   */
-  toTurtle() {
-    const turtleChunks = []
-
-    const stream = new Stream.Writable()
-    stream._write = (chunk, _encoding, next) => {
-      turtleChunks.push(chunk.toString())
-      next()
-    }
-
-    const writer = new N3Writer(stream, { end: false })
-    writer.addQuads(this.graph.toArray())
-    writer.end()
-    return turtleChunks.join("")
   }
 
   buildSubject(subject, subjectTerm) {
