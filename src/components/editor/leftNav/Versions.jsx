@@ -12,15 +12,16 @@ import {
 } from "actionCreators/resources"
 import { setCurrentDiff, setVersions } from "actions/resources"
 import { showModal } from "actions/modals"
-import { resourceEditWarningKey } from "components/editor/Editor"
 import VersionPreviewModal from "../preview/VersionPreviewModal"
 import DiffModal from "./DiffModal"
 import { selectVersions } from "selectors/resources"
-import _ from "lodash"
 import ViewButton from "../../buttons/ViewButton"
+import useAlerts from "hooks/useAlerts"
+import _ from "lodash"
 
 const Versions = ({ resource }) => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
   const versions = useSelector((state) => selectVersions(state, resource.key))
 
   const [compareFrom, setCompareFrom] = useState()
@@ -34,11 +35,7 @@ const Versions = ({ resource }) => {
     event.preventDefault()
     setLoadingView(timestamp)
     dispatch(
-      loadResourceForPreview(
-        resource.uri,
-        resourceEditWarningKey(resource.key),
-        { version: timestamp }
-      )
+      loadResourceForPreview(resource.uri, errorKey, { version: timestamp })
     ).then((result) => {
       setLoadingView(false)
       if (result) dispatch(showModal("VersionPreviewModal"))
@@ -78,7 +75,7 @@ const Versions = ({ resource }) => {
         dispatch(
           loadResourceForDiff(
             resource.uri,
-            resourceEditWarningKey(resource.key),
+            errorKey,
             "compareFromResourceKey",
             { version: compareFrom }
           )
@@ -91,12 +88,9 @@ const Versions = ({ resource }) => {
     } else {
       loadPromises.push(
         dispatch(
-          loadResourceForDiff(
-            resource.uri,
-            resourceEditWarningKey(resource.key),
-            "compareToResourceKey",
-            { version: compareTo }
-          )
+          loadResourceForDiff(resource.uri, errorKey, "compareToResourceKey", {
+            version: compareTo,
+          })
         )
       )
     }

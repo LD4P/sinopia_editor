@@ -9,13 +9,14 @@ import { hasRelationships as hasRelationshipsSelector } from "selectors/relation
 import GraphBuilder from "GraphBuilder"
 import PanelResource from "../property/PanelResource"
 import RelationshipsDisplay from "../leftNav/RelationshipsDisplay"
+import useAlerts from "hooks/useAlerts"
 
 const ResourceDisplay = ({
   resourceKey,
-  errorKey,
   defaultFormat = "form",
   displayRelationships = true,
 }) => {
+  const errorKey = useAlerts()
   const resource = useSelector((state) => selectFullSubject(state, resourceKey))
   const hasRelationships = useSelector((state) =>
     hasRelationshipsSelector(state, resourceKey)
@@ -74,7 +75,6 @@ const ResourceDisplay = ({
 
 ResourceDisplay.propTypes = {
   resourceKey: PropTypes.string.isRequired,
-  errorKey: PropTypes.string.isRequired,
   defaultFormat: PropTypes.string,
   displayRelationships: PropTypes.bool,
 }

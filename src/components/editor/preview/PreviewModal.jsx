@@ -1,7 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
-import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
 import ModalWrapper, {
   useDisplayStyle,
@@ -22,9 +21,11 @@ import ResourcePreviewHeader from "./ResourcePreviewHeader"
 import useResource from "hooks/useResource"
 import CopyButton from "../../buttons/CopyButton"
 import EditButton from "../../buttons/EditButton"
+import useAlerts from "hooks/useAlerts"
 
-const PreviewModal = ({ errorKey }) => {
+const PreviewModal = () => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
   const { canEdit, canCreate } = usePermissions()
   const show = useSelector((state) => isCurrentModal(state, "PreviewModal"))
 
@@ -94,10 +95,7 @@ const PreviewModal = ({ errorKey }) => {
             {currentResource && (
               <>
                 <ResourcePreviewHeader resource={currentResource} />
-                <ResourceDisplay
-                  resourceKey={currentResourceKey}
-                  errorKey={errorKey}
-                />
+                <ResourceDisplay resourceKey={currentResourceKey} />
               </>
             )}
           </div>
@@ -129,10 +127,6 @@ const PreviewModal = ({ errorKey }) => {
   )
 
   return <ModalWrapper modal={modal} />
-}
-
-PreviewModal.propTypes = {
-  errorKey: PropTypes.string.isRequired,
 }
 
 export default PreviewModal

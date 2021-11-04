@@ -40,7 +40,7 @@ const Dashboard = (props) => {
       <section id="dashboard">
         <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
         <ContextAlert />
-        <PreviewModal errorKey={dashboardErrorKey} />
+        <PreviewModal />
         {showWelcome && (
           <div>
             <h2>Welcome to Sinopia.</h2>

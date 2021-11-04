@@ -9,7 +9,6 @@ import GroupFilter from "./GroupFilter"
 import SearchResultRows from "./SearchResultRows"
 import SinopiaSort from "./SinopiaSort"
 import PreviewModal from "../editor/preview/PreviewModal"
-import { searchErrorKey } from "./Search"
 
 const SinopiaSearchResults = () => {
   const searchResults = useSelector((state) =>
@@ -22,7 +21,7 @@ const SinopiaSearchResults = () => {
 
   return (
     <React.Fragment>
-      <PreviewModal errorKey={searchErrorKey} />
+      <PreviewModal />
       <div className="row">
         <div className="col" style={{ marginBottom: "5px" }}>
           <TypeFilter />

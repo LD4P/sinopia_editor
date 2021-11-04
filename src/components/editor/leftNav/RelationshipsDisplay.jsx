@@ -8,14 +8,12 @@ import { selectRelationships } from "selectors/relationships"
 import { getSearchResultsByUris } from "sinopiaSearch"
 import { addError } from "actions/errors"
 import RelationshipRow from "./RelationshipRow"
+import useAlerts from "hooks/useAlerts"
 import _ from "lodash"
 
-const RelationshipsDisplay = ({
-  resourceKey,
-  errorKey,
-  displayActions = true,
-}) => {
+const RelationshipsDisplay = ({ resourceKey, displayActions = true }) => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
 
   // These are results from search
   const [resourceRowMaps, setResourceRowMaps] = useState({})
@@ -112,7 +110,6 @@ const RelationshipsDisplay = ({
 
 RelationshipsDisplay.propTypes = {
   resourceKey: PropTypes.string.isRequired,
-  errorKey: PropTypes.string.isRequired,
   displayActions: PropTypes.bool,
 }
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import { n3FromDataset, jsonldFromDataset } from "utilities/Utilities"
-import Alert from "components/alerts/OldAlert"
+import Alert from "components/alerts/Alert"
 
 const RDFDisplay = ({ format, dataset }) => {
   const [error, setError] = useState(false)
@@ -24,7 +24,7 @@ const RDFDisplay = ({ format, dataset }) => {
   }, [dataset, format])
 
   if (error) {
-    return <Alert text={error} />
+    return <Alert errors={[error]} />
   }
 
   if (format !== "table" && !formattedRDF) {

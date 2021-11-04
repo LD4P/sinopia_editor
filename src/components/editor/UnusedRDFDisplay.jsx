@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
-import Alert from "components/alerts/OldAlert"
+import Alert from "components/alerts/Alert"
 import RDFDisplay from "components/editor/preview/RDFDisplay"
 import { selectCurrentResourceKey } from "selectors/resources"
 import { selectUnusedRDF } from "selectors/modals"
@@ -30,7 +30,7 @@ const UnusedRDFDisplay = () => {
   }
 
   if (error) {
-    return <Alert text={error} />
+    return <Alert errors={[error]} />
   }
 
   if (!dataset) return null

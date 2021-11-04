@@ -15,7 +15,6 @@ import {
 import { setCurrentPreviewResource, clearResource } from "actions/resources"
 import ResourceDisplay from "./ResourceDisplay"
 import ResourcePreviewHeader from "./ResourcePreviewHeader"
-import { resourceEditWarningKey } from "../Editor"
 
 const VersionPreviewModal = () => {
   const dispatch = useDispatch()
@@ -72,7 +71,6 @@ const VersionPreviewModal = () => {
                 <ResourcePreviewHeader resource={currentResource} />
                 <ResourceDisplay
                   resourceKey={currentResourceKey}
-                  errorKey={resourceEditWarningKey(currentResourceKey)}
                   displayRelationships={false}
                 />
               </>

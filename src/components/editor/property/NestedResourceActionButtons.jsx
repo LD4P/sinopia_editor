@@ -9,7 +9,6 @@ import {
   faArrowUp,
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons"
-import { resourceEditErrorKey } from "../Editor"
 import { selectNormProperty, selectSiblingValues } from "selectors/resources"
 import {
   selectSubjectTemplateForSubject,
@@ -20,10 +19,13 @@ import {
   removeValue as removeValueAction,
   setValueOrder,
 } from "actions/resources"
+import useAlerts from "hooks/useAlerts"
 import _ from "lodash"
 
 const NestedResourceActionButtons = ({ value }) => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
+
   const property = useSelector((state) =>
     selectNormProperty(state, value.propertyKey)
   )
@@ -51,12 +53,7 @@ const NestedResourceActionButtons = ({ value }) => {
 
   const addAnother = (event) => {
     event.preventDefault()
-    return dispatch(
-      addSiblingValueSubject(
-        _.last(siblingValues).key,
-        resourceEditErrorKey(value.rootSubjectKey)
-      )
-    )
+    return dispatch(addSiblingValueSubject(_.last(siblingValues).key, errorKey))
   }
 
   const moveUp = (event) => {

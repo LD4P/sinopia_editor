@@ -4,7 +4,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import { selectValidationErrors } from "selectors/errors"
-import Alert from "components/alerts/OldAlert"
+import AlertWrapper from "components/alerts/AlertWrapper"
 import _ from "lodash"
 
 const ErrorMessages = ({ resourceKey }) => {
@@ -26,7 +26,7 @@ const ErrorMessages = ({ resourceKey }) => {
       Unable to save this resource. Validation errors: <ul>{errorList}</ul>
     </span>
   )
-  return <Alert text={text} />
+  return <AlertWrapper>{text}</AlertWrapper>
 }
 
 ErrorMessages.propTypes = {

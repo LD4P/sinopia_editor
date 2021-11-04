@@ -4,7 +4,6 @@ import React, { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { MultiSelect } from "react-multi-select-component"
 import { hideModal } from "actions/modals"
-import { resourceEditWarningKey } from "./Editor"
 import { isCurrentModal } from "selectors/modals"
 import {
   saveNewResource,
@@ -18,6 +17,7 @@ import {
 import { selectGroups } from "selectors/authenticate"
 import { selectGroupMap } from "selectors/groups"
 import usePermissions from "hooks/usePermissions"
+import useAlerts from "hooks/useAlerts"
 
 const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) =>
   groupIds
@@ -32,6 +32,7 @@ const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) =>
     }))
 
 const GroupChoiceModal = () => {
+  const errorKey = useAlerts()
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const show = useSelector((state) => isCurrentModal(state, "GroupChoiceModal"))
@@ -84,21 +85,11 @@ const GroupChoiceModal = () => {
     )
     if (resource.uri) {
       dispatch(
-        saveResourceAction(
-          resourceKey,
-          ownerGroupId,
-          editGroupIds,
-          resourceEditWarningKey(resourceKey)
-        )
+        saveResourceAction(resourceKey, ownerGroupId, editGroupIds, errorKey)
       )
     } else {
       dispatch(
-        saveNewResource(
-          resourceKey,
-          ownerGroupId,
-          editGroupIds,
-          resourceEditWarningKey(resourceKey)
-        )
+        saveNewResource(resourceKey, ownerGroupId, editGroupIds, errorKey)
       )
     }
     dispatch(hideModal())

@@ -6,12 +6,13 @@ import { selectSubjectTemplate } from "selectors/templates"
 import { selectGroups } from "selectors/authenticate"
 import Config from "Config"
 import TransferButton from "./TransferButton"
-import { resourceEditWarningKey } from "components/editor/Editor"
 import { transfer } from "actionCreators/transfer"
+import useAlerts from "hooks/useAlerts"
 import _ from "lodash"
 
 const TransferButtons = ({ resourceKey }) => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
   const subjectTemplate = useSelector((state) =>
     selectSubjectTemplate(state, resource?.subjectTemplateKey)
@@ -41,9 +42,7 @@ const TransferButtons = ({ resourceKey }) => {
   if (_.isEmpty(transferTargets)) return null
 
   const handleClick = (event, group, target) => {
-    dispatch(
-      transfer(resource.uri, group, target, resourceEditWarningKey(resourceKey))
-    )
+    dispatch(transfer(resource.uri, group, target, errorKey))
     event.preventDefault()
   }
 
