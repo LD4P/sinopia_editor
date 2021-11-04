@@ -309,8 +309,8 @@ The following are only in the resource subject (that is, the base subject).
   remarkUrl: <remark url, e.g., "http://access.rdatoolkit.org/2.13.html">
   remarkUrlLabel: <a descriptive label about the remark url, e.g., "Title Proper">
   type: <resource | uri | literal>,
-  validationRegex: <regex as a string>,
-  validationDataType: <uri for integer, dateTime, etc.>,
+  validationRegex: <regex for literal validation, as a string with backslashes double-escaped (e.g. "^\\d+$" becomes /^\d+$/)>,
+  validationDataType: <uri for integer, dateTime, etc. for literal validation>,
   component: <InputLookup | InputLookupQA | InputList | InputLiteral | InputURI>,
   valueSubjectTemplateKeys: [<subject template keys>],
   authorities: [{authority}, ...]
@@ -337,6 +337,8 @@ The following are only in the resource subject (that is, the base subject).
   literal: <literal>,
   lang: <language for literal or URI label>,
   -> langLabel: <label for language>,
+  validationRegex: <regex for literal validation, as a string with backslashes double-escaped (e.g. "^\\d+$" becomes /^\d+$/)>,
+  validationDataType: <uri for integer, dateTime, etc. for literal validation>,
   uri: <uri>,
   label: <label for uri>,
   valueSubjectKey: <key for subject for a nested resource>,
