@@ -1328,6 +1328,7 @@ describe("updateValue()", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
+        validationDataType: null,
         errors: [],
         component: "InputLiteralValue",
       })
@@ -1341,7 +1342,7 @@ describe("updateValue()", () => {
     })
   })
 
-  describe("update literal value with validation error", () => {
+  describe("update literal value with validation error for required", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLiteral: true })
       oldState.entities.propertyTemplates[
@@ -1369,6 +1370,7 @@ describe("updateValue()", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
+        validationDataType: null,
         errors: ["Literal required"],
         component: "InputLiteralValue",
       })
@@ -1434,6 +1436,7 @@ describe("updateValue()", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
+        validationDataType: null,
         errors: [],
         component: "InputLiteralValue",
       })

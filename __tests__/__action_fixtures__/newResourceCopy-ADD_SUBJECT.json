@@ -79,6 +79,7 @@
             "label": null,
             "errors": [],
             "component": "InputLiteralValue",
+            "validationDataType": null,
             "valueSubject": null,
             "langLabel": "English"
           }

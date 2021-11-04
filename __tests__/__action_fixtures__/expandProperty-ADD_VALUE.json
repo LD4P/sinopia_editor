@@ -110,6 +110,8 @@
               "remarkUrlLabel": null,
               "remarkUrl": null,
               "defaults": [],
+              "validationDataType": null,
+              "validationRegex": null,
               "valueSubjectTemplateKeys": [],
               "authorities": [],
               "type": "literal",
