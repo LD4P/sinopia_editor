@@ -3,9 +3,12 @@ import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { fetchSinopiaSearchResults } from "actionCreators/search"
 import { selectSearchOptions, selectSearchQuery } from "selectors/search"
+import useAlerts from "hooks/useAlerts"
 
 const SinopiaSort = () => {
   const query = useSelector((state) => selectSearchQuery(state, "resource"))
+  const errorKey = useAlerts()
+
   const searchOptions = useSelector((state) =>
     selectSearchOptions(state, "resource")
   )
@@ -15,12 +18,16 @@ const SinopiaSort = () => {
   const dispatch = useDispatch()
   const handleSort = (sortField, sortOrder) =>
     dispatch(
-      fetchSinopiaSearchResults(query, {
-        ...searchOptions,
-        startOfRange: 0,
-        sortField,
-        sortOrder,
-      })
+      fetchSinopiaSearchResults(
+        query,
+        {
+          ...searchOptions,
+          startOfRange: 0,
+          sortField,
+          sortOrder,
+        },
+        errorKey
+      )
     )
 
   const getClasses = (sortField, sortOrder) =>

@@ -77,28 +77,4 @@ describe("<SinopiaSearchResults />", () => {
       screen.queryByText("Stanford University")
     })
   })
-
-  it("renders errors", () => {
-    const state = createState()
-    state.search.resource = {
-      results: [
-        {
-          uri: "http://platform:8080/resource/some/path",
-          type: ["http://schema.org/Thing"],
-          label: "An item title",
-          modified: "2019-10-23T22:42:57.623Z",
-          created: "2019-10-23T22:42:57.623Z",
-        },
-      ],
-      totalResults: 1,
-      query: "twain",
-      facetResults: {},
-    }
-    state.editor.errors.searchresource = ["Ooops"]
-
-    const store = createStore(state)
-    renderComponent(<SinopiaSearchResults />, store)
-
-    screen.getByText("Ooops")
-  })
 })

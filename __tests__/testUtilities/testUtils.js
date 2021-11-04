@@ -11,17 +11,27 @@ import { createMemoryHistory } from "history"
 import _ from "lodash"
 import App from "components/App"
 import { createState } from "./stateUtils"
+import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 
 export const renderApp = (store, history) => {
   return renderComponent(<App />, store, history)
 }
 
-export const renderComponent = (component, store, history) => {
+export const renderComponent = (
+  component,
+  store,
+  history,
+  { errorKey = null } = {}
+) => {
   setupModal()
   return {
     ...render(
       <Router history={history || createHistory()}>
-        <Provider store={store || createStore()}>{component}</Provider>
+        <Provider store={store || createStore()}>
+          <AlertsContextProvider value={errorKey || "testErrorKey"}>
+            {component}
+          </AlertsContextProvider>
+        </Provider>
       </Router>
     ),
   }

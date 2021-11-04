@@ -17,6 +17,8 @@ import { selectCurrentResourceKey, selectResourceId } from "selectors/resources"
 import { useHistory, useRouteMatch } from "react-router-dom"
 import EditorPreviewModal from "./preview/EditorPreviewModal"
 import { selectSubjectTemplateForSubject } from "selectors/templates"
+import AlertsContextProvider from "components/alerts/AlertsContextProvider"
+import ContextAlert from "components/alerts/ContextAlert"
 
 // Error key for errors that occur while editing a resource.
 export const resourceEditErrorKey = (resourceKey) =>
@@ -79,18 +81,21 @@ const Editor = (props) => {
   if (!resourceKey) return <div id="editor">Loading ...</div>
 
   return (
-    <div id="editor">
-      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <EditorPreviewModal />
-      {displayErrors && hasErrors && (
-        <ErrorMessages resourceKey={resourceKey} />
-      )}
-      <GroupChoiceModal />
-      <ResourcesNav />
-      <EditorActions />
-      <ResourceComponent />
-      <EditorActions />
-    </div>
+    <AlertsContextProvider value={"temporary!"}>
+      <div id="editor">
+        <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
+        <EditorPreviewModal />
+        <ContextAlert />
+        {displayErrors && hasErrors && (
+          <ErrorMessages resourceKey={resourceKey} />
+        )}
+        <GroupChoiceModal />
+        <ResourcesNav />
+        <EditorActions />
+        <ResourceComponent />
+        <EditorActions />
+      </div>
+    </AlertsContextProvider>
   )
 }
 

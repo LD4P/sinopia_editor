@@ -4,12 +4,17 @@ import React from "react"
 import PropTypes from "prop-types"
 import Header from "../Header"
 import TemplateSearch from "./TemplateSearch"
+import AlertsContextProvider from "components/alerts/AlertsContextProvider"
+import ContextAlert from "components/alerts/ContextAlert"
 
 const ResourceTemplate = (props) => (
-  <section id="resourceTemplate">
-    <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-    <TemplateSearch history={props.history} />
-  </section>
+  <AlertsContextProvider value={"temporary!"}>
+    <section id="resourceTemplate">
+      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
+      <ContextAlert />
+      <TemplateSearch history={props.history} />
+    </section>
+  </AlertsContextProvider>
 )
 
 ResourceTemplate.propTypes = {

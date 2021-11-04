@@ -1,12 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, {
-  useMemo,
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-} from "react"
+import React, { useMemo, useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { clearErrors, addError } from "actions/errors"
 import { showModal } from "actions/modals"
@@ -15,19 +9,17 @@ import { getTerm, getContextValues } from "utilities/QuestioningAuthority"
 import useRdfResource from "hooks/useRdfResource"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCopy } from "@fortawesome/free-solid-svg-icons"
-import Alerts from "components/alerts/OldAlerts"
-import { selectErrors } from "selectors/errors"
 import _ from "lodash"
 import { datasetFromN3 } from "utilities/Utilities"
 import { selectSearchUri, selectSearchResults } from "selectors/search"
+import useAlerts from "hooks/useAlerts"
 
 // Errors from retrieving a resource from this page.
 export const searchQARetrieveErrorKey = "searchqaresource"
 
 const QASearchResults = () => {
   const dispatch = useDispatch()
-
-  const errorsRef = useRef(null)
+  const errorKey = useAlerts()
 
   const searchResults = useSelector((state) =>
     selectSearchResults(state, "resource")
@@ -51,26 +43,26 @@ const QASearchResults = () => {
     if (!resourceURI || !searchUri) {
       return
     }
-    dispatch(clearErrors(searchQARetrieveErrorKey))
+    dispatch(clearErrors(errorKey))
     getTerm(resourceURI, resourceId, searchUri)
       .then((resourceN3) => {
         datasetFromN3(resourceN3)
           .then((newDataset) => setDataset(newDataset))
           .catch((err) =>
-            dispatch(addError(`Error parsing resource: ${err.message || err}`))
+            dispatch(
+              addError(
+                errorKey,
+                `Error parsing resource: ${err.message || err}`
+              )
+            )
           )
       })
       .catch((err) =>
-        dispatch(addError(`Error retrieving resource: ${err.message || err}`))
+        dispatch(
+          addError(errorKey, `Error retrieving resource: ${err.message || err}`)
+        )
       )
-  }, [dispatch, resourceId, resourceURI, searchUri])
-
-  const errors = useSelector((state) =>
-    selectErrors(state, searchQARetrieveErrorKey)
-  )
-  useLayoutEffect(() => {
-    if (!_.isEmpty(errors)) window.scrollTo(0, errorsRef.current.offsetTop)
-  }, [errors])
+  }, [dispatch, resourceId, resourceURI, searchUri, errorKey])
 
   // Transform the results into the format to be displayed in the table.
   const tableData = useMemo(
@@ -189,9 +181,6 @@ const QASearchResults = () => {
 
   return (
     <React.Fragment>
-      <div ref={errorsRef}>
-        <Alerts errorKey={searchQARetrieveErrorKey} />
-      </div>
       <div id="search-results" className="row">
         <div className="col">
           <table className="table table-bordered">

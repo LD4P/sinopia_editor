@@ -8,9 +8,7 @@ import SinopiaSearchResults from "./SinopiaSearchResults"
 import QASearchResults from "./QASearchResults"
 import SearchResultsPaging from "./SearchResultsPaging"
 import SearchResultsMessage from "./SearchResultsMessage"
-import Alert from "components/alerts/OldAlert"
 import {
-  selectSearchError,
   selectSearchQuery,
   selectSearchUri,
   selectSearchOptions,
@@ -18,6 +16,10 @@ import {
 } from "selectors/search"
 import { sinopiaSearchUri } from "utilities/authorityConfig"
 import useSearch from "hooks/useSearch"
+import AlertsContextProvider from "components/alerts/AlertsContextProvider"
+import ContextAlert from "components/alerts/ContextAlert"
+
+export const searchErrorKey = "search"
 
 const Search = (props) => {
   const { fetchSearchResults } = useSearch()
@@ -25,7 +27,6 @@ const Search = (props) => {
   const searchOptions = useSelector((state) =>
     selectSearchOptions(state, "resource")
   )
-  const error = useSelector((state) => selectSearchError(state, "resource"))
   const uri = useSelector((state) => selectSearchUri(state, "resource"))
   const queryString = useSelector((state) =>
     selectSearchQuery(state, "resource")
@@ -39,24 +40,24 @@ const Search = (props) => {
   }
 
   return (
-    <div id="search">
-      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <Alert
-        text={error && `An error occurred while searching: ${error.toString()}`}
-      />
-      {uri === sinopiaSearchUri ? (
-        <SinopiaSearchResults />
-      ) : (
-        <QASearchResults />
-      )}
-      <SearchResultsPaging
-        resultsPerPage={searchOptions.resultsPerPage}
-        startOfRange={searchOptions.startOfRange}
-        totalResults={totalResults}
-        changePage={changeSearchPage}
-      />
-      <SearchResultsMessage />
-    </div>
+    <AlertsContextProvider value={searchErrorKey}>
+      <div id="search">
+        <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
+        <ContextAlert />
+        {uri === sinopiaSearchUri ? (
+          <SinopiaSearchResults />
+        ) : (
+          <QASearchResults />
+        )}
+        <SearchResultsPaging
+          resultsPerPage={searchOptions.resultsPerPage}
+          startOfRange={searchOptions.startOfRange}
+          totalResults={totalResults}
+          changePage={changeSearchPage}
+        />
+        <SearchResultsMessage />
+      </div>
+    </AlertsContextProvider>
   )
 }
 
