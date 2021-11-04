@@ -156,6 +156,7 @@ describe("update literal value with validationDataType", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
+        validationRegex: null,
         validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
         errors: [
           "Expected datatype is 'http://www.w3.org/2001/XMLSchema/integer' but '88.9' is not an integer.",
@@ -204,6 +205,7 @@ describe("update literal value with validationDataType", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
+        validationRegex: null,
         validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
         errors: [],
         component: "InputLiteralValue",
@@ -247,6 +249,7 @@ describe("update literal value with validationDataType", () => {
         uri: null,
         label: null,
         valueSubjectKey: null,
+        validationRegex: null,
         validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
         errors: [],
         component: "InputLiteralValue",
@@ -571,6 +574,108 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
       expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
         "JQEtq-vmq8"
       )
+    })
+  })
+})
+
+describe("new literal value with validationRegex", () => {
+  describe("when value matches regex", () => {
+    it("validates and updates state", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasRegexVinskyValidation: true,
+      })
+      expect(oldState.entities.values.CxGx7WMh2.validationRegex).toEqual(
+        "^Vinsky$"
+      )
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "CxGx7WMh2",
+          literal: "Vinsky",
+          lang: "eng",
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.CxGx7WMh2).toStrictEqual({
+        key: "CxGx7WMh2",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "Vinsky",
+        lang: "eng",
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: null,
+        validationRegex: "^Vinsky$",
+        errors: [],
+        component: "InputLiteralValue",
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("CxGx7WMh2")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
+        "CxGx7WMh2"
+      )
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toEqual([])
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toEqual([])
+    })
+  })
+
+  describe("when value does NOT match regex", () => {
+    it("validates and updates state including error", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasRegexVinskyValidation: true,
+      })
+      expect(oldState.entities.values.CxGx7WMh2.validationRegex).toEqual(
+        "^Vinsky$"
+      )
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "CxGx7WMh2",
+          literal: "Stravinsky",
+          lang: "eng",
+        },
+      }
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.CxGx7WMh2).toStrictEqual({
+        key: "CxGx7WMh2",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "Stravinsky",
+        lang: "eng",
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationRegex: "^Vinsky$",
+        validationDataType: null,
+        errors: ["Expected 'Stravinsky' to match validationRegex '^Vinsky$'."],
+        component: "InputLiteralValue",
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("CxGx7WMh2")
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toContain("JQEtq-vmq8")
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
+        "JQEtq-vmq8"
+      )
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
     })
   })
 })

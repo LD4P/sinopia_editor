@@ -247,6 +247,12 @@ const buildResourceWithLiteral = (state, options) => {
     ]
   }
 
+  if (options.hasRegexVinskyValidation) {
+    state.entities.propertyTemplates[
+      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+    ].validationRegex = "^Vinsky$"
+  }
+
   if (options.hasIntegerValidation) {
     state.entities.propertyTemplates[
       "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
@@ -325,6 +331,7 @@ const buildResourceWithLiteral = (state, options) => {
       uri: null,
       label: null,
       valueSubjectKey: null,
+      validationRegex: options.hasRegexVinskyValidation ? "^Vinsky$" : null,
       validationDataType: validationDataType(),
       errors: options.hasError ? ["Literal required"] : [],
       component: "InputLiteralValue",

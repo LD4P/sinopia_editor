@@ -206,6 +206,22 @@ export const updateValueErrors = (state, valueKey) => {
     if (value.uri && !isValidURI(value.uri)) errors.push("Invalid URI")
   }
 
+  if (
+    propertyTemplate.type === "literal" &&
+    propertyTemplate.validationRegex !== null &&
+    propertyTemplate.validationRegex !== "" &&
+    value.literal !== null &&
+    value.literal !== ""
+  ) {
+    // eslint-disable-next-line security/detect-non-literal-regexp
+    const regex = new RegExp(propertyTemplate.validationRegex)
+    if (!regex.test(value.literal)) {
+      errors.push(
+        `Expected '${value.literal}' to match validationRegex '${propertyTemplate.validationRegex}'.`
+      )
+    }
+  }
+
   // because parseInt('88.9') is 88 rather than NaN
   const integerRegex = /^\d+$/
   if (
@@ -225,7 +241,6 @@ export const updateValueErrors = (state, valueKey) => {
   //   of check for validity, it's good enough
   // eslint-disable-next-line security/detect-unsafe-regex
   const xsdDateTimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?$/
-
   const isValidXsdDateTime = (value) =>
     xsdDateTimeRegex.test(value) && new Date(value) !== "Invalid Date"
 
@@ -246,10 +261,8 @@ export const updateValueErrors = (state, valueKey) => {
   const xsdDateTimeStampRegex =
     // eslint-disable-next-line security/detect-unsafe-regex
     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?(Z|([+-]\d{2}):\d{2})$/
-
   const isValidXsdDateTimeStamp = (value) =>
     xsdDateTimeStampRegex.test(value) && new Date(value) !== "Invalid Date"
-
   if (
     propertyTemplate.type === "literal" &&
     propertyTemplate.validationDataType ===
