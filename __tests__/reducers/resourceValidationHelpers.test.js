@@ -167,6 +167,87 @@ describe("update literal value with validationDataType", () => {
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
     })
   })
+
+  describe("update to null value", () => {
+    it("updates state without validation error", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasIntegerValidation: true,
+      })
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "CxGx7WMh2",
+          literal: null,
+          lang: null,
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.CxGx7WMh2).toStrictEqual({
+        key: "CxGx7WMh2",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: null,
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
+        errors: [],
+        component: "InputLiteralValue",
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toEqual([])
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toEqual([])
+    })
+  })
+
+  describe("update to empty string value", () => {
+    it("updates state without validation error", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasIntegerValidation: true,
+      })
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "CxGx7WMh2",
+          literal: "",
+          lang: null,
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+      expect(newState.values.CxGx7WMh2).toStrictEqual({
+        key: "CxGx7WMh2",
+        propertyKey: "JQEtq-vmq8",
+        rootSubjectKey: "t9zVwg2zO",
+        rootPropertyKey: "JQEtq-vmq8",
+        literal: "",
+        lang: null,
+        uri: null,
+        label: null,
+        valueSubjectKey: null,
+        validationDataType: "http://www.w3.org/2001/XMLSchema/integer",
+        errors: [],
+        component: "InputLiteralValue",
+      })
+      expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
+      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toEqual([])
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toEqual([])
+    })
+  })
 })
 
 describe("new literal value with validationDataType of dateTime", () => {

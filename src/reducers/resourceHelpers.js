@@ -212,6 +212,8 @@ export const updateValueErrors = (state, valueKey) => {
     propertyTemplate.type === "literal" &&
     propertyTemplate.validationDataType ===
       "http://www.w3.org/2001/XMLSchema/integer" &&
+    value.literal !== null &&
+    value.literal !== "" &&
     (!integerRegex.test(value.literal) ||
       Number.isNaN(parseInt(value.literal, 10)))
   )
@@ -231,6 +233,8 @@ export const updateValueErrors = (state, valueKey) => {
     propertyTemplate.type === "literal" &&
     propertyTemplate.validationDataType ===
       "http://www.w3.org/2001/XMLSchema/dateTime" &&
+    value.literal !== null &&
+    value.literal !== "" &&
     !isValidXsdDateTime(value.literal)
   )
     errors.push(
@@ -250,6 +254,8 @@ export const updateValueErrors = (state, valueKey) => {
     propertyTemplate.type === "literal" &&
     propertyTemplate.validationDataType ===
       "http://www.w3.org/2001/XMLSchema/dateTimeStamp" &&
+    value.literal !== null &&
+    value.literal !== "" &&
     !isValidXsdDateTimeStamp(value.literal)
   )
     errors.push(
