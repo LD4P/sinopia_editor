@@ -12,9 +12,10 @@ import Header from "../Header"
 import ResourceList from "./ResourceList"
 import ResourceTemplateSearchResult from "../templates/ResourceTemplateSearchResult"
 import SearchList from "./SearchList"
-import Alerts from "components/alerts/OldAlerts"
 import _ from "lodash"
 import PreviewModal from "../editor/preview/PreviewModal"
+import AlertsContextProvider from "components/alerts/AlertsContextProvider"
+import ContextAlert from "components/alerts/ContextAlert"
 
 export const dashboardErrorKey = "dashboard"
 
@@ -35,41 +36,43 @@ const Dashboard = (props) => {
     _.isEmpty(historicalResources)
 
   return (
-    <section id="dashboard">
-      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <Alerts errorKey={dashboardErrorKey} />
-      <PreviewModal errorKey={dashboardErrorKey} />
-      {showWelcome && (
-        <div>
-          <h2>Welcome to Sinopia.</h2>
-          <p>
-            As you use Sinopia, your most recently used templates, resources,
-            and searches will appear on this dashboard.
-          </p>
-        </div>
-      )}
-      {!_.isEmpty(historicalTemplates) && (
-        <div>
-          <h2>Recent templates</h2>
-          <ResourceTemplateSearchResult
-            results={historicalTemplates}
-            errorKey={dashboardErrorKey}
-          />
-        </div>
-      )}
-      {!_.isEmpty(historicalSearches) && (
-        <div>
-          <h2>Recent searches</h2>
-          <SearchList searches={historicalSearches} />
-        </div>
-      )}
-      {!_.isEmpty(historicalResources) && (
-        <div>
-          <h2>Recent resources</h2>
-          <ResourceList resources={historicalResources} />
-        </div>
-      )}
-    </section>
+    <AlertsContextProvider value={dashboardErrorKey}>
+      <section id="dashboard">
+        <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
+        <ContextAlert />
+        <PreviewModal errorKey={dashboardErrorKey} />
+        {showWelcome && (
+          <div>
+            <h2>Welcome to Sinopia.</h2>
+            <p>
+              As you use Sinopia, your most recently used templates, resources,
+              and searches will appear on this dashboard.
+            </p>
+          </div>
+        )}
+        {!_.isEmpty(historicalTemplates) && (
+          <div>
+            <h2>Recent templates</h2>
+            <ResourceTemplateSearchResult
+              results={historicalTemplates}
+              errorKey={dashboardErrorKey}
+            />
+          </div>
+        )}
+        {!_.isEmpty(historicalSearches) && (
+          <div>
+            <h2>Recent searches</h2>
+            <SearchList searches={historicalSearches} />
+          </div>
+        )}
+        {!_.isEmpty(historicalResources) && (
+          <div>
+            <h2>Recent resources</h2>
+            <ResourceList resources={historicalResources} />
+          </div>
+        )}
+      </section>
+    </AlertsContextProvider>
   )
 }
 
