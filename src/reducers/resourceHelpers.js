@@ -1,4 +1,12 @@
-import { emptyValue, isValidURI } from "utilities/Utilities"
+import { emptyValue } from "utilities/Utilities"
+import {
+  literalRequiredError,
+  literalRegexValidationError,
+  literalIntegerValidationError,
+  literalDateTimeValidationError,
+  literalDateTimeStampValidationError,
+  uriPropertiesAndValueErrors,
+} from "./resourceValidationHelpers"
 import _ from "lodash"
 
 export const mergeSubjectPropsToNewState = (state, subjectKey, props) => {
@@ -177,104 +185,28 @@ const removeFromKeyArray = (obj, key, value) => {
   obj[key] = [...obj[key]].filter((checkValue) => checkValue !== value)
 }
 
-// Shameless Green: getting literal validations working first.
-// TODO: refactor this into more than one function;  move into separate file
-//   look at how we validate templates ... maybe use that as a model??
-//   (see actionCreators/templateValidationHelpers)
 export const updateValueErrors = (state, valueKey) => {
   const value = state.values[valueKey]
   const property = state.properties[value.propertyKey]
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
-  // If this is first value, then must have a value.
-  const errors = []
-  if (
-    value.key === property.valueKeys[0] &&
-    propertyTemplate.required &&
-    propertyTemplate.type === "literal" &&
-    !value.literal
-  )
-    errors.push("Literal required")
+  // If this is first value, then errors must get a value.
+  let errors = []
+
+  if (propertyTemplate.type === "literal") {
+    errors.push(literalRequiredError(value, property, propertyTemplate))
+    if (value.literal !== null && value.literal !== "") {
+      errors.push(literalRegexValidationError(value, propertyTemplate))
+      errors.push(literalIntegerValidationError(value, propertyTemplate))
+      errors.push(literalDateTimeValidationError(value, propertyTemplate))
+      errors.push(literalDateTimeStampValidationError(value, propertyTemplate))
+    }
+  }
 
   if (propertyTemplate.type === "uri") {
-    if (value.key === property.valueKeys[0] && propertyTemplate.required) {
-      if (!value.uri) errors.push("URI required")
-      if (!value.label) errors.push("Label required")
-    } else {
-      if (value.uri && !value.label) errors.push("Label required")
-      if (!value.uri && value.label) errors.push("URI required")
-    }
-    if (value.uri && !isValidURI(value.uri)) errors.push("Invalid URI")
+    errors.push(uriPropertiesAndValueErrors(value, property, propertyTemplate))
   }
 
-  if (
-    propertyTemplate.type === "literal" &&
-    propertyTemplate.validationRegex !== null &&
-    propertyTemplate.validationRegex !== "" &&
-    value.literal !== null &&
-    value.literal !== ""
-  ) {
-    // eslint-disable-next-line security/detect-non-literal-regexp
-    const regex = new RegExp(propertyTemplate.validationRegex)
-    if (!regex.test(value.literal)) {
-      errors.push(
-        `Expected '${value.literal}' to match validationRegex '${propertyTemplate.validationRegex}'.`
-      )
-    }
-  }
-
-  // because parseInt('88.9') is 88 rather than NaN
-  const integerRegex = /^\d+$/
-  if (
-    propertyTemplate.type === "literal" &&
-    propertyTemplate.validationDataType ===
-      "http://www.w3.org/2001/XMLSchema/integer" &&
-    value.literal !== null &&
-    value.literal !== "" &&
-    (!integerRegex.test(value.literal) ||
-      Number.isNaN(parseInt(value.literal, 10)))
-  )
-    errors.push(
-      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/integer' but '${value.literal}' is not an integer.`
-    )
-
-  // this regex not restrictive enough, but with new Date instantiation as part
-  //   of check for validity, it's good enough
-  // eslint-disable-next-line security/detect-unsafe-regex
-  const xsdDateTimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?$/
-  const isValidXsdDateTime = (value) =>
-    xsdDateTimeRegex.test(value) && new Date(value) !== "Invalid Date"
-
-  if (
-    propertyTemplate.type === "literal" &&
-    propertyTemplate.validationDataType ===
-      "http://www.w3.org/2001/XMLSchema/dateTime" &&
-    value.literal !== null &&
-    value.literal !== "" &&
-    !isValidXsdDateTime(value.literal)
-  )
-    errors.push(
-      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTime' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'.`
-    )
-
-  // this regex not restrictive enough, but with new Date instantiation as part
-  //   of check for validity, it's good enough
-  const xsdDateTimeStampRegex =
-    // eslint-disable-next-line security/detect-unsafe-regex
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?(Z|([+-]\d{2}):\d{2})$/
-  const isValidXsdDateTimeStamp = (value) =>
-    xsdDateTimeStampRegex.test(value) && new Date(value) !== "Invalid Date"
-  if (
-    propertyTemplate.type === "literal" &&
-    propertyTemplate.validationDataType ===
-      "http://www.w3.org/2001/XMLSchema/dateTimeStamp" &&
-    value.literal !== null &&
-    value.literal !== "" &&
-    !isValidXsdDateTimeStamp(value.literal)
-  )
-    errors.push(
-      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTimeStamp' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'.`
-    )
-
+  errors = errors.flat(1) // all that pushing makes for nested arrays
   return mergeValuePropsToNewState(state, valueKey, { errors })
 }
 
