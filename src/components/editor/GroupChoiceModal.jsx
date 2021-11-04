@@ -113,7 +113,7 @@ const GroupChoiceModal = () => {
       >
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
-            <div className="modal-header prop-heading">
+            <div className="modal-header">
               <button
                 type="button"
                 className="btn-close"
@@ -121,7 +121,7 @@ const GroupChoiceModal = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body group-panel">
+            <div className="modal-body">
               <label htmlFor="ownerSelect">
                 <h4>Who owns this?</h4>
               </label>
@@ -150,29 +150,26 @@ const GroupChoiceModal = () => {
               ) : (
                 <p>{editGroupLabels} </p>
               )}
-              <div>
-                <div className="group-choose-buttons">
-                  <button
-                    className="btn btn-link btn-sm"
-                    style={{ paddingRight: "20px" }}
-                    onClick={close}
-                    aria-label="Cancel Save Group"
-                  >
-                    Cancel
-                  </button>
-                  {canChange && (
-                    <button
-                      className="btn btn-primary btn-sm"
-                      data-dismiss="modal"
-                      aria-label="Save Group"
-                      data-testid="Save Group"
-                      onClick={saveAndClose}
-                    >
-                      Save
-                    </button>
-                  )}
-                </div>
-              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                className="btn btn-link btn-sm"
+                onClick={close}
+                aria-label="Cancel Save Group"
+              >
+                Cancel
+              </button>
+              {canChange && (
+                <button
+                  className="btn btn-primary btn-sm"
+                  data-dismiss="modal"
+                  aria-label="Save Group"
+                  data-testid="Save Group"
+                  onClick={saveAndClose}
+                >
+                  Save
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -56,7 +56,7 @@ const DiffModal = () => {
       >
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
-            <div className="modal-header prop-heading">
+            <div className="modal-header">
               <h4 className="modal-title" id="view-resource-modal-title">
                 Compare
               </h4>
@@ -68,7 +68,7 @@ const DiffModal = () => {
                 data-testid="Close"
               ></button>
             </div>
-            <div className="modal-body group-panel">
+            <div className="modal-body">
               {diff && <DiffDisplay diff={diff} />}
             </div>
           </div>
