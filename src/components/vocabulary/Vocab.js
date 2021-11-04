@@ -111,6 +111,10 @@ const vocabulary = {
     description: "Values are ordered",
     url: "http://sinopia.io/vocabulary/propertyAttribute/ordered",
   },
+  "propertyAttribute/supressLanguage": {
+    description: "Language selection is suppressed",
+    url: "http://sinopia.io/vocabulary/propertyAttribute/languageSuppressed",
+  },
   "propertyAttribute/repeatable": {
     description: "Multiple values are allowed for the property",
     url: "http://sinopia.io/vocabulary/propertyAttribute/repeatable",

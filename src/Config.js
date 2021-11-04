@@ -143,6 +143,10 @@ class Config {
       // Can add additional transfer targets, e.g., discovery
     }
   }
+
+  static get defaultLanguageId() {
+    return "eng"
+  }
 }
 
 export default Config

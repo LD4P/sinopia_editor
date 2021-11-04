@@ -98,7 +98,9 @@ const InputLiteralValue = ({
             handleClick={toggleDiacritics}
             handleBlur={handleBlur}
           />
-          <LanguageButton value={value} />
+          {!propertyTemplate.languageSuppressed && (
+            <LanguageButton value={value} />
+          )}
         </div>
         <div className="col-sm-1">
           <RemoveButton

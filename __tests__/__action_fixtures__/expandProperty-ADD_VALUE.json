@@ -104,6 +104,7 @@
               "uri": "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",
               "required": false,
               "repeatable": true,
+              "languageSuppressed": false,
               "ordered": false,
               "immutable": false,
               "remark": "A repeatable literal",

@@ -190,7 +190,9 @@ const InputURIValue = ({
             handleClick={toggleDiacritics}
             handleBlur={handleLabelBlur}
           />
-          <LanguageButton value={value} />
+          {!propertyTemplate.languageSuppressed && (
+            <LanguageButton value={value} />
+          )}
         </div>
         <div className="col-sm-1 d-flex align-items-end">
           <RemoveButton

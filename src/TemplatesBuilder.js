@@ -171,6 +171,9 @@ export default class TemplatesBuilder {
       required: propertyAttrValues.includes(
         "http://sinopia.io/vocabulary/propertyAttribute/required"
       ),
+      languageSuppressed: propertyAttrValues.includes(
+        "http://sinopia.io/vocabulary/propertyAttribute/languageSuppressed"
+      ),
       repeatable: propertyAttrValues.includes(
         "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
       ),
