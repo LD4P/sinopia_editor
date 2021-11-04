@@ -11,13 +11,13 @@ import {
   selectSubjectTemplate,
 } from "selectors/templates"
 import { selectNormSubject } from "selectors/resources"
+import useAlerts from "hooks/useAlerts"
 import _ from "lodash"
-
-export const newResourceErrorKey = "newresource"
 
 const ResourceList = (props) => {
   const dispatch = useDispatch()
   const [newResourceList, setNewResourceList] = useState([])
+  const errorKey = useAlerts()
   const topRef = useRef(null)
 
   const propertyTemplate = useSelector((state) =>
@@ -34,11 +34,9 @@ const ResourceList = (props) => {
     let isMounted = true
     const handleChange = (resourceTemplateId, event) => {
       event.preventDefault()
-      dispatch(newResource(resourceTemplateId, newResourceErrorKey)).then(
-        (result) => {
-          if (!result) window.scrollTo(0, topRef.current?.offsetTop)
-        }
-      )
+      dispatch(newResource(resourceTemplateId, errorKey)).then((result) => {
+        if (!result) window.scrollTo(0, topRef.current?.offsetTop)
+      })
     }
     const getNewResourceList = async () => {
       const listItems = []
@@ -75,7 +73,7 @@ const ResourceList = (props) => {
     return () => {
       isMounted = false
     }
-  }, [dispatch, propertyTemplate.authorities, subjectTemplate.class])
+  }, [dispatch, propertyTemplate.authorities, subjectTemplate.class, errorKey])
 
   const dropdown = (items) => (
     <div className="dropdown">

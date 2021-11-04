@@ -3,6 +3,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Header from "../Header"
+import AlertsContextProvider from "components/alerts/AlertsContextProvider"
+import ContextAlert from "components/alerts/ContextAlert"
 import _ from "lodash"
 
 const vocabulary = {
@@ -202,6 +204,8 @@ const AllProperties = () => (
   </div>
 )
 
+const vocabErrorKey = "vocab"
+
 const Vocab = (props) => {
   const body =
     props.match.params.element === undefined ? (
@@ -210,10 +214,13 @@ const Vocab = (props) => {
       displayProperty(props.match.params)
     )
   return (
-    <div id="vocabulary">
-      <Header triggerHomePageMenu={props.triggerHandleOffsetMenu} />
-      {body}
-    </div>
+    <AlertsContextProvider value={vocabErrorKey}>
+      <div id="vocabulary">
+        <Header triggerHomePageMenu={props.triggerHandleOffsetMenu} />
+        <ContextAlert />
+        {body}
+      </div>
+    </AlertsContextProvider>
   )
 }
 

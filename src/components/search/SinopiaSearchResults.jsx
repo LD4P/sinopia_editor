@@ -1,22 +1,16 @@
 // Copyright 2019 Stanford University see LICENSE for license
 /* eslint max-params: ["error", 4] */
 
-import React, { useRef } from "react"
+import React from "react"
 import { useSelector } from "react-redux"
 import { selectSearchResults } from "selectors/search"
-import Alerts from "../Alerts"
 import TypeFilter from "./TypeFilter"
 import GroupFilter from "./GroupFilter"
 import SearchResultRows from "./SearchResultRows"
 import SinopiaSort from "./SinopiaSort"
 import PreviewModal from "../editor/preview/PreviewModal"
 
-// Errors from retrieving a resource from this page.
-export const searchRetrieveErrorKey = "searchresource"
-
 const SinopiaSearchResults = () => {
-  const errorsRef = useRef(null)
-
   const searchResults = useSelector((state) =>
     selectSearchResults(state, "resource")
   )
@@ -27,10 +21,7 @@ const SinopiaSearchResults = () => {
 
   return (
     <React.Fragment>
-      <PreviewModal errorKey={searchRetrieveErrorKey} />
-      <div ref={errorsRef}>
-        <Alerts errorKey={searchRetrieveErrorKey} />
-      </div>
+      <PreviewModal />
       <div className="row">
         <div className="col" style={{ marginBottom: "5px" }}>
           <TypeFilter />
@@ -55,10 +46,7 @@ const SinopiaSearchResults = () => {
               </tr>
             </thead>
             <tbody>
-              <SearchResultRows
-                searchResults={searchResults}
-                errorKey={searchRetrieveErrorKey}
-              />
+              <SearchResultRows searchResults={searchResults} />
             </tbody>
           </table>
         </div>

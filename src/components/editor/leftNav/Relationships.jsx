@@ -2,16 +2,12 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { resourceEditWarningKey } from "components/editor/Editor"
 import RelationshipsDisplay from "./RelationshipsDisplay"
 
 const Relationships = ({ resourceKey }) => (
   <div className="row">
     <div className="col">
-      <RelationshipsDisplay
-        resourceKey={resourceKey}
-        errorKey={resourceEditWarningKey(resourceKey)}
-      />
+      <RelationshipsDisplay resourceKey={resourceKey} />
     </div>
   </div>
 )

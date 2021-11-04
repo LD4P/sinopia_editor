@@ -3,11 +3,10 @@ import {
   fetchSinopiaSearchResults as fetchSinopiaSearchResultsCreator,
   fetchQASearchResults as fetchQASearchResultsCreator,
 } from "actionCreators/search"
-import { setSearchResults } from "actions/search"
 import { sinopiaSearchUri } from "utilities/authorityConfig"
 import { useHistory } from "react-router-dom"
 
-const useSearch = () => {
+const useSearch = (errorKey) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -16,57 +15,29 @@ const useSearch = () => {
     uri,
     searchOptions,
     startOfRange
-  ) => {
+  ) =>
     dispatch(
-      fetchQASearchResultsCreator(queryString, uri, {
+      fetchQASearchResultsCreator(queryString, uri, errorKey, {
         ...searchOptions,
         startOfRange,
       })
-    ).then((response) => {
-      if (response) {
-        dispatch(
-          setSearchResults(
-            "resource",
-            uri,
-            response.results,
-            response.totalHits,
-            {},
-            queryString,
-            { startOfRange },
-            response.error
-          )
-        )
-      }
-    })
-  }
+    )
 
   const fetchSinopiaSearchResults = (
     queryString,
     searchOptions,
     startOfRange
-  ) => {
+  ) =>
     dispatch(
-      fetchSinopiaSearchResultsCreator(queryString, {
-        ...searchOptions,
-        startOfRange,
-      })
-    ).then((response) => {
-      if (response) {
-        dispatch(
-          setSearchResults(
-            "resource",
-            sinopiaSearchUri,
-            response.results,
-            response.totalHits,
-            {},
-            queryString,
-            { startOfRange },
-            response.error
-          )
-        )
-      }
-    })
-  }
+      fetchSinopiaSearchResultsCreator(
+        queryString,
+        {
+          ...searchOptions,
+          startOfRange,
+        },
+        errorKey
+      )
+    )
 
   const fetchSearchResults = (
     queryString,
@@ -75,15 +46,15 @@ const useSearch = () => {
     startOfRange
   ) => {
     if (uri === sinopiaSearchUri) {
-      fetchSinopiaSearchResults(queryString, searchOptions, startOfRange)
-    } else {
-      fetchQASearchResults(queryString, uri, searchOptions, startOfRange)
+      return fetchSinopiaSearchResults(queryString, searchOptions, startOfRange)
     }
+    return fetchQASearchResults(queryString, uri, searchOptions, startOfRange)
   }
 
   const fetchNewSearchResults = (queryString, uri, searchOptions = {}) => {
-    fetchSearchResults(queryString, uri, searchOptions, 0)
-    history.push("/search")
+    fetchSearchResults(queryString, uri, searchOptions, 0).then((result) => {
+      if (result) history.push("/search")
+    })
   }
 
   return { fetchSearchResults, fetchNewSearchResults }

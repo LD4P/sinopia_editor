@@ -9,6 +9,7 @@ import searchConfig from "../../../static/searchConfig.json"
 import { sinopiaSearchUri } from "utilities/authorityConfig"
 import useSearch from "hooks/useSearch"
 import { selectSearchQuery } from "selectors/search"
+import useAlerts from "hooks/useAlerts"
 
 const HeaderSearch = () => {
   const [uri, setUri] = useState(sinopiaSearchUri)
@@ -17,7 +18,8 @@ const HeaderSearch = () => {
   )
   const [query, setQuery] = useState("")
   const popoverRef = useRef()
-  const { fetchNewSearchResults } = useSearch()
+  const errorKey = useAlerts()
+  const { fetchNewSearchResults } = useSearch(errorKey)
 
   const options = searchConfig.map((config) => (
     <option key={config.uri} value={config.uri}>
@@ -54,14 +56,17 @@ const HeaderSearch = () => {
 
     if (query === "") return
 
-    if (!uri.startsWith(sinopiaSearchUri)) fetchNewSearchResults(query, uri)
-
-    // The URI may have a /{className} suffix, which we translate into a filter for the search
     const options = {}
-    const [baseUri, filter] = uri.split("/")
-    if (filter)
-      options.typeFilter = `http://id.loc.gov/ontologies/bibframe/${filter}`
-    fetchNewSearchResults(query, baseUri, options)
+    let searchUri = uri
+    // The URI may have a /{className} suffix, which we translate into a filter for the search
+    if (uri.startsWith(sinopiaSearchUri)) {
+      const [baseUri, filter] = uri.split("/")
+      if (filter) {
+        options.typeFilter = `http://id.loc.gov/ontologies/bibframe/${filter}`
+        searchUri = baseUri
+      }
+    }
+    fetchNewSearchResults(query, searchUri, options)
   }
 
   const handleKeyPress = (event) => {

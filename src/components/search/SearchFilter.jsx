@@ -8,6 +8,7 @@ import {
   selectSearchQuery,
   selectSearchFacetResults,
 } from "selectors/search"
+import useAlerts from "hooks/useAlerts"
 import _ from "lodash"
 
 const SearchFilter = ({
@@ -17,6 +18,7 @@ const SearchFilter = ({
   filterSearchOption,
 }) => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
   const query = useSelector((state) => selectSearchQuery(state, "resource"))
   const searchOptions = useSelector((state) =>
     selectSearchOptions(state, "resource")
@@ -36,11 +38,15 @@ const SearchFilter = ({
 
   const performFilter = (selectedFilters) => {
     dispatch(
-      fetchSinopiaSearchResults(query, {
-        ...searchOptions,
-        startOfRange: 0,
-        [filterSearchOption]: selectedFilters,
-      })
+      fetchSinopiaSearchResults(
+        query,
+        {
+          ...searchOptions,
+          startOfRange: 0,
+          [filterSearchOption]: selectedFilters,
+        },
+        errorKey
+      )
     )
   }
 

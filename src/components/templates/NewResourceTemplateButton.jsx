@@ -4,21 +4,20 @@ import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { newResourceErrorKey } from "./SinopiaResourceTemplates"
 import { newResource } from "actionCreators/resources"
 import { selectErrors } from "selectors/errors"
 import { selectCurrentResourceKey } from "selectors/resources"
 import _ from "lodash"
 import Config from "Config"
 import usePermissions from "hooks/usePermissions"
+import useAlerts from "hooks/useAlerts"
 
 const NewResourceTemplateButton = (props) => {
   const dispatch = useDispatch()
   const { canCreate } = usePermissions()
+  const errorKey = useAlerts()
 
-  const errors = useSelector((state) =>
-    selectErrors(state, newResourceErrorKey)
-  )
+  const errors = useSelector((state) => selectErrors(state, errorKey))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
   const [navigateEditor, setNavigateEditor] = useState(false)
@@ -32,11 +31,11 @@ const NewResourceTemplateButton = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(
-      newResource(Config.rootResourceTemplateId, newResourceErrorKey)
-    ).then((result) => {
-      setNavigateEditor(result)
-    })
+    dispatch(newResource(Config.rootResourceTemplateId, errorKey)).then(
+      (result) => {
+        setNavigateEditor(result)
+      }
+    )
   }
 
   if (!canCreate) return null

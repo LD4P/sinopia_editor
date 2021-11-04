@@ -11,7 +11,9 @@ import Editor from "./editor/Editor"
 import Footer from "./Footer"
 import Dashboard, { dashboardErrorKey } from "./dashboard/Dashboard"
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom"
-import ResourceTemplate from "./templates/ResourceTemplate"
+import ResourceTemplate, {
+  templateErrorKey,
+} from "./templates/ResourceTemplate"
 import LoadResource from "./load/LoadResource"
 import Search from "./search/Search"
 import CanvasMenu from "./menu/CanvasMenu"
@@ -30,7 +32,6 @@ import {
   dispatchResourceForPreview,
   dispatchResourceForEditor,
 } from "actionCreators/resources"
-import { newResourceErrorKey } from "./templates/SinopiaResourceTemplates"
 import usePermissions from "hooks/usePermissions"
 import { showModal } from "actions/modals"
 
@@ -67,7 +68,7 @@ const App = (props) => {
           dispatch(
             newResourceCreator(
               editorTemplateMatch.params.templateId,
-              newResourceErrorKey
+              templateErrorKey
             )
           ).then((result) => {
             if (!result) history.push("/templates")

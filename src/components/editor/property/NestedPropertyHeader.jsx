@@ -9,13 +9,14 @@ import PropertyLabel from "./PropertyLabel"
 import PropertyLabelInfo from "./PropertyLabelInfo"
 import { displayResourceValidations } from "selectors/errors"
 import { showProperty, hideProperty } from "actions/resources"
-import { resourceEditErrorKey } from "../Editor"
 import _ from "lodash"
 import { expandProperty, contractProperty } from "actionCreators/resources"
 import { bindActionCreators } from "redux"
 import ToggleButton from "../ToggleButton"
+import useAlerts from "hooks/useAlerts"
 
 const NestedPropertyHeader = (props) => {
+  const errorKey = useAlerts()
   const toggleLabel =
     props.property.show === true
       ? `Hide ${props.propertyTemplate.label}`
@@ -47,12 +48,7 @@ const NestedPropertyHeader = (props) => {
         <button
           type="button"
           className="btn btn-add btn-add-property"
-          onClick={() =>
-            props.expandProperty(
-              props.property.key,
-              resourceEditErrorKey(props.resourceKey)
-            )
-          }
+          onClick={() => props.expandProperty(props.property.key, errorKey)}
           aria-label={`Add ${props.propertyTemplate.label}`}
           data-testid={`Add ${props.propertyTemplate.label}`}
           data-id={props.property.key}

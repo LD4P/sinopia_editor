@@ -8,21 +8,16 @@ import PropertyLabelInfo from "./PropertyLabelInfo"
 import PropertyComponent from "./PropertyComponent"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
-import { resourceEditErrorKey } from "../Editor"
 import { expandProperty, contractProperty } from "actionCreators/resources"
 import { selectNormProperty } from "selectors/resources"
 import { selectPropertyTemplate } from "selectors/templates"
 import useNavTarget from "hooks/useNavTarget"
+import useAlerts from "hooks/useAlerts"
 import _ from "lodash"
 
-const PanelProperty = ({
-  propertyKey,
-  resourceKey,
-  readOnly,
-  id,
-  isTemplate,
-}) => {
+const PanelProperty = ({ propertyKey, readOnly, id, isTemplate }) => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
   const property = useSelector((state) =>
     selectNormProperty(state, propertyKey)
   )
@@ -69,14 +64,7 @@ const PanelProperty = ({
               <button
                 type="button"
                 className="btn btn-sm btn-add btn-link pull-right"
-                onClick={() =>
-                  dispatch(
-                    expandProperty(
-                      property.key,
-                      resourceEditErrorKey(resourceKey)
-                    )
-                  )
-                }
+                onClick={() => dispatch(expandProperty(property.key, errorKey))}
                 aria-label={`Add ${propertyTemplate.label}`}
                 data-testid={`Add ${propertyTemplate.label}`}
                 data-id={property.key}
@@ -115,7 +103,6 @@ const PanelProperty = ({
 PanelProperty.propTypes = {
   id: PropTypes.string,
   propertyKey: PropTypes.string.isRequired,
-  resourceKey: PropTypes.string.isRequired,
   isTemplate: PropTypes.bool,
   readOnly: PropTypes.bool.isRequired,
 }

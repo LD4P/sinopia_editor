@@ -4,7 +4,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import SearchResultRows from "../search/SearchResultRows"
-import { dashboardErrorKey } from "./Dashboard"
 
 const ResourceList = (props) => {
   if (props.resources.length === 0) {
@@ -29,10 +28,7 @@ const ResourceList = (props) => {
               </tr>
             </thead>
             <tbody>
-              <SearchResultRows
-                searchResults={props.resources}
-                errorKey={dashboardErrorKey}
-              />
+              <SearchResultRows searchResults={props.resources} />
             </tbody>
           </table>
         </div>

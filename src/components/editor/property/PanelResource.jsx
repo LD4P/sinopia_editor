@@ -17,7 +17,6 @@ const PanelResource = ({ resource, readOnly = false }) => {
         <form>
           {resource.propertyKeys.map((propertyKey, index) => (
             <PanelProperty
-              resourceKey={resource.key}
               propertyKey={propertyKey}
               isTemplate={isTemplate}
               key={propertyKey}

@@ -40,17 +40,22 @@ describe("fetchSinopiaSearchResults", () => {
     sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
     const store = mockStore(createState())
     await store.dispatch(
-      fetchSinopiaSearchResults(query, {
-        startOfRange: 5,
-        resultsPerPage: 10,
-        sortField: "label",
-        sortOrder: "desc",
-      })
+      fetchSinopiaSearchResults(
+        query,
+        {
+          startOfRange: 5,
+          resultsPerPage: 10,
+          sortField: "label",
+          sortOrder: "desc",
+        },
+        "testerrorkey"
+      )
     )
 
     const actions = store.getActions()
 
-    expect(actions).toHaveLength(2)
+    expect(actions).toHaveLength(3)
+    expect(actions).toHaveAction("CLEAR_ERRORS")
     expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
       searchType: "resource",
       error: undefined,
@@ -155,11 +160,12 @@ describe("fetchQASearchResults", () => {
     sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
 
     const store = mockStore(createState())
-    await store.dispatch(fetchQASearchResults(query, uri))
+    await store.dispatch(fetchQASearchResults(query, uri, "testerrorkey"))
 
     const actions = store.getActions()
 
-    expect(actions).toHaveLength(2)
+    expect(actions).toHaveLength(3)
+    expect(actions).toHaveAction("CLEAR_ERRORS")
     expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
       searchType: "resource",
       uri,
@@ -193,11 +199,12 @@ describe("fetchQASearchResults", () => {
     Swagger.mockResolvedValue(client)
 
     const store = mockStore(createState())
-    await store.dispatch(fetchQASearchResults(query, uri))
+    await store.dispatch(fetchQASearchResults(query, uri, "testerrorkey"))
 
     const actions = store.getActions()
 
-    expect(actions).toHaveLength(1)
+    expect(actions).toHaveLength(3)
+    expect(actions).toHaveAction("CLEAR_ERRORS")
     expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
       searchType: "resource",
       uri,
@@ -207,6 +214,10 @@ describe("fetchQASearchResults", () => {
       options: {},
       facetResults: {},
       error: "Ooops...",
+    })
+    expect(actions).toHaveAction("ADD_ERROR", {
+      errorKey: "testerrorkey",
+      error: ["An error occurred while searching: Ooops..."],
     })
   })
 })

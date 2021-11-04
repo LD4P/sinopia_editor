@@ -9,15 +9,10 @@ import CopyToNewButton from "./actions/CopyToNewButton"
 import PreviewButton from "./actions/PreviewButton"
 import PermissionsAction from "./actions/PermissionsAction"
 import SaveAlert from "./SaveAlert"
-import Alerts from "../Alerts"
-import { newResourceErrorKey } from "./property/ResourceList"
-import { resourceEditErrorKey, resourceEditWarningKey } from "./Editor"
 import {
   selectCurrentResourceKey,
   selectNormSubject,
 } from "selectors/resources"
-import { selectErrors } from "selectors/errors"
-import _ from "lodash"
 import UnusedRDFDisplay from "./UnusedRDFDisplay"
 
 /**
@@ -26,21 +21,13 @@ import UnusedRDFDisplay from "./UnusedRDFDisplay"
 const ResourceComponent = () => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  const errors = useSelector((state) =>
-    selectErrors(state, resourceEditErrorKey(resourceKey))
-  )
 
-  if (!_.isEmpty(errors)) {
-    return <Alerts errorKey={resourceEditErrorKey(resourceKey)} />
-  }
   if (!resource) {
     return null
   }
 
   return (
     <div id="resourceTemplate">
-      <Alerts errorKey={resourceEditWarningKey(resourceKey)} />
-      <Alerts errorKey={newResourceErrorKey} />
       <section className="resource-header">
         <h3>
           {resource.label}

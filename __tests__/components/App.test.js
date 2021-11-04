@@ -136,7 +136,7 @@ describe("<App />", () => {
       await screen.findByText("Note", { selector: "h3" })
     })
 
-    it("redirects to /templates when for /editor/<rtId> when rtId not found", async () => {
+    it("redirects to /templates for /editor/<rtId> when rtId not found", async () => {
       const history = createHistory(["/editor/resourceTemplate:bf2:Notex"])
       renderApp(null, history)
 

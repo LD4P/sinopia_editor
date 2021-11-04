@@ -1,8 +1,5 @@
 import _ from "lodash"
-import {
-  resourceEditErrorKey,
-  resourceEditWarningKey,
-} from "components/editor/Editor"
+import { resourceEditErrorKey } from "components/editor/Editor"
 import { emptyValue } from "utilities/Utilities"
 import {
   newBlankLiteralValue,
@@ -466,7 +463,6 @@ export const clearResourceFromEditor = (state, action) => {
   }
 
   delete newState.errors[resourceEditErrorKey(resourceKey)]
-  delete newState.errors[resourceEditWarningKey(resourceKey)]
   delete newState.lastSave[resourceKey]
   delete newState.unusedRDF[resourceKey]
 

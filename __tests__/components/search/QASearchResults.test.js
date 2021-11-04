@@ -103,47 +103,4 @@ describe("<QASearchResults />", () => {
     expect(screen.getAllByTitle("Copy")).toHaveLength(2)
     expect(container.querySelector("img")).toBeInTheDocument()
   })
-
-  it("renders errors", () => {
-    const state = createState()
-    state.editor.errors.searchqaresource = ["Ooops"]
-    state.search.resource = {
-      results: [
-        {
-          uri: "http://share-vde.org/sharevde/rdfBibframe/Work/3107365",
-          id: "http://share-vde.org/sharevde/rdfBibframe/Work/3107365",
-          label: "These twain",
-          context: [
-            {
-              property: "Title",
-              values: ["These twain"],
-              selectable: true,
-              drillable: false,
-            },
-            {
-              property: "Type",
-              values: [
-                "http://id.loc.gov/ontologies/bflc/Hub",
-                "http://id.loc.gov/ontologies/bibframe/Work",
-              ],
-              selectable: false,
-              drillable: false,
-            },
-            {
-              property: "Contributor",
-              values: ["Bennett, Arnold,1867-1931."],
-              selectable: false,
-              drillable: false,
-            },
-          ],
-        },
-      ],
-      totalResults: 1,
-      query: "twain",
-    }
-
-    const store = createStore(state)
-    renderComponent(<QASearchResults history={{}} />, store)
-    screen.getByText("Ooops")
-  })
 })

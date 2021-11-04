@@ -53,7 +53,7 @@ describe("routing in editor", () => {
         expect(history.location.pathname).toEqual("/templates")
       )
 
-      await screen.findByText(/Not found/, { selector: ".alert" })
+      await screen.findByText(/Not found/, { selector: ".alert p" })
     })
   })
 
@@ -104,7 +104,7 @@ describe("routing in editor", () => {
         expect(history.location.pathname).toEqual("/dashboard")
       )
 
-      await screen.findByText(/Not Found/, { selector: ".alert" })
+      await screen.findByText(/Not Found/, { selector: ".alert p" })
     }, 10000)
   })
 })

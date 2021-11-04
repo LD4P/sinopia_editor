@@ -6,7 +6,7 @@ import PropTypes from "prop-types"
 import InputLiteralOrURI from "../inputs/InputLiteralOrURI"
 import NestedResource from "./NestedResource"
 import ReadOnlyInputLiteralOrURI from "../inputs/ReadOnlyInputLiteralOrURI"
-import Alert from "../../Alert"
+import Alert from "components/alerts/Alert"
 import { displayResourceValidations } from "selectors/errors"
 import { selectUri } from "selectors/resources"
 
@@ -46,7 +46,7 @@ const PropertyComponent = ({ property, propertyTemplate, readOnly }) => {
         />
       )
     default:
-      return <Alert text="No component." />
+      return <Alert errors={["No component."]} />
   }
 }
 

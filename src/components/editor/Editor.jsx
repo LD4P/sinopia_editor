@@ -11,20 +11,18 @@ import ErrorMessages from "./ErrorMessages"
 import ResourcesNav from "./ResourcesNav"
 import {
   displayResourceValidations,
-  hasValidationErrors,
+  hasValidationErrors as hasValidationErrorsSelector,
 } from "selectors/errors"
 import { selectCurrentResourceKey, selectResourceId } from "selectors/resources"
 import { useHistory, useRouteMatch } from "react-router-dom"
 import EditorPreviewModal from "./preview/EditorPreviewModal"
 import { selectSubjectTemplateForSubject } from "selectors/templates"
+import AlertsContextProvider from "components/alerts/AlertsContextProvider"
+import ContextAlert from "components/alerts/ContextAlert"
 
 // Error key for errors that occur while editing a resource.
 export const resourceEditErrorKey = (resourceKey) =>
   `resourceedit-${resourceKey}`
-
-// Error key for warnings that occur while editing a resource.
-export const resourceEditWarningKey = (resourceKey) =>
-  `resourceedit-warning-${resourceKey}`
 
 const Editor = (props) => {
   const history = useHistory()
@@ -47,8 +45,8 @@ const Editor = (props) => {
   const displayErrors = useSelector((state) =>
     displayResourceValidations(state, resourceKey)
   )
-  const hasErrors = useSelector((state) =>
-    hasValidationErrors(state, resourceKey)
+  const hasValidationErrors = useSelector((state) =>
+    hasValidationErrorsSelector(state, resourceKey)
   )
 
   useEffect(() => {
@@ -79,18 +77,21 @@ const Editor = (props) => {
   if (!resourceKey) return <div id="editor">Loading ...</div>
 
   return (
-    <div id="editor">
-      <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
-      <EditorPreviewModal />
-      {displayErrors && hasErrors && (
-        <ErrorMessages resourceKey={resourceKey} />
-      )}
-      <GroupChoiceModal />
-      <ResourcesNav />
-      <EditorActions />
-      <ResourceComponent />
-      <EditorActions />
-    </div>
+    <AlertsContextProvider value={resourceEditErrorKey(resourceKey)}>
+      <div id="editor">
+        <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
+        <EditorPreviewModal />
+        <ContextAlert />
+        {displayErrors && hasValidationErrors && (
+          <ErrorMessages resourceKey={resourceKey} />
+        )}
+        <GroupChoiceModal />
+        <ResourcesNav />
+        <EditorActions />
+        <ResourceComponent />
+        <EditorActions />
+      </div>
+    </AlertsContextProvider>
   )
 }
 

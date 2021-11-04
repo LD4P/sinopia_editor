@@ -10,7 +10,7 @@ import SearchResultRow from "./SearchResultRow"
 /**
  * Generates HTML rows of all search results
  */
-const SearchResultRows = ({ searchResults, errorKey }) => {
+const SearchResultRows = ({ searchResults }) => {
   const { canEdit, canCreate } = usePermissions()
   const groupMap = useSelector((state) => selectGroupMap(state))
 
@@ -21,14 +21,12 @@ const SearchResultRows = ({ searchResults, errorKey }) => {
       groupMap={groupMap}
       canCreate={canCreate}
       canEdit={canEdit(row)}
-      errorKey={errorKey}
     />
   ))
 }
 
 SearchResultRows.propTypes = {
   searchResults: PropTypes.array.isRequired,
-  errorKey: PropTypes.string.isRequired,
 }
 
 export default SearchResultRows
