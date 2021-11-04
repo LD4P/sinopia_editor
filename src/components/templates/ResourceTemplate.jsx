@@ -7,8 +7,10 @@ import TemplateSearch from "./TemplateSearch"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
 
+export const templateErrorKey = "template"
+
 const ResourceTemplate = (props) => (
-  <AlertsContextProvider value={"temporary!"}>
+  <AlertsContextProvider value={templateErrorKey}>
     <section id="resourceTemplate">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <ContextAlert />

@@ -7,27 +7,27 @@ import {
   clearSearchResults as clearSearchResultsAction,
   setSearchResults,
 } from "actions/search"
-import Alert from "components/alerts/OldAlert"
 import SinopiaResourceTemplates from "./SinopiaResourceTemplates"
 import SearchResultsPaging from "components/search/SearchResultsPaging"
 import NewResourceTemplateButton from "./NewResourceTemplateButton"
 import {
-  selectSearchError,
   selectSearchQuery,
   selectSearchOptions,
   selectSearchTotalResults,
 } from "selectors/search"
+import { clearErrors, addError } from "actions/errors"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
+import useAlerts from "hooks/useAlerts"
 
 const TemplateSearch = (props) => {
   const dispatch = useDispatch()
+  const errorKey = useAlerts()
   // Tokens allow us to cancel an existing search. Does not actually stop the
   // search, but causes result to be ignored.
   const tokens = useRef([])
 
-  const error = useSelector((state) => selectSearchError(state, "template"))
   const lastQueryString = useSelector((state) =>
     selectSearchQuery(state, "template")
   )
@@ -60,7 +60,8 @@ const TemplateSearch = (props) => {
     const token = { cancel: false }
     tokens.current.push(token)
     getTemplateSearchResults(queryString, { startOfRange }).then((response) => {
-      if (!token.cancel)
+      if (!token.cancel) {
+        if (queryString !== "") dispatch(clearErrors(errorKey))
         dispatch(
           setSearchResults(
             "template",
@@ -73,8 +74,17 @@ const TemplateSearch = (props) => {
             response.error
           )
         )
+        if (response.error) {
+          dispatch(
+            addError(
+              errorKey,
+              `Error searching for templates: ${response.error}`
+            )
+          )
+        }
+      }
     })
-  }, [dispatch, queryString, startOfRange])
+  }, [dispatch, queryString, startOfRange, errorKey])
 
   const changePage = (startOfRange) => {
     setStartOfRange(startOfRange)
@@ -88,7 +98,6 @@ const TemplateSearch = (props) => {
   return (
     <React.Fragment>
       <div id="search">
-        <Alert text={error} />
         <div className="row">
           <div className="col-md-10">
             <form

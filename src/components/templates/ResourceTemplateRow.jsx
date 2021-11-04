@@ -10,12 +10,14 @@ import EditButton from "../buttons/EditButton"
 import CopyButton from "../buttons/CopyButton"
 import NewButton from "../buttons/NewButton"
 import useResource from "hooks/useResource"
+import useAlerts from "hooks/useAlerts"
 
 /**
  * This is the list view of all the templates
  */
-const ResourceTemplateRow = ({ row, errorKey }) => {
+const ResourceTemplateRow = ({ row }) => {
   const { canCreate, canEdit } = usePermissions()
+  const errorKey = useAlerts()
   const groupMap = useSelector((state) => selectGroupMap(state))
 
   const {
@@ -77,7 +79,6 @@ const ResourceTemplateRow = ({ row, errorKey }) => {
 
 ResourceTemplateRow.propTypes = {
   row: PropTypes.object,
-  errorKey: PropTypes.string.isRequired,
 }
 
 export default ResourceTemplateRow

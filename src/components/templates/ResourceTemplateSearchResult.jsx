@@ -7,9 +7,9 @@ import ResourceTemplateRow from "./ResourceTemplateRow"
 /**
  * This is the list view of all the templates
  */
-const ResourceTemplateSearchResult = ({ results, errorKey }) => {
+const ResourceTemplateSearchResult = ({ results }) => {
   const rows = results.map((row) => (
-    <ResourceTemplateRow key={row.id} row={row} errorKey={errorKey} />
+    <ResourceTemplateRow key={row.id} row={row} />
   ))
 
   return (
@@ -38,7 +38,6 @@ const ResourceTemplateSearchResult = ({ results, errorKey }) => {
 
 ResourceTemplateSearchResult.propTypes = {
   results: PropTypes.array,
-  errorKey: PropTypes.string.isRequired,
 }
 
 export default ResourceTemplateSearchResult

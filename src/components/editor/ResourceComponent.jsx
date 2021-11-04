@@ -10,7 +10,6 @@ import PreviewButton from "./actions/PreviewButton"
 import PermissionsAction from "./actions/PermissionsAction"
 import SaveAlert from "./SaveAlert"
 import Alerts from "components/alerts/OldAlerts"
-import { newResourceErrorKey } from "./property/ResourceList"
 import { resourceEditErrorKey, resourceEditWarningKey } from "./Editor"
 import {
   selectCurrentResourceKey,
@@ -40,7 +39,6 @@ const ResourceComponent = () => {
   return (
     <div id="resourceTemplate">
       <Alerts errorKey={resourceEditWarningKey(resourceKey)} />
-      <Alerts errorKey={newResourceErrorKey} />
       <section className="resource-header">
         <h3>
           {resource.label}

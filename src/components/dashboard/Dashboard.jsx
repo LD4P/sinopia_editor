@@ -53,10 +53,7 @@ const Dashboard = (props) => {
         {!_.isEmpty(historicalTemplates) && (
           <div>
             <h2>Recent templates</h2>
-            <ResourceTemplateSearchResult
-              results={historicalTemplates}
-              errorKey={dashboardErrorKey}
-            />
+            <ResourceTemplateSearchResult results={historicalTemplates} />
           </div>
         )}
         {!_.isEmpty(historicalSearches) && (
