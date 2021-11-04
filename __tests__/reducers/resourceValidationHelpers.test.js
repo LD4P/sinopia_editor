@@ -62,6 +62,10 @@ describe("new literal value with validationDataType of integer", () => {
       expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
         "DxGx7WMh3"
       )
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toEqual([])
+      expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toEqual([])
     })
   })
 
@@ -107,7 +111,12 @@ describe("new literal value with validationDataType of integer", () => {
         ],
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
-      expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
+      expect(
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toContain("DxGx7WMh3")
+      expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
+        "DxGx7WMh3"
+      )
       expect(
         newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
       ).toContain("JQEtq-vmq8")
@@ -163,7 +172,6 @@ describe("update literal value with validationDataType", () => {
       expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
         "JQEtq-vmq8"
       )
-
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
     })
   })
@@ -205,6 +213,9 @@ describe("update literal value with validationDataType", () => {
       expect(
         newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
       ).toEqual([])
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+      ).toEqual([])
       expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toEqual([])
     })
   })
@@ -244,6 +255,9 @@ describe("update literal value with validationDataType", () => {
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
       expect(
         newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+      ).toEqual([])
+      expect(
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
       ).toEqual([])
       expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toEqual([])
     })
