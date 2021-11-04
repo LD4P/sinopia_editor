@@ -66,7 +66,7 @@ const ResourceTemplateChoiceModal = (props) => {
     >
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content">
-          <div className="modal-header prop-heading">
+          <div className="modal-header">
             <h4 className="modal-title">Choose resource template</h4>
             <button
               type="button"
@@ -75,40 +75,38 @@ const ResourceTemplateChoiceModal = (props) => {
               aria-label="Close"
             ></button>
           </div>
-          <form className="group-select-options">
-            <div className="modal-body group-panel">
-              <label className="group-select-label" htmlFor="template-lookup">
-                Into which resource template do you want to load this resource?
-              </label>
-              <AsyncTypeahead
-                onSearch={search}
-                onChange={change}
-                options={options}
-                multiple={false}
-                isLoading={isLoading}
-                selected={selected}
-                placeholder="Enter id, label, URI, remark, or author"
-                minLength={1}
-                allowNew={() => false}
-                id={"template-lookup"}
-              />
-              <div className="group-choose-buttons">
-                <button
-                  className="btn btn-link"
-                  style={{ paddingRight: "20px" }}
-                  onClick={close}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="btn btn-primary btn-sm"
-                  onClick={(event) => saveAndClose(event)}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </form>
+          <div className="modal-body">
+            <label htmlFor="template-lookup">
+              Into which resource template do you want to load this resource?
+            </label>
+            <AsyncTypeahead
+              onSearch={search}
+              onChange={change}
+              options={options}
+              multiple={false}
+              isLoading={isLoading}
+              selected={selected}
+              placeholder="Enter id, label, URI, remark, or author"
+              minLength={1}
+              allowNew={() => false}
+              id={"template-lookup"}
+            />
+          </div>
+          <div className="modal-footer">
+            <button
+              className="btn btn-link"
+              style={{ paddingRight: "20px" }}
+              onClick={close}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={(event) => saveAndClose(event)}
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </div>
