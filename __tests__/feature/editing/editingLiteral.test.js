@@ -187,10 +187,6 @@ describe("editing a literal property", () => {
     fireEvent.change(input, { target: { value: "no language!" } })
     fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
-    // There is foo text.
-    await waitFor(() =>
-      expect(screen.getByText("no language!")).toHaveClass("form-control")
-    )
     // There is not a language button.
     expect(
       screen.queryByTestId("Change language for no language!")
