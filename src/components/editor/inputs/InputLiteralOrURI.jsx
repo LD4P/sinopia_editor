@@ -49,7 +49,7 @@ const InputLiteralOrURI = ({
     let newValue
     switch (propertyTemplate.component) {
       case "InputURI":
-        newValue = newBlankUriValue(property)
+        newValue = newBlankUriValue(property, propertyTemplate)
         break
       case "InputLookup":
         newValue = newBlankLookupValue(property)
@@ -58,7 +58,7 @@ const InputLiteralOrURI = ({
         newValue = newBlankListValue(property)
         break
       default:
-        newValue = newBlankLiteralValue(property)
+        newValue = newBlankLiteralValue(property, propertyTemplate)
     }
     dispatch(addValueAction(newValue))
     event.preventDefault()

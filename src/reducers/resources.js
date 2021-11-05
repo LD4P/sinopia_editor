@@ -512,14 +512,14 @@ const addFirstValue = (state, propertyKey) => {
     case "InputLiteral":
       return addValueToNewState(
         state,
-        newBlankLiteralValue(property),
+        newBlankLiteralValue(property, propertyTemplate),
         null,
         propertyTemplate.required
       )
     case "InputURI":
       return addValueToNewState(
         state,
-        newBlankUriValue(property),
+        newBlankUriValue(property, propertyTemplate),
         null,
         propertyTemplate.required
       )

@@ -26,11 +26,11 @@ export const newLiteralValue = (
   lang = Config.defaultLanguageId
 ) => newValue(property, literal, lang, null, null, null, "InputLiteralValue")
 
-export const newBlankLiteralValue = (property) =>
+export const newBlankLiteralValue = (property, propertyTemplate) =>
   newValue(
     property,
     null,
-    Config.defaultLanguageId,
+    propertyTemplate.languageSuppressed ? null : Config.defaultLanguageId,
     null,
     null,
     null,
@@ -44,11 +44,11 @@ export const newUriValue = (
   lang = Config.defaultLanguageId
 ) => newValue(property, null, lang, uri, label, null, "InputURIValue")
 
-export const newBlankUriValue = (property) =>
+export const newBlankUriValue = (property, propertyTemplate) =>
   newValue(
     property,
     null,
-    Config.defaultLanguageId,
+    propertyTemplate.languageSuppressed ? null : Config.defaultLanguageId,
     null,
     null,
     null,
