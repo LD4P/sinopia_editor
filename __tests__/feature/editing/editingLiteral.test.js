@@ -184,16 +184,17 @@ describe("editing a literal property", () => {
 
     // Add a value
     const input = screen.getByPlaceholderText("Uber template1, property9")
-    fireEvent.change(input, { target: { value: "foo" } })
+    fireEvent.change(input, { target: { value: "no language!" } })
     fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
     // There is foo text.
     await waitFor(() =>
-      expect(screen.getByText("foo")).toHaveClass("form-control")
+      expect(screen.getByText("no language!")).toHaveClass("form-control")
     )
     // There is not a language button.
-    const langBtn = screen.queryByTestId("Change language for foo")
-    expect(langBtn).toBeNull()
+    expect(
+      screen.queryByTestId("Change language for no language!")
+    ).not.toBeInTheDocument()
   }, 25000)
 
   it("allows selecting no language", async () => {
