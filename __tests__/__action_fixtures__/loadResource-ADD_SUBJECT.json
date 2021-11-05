@@ -227,7 +227,7 @@
 					"uri": "http://id.loc.gov/ontologies/bibframe/uber/template1/property9",
 					"required": true,
 					"repeatable": false,
-					"languageSuppressed": false,
+					"languageSuppressed": true,
 					"ordered": false,
 					"immutable": false,
 					"remark": null,

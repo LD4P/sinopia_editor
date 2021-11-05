@@ -177,6 +177,25 @@ describe("editing a literal property", () => {
     expect(langBtn).toHaveTextContent("Tai languages")
   }, 25000)
 
+  it("does not show language selection when suppressed", async () => {
+    renderApp(null, history)
+
+    await screen.findByText("Uber template1", { selector: "h3" })
+
+    // Add a value
+    const input = screen.getByPlaceholderText("Uber template1, property9")
+    fireEvent.change(input, { target: { value: "foo" } })
+    fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
+
+    // There is foo text.
+    await waitFor(() =>
+      expect(screen.getByText("foo")).toHaveClass("form-control")
+    )
+    // There is not a language button.
+    const langBtn = screen.queryByTestId("Change language for foo")
+    expect(langBtn).toBeNull()
+  }, 25000)
+
   it("allows selecting no language", async () => {
     renderApp(null, history)
 
