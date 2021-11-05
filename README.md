@@ -174,6 +174,24 @@ To proxy to development:
 
 Note that proxying to other environments may require additional Cognito configuration.
 
+### Base Templates and https://sinopia.io/vocabulary
+
+#### Base Templates
+
+Conceptually, the Sinopia Editor uses JSON "resource templates" to inform the editor code which widgets (React "components") need to be displayed in order to create resource RDF according to said "resource template."
+
+A "resource template" is comprised of one or more "property templates."  But the Sinopia Editor is _also used to create those JSON "property templates."_ Thus, there must be some initial JSON **base templates** to inform the editor code which widgets (React "components") need to be displayed in order to create the JSON corresponding to a valid property template.  A set of "start the world," "bootup templates", if you will.
+
+#### Where do Base Template JSON Files Live?
+
+**base templates** are in the `static/templates/` folder, and may themselves refer to files up a level in the `static/` folder.  The loading of the base templates is baked into the sinopia_editor code.
+
+Reiterating: the UI widgets displayed for a property template are driven by what is in the `static/` folder and its subfolders.  There is no additional deployment necessary.
+
+#### Updates to https://sinopia.io/vocabulary
+
+The sinopia_editor code displays the properties and classes prefixed "http://sinopia.io/vocabulary/" from a javascript object in `src/components/vocabulary/Vocab.js`.  If a new property is added to the Sinopia specific vocabulary (e.g. by adding to a base template), then that property should also be added to `src/components/vocabulary/Vocab.js`.  Changes to the documentation for these properties can be done as a pull request.
+
 ## State model
 
 ![Redux State ER Diagram](redux-state.svg)
