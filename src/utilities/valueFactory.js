@@ -20,35 +20,28 @@ const newValue = (
   component,
 })
 
-export const newLiteralValue = (
-  property,
-  literal,
-  lang = Config.defaultLanguageId
-) => newValue(property, literal, lang, null, null, null, "InputLiteralValue")
+export const newLiteralValue = (property, literal, lang) =>
+  newValue(property, literal, lang, null, null, null, "InputLiteralValue")
 
-export const newBlankLiteralValue = (property, propertyTemplate) =>
+export const newBlankLiteralValue = (property, languageSuppressed) =>
   newValue(
     property,
     null,
-    propertyTemplate.languageSuppressed ? null : Config.defaultLanguageId,
+    languageSuppressed ? null : Config.defaultLanguageId,
     null,
     null,
     null,
     "InputLiteralValue"
   )
 
-export const newUriValue = (
-  property,
-  uri,
-  label,
-  lang = Config.defaultLanguageId
-) => newValue(property, null, lang, uri, label, null, "InputURIValue")
+export const newUriValue = (property, uri, label, lang) =>
+  newValue(property, null, lang, uri, label, null, "InputURIValue")
 
-export const newBlankUriValue = (property, propertyTemplate) =>
+export const newBlankUriValue = (property, languageSuppressed) =>
   newValue(
     property,
     null,
-    propertyTemplate.languageSuppressed ? null : Config.defaultLanguageId,
+    languageSuppressed ? null : Config.defaultLanguageId,
     null,
     null,
     null,

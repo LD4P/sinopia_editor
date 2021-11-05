@@ -15,6 +15,7 @@ import {
 import { clearErrors, addError } from "actions/errors"
 import { fetchResource } from "sinopiaApi"
 import { findRootResourceTemplateId } from "utilities/Utilities"
+import Config from "Config"
 
 /**
  * Helper methods that should only be used in 'actionCreators/resources'
@@ -539,7 +540,14 @@ const newProperty =
 export function defaultValuesFor(property) {
   return property.propertyTemplate.defaults.map((defaultValue) => {
     if (property.propertyTemplate.type === "uri") {
-      return newUriValue(property, defaultValue.uri, defaultValue.label)
+      return newUriValue(
+        property,
+        defaultValue.uri,
+        defaultValue.label,
+        property.propertyTemplate.languageSuppressed
+          ? null
+          : Config.defaultLanguageId
+      )
     }
     return newLiteralValue(property, defaultValue.literal, defaultValue.lang)
   })
