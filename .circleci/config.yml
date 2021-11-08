@@ -23,7 +23,7 @@ references:
     main_only: &main_only_filter
       branches:
         only:
-          - main
+          - literal-validation
       tags:
         ignore:
           - /.*/
@@ -155,30 +155,6 @@ jobs:
 workflows:
   build:
     jobs:
-      - test:
-          filters:
-            <<: *branch_only_filter
-      - node/run:
-          name: lint
-          npm-run: lint
-          version: << pipeline.parameters.node-version >>
-          filters:
-            <<: *branch_only_filter
-      - integration:
-          filters:
-            <<: *branch_only_filter
-      - docker/publish:
-          <<: *publish_params
-          name: publish-latest
-          context: ld4p
-          image: ld4p/sinopia_editor
-          tag: latest
-          requires:
-            - test
-            - lint
-            - integration
-          filters:
-            <<: *main_only_filter
       - docker/publish:
           <<: *publish_params
           name: publish-dev
@@ -186,10 +162,6 @@ workflows:
           image: ld4p/sinopia_editor
           tag: dev
           extra_build_args: --build-arg SINOPIA_API_BASE_URL=$SINOPIA_API_BASE_URL_DEV --build-arg SINOPIA_ENV=DEV --build-arg SINOPIA_URI=$SINOPIA_URI_DEV --build-arg AWS_COGNITO_DOMAIN=$AWS_COGNITO_DOMAIN_DEV --build-arg COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID_DEV --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID_DEV --build-arg INDEX_URL=$INDEX_URL_DEV --build-arg SEARCH_HOST=$INDEX_URL_DEV --build-arg EXPORT_BUCKET_URL=$EXPORT_BUCKET_URL_DEV --build-arg HONEYBADGER_API_KEY=$HONEYBADGER_API_KEY --build-arg HONEYBADGER_REVISION=$CIRCLE_SHA1
-          requires:
-            - test
-            - lint
-            - integration
           filters:
             <<: *main_only_filter
       - docker/publish:
