@@ -1,18 +1,15 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import { createLookupPromise, getTerm } from "utilities/QuestioningAuthority"
 import { findAuthorityConfig } from "utilities/authorityConfig"
-import Swagger from "swagger-client"
-
-jest.mock("swagger-client")
 
 describe("createLookupPromise()", () => {
-  it("returns a promise from a search", async () => {
-    const response = {
-      ok: true,
-      url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true",
-      status: 200,
-      statusText: "OK",
-      body: {
+  const response = {
+    ok: true,
+    url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true&response_header=true&startRecord=1",
+    status: 200,
+    statusText: "OK",
+    json: () => {
+      return {
         response_header: {
           start_record: 1,
           requested_records: 8,
@@ -61,22 +58,78 @@ describe("createLookupPromise()", () => {
             label: "sweet corn",
           },
         ],
-      },
-      authLabel: "AGROVOC (QA)",
-      authURI: "urn:ld4p:qa:agrovoc",
-      label: "AGROVOC (QA)",
-      id: "urn:ld4p:qa:agrovoc",
-    }
+      }
+    },
+  }
 
-    const mockActionFunction = jest.fn().mockResolvedValue(response)
-    const client = {
-      apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } },
-    }
-    Swagger.mockResolvedValue(client)
+  beforeEach(() => {
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve(response))
+  })
 
-    const authorityConfig = findAuthorityConfig("urn:ld4p:qa:agrovoc")
-    const result = await createLookupPromise("Corn", authorityConfig)
-    expect(result.body.results.length).toEqual(8)
+  describe("when authority with no subauthority", () => {
+    it("returns a promise from a search", async () => {
+      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:agrovoc")
+      const result = await createLookupPromise("Corn", authorityConfig)
+      expect(global.fetch).toHaveBeenCalledTimes(1)
+      expect(global.fetch).toHaveBeenCalledWith(response.url)
+      expect(result.results).toHaveLength(8)
+    })
+  })
+
+  describe("when authority with subauthority", () => {
+    it("returns a promise from a search", async () => {
+      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:geonames:water")
+      await createLookupPromise("Artic Sea", authorityConfig)
+      expect(global.fetch).toHaveBeenCalledWith(
+        "https://lookup.ld4l.org/authorities/search/linked_data/geonames_ld4l_cache/water?q=Artic+Sea&maxRecords=8&lang=en&context=true&response_header=true&startRecord=1"
+      )
+    })
+  })
+
+  describe("when non-LD authority and subauthority", () => {
+    it("returns a promise from a search", async () => {
+      const authorityConfig = findAuthorityConfig("urn:discogs:release")
+      await createLookupPromise("twain", authorityConfig)
+      expect(global.fetch).toHaveBeenCalledWith(
+        "https://lookup.ld4l.org/authorities/search/discogs/release?q=twain&maxRecords=8&lang=en&context=true&response_header=true&startRecord=1"
+      )
+    })
+  })
+
+  describe("when error response", () => {
+    beforeEach(() => {
+      global.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          ok: false,
+          status: 500,
+          statusText: "Server error",
+        })
+      )
+    })
+
+    it("returns a promise from a search", async () => {
+      const authorityConfig = findAuthorityConfig("urn:discogs")
+      const response = await createLookupPromise("twain", authorityConfig)
+      expect(response.isError).toBe(true)
+      expect(response.errorObject.message).toEqual(
+        "Questioning Authority service returned Server error"
+      )
+    })
+  })
+
+  describe("when fetch error", () => {
+    beforeEach(() => {
+      global.fetch = jest
+        .fn()
+        .mockImplementation(() => Promise.reject(new Error("Ooops.")))
+    })
+
+    it("returns a promise from a search", async () => {
+      const authorityConfig = findAuthorityConfig("urn:discogs")
+      const response = await createLookupPromise("twain", authorityConfig)
+      expect(response.isError).toBe(true)
+      expect(response.errorObject.message).toEqual("Ooops.")
+    })
   })
 })
 

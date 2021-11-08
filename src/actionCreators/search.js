@@ -76,8 +76,8 @@ export const fetchQASearchResults =
         setSearchResults(
           "resource",
           uri,
-          response.body.results,
-          response.body.response_header.total_records,
+          response.results,
+          response.response_header.total_records,
           {},
           query,
           options

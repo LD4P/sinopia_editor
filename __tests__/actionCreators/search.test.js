@@ -4,13 +4,11 @@ import {
   fetchQASearchResults,
 } from "actionCreators/search"
 import * as server from "sinopiaSearch"
-import Swagger from "swagger-client"
 import configureMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { createState } from "stateUtils"
 import * as sinopiaApi from "sinopiaApi"
-
-jest.mock("swagger-client")
+import * as QuestioningAuthority from "utilities/QuestioningAuthority"
 
 const mockStore = configureMockStore([thunk])
 
@@ -88,7 +86,8 @@ describe("fetchSinopiaSearchResults", () => {
 describe("fetchQASearchResults", () => {
   const query = "*"
   const uri = "urn:ld4p:qa:sharevde_stanford_ld4l_cache:all"
-  it("dispatches action", async () => {
+
+  describe("when happy path", () => {
     const mockSearchResults = [
       {
         uri: "http://share-vde.org/sharevde/rdfBibframe/Work/3107365",
@@ -147,77 +146,83 @@ describe("fetchQASearchResults", () => {
         ],
       },
     ]
-    const mockActionFunction = jest.fn().mockResolvedValue({
-      body: {
-        results: mockSearchResults,
-        response_header: { total_records: 15 },
-      },
-    })
-    const client = {
-      apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } },
-    }
-    Swagger.mockResolvedValue(client)
-    sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
-
-    const store = mockStore(createState())
-    await store.dispatch(fetchQASearchResults(query, uri, "testerrorkey"))
-
-    const actions = store.getActions()
-
-    expect(actions).toHaveLength(3)
-    expect(actions).toHaveAction("CLEAR_ERRORS")
-    expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
-      searchType: "resource",
-      uri,
-      query,
+    const mockResponse = {
       results: mockSearchResults,
-      totalResults: 15,
-      options: {},
-      error: undefined,
-      facetResults: {},
+      response_header: { total_records: 15 },
+    }
+
+    beforeEach(() => {
+      jest
+        .spyOn(QuestioningAuthority, "createLookupPromise")
+        .mockResolvedValue(mockResponse)
     })
-    expect(actions).toHaveAction("ADD_SEARCH_HISTORY", {
-      authorityUri: uri,
-      authorityLabel: "SHAREVDE STANFORD (QA)",
-      query,
+
+    it("dispatches action", async () => {
+      sinopiaApi.putUserHistory = jest.fn().mockResolvedValue()
+
+      const store = mockStore(createState())
+      await store.dispatch(fetchQASearchResults(query, uri, "testerrorkey"))
+
+      const actions = store.getActions()
+
+      expect(actions).toHaveLength(3)
+      expect(actions).toHaveAction("CLEAR_ERRORS")
+      expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
+        searchType: "resource",
+        uri,
+        query,
+        results: mockSearchResults,
+        totalResults: 15,
+        options: {},
+        error: undefined,
+        facetResults: {},
+      })
+      expect(actions).toHaveAction("ADD_SEARCH_HISTORY", {
+        authorityUri: uri,
+        authorityLabel: "SHAREVDE STANFORD (QA)",
+        query,
+      })
+      expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith(
+        "Foo McBar",
+        "search",
+        "4682c287952df68172c6c4a63bdc2887",
+        '{"authorityUri":"urn:ld4p:qa:sharevde_stanford_ld4l_cache:all","query":"*"}'
+      )
     })
-    expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith(
-      "Foo McBar",
-      "search",
-      "4682c287952df68172c6c4a63bdc2887",
-      '{"authorityUri":"urn:ld4p:qa:sharevde_stanford_ld4l_cache:all","query":"*"}'
-    )
   })
 
-  it("dispatches action when error", async () => {
-    const mockActionFunction = jest
-      .fn()
-      .mockRejectedValue(new Error("Ooops..."))
-    const client = {
-      apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } },
-    }
-    Swagger.mockResolvedValue(client)
-
-    const store = mockStore(createState())
-    await store.dispatch(fetchQASearchResults(query, uri, "testerrorkey"))
-
-    const actions = store.getActions()
-
-    expect(actions).toHaveLength(3)
-    expect(actions).toHaveAction("CLEAR_ERRORS")
-    expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
-      searchType: "resource",
-      uri,
-      query,
-      results: [],
-      totalResults: 0,
-      options: {},
-      facetResults: {},
-      error: "Ooops...",
+  describe("when error occurs", () => {
+    beforeEach(() => {
+      jest
+        .spyOn(QuestioningAuthority, "createLookupPromise")
+        .mockResolvedValue({
+          isError: true,
+          errorObject: new Error("Ooops..."),
+        })
     })
-    expect(actions).toHaveAction("ADD_ERROR", {
-      errorKey: "testerrorkey",
-      error: ["An error occurred while searching: Ooops..."],
+
+    it("dispatches action when error", async () => {
+      const store = mockStore(createState())
+      await store.dispatch(fetchQASearchResults(query, uri, "testerrorkey"))
+
+      const actions = store.getActions()
+
+      expect(actions).toHaveLength(3)
+      expect(actions).toHaveAction("CLEAR_ERRORS")
+      expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
+        searchType: "resource",
+        uri,
+        query,
+        results: [],
+        totalResults: 0,
+        options: {},
+        facetResults: {},
+        error: "Ooops...",
+      })
+      expect(actions).toHaveAction("ADD_ERROR", {
+        errorKey: "testerrorkey",
+        error: ["An error occurred while searching: Ooops..."],
+      })
     })
   })
 })
