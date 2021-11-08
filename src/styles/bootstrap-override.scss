@@ -25,6 +25,10 @@ $primary-disabled: lighten(map-get($theme-colors, "secondary"), 20%);
   text-decoration: underline;
 }
 
+.dropdown-menu {
+  z-index: 3000;
+}
+
 body {
   font-family: "Source Sans Pro", sans-serif;
   margin: 0 20px;
