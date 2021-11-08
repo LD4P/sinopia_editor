@@ -99,7 +99,6 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "stream-browserify": "^3.0.0",
-    "swagger-client": "^3.16.0",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
