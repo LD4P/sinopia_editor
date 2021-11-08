@@ -11,11 +11,13 @@ import _ from "lodash"
 import Config from "Config"
 import usePermissions from "hooks/usePermissions"
 import useAlerts from "hooks/useAlerts"
+import LoadingButton from "../buttons/LoadingButton"
 
 const NewResourceTemplateButton = (props) => {
   const dispatch = useDispatch()
   const { canCreate } = usePermissions()
   const errorKey = useAlerts()
+  const [isLoading, setIsLoading] = useState(false)
 
   const errors = useSelector((state) => selectErrors(state, errorKey))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
@@ -31,6 +33,7 @@ const NewResourceTemplateButton = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault()
+    setIsLoading(true)
     dispatch(newResource(Config.rootResourceTemplateId, errorKey)).then(
       (result) => {
         setNavigateEditor(result)
@@ -39,6 +42,7 @@ const NewResourceTemplateButton = (props) => {
   }
 
   if (!canCreate) return null
+  if (isLoading) return <LoadingButton />
 
   return (
     <Link
