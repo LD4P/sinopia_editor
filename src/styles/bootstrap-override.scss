@@ -26,7 +26,7 @@ $primary-disabled: lighten(map-get($theme-colors, "secondary"), 20%);
 }
 
 .dropdown-menu {
-  z-index: 3000;
+  z-index: $zindex-sticky + 1;
 }
 
 body {

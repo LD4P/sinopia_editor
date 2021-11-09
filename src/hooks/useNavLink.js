@@ -37,7 +37,10 @@ const useNavLink = (navObj) => {
     event.preventDefault()
 
     const elem = document.querySelector(`#${navTargetId}`)
-    if (!isInViewport(elem)) elem.scrollIntoView({ behavior: "smooth" })
+    if (!isInViewport(elem)) {
+      const y = elem.getBoundingClientRect().top + window.pageYOffset - 90 // do not scroll to top, leave space for header row
+      window.scrollTo({ top: y, behavior: "smooth" })
+    }
     dispatch(
       setCurrentComponent(
         navObj.rootSubjectKey,
