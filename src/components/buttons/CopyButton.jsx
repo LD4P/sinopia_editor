@@ -10,7 +10,7 @@ const CopyButton = ({ label, handleClick, isLoading = false, size = "lg" }) => {
   return (
     <button
       className="btn btn-link"
-      title="View"
+      title="Copy"
       aria-label={`Copy ${label}`}
       data-testid={`Copy ${label}`}
       onClick={handleClick}
