@@ -1,59 +1,56 @@
 import { renderApp } from "testUtils"
 import { fireEvent, waitFor, screen } from "@testing-library/react"
 import * as server from "sinopiaSearch"
-import Swagger from "swagger-client"
 import Config from "Config"
 import * as sinopiaApi from "sinopiaApi"
-
-jest.mock("swagger-client")
 
 describe("<Search />", () => {
   jest.spyOn(sinopiaApi, "putUserHistory").mockResolvedValue()
 
-  it("requests a QA search", async () => {
-    const mockSearchResults = [
-      {
-        uri: "http://share-vde.org/sharevde/rdfBibframe/Work/3107365",
-        id: "http://share-vde.org/sharevde/rdfBibframe/Work/3107365",
-        label: "These twain",
-        context: [
-          {
-            property: "Title",
-            values: [" These twain"],
-            selectable: true,
-            drillable: false,
-          },
-          {
-            property: "Type",
-            values: [
-              "http://id.loc.gov/ontologies/bflc/Hub",
-              "http://id.loc.gov/ontologies/bibframe/Work",
-            ],
-            selectable: false,
-            drillable: false,
-          },
-          {
-            property: "Contributor",
-            values: ["Bennett, Arnold,1867-1931."],
-            selectable: false,
-            drillable: false,
-          },
-        ],
-      },
-    ]
-    const mockActionFunction = jest.fn().mockResolvedValue({
-      body: {
-        results: mockSearchResults,
-        response_header: { total_records: 15 },
-      },
-    })
-    const client = {
-      apis: {
-        SearchQuery: { GET_nonldSearchWithSubauthority: mockActionFunction },
-      },
-    }
-    Swagger.mockResolvedValue(client)
+  const mockSearchResults = [
+    {
+      uri: "http://share-vde.org/sharevde/rdfBibframe/Work/3107365",
+      id: "http://share-vde.org/sharevde/rdfBibframe/Work/3107365",
+      label: "These twain",
+      context: [
+        {
+          property: "Title",
+          values: [" These twain"],
+          selectable: true,
+          drillable: false,
+        },
+        {
+          property: "Type",
+          values: [
+            "http://id.loc.gov/ontologies/bflc/Hub",
+            "http://id.loc.gov/ontologies/bibframe/Work",
+          ],
+          selectable: false,
+          drillable: false,
+        },
+        {
+          property: "Contributor",
+          values: ["Bennett, Arnold,1867-1931."],
+          selectable: false,
+          drillable: false,
+        },
+      ],
+    },
+  ]
+  const mockResponse = {
+    body: {
+      results: mockSearchResults,
+      response_header: { total_records: 15 },
+    },
+  }
 
+  beforeEach(() => {
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(mockResponse))
+  })
+
+  it("requests a QA search", async () => {
     renderApp()
     fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
 
