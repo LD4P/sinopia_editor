@@ -5,7 +5,7 @@ import {
   isCurrentProperty as isCurrentPropertySelector,
   isCurrentComponent as isCurrentComponentSelector,
 } from "selectors/index"
-import { isInViewport } from "utilities/Utilities"
+import { stickyScrollIntoView } from "utilities/Utilities"
 
 const useNavLink = (navObj) => {
   const dispatch = useDispatch()
@@ -27,8 +27,8 @@ const useNavLink = (navObj) => {
   useEffect(() => {
     if (!isCurrentComponent) return
 
-    const elem = document.querySelector(`#${navLinkId}`)
-    if (!isInViewport(elem)) elem.scrollIntoView()
+    stickyScrollIntoView(`#${navLinkId}`)
+
     // This is only on initial mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -36,8 +36,7 @@ const useNavLink = (navObj) => {
   const handleNavLinkClick = (event) => {
     event.preventDefault()
 
-    const elem = document.querySelector(`#${navTargetId}`)
-    if (!isInViewport(elem)) elem.scrollIntoView({ behavior: "smooth" })
+    stickyScrollIntoView(`#${navTargetId}`)
     dispatch(
       setCurrentComponent(
         navObj.rootSubjectKey,
