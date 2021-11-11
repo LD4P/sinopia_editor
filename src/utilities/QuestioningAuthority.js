@@ -4,7 +4,6 @@
 import Config from "Config"
 import { findAuthorityConfig } from "utilities/authorityConfig"
 import _ from "lodash"
-import { URLSearchParams } from "url"
 
 export const isContext = (propertyTemplate) =>
   propertyTemplate?.subtype === "context"
