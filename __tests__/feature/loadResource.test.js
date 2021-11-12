@@ -39,13 +39,15 @@ describe("loading saved resource", () => {
 
       // Click edit
       fireEvent.click(screen.getByTestId(`Edit ${uri}`))
-      await screen.findByText("Example Label", { selector: "h3" })
+      await screen.findByText("Example Label", {
+        selector: "h3#resource-header",
+      })
 
       // URI displayed
-      screen.getByText(`URI for this resource: <${uri}>`)
+      screen.getAllByText(`URI for this resource: <${uri}>`)
 
       // Headings
-      screen.getByText("Example Label", { selector: "h3" })
+      screen.getByText("Example Label", { selector: "h3#resource-header" })
       screen.getByText("Uber template1, property1", { selector: "span" })
       screen.getAllByText("Uber template2", { selector: "h5" })
       screen.getAllByText("Uber template3", { selector: "h5" })

@@ -10,7 +10,9 @@ describe("editing a list property", () => {
   it("allows selecting and removing a non-repeatable list item", async () => {
     const { container } = renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Authorities list
     expect(screen.getAllByText("Select from: type of recording")).toHaveLength(
@@ -63,7 +65,9 @@ describe("editing a list property", () => {
   it("allows entering a repeatable list", async () => {
     const { container } = renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     const select = container.querySelector(
       'select[aria-label="Select Uber template1, property11"]'
@@ -97,7 +101,9 @@ describe("editing a list property", () => {
   it("displays items from multiple authorities", async () => {
     const { container } = renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     expect(
       container.querySelector(

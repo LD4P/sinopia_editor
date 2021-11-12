@@ -10,7 +10,9 @@ describe("editing a URI property", () => {
   it("allows entering, editing, and removing a non-repeatable URI", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a URI
     const uriInput = screen.getByPlaceholderText("Uber template1, property5")
@@ -54,7 +56,9 @@ describe("editing a URI property", () => {
   it("allows entering a non-HTTP URI", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a URI
     const uriInput = screen.getByPlaceholderText("Uber template1, property5")
@@ -70,7 +74,9 @@ describe("editing a URI property", () => {
   it("allows entering a repeatable URI", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add two values
     const input = screen.getByPlaceholderText("Uber template1, property6")
@@ -110,7 +116,9 @@ describe("editing a URI property", () => {
   it("allows entering diacritics", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a URI
     const uriInput = screen.getByPlaceholderText("Uber template1, property5")
@@ -158,7 +166,9 @@ describe("editing a URI property", () => {
   it("allows selecting a language", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a URI
     const uriInput = screen.getByPlaceholderText("Uber template1, property5")
@@ -206,7 +216,9 @@ describe("editing a URI property", () => {
   it("validates that a valid URI", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a value
     const input = screen.getByPlaceholderText("Uber template1, property5")
@@ -222,7 +234,9 @@ describe("editing a URI property", () => {
   it("validates that has a label", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a value
     const input = screen.getByPlaceholderText("Uber template1, property5")
@@ -244,7 +258,9 @@ describe("editing a URI property", () => {
   it("validates that has a URI", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a label
     const labelInput = screen.getByPlaceholderText(

@@ -18,7 +18,7 @@ describe("saving a resource", () => {
     renderApp(null, history)
 
     it("edits and saves", async () => {
-      await screen.findByText("Title note", { selector: "h3" })
+      await screen.findAllByText("Title note", { selector: "h3" })
 
       const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
 
@@ -34,7 +34,7 @@ describe("saving a resource", () => {
       )
 
       // Check that the title of the document is set the same as the rdfs:label
-      screen.getByText("foo", { selector: "h3" })
+      screen.getByText("foo", { selector: "h3#resource-header" })
 
       expect(screen.queryByText("Permissions")).not.toBeInTheDocument()
       expect(saveBtn).not.toBeDisabled()
@@ -60,7 +60,7 @@ describe("saving a resource", () => {
       const modalSave = screen.getByRole("button", { name: "Save Group" })
       fireEvent.click(modalSave)
       // The resource is saved and is assigned a URI
-      await screen.findByText(/URI for this resource/)
+      await screen.findAllByText(/URI for this resource/)
 
       // URL changes
       await waitFor(() =>

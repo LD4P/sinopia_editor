@@ -43,9 +43,9 @@ describe("Copying a template resource", () => {
     fireEvent.click(await screen.findByTestId("Copy Note"))
 
     // Headers and labels appear
-    await screen.findByText("Note", { selector: "h3" })
+    await screen.findByText("Note", { selector: "h3#resource-header" })
     const labels = await screen.findAllByText("Note")
-    expect(labels.length).toBe(3)
+    expect(labels.length).toBe(4)
 
     // But there is no resource URI for the unsaved copy
     expect(screen.queryByText(/URI for this resource/)).not.toBeInTheDocument()

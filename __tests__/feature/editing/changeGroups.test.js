@@ -25,7 +25,7 @@ describe("user that can edit, but not an owner, can view groups", () => {
     await screen.findByText(uri)
     fireEvent.click(screen.getByRole("button", { name: `Edit ${uri}` }))
 
-    await screen.findByText("Example Label", { selector: "h3" })
+    await screen.findByText("Example Label", { selector: "h3#resource-header" })
     fireEvent.click(screen.getByText("Permissions"))
 
     // Change the owner

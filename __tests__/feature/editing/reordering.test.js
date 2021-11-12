@@ -15,7 +15,9 @@ describe("reordering properties", () => {
     const history = createHistory(["/editor/resourceTemplate:testing:uber1"])
     const { container } = renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     const nestedResource1 = container.querySelector(
       'div[data-label="Uber template1, property19"] div.nested-resource'

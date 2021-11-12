@@ -30,7 +30,9 @@ describe("versions", () => {
 
       // Click edit
       fireEvent.click(screen.getByTestId(`Edit ${uri}`))
-      await screen.findByText("Example Label", { selector: "h3" })
+      await screen.findByText("Example Label", {
+        selector: "h3#resource-header",
+      })
 
       // Click versions pill
       fireEvent.click(screen.getByText("Versions"))
@@ -81,7 +83,9 @@ describe("versions", () => {
 
       // Click edit
       fireEvent.click(screen.getByTestId(`Edit ${uri}`))
-      await screen.findByText("Example Label", { selector: "h3" })
+      await screen.findByText("Example Label", {
+        selector: "h3#resource-header",
+      })
 
       // Click versions pill
       fireEvent.click(screen.getByText("Versions"))

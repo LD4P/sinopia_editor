@@ -16,7 +16,9 @@ describe("editing an immutable property", () => {
   renderApp(null, history)
 
   it("allows editing before save, but not after save", async () => {
-    await screen.findByText("Immutable note", { selector: "h3" })
+    await screen.findByText("Immutable note", {
+      selector: "h3#resource-header",
+    })
 
     const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
 
@@ -31,7 +33,7 @@ describe("editing an immutable property", () => {
     const modalSave = screen.getByRole("button", { name: "Save Group" })
     fireEvent.click(modalSave)
     // The resource is saved and is assigned a URI
-    await screen.findByText(/URI for this resource/)
+    await screen.findAllByText(/URI for this resource/)
 
     // No longer editable
     expect(screen.queryByPlaceholderText("Note")).not.toBeInTheDocument()

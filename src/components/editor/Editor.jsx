@@ -89,7 +89,6 @@ const Editor = (props) => {
         <ResourcesNav />
         <EditorActions />
         <ResourceComponent />
-        <EditorActions />
       </div>
     </AlertsContextProvider>
   )

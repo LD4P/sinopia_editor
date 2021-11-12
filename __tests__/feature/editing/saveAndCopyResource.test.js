@@ -18,7 +18,7 @@ describe("saving a resource", () => {
     renderApp(null, history)
 
     it("edits, saves, and copies the resource template", async () => {
-      await screen.findByText("Title note", { selector: "h3" })
+      await screen.findByText("Title note", { selector: "h3#resource-header" })
 
       const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
       const copyBtn = await screen.getAllByTestId(
@@ -46,7 +46,7 @@ describe("saving a resource", () => {
       const modalSave = screen.getByRole("button", { name: "Save Group" })
       fireEvent.click(modalSave)
       // The resource is saves and is assigned a URI
-      await screen.findByText(/URI for this resource/)
+      await screen.findAllByText(/URI for this resource/)
 
       // The copy resource button is active
       expect(copyBtn).not.toBeDisabled()

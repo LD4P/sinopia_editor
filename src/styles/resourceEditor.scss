@@ -1,6 +1,13 @@
 .resource-header {
+  background-color: $body-bg;
+}
+
+.sticky-resource-header {
   @extend .sticky-top;
   background-color: $body-bg;
+  h3 {
+    font-size: 1.5rem;
+  }
 }
 
 .property-uri {

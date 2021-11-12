@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { setCurrentComponent } from "actions/index"
 import { useDispatch, useSelector } from "react-redux"
 import { isCurrentComponent as isCurrentComponentSelector } from "selectors/index"
-import { isInViewport } from "utilities/Utilities"
+import { stickyScrollIntoView } from "utilities/Utilities"
 
 const useNavTarget = (navObj) => {
   const dispatch = useDispatch()
@@ -17,8 +17,9 @@ const useNavTarget = (navObj) => {
   useEffect(() => {
     if (!isCurrentComponent) return
 
-    const elem = document.querySelector(`#${navTargetId}`)
-    if (!isInViewport(elem)) elem.scrollIntoView()
+    window.scrollTo(0, 0)
+    stickyScrollIntoView(`#${navTargetId}`)
+
     // This is only on initial mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -154,3 +154,29 @@ export const isInViewport = (elem) => {
       (window.innerWidth || document.documentElement.clientWidth)
   )
 }
+
+export const isTopInViewport = (elem) => {
+  // Adapted from https://gomakethings.com/how-to-test-if-an-element-is-in-the-viewport-with-vanilla-javascript/
+  if (!elem) return false
+  const bounding = elem.getBoundingClientRect()
+  return (
+    bounding.top >= 0 &&
+    bounding.top <=
+      (window.innerHeight || document.documentElement.clientHeight)
+  )
+}
+
+export const stickyScrollIntoView = (
+  targetSelector,
+  headerSelector = "#sticky-resource-header"
+) => {
+  const elem = document.querySelector(targetSelector)
+  if (isTopInViewport(elem)) return
+  const stickyHeader = document.querySelector(headerSelector)
+  // do not scroll to top, leave space for sticky header
+  const y =
+    elem.getBoundingClientRect().top +
+    window.pageYOffset -
+    stickyHeader.clientHeight
+  window.scrollTo({ top: y, behavior: "smooth" })
+}

@@ -14,7 +14,9 @@ describe("editing a literal property", () => {
     // Thus, for this using screen.getByPlaceholderText('Uber template1, property4') instead of a variable
     // for input.
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a value
     fireEvent.change(screen.getByPlaceholderText("Uber template1, property4"), {
@@ -50,7 +52,9 @@ describe("editing a literal property", () => {
   it("allows entering a repeatable literal", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add two values
     const input = screen.getByPlaceholderText("Uber template1, property2")
@@ -85,7 +89,9 @@ describe("editing a literal property", () => {
   it("allows entering diacritics", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a value
     const input = screen.getByPlaceholderText("Uber template1, property4")
@@ -124,7 +130,9 @@ describe("editing a literal property", () => {
   it("allows selecting a language", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a value
     const input = screen.getByPlaceholderText("Uber template1, property4")
@@ -180,7 +188,9 @@ describe("editing a literal property", () => {
   it("allows selecting no language", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a value
     const input = screen.getByPlaceholderText("Uber template1, property4")

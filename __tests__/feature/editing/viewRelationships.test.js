@@ -48,7 +48,7 @@ describe("relationships", () => {
     it("lists the relationships", async () => {
       renderApp(null, history)
 
-      await screen.findByText("Instance1", { selector: "h3" })
+      await screen.findByText("Instance1", { selector: "h3#resource-header" })
 
       fireEvent.click(screen.getByText("Relationships"))
 
@@ -76,7 +76,9 @@ describe("relationships", () => {
     it("lists versions, previews versions, and displays diffs", async () => {
       renderApp(null, history)
 
-      await screen.findByText("Example Label", { selector: "h3" })
+      await screen.findByText("Example Label", {
+        selector: "h3#resource-header",
+      })
 
       // No relationships pill
       expect(screen.queryByText("Relationships")).not.toBeInTheDocument()
