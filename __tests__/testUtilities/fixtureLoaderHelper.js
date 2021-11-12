@@ -44,6 +44,8 @@ const templateFilenames = {
   "resourceTemplate:testing:multiplePropertyUris":
     "testing_multiple_property_uris.json",
   "resourceTemplate:testing:suppressLanguage": "testing_suppress_language.json",
+  "resourceTemplate:testing:literalValidation":
+    "testing_literalValidation.json",
 }
 
 export const hasFixtureResource = (uri) =>

@@ -127,6 +127,10 @@ export default class TemplatesBuilder {
     const propertyTemplate = this.newBasePropertyTemplate(propertyTerm)
     propertyTemplate.type = "literal"
     propertyTemplate.defaults = this.defaultsForLiteral(propertyTerm)
+    propertyTemplate.validationRegex =
+      this.validationRegexForLiteral(propertyTerm)
+    propertyTemplate.validationDataType =
+      this.validationDataTypeForLiteral(propertyTerm)
     propertyTemplate.component = "InputLiteral"
     return propertyTemplate
   }
@@ -195,6 +199,8 @@ export default class TemplatesBuilder {
         propertyTerm,
         "http://sinopia.io/vocabulary/hasRemark"
       ),
+      validationRegex: null,
+      validationDataType: null,
       remarkUrl,
       remarkUrlLabel,
       defaults: [],
@@ -293,6 +299,30 @@ export default class TemplatesBuilder {
       literal: defaultTerm.value,
       lang: _.isEmpty(defaultTerm.language) ? null : defaultTerm.language,
     }))
+  }
+
+  validationRegexForLiteral(propertyTerm) {
+    const attributeTerm = this.objectFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasLiteralAttributes"
+    )
+    if (!attributeTerm) return null
+    return this.valueFor(
+      attributeTerm,
+      "http://sinopia.io/vocabulary/hasValidationRegex"
+    )
+  }
+
+  validationDataTypeForLiteral(propertyTerm) {
+    const attributeTerm = this.objectFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasLiteralAttributes"
+    )
+    if (!attributeTerm) return null
+    return this.valueFor(
+      attributeTerm,
+      "http://sinopia.io/vocabulary/hasValidationDataType"
+    )
   }
 
   defaultsForUri(attributeTerm) {

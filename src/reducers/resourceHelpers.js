@@ -1,4 +1,12 @@
-import { emptyValue, isValidURI } from "utilities/Utilities"
+import { emptyValue } from "utilities/Utilities"
+import {
+  literalRequiredError,
+  literalRegexValidationError,
+  literalIntegerValidationError,
+  literalDateTimeValidationError,
+  literalDateTimeStampValidationError,
+  uriPropertiesAndValueErrors,
+} from "./resourceValidationHelpers"
 import _ from "lodash"
 
 export const mergeSubjectPropsToNewState = (state, subjectKey, props) => {
@@ -180,26 +188,22 @@ export const updateValueErrors = (state, valueKey) => {
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
   // If this is first value, then must have a value.
   const errors = []
-  if (
-    value.key === property.valueKeys[0] &&
-    propertyTemplate.required &&
-    propertyTemplate.type === "literal" &&
-    !value.literal
-  )
-    errors.push("Literal required")
-
-  if (propertyTemplate.type === "uri") {
-    if (value.key === property.valueKeys[0] && propertyTemplate.required) {
-      if (!value.uri) errors.push("URI required")
-      if (!value.label) errors.push("Label required")
-    } else {
-      if (value.uri && !value.label) errors.push("Label required")
-      if (!value.uri && value.label) errors.push("URI required")
+  if (propertyTemplate.type === "literal") {
+    errors.push(literalRequiredError(value, property, propertyTemplate))
+    if (value.literal !== null && value.literal !== "") {
+      errors.push(literalRegexValidationError(value, propertyTemplate))
+      errors.push(literalIntegerValidationError(value, propertyTemplate))
+      errors.push(literalDateTimeValidationError(value, propertyTemplate))
+      errors.push(literalDateTimeStampValidationError(value, propertyTemplate))
     }
-    if (value.uri && !isValidURI(value.uri)) errors.push("Invalid URI")
   }
 
-  return mergeValuePropsToNewState(state, valueKey, { errors })
+  if (propertyTemplate.type === "uri") {
+    errors.push(uriPropertiesAndValueErrors(value, property, propertyTemplate))
+  }
+
+  // all that pushing makes for nested arrays, so flattening
+  return mergeValuePropsToNewState(state, valueKey, { errors: errors.flat(1) })
 }
 
 const recursiveAncestorsFromSubject = (state, subjectKey, performFunc) => {
