@@ -9,7 +9,9 @@ describe("expanding and contracting properties", () => {
     const history = createHistory(["/editor/resourceTemplate:testing:uber1"])
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Get rid of Uber template1, property3
     fireEvent.click(screen.getByTestId("Remove Uber template1, property3"))

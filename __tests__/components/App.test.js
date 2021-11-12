@@ -133,7 +133,7 @@ describe("<App />", () => {
       const history = createHistory(["/editor/resourceTemplate:bf2:Note"])
       renderApp(null, history)
 
-      await screen.findByText("Note", { selector: "h3" })
+      await screen.findByText("Note", { selector: "h3#resource-header" })
     })
 
     it("redirects to /templates for /editor/<rtId> when rtId not found", async () => {
@@ -192,7 +192,9 @@ describe("<App />", () => {
       renderApp(store, history)
       history.push("/editor")
 
-      await screen.findByText("Abbreviated Title", { selector: "h3" })
+      await screen.findByText("Abbreviated Title", {
+        selector: "h3#resource-header",
+      })
       screen.getByText("foo")
     })
   })

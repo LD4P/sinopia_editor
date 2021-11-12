@@ -50,7 +50,7 @@ const ResourceComponent = () => {
   return (
     <div id="resourceTemplate">
       <section className="resource-header">
-        <h3>
+        <h3 id="resource-header">
           {resource.label}
           <CopyToNewButton />
           <PreviewButton />

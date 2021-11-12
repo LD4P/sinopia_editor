@@ -31,13 +31,11 @@ describe("transfer saved bf:Instance when user belongs to a transfer group", () 
     fireEvent.click(screen.getByRole("button", { name: `Edit ${bfUri}` }))
 
     await screen.findByText("The Practitioner's Guide to Graph Data", {
-      selector: "h3",
+      selector: "h3#resource-header",
     })
 
-    const transferBtns = screen.getAllByText("Export to Catalog")
-    expect(transferBtns).toHaveLength(2)
-
-    fireEvent.click(transferBtns[0])
+    const transferBtn = screen.getByText("Export to Catalog")
+    fireEvent.click(transferBtn)
     await screen.findByText("Requesting")
   }, 15000)
 })
@@ -47,7 +45,9 @@ describe("transfer unsaved bf:Instance when user belongs to a transfer group", (
   it("does not allow transfer", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
   })
@@ -69,7 +69,7 @@ describe("transfer saved non-bf:Instance when user belongs to a transfer group",
     await screen.findByText(nonBfUri)
     fireEvent.click(screen.getByRole("button", { name: `Edit ${nonBfUri}` }))
 
-    await screen.findByText("Example Label", { selector: "h3" })
+    await screen.findByText("Example Label", { selector: "h3#resource-header" })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
   }, 10000)
@@ -92,7 +92,7 @@ describe("transfer saved bf:Instance when user does not belong to a transfer gro
     fireEvent.click(screen.getByRole("button", { name: `Edit ${bfUri}` }))
 
     await screen.findByText("The Practitioner's Guide to Graph Data", {
-      selector: "h3",
+      selector: "h3#resource-header",
     })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()

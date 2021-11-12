@@ -26,7 +26,9 @@ describe("routing in editor", () => {
         "/editor/resourceTemplate:testing:uber1"
       )
 
-      await screen.findByText("Uber template1", { selector: "h3" })
+      await screen.findByText("Uber template1", {
+        selector: "h3#resource-header",
+      })
     })
   })
 
@@ -71,7 +73,9 @@ describe("routing in editor", () => {
         )
       )
 
-      await screen.findByText("Example Label", { selector: "h3" })
+      await screen.findByText("Example Label", {
+        selector: "h3#resource-header",
+      })
     })
   })
 

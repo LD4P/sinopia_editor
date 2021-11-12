@@ -46,7 +46,7 @@ describe("switching between multiple resources", () => {
 
     // open the template
     fireEvent.click(await screen.findByTestId("Create resource for Title note"))
-    await screen.findByText("Title note", { selector: "h3" })
+    await screen.findByText("Title note", { selector: "h3#resource-header" })
 
     // Open another template
     fireEvent.click(
@@ -58,7 +58,9 @@ describe("switching between multiple resources", () => {
     fireEvent.click(
       await screen.findByTestId("Create resource for Instance Title")
     )
-    await screen.findByText("Instance Title", { selector: "h3" })
+    await screen.findByText("Instance Title", {
+      selector: "h3#resource-header",
+    })
 
     // Instance title tab is active
     const instanceTitleTab = screen.getByText("Instance Title", {
@@ -78,14 +80,16 @@ describe("switching between multiple resources", () => {
     fireEvent.click(titleNoteTab)
 
     // Title note is now the active resource and Instance Title is now the inactive resource
-    await screen.findByText("Title note", { selector: "h3" })
+    await screen.findByText("Title note", { selector: "h3#resource-header" })
     await screen.findByText("Instance Title", {
       selector: ".nav-item:not(.active) .tab-link",
     })
 
     // Closing the active tab will reveal the inactive resource as the one shown
     fireEvent.click(screen.getAllByText("Close", { selector: "button" })[0])
-    await screen.findByText("Instance Title", { selector: "h3" })
+    await screen.findByText("Instance Title", {
+      selector: "h3#resource-header",
+    })
 
     // No nav tabs displayed
     expect(instanceTitleTab).not.toBeInTheDocument()

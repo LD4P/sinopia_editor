@@ -23,7 +23,7 @@ describe("loading new resource", () => {
     await waitFor(() =>
       expect(
         screen.getAllByText("Uber template1", { selector: "h3" })
-      ).toHaveLength(1)
+      ).toHaveLength(2)
     )
 
     // Not duplicating testing of rendering of resource template from loadResource test.

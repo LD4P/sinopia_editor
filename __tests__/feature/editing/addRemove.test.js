@@ -10,7 +10,9 @@ describe("adding and removing properties", () => {
   it("adds and removes panel properties", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Remove panel property.
     fireEvent.click(screen.getByTestId("Remove Uber template1, property2"))
@@ -41,7 +43,9 @@ describe("adding and removing properties", () => {
   it("adds and removes repeatable nested resources", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     expect(screen.queryAllByText("Uber template2")).toHaveLength(2)
 
@@ -79,7 +83,9 @@ describe("adding and removing properties", () => {
   it("adds and removes non-repeatable nested resources", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Remove Uber template1, property1 to not confuse this test
     // expect(screen.getAllByText('Uber template1, property3')).toHaveLength(2)
@@ -99,7 +105,9 @@ describe("adding and removing properties", () => {
   it("adds and removes nested inputs", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Add a nested property (literal)
     fireEvent.click(screen.getAllByTestId("Add Uber template2, property1")[0])
@@ -124,7 +132,9 @@ describe("adding and removing properties", () => {
 
     const literalText = "bogus in property 7"
 
-    await screen.findByText("Uber template1", { selector: "h3" })
+    await screen.findByText("Uber template1", {
+      selector: "h3#resource-header",
+    })
 
     // Verify defaults for propert7 are shown
     expect(screen.queryAllByText("Default literal1")).toHaveLength(1)

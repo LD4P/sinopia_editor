@@ -158,7 +158,9 @@ describe("selecting a value from lookup", () => {
 
     const { container } = renderApp(null, history)
 
-    await screen.findByText("Testing discogs lookup", { selector: "h3" })
+    await screen.findByText("Testing discogs lookup", {
+      selector: "h3#resource-header",
+    })
 
     const input = screen.getByPlaceholderText(
       "Enter lookup query for Instance of (lookup)"
@@ -188,7 +190,9 @@ describe("selecting a value from lookup", () => {
 
     renderApp(null, history)
 
-    await screen.findByText("Testing discogs lookup", { selector: "h3" })
+    await screen.findByText("Testing discogs lookup", {
+      selector: "h3#resource-header",
+    })
 
     fireEvent.click(screen.getByText("Enter your own URI and label"))
 
@@ -219,7 +223,9 @@ describe("selecting a value from lookup", () => {
   it("allows entering diacritics", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Testing discogs lookup", { selector: "h3" })
+    await screen.findByText("Testing discogs lookup", {
+      selector: "h3#resource-header",
+    })
 
     // Add a value
     const input = screen.getByPlaceholderText(
@@ -310,7 +316,9 @@ describe("selecting a value from lookup", () => {
 
     const { container } = renderApp(null, history)
 
-    await screen.findByText("Testing discogs lookup", { selector: "h3" })
+    await screen.findByText("Testing discogs lookup", {
+      selector: "h3#resource-header",
+    })
 
     const input = screen.getByPlaceholderText(
       "Enter lookup query for Instance of (lookup)"
@@ -338,7 +346,9 @@ describe("selecting a value from lookup", () => {
   it("allows selecting a lookup", async () => {
     const { container } = renderApp(null, history)
 
-    await screen.findByText("Testing discogs lookup", { selector: "h3" })
+    await screen.findByText("Testing discogs lookup", {
+      selector: "h3#resource-header",
+    })
 
     // List the authorities
     screen.getByText("Lookup with: Discogs, Discogs Releases, Discogs Masters")
@@ -405,7 +415,9 @@ describe("adding a template from Sinopia lookup", () => {
   it("clicking on button creates new editor tab with template", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Testing sinopia lookup", { selector: "h3" })
+    await screen.findByText("Testing sinopia lookup", {
+      selector: "h3#resource-header",
+    })
 
     // Click Create New button
     fireEvent.click(await screen.findByText(/Create New/))

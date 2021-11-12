@@ -87,7 +87,7 @@ describe("searching and opening a resource", () => {
     const rtLinks = screen.getAllByTestId("Create resource for Title note")
     expect(rtLinks).toHaveLength(2)
     fireEvent.click(rtLinks[0])
-    await screen.findByText("Title note", { selector: "h3" })
+    await screen.findByText("Title note", { selector: "h3#resource-header" })
 
     // There are nav tabs and a duplicate resource
     await screen.findAllByText("Title note", {

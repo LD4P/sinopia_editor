@@ -168,10 +168,13 @@ export const isTopInViewport = (elem) => {
   )
 }
 
-export const stickyScrollIntoView = (selector) => {
-  const elem = document.querySelector(selector)
+export const stickyScrollIntoView = (
+  targetSelector,
+  headerSelector = "#sticky-resource-header"
+) => {
+  const elem = document.querySelector(targetSelector)
   if (isTopInViewport(elem)) return
-  const stickyHeader = document.querySelector("#sticky-resource-header")
+  const stickyHeader = document.querySelector(headerSelector)
   // do not scroll to top, leave space for sticky header
   const y =
     elem.getBoundingClientRect().top +
