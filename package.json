@@ -57,6 +57,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@aws-amplify/auth": "^4.3.5",
+    "@aws-sdk/client-comprehend": "^3.41.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
