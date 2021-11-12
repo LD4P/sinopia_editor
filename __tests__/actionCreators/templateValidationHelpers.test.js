@@ -3,108 +3,74 @@ import Config from "Config"
 import configureMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { createState } from "stateUtils"
+import ResourceBuilder from "resourceBuilderUtils"
 
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, "useResourceTemplateFixtures", "get").mockReturnValue(true)
 
+const build = new ResourceBuilder()
 const mockStore = configureMockStore([thunk])
 
 describe("validateTemplates()", () => {
   describe("a valid template", () => {
-    const subjectTemplate = {
-      key: "resourceTemplate:bf2:Title",
+    const subjectTemplate = build.subjectTemplate({
       id: "resourceTemplate:bf2:Title",
-      class: "http://id.loc.gov/ontologies/bibframe/Title",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Title",
       label: "Instance Title",
-      author: undefined,
       remark:
         "Title information relating to a resource: work title, preferred title, instance title, transcribed title, translated title, variant form of title, etc.",
-      date: undefined,
-      propertyTemplateKeys: [
-        "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/mainTitle",
-        "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/subtitle",
-        "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/partNumber",
-        "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/partName",
-        "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/note",
-      ],
       propertyTemplates: [
-        {
-          key: "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/mainTitle",
+        build.propertyTemplate({
           subjectTemplateKey: "resourceTemplate:bf2:Title",
           label: "Title Proper (RDA 2.3.2) (BIBFRAME: Main title)",
-          uri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
-          required: false,
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/mainTitle": "Main title",
+          },
           repeatable: true,
-          defaults: [],
-          remark: null,
-          remarkUrl: null,
           type: "literal",
           component: "InputLiteral",
-          valueSubjectTemplateKeys: [],
-          authorities: [],
-        },
-        {
-          key: "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/subtitle",
+        }),
+        build.propertyTemplate({
           subjectTemplateKey: "resourceTemplate:bf2:Title",
           label: "Other Title Information (RDA 2.3.4) (BIBFRAME: Subtitle)",
-          uri: "http://id.loc.gov/ontologies/bibframe/subtitle",
-          required: false,
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/subtitle": "Subtitle",
+          },
           repeatable: true,
-          defaults: [],
-          remark: null,
-          remarkUrl: null,
           type: "literal",
           component: "InputLiteral",
-          valueSubjectTemplateKeys: [],
-          authorities: [],
-        },
-        {
-          key: "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/partNumber",
+        }),
+        build.propertyTemplate({
           subjectTemplateKey: "resourceTemplate:bf2:Title",
           label: "Part number",
-          uri: "http://id.loc.gov/ontologies/bibframe/partNumber",
-          required: false,
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/partNumber": "Part number",
+          },
           repeatable: true,
-          defaults: [],
-          remark: undefined,
-          remarkUrl: null,
           type: "literal",
           component: "InputLiteral",
-          valueSubjectTemplateKeys: [],
-          authorities: [],
-        },
-        {
-          key: "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/partName",
+        }),
+        build.propertyTemplate({
           subjectTemplateKey: "resourceTemplate:bf2:Title",
           label: "Part name",
-          uri: "http://id.loc.gov/ontologies/bibframe/partName",
-          required: false,
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/partName": "Part name",
+          },
           repeatable: true,
-          defaults: [],
-          remark: undefined,
-          remarkUrl: null,
           type: "literal",
           component: "InputLiteral",
-          valueSubjectTemplateKeys: [],
-          authorities: [],
-        },
-        {
-          key: "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/note",
+        }),
+        build.propertyTemplate({
           subjectTemplateKey: "resourceTemplate:bf2:Title",
           label: "Note on title",
-          uri: "http://id.loc.gov/ontologies/bibframe/note",
-          required: false,
+          uris: { "http://id.loc.gov/ontologies/bibframe/note": "Note" },
           repeatable: true,
-          defaults: [],
-          remark: null,
-          remarkUrl: null,
           type: "resource",
           component: "NestedResource",
           valueSubjectTemplateKeys: ["resourceTemplate:bf2:Title:Note"],
-          authorities: [],
-        },
+        }),
       ],
-    }
+    })
 
     it("returns no errors", async () => {
       const store = mockStore(createState())
@@ -159,33 +125,22 @@ describe("validateTemplates()", () => {
   })
 
   describe("template with property template missing propertyURI", () => {
-    const subjectTemplate = {
-      key: "ld4p:RT:bf2:Title:AbbrTitle",
+    const subjectTemplate = build.subjectTemplate({
       id: "ld4p:RT:bf2:Title:AbbrTitle",
-      class: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
+      clazz: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
       label: "Abbreviated Title",
-      author: undefined,
-      remark: undefined,
-      date: undefined,
-      propertyTemplateKeys: ["ld4p:RT:bf2:Title:AbbrTitle > undefined"],
       propertyTemplates: [
-        {
-          key: "ld4p:RT:bf2:Title:AbbrTitle > undefined",
+        build.propertyTemplate({
           subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
-          label: undefined,
-          uri: undefined,
-          required: false,
-          repeatable: false,
-          defaults: [],
-          remark: undefined,
-          remarkUrl: null,
-          type: null,
-          component: null,
-          valueSubjectTemplateKeys: null,
-          authorities: [],
-        },
+          label: "Property missing URIs",
+          // These will be removed below.
+          uris: { "http://id.loc.gov/ontologies/bibframe/temp": "Temporary" },
+          type: "literal",
+          component: "InputLiteral",
+        }),
       ],
-    }
+    })
+    subjectTemplate.propertyTemplates[0].uris = undefined
     it("returns error", async () => {
       const store = mockStore(createState())
 
@@ -203,35 +158,26 @@ describe("validateTemplates()", () => {
   })
 
   describe("template with bad property template", () => {
-    const subjectTemplate = {
-      key: "ld4p:RT:bf2:Title:AbbrTitle",
+    const subjectTemplate = build.subjectTemplate({
       id: "ld4p:RT:bf2:Title:AbbrTitle",
-      class: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
+      clazz: "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
       label: "Abbreviated Title",
-      author: undefined,
-      remark: undefined,
-      date: undefined,
-      propertyTemplateKeys: [
-        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
-      ],
       propertyTemplates: [
-        {
-          key: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+        build.propertyTemplate({
           subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
-          label: undefined,
-          uri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
-          required: false,
-          repeatable: false,
-          defaults: [],
-          remark: undefined,
-          remarkUrl: null,
-          type: null,
-          component: null,
-          valueSubjectTemplateKeys: null,
-          authorities: [],
-        },
+          label: "Temporary",
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/mainTitle": "Main title",
+          },
+          type: "literal",
+          component: "InputLiteral",
+        }),
       ],
-    }
+    })
+
+    subjectTemplate.propertyTemplates[0].label = undefined
+    subjectTemplate.propertyTemplates[0].type = null
+    subjectTemplate.propertyTemplates[0].component = null
     it("returns error", async () => {
       const store = mockStore(createState())
 
@@ -262,35 +208,24 @@ describe("validateTemplates()", () => {
   })
 
   describe("template with missing authority configs", () => {
-    const subjectTemplate = {
-      key: "test:resource:SinopiaLookup",
+    const subjectTemplate = build.subjectTemplate({
       id: "test:resource:SinopiaLookup",
-      class: "http://id.loc.gov/ontologies/bibframe/Instance",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Instance",
       label: "Testing sinopia lookup",
-      author: undefined,
-      remark: undefined,
-      date: undefined,
-      propertyTemplateKeys: [
-        "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
-      ],
       propertyTemplates: [
-        {
-          key: "test:resource:SinopiaLookup > http://id.loc.gov/ontologies/bibframe/instanceOf",
+        build.propertyTemplate({
           subjectTemplateKey: "test:resource:SinopiaLookup",
           label: "Instance of (lookup)",
-          uri: "http://id.loc.gov/ontologies/bibframe/instanceOf",
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/instanceOf": "Instance of",
+          },
           required: true,
-          repeatable: false,
-          defaults: [],
-          remark: undefined,
-          remarkUrl: null,
           type: "uri",
-          component: null,
-          valueSubjectTemplateKeys: null,
+          component: "InputLookup",
           authorities: [{ uri: "xurn:ld4p:sinopia:bibframe:instance" }],
-        },
+        }),
       ],
-    }
+    })
 
     it("returns error", async () => {
       const store = mockStore(createState())
@@ -310,51 +245,38 @@ describe("validateTemplates()", () => {
   })
 
   describe("template with repeated properties", () => {
-    const subjectTemplate = {
-      key: "rt:repeated:propertyURI:propertyLabel",
+    const subjectTemplate = build.subjectTemplate({
       id: "rt:repeated:propertyURI:propertyLabel",
-      class: "http://id.loc.gov/ontologies/bibframe/Work",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Work",
       label: "repeated propertyURI with differing propertyLabel",
       author: "michelle",
-      remark: undefined,
-      date: undefined,
-      propertyTemplateKeys: [
-        "rt:repeated:propertyURI:propertyLabel > http://id.loc.gov/ontologies/bibframe/geographicCoverage",
-        "rt:repeated:propertyURI:propertyLabel > http://id.loc.gov/ontologies/bibframe/geographicCoverage",
-      ],
       propertyTemplates: [
-        {
-          key: "rt:repeated:propertyURI:propertyLabel > http://id.loc.gov/ontologies/bibframe/geographicCoverage",
+        build.propertyTemplate({
           subjectTemplateKey: "rt:repeated:propertyURI:propertyLabel",
           label: "Geographic Coverage 1",
-          uri: "http://id.loc.gov/ontologies/bibframe/geographicCoverage",
-          required: false,
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/geographicCoverage":
+              "Geographic coverage",
+          },
           repeatable: true,
-          defaults: [],
           remark: "tooltip 1",
-          remarkUrl: null,
           type: "literal",
           component: "InputLiteral",
-          valueSubjectTemplateKeys: [],
-          authorities: [],
-        },
-        {
-          key: "rt:repeated:propertyURI:propertyLabel > http://id.loc.gov/ontologies/bibframe/geographicCoverage",
+        }),
+        build.propertyTemplate({
           subjectTemplateKey: "rt:repeated:propertyURI:propertyLabel",
           label: "Geographic Coverage 2",
-          uri: "http://id.loc.gov/ontologies/bibframe/geographicCoverage",
-          required: false,
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/geographicCoverage":
+              "Geographic coverage",
+          },
           repeatable: true,
-          defaults: [],
           remark: "tooltip 2",
-          remarkUrl: null,
           type: "literal",
           component: "InputLiteral",
-          valueSubjectTemplateKeys: [],
-          authorities: [],
-        },
+        }),
       ],
-    }
+    })
 
     it("returns error", async () => {
       const store = mockStore(createState())
@@ -374,51 +296,36 @@ describe("validateTemplates()", () => {
   })
 
   describe("template with missing resource templates", () => {
-    const subjectTemplate = {
-      key: "test:RT:bf2:notFoundValueTemplateRefs",
+    const subjectTemplate = build.subjectTemplate({
       id: "test:RT:bf2:notFoundValueTemplateRefs",
-      class: "http://id.loc.gov/ontologies/bibframe/Identifier",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Identifier",
       label: "Not found value template refs",
       author: "Justin Littman",
-      remark: undefined,
       date: "2019-08-19",
-      propertyTemplateKeys: [
-        "test:RT:bf2:notFoundValueTemplateRefs > http://id.loc.gov/ontologies/bibframe/Barcode",
-        "test:RT:bf2:notFoundValueTemplateRefs > http://id.loc.gov/ontologies/bibframe/CopyrightRegistration",
-      ],
       propertyTemplates: [
-        {
-          key: "test:RT:bf2:notFoundValueTemplateRefs > http://id.loc.gov/ontologies/bibframe/Barcode",
+        build.propertyTemplate({
           subjectTemplateKey: "test:RT:bf2:notFoundValueTemplateRefs",
           label: "Barcode",
-          uri: "http://id.loc.gov/ontologies/bibframe/Barcode",
-          required: false,
+          uris: { "http://id.loc.gov/ontologies/bibframe/Barcode": "Barcode" },
           repeatable: true,
-          defaults: [],
-          remark: undefined,
-          remarkUrl: null,
           type: "resource",
           component: "NestedResource",
           valueSubjectTemplateKeys: ["lc:RT:bf2:Identifiers:Barcode"],
-          authorities: [],
-        },
-        {
-          key: "test:RT:bf2:notFoundValueTemplateRefs > http://id.loc.gov/ontologies/bibframe/CopyrightRegistration",
+        }),
+        build.propertyTemplate({
           subjectTemplateKey: "test:RT:bf2:notFoundValueTemplateRefs",
           label: "Copyright Registration Number",
-          uri: "http://id.loc.gov/ontologies/bibframe/CopyrightRegistration",
-          required: false,
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/CopyrightRegistration":
+              "Copyright registration",
+          },
           repeatable: true,
-          defaults: [],
-          remark: undefined,
-          remarkUrl: null,
           type: "resource",
           component: "NestedResource",
           valueSubjectTemplateKeys: ["lc:RT:bf2:Identifiers:Copyright"],
-          authorities: [],
-        },
+        }),
       ],
-    }
+    })
 
     it("returns error", async () => {
       const store = mockStore(createState())
@@ -438,38 +345,30 @@ describe("validateTemplates()", () => {
   })
 
   describe("template with non-unique property template refs", () => {
-    const subjectTemplate = {
-      key: "test:RT:bf2:RareMat:Instance",
+    const subjectTemplate = build.subjectTemplate({
       id: "test:RT:bf2:RareMat:Instance",
-      class: "http://id.loc.gov/ontologies/bibframe/Instance",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Instance",
       label: "Value template refs with non-unique resource URIs",
       author: "LD4P",
       remark: "based on LC template ld4p:RT:bf2:RareMat:Instance",
       date: "2019-08-19",
-      propertyTemplateKeys: [
-        "test:RT:bf2:RareMat:Instance > http://id.loc.gov/ontologies/bibframe/genreForm",
-      ],
       propertyTemplates: [
-        {
-          key: "test:RT:bf2:RareMat:Instance > http://id.loc.gov/ontologies/bibframe/genreForm",
+        build.propertyTemplate({
           subjectTemplateKey: "test:RT:bf2:RareMat:Instance",
           label: "Form of Instance",
-          uri: "http://id.loc.gov/ontologies/bibframe/genreForm",
-          required: false,
+          uris: {
+            "http://id.loc.gov/ontologies/bibframe/genreForm": "Genre form",
+          },
           repeatable: true,
-          defaults: [],
-          remark: undefined,
-          remarkUrl: null,
           type: "resource",
           component: "NestedResource",
           valueSubjectTemplateKeys: [
             "ld4p:RT:bf2:Form",
             "ld4p:RT:bf2:RareMat:RBMS",
           ],
-          authorities: [],
-        },
+        }),
       ],
-    }
+    })
 
     it("returns error", async () => {
       const store = mockStore(createState())
@@ -489,32 +388,20 @@ describe("validateTemplates()", () => {
   })
 
   describe("a valid suppressible template", () => {
-    const subjectTemplate = {
-      key: "pcc:bf2:Agent:Person",
+    const subjectTemplate = build.subjectTemplate({
       uri: "http://localhost:3000/resource/pcc:bf2:Agent:Person",
       id: "pcc:bf2:Agent:Person",
-      class: "http://id.loc.gov/ontologies/bibframe/Person",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Person",
       label: "Agent--Person",
       author: "PCC",
-      remark: null,
       date: "2020-09-20",
       suppressible: true,
-      propertyTemplateKeys: [
-        "pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
-      ],
       propertyTemplates: [
-        {
-          key: "pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+        build.propertyTemplate({
           subjectTemplateKey: "pcc:bf2:Agent:Person",
           label: "Name of Person",
-          uri: "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
-          required: false,
+          uris: { "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": "Value" },
           repeatable: true,
-          ordered: false,
-          remark: null,
-          remarkUrl: null,
-          defaults: [],
-          valueSubjectTemplateKeys: [],
           authorities: [
             {
               uri: "urn:ld4p:qa:names",
@@ -526,9 +413,9 @@ describe("validateTemplates()", () => {
           ],
           type: "uri",
           component: "InputLookup",
-        },
+        }),
       ],
-    }
+    })
 
     it("returns no errors", async () => {
       const store = mockStore(createState())
@@ -543,19 +430,15 @@ describe("validateTemplates()", () => {
   })
 
   describe("a suppressible template with wrong number of property templates", () => {
-    const subjectTemplate = {
-      key: "pcc:bf2:Agent:Person",
+    const subjectTemplate = build.subjectTemplate({
       uri: "http://localhost:3000/resource/pcc:bf2:Agent:Person",
       id: "pcc:bf2:Agent:Person",
-      class: "http://id.loc.gov/ontologies/bibframe/Person",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Person",
       label: "Agent--Person",
       author: "PCC",
-      remark: null,
       date: "2020-09-20",
       suppressible: true,
-      propertyTemplateKeys: [],
-      propertyTemplates: [],
-    }
+    })
 
     it("returns error", async () => {
       const store = mockStore(createState())
@@ -574,38 +457,25 @@ describe("validateTemplates()", () => {
   })
 
   describe("a suppressible template with wrong type of property", () => {
-    const subjectTemplate = {
-      key: "pcc:bf2:Agent:Person",
+    const subjectTemplate = build.subjectTemplate({
       uri: "http://localhost:3000/resource/pcc:bf2:Agent:Person",
       id: "pcc:bf2:Agent:Person",
-      class: "http://id.loc.gov/ontologies/bibframe/Person",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Person",
       label: "Agent--Person",
       author: "PCC",
-      remark: null,
       date: "2020-09-20",
       suppressible: true,
-      propertyTemplateKeys: [
-        "pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
-      ],
       propertyTemplates: [
-        {
-          key: "pcc:bf2:Agent:Person > http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+        build.propertyTemplate({
           subjectTemplateKey: "pcc:bf2:Agent:Person",
           label: "Name of Person",
-          uri: "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
-          required: false,
+          uris: { "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": "Value" },
           repeatable: true,
-          ordered: false,
-          remark: null,
-          remarkUrl: null,
-          defaults: [],
-          valueSubjectTemplateKeys: [],
-          authorities: [],
           type: "literal",
           component: "InputLiteral",
-        },
+        }),
       ],
-    }
+    })
 
     it("returns error", async () => {
       const store = mockStore(createState())

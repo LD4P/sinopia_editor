@@ -3,6 +3,7 @@ import { defaultLanguageId } from "utilities/Utilities"
 
 const newValue = (
   property,
+  propertyUri,
   literal = null,
   lang = null,
   uri = null,
@@ -11,7 +12,8 @@ const newValue = (
   component = null
 ) => ({
   key: nanoid(),
-  property,
+  propertyKey: property.key,
+  propertyUri,
   literal,
   lang,
   uri,
@@ -20,12 +22,27 @@ const newValue = (
   component,
 })
 
-export const newLiteralValue = (property, literal, lang = defaultLanguageId) =>
-  newValue(property, literal, lang, null, null, null, "InputLiteralValue")
-
-export const newBlankLiteralValue = (property) =>
+export const newLiteralValue = (
+  property,
+  propertyUri,
+  literal,
+  lang = defaultLanguageId
+) =>
   newValue(
     property,
+    propertyUri,
+    literal,
+    lang,
+    null,
+    null,
+    null,
+    "InputLiteralValue"
+  )
+
+export const newBlankLiteralValue = (property, propertyUri) =>
+  newValue(
+    property,
+    propertyUri,
     null,
     defaultLanguageId,
     null,
@@ -34,17 +51,50 @@ export const newBlankLiteralValue = (property) =>
     "InputLiteralValue"
   )
 
-export const newUriValue = (property, uri, label, lang = defaultLanguageId) =>
-  newValue(property, null, lang, uri, label, null, "InputURIValue")
+export const newUriValue = (
+  property,
+  propertyUri,
+  uri,
+  label,
+  lang = defaultLanguageId
+) =>
+  newValue(property, propertyUri, null, lang, uri, label, null, "InputURIValue")
 
-export const newBlankUriValue = (property) =>
-  newValue(property, null, defaultLanguageId, null, null, null, "InputURIValue")
+export const newBlankUriValue = (property, propertyUri) =>
+  newValue(
+    property,
+    propertyUri,
+    null,
+    defaultLanguageId,
+    null,
+    null,
+    null,
+    "InputURIValue"
+  )
 
-export const newBlankLookupValue = (property) =>
-  newValue(property, null, null, null, null, null, "InputLookupValue")
+export const newBlankLookupValue = (property, propertyUri) =>
+  newValue(
+    property,
+    propertyUri,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "InputLookupValue"
+  )
 
-export const newBlankListValue = (property) =>
-  newValue(property, null, null, null, null, null, "InputListValue")
+export const newBlankListValue = (property, propertyUri) =>
+  newValue(
+    property,
+    propertyUri,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "InputListValue"
+  )
 
-export const newValueSubject = (property, subject) =>
-  newValue(property, null, null, null, null, subject)
+export const newValueSubject = (property, propertyUri, subject) =>
+  newValue(property, propertyUri, null, null, null, null, subject)

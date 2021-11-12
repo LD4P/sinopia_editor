@@ -270,7 +270,7 @@ const isTemplate = (resource) =>
 const templateIdFor = (resource) => {
   const resourceIdProperty = resource.properties.find(
     (property) =>
-      property.propertyTemplate.uri ===
+      property.propertyTemplate.defaultUri ===
       "http://sinopia.io/vocabulary/hasResourceId"
   )
   return resourceIdProperty.values[0].literal

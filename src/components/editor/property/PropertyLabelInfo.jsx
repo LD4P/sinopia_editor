@@ -7,13 +7,13 @@ import PropertyLabelInfoTooltip from "./PropertyLabelInfoTooltip"
 
 import _ from "lodash"
 
-const PropertyLabelInfo = (props) => (
+const PropertyLabelInfo = ({ propertyTemplate }) => (
   <React.Fragment>
-    {!_.isEmpty(props.propertyTemplate.remark) && (
-      <PropertyLabelInfoTooltip {...props} />
+    {!_.isEmpty(propertyTemplate.remark) && (
+      <PropertyLabelInfoTooltip propertyTemplate={propertyTemplate} />
     )}
-    {!_.isEmpty(props.propertyTemplate.remarkUrl) && (
-      <PropertyLabelInfoLink {...props} />
+    {!_.isEmpty(propertyTemplate.remarkUrl) && (
+      <PropertyLabelInfoLink propertyTemplate={propertyTemplate} />
     )}
   </React.Fragment>
 )

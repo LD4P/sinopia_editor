@@ -1,0 +1,318 @@
+[
+  {
+    "@id": "_:b29",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Literal input",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Inputs/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ]
+  },
+  {
+    "@id": "_:b31",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "URI input",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Inputs/property2"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ]
+  },
+  {
+    "@id": "_:b33",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Lookup input",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Inputs/property3"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b34"
+      }
+    ]
+  },
+  {
+    "@id": "_:b34",
+    "@type": [
+      "http://sinopia.io/vocabulary/LookupPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "urn:ld4p:qa:agrovoc"
+      }
+    ]
+  },
+  {
+    "@id": "_:b36",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "List input",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Inputs/property4"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b37"
+      }
+    ]
+  },
+  {
+    "@id": "_:b37",
+    "@type": [
+      "http://sinopia.io/vocabulary/LookupPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "https://id.loc.gov/vocabulary/carriers"
+      }
+    ]
+  },
+  {
+    "@id": "_:b38",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Nested resource",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Inputs/property5"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttributes": [
+      {
+        "@id": "_:b39"
+      }
+    ]
+  },
+  {
+    "@id": "_:b39",
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
+      {
+        "@id": "resourceTemplate:testing:literal"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:testing:inputs",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@value": "resourceTemplate:testing:inputs",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://sinopia.io/testing/Inputs"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Inputs",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "A template that contains multiple inputs.",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b29"
+          },
+          {
+            "@id": "_:b31"
+          },
+          {
+            "@id": "_:b33"
+          },
+          {
+            "@id": "_:b36"
+          },
+          {
+            "@id": "_:b38"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@id": "resourceTemplate:testing:literal",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Literal",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Inputs",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Inputs",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Inputs/property1",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property1",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Inputs/property2",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property2",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Inputs/property3",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property3",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Inputs/property4",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property4",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Inputs/property5",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property5",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/propertyType/literal",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "literal"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/propertyType/resource",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "nested resource"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/propertyType/uri",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "uri or lookup"
+      }
+    ]
+  },
+  {
+    "@id": "https://id.loc.gov/vocabulary/carriers",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "carrier"
+      }
+    ]
+  },
+  {
+    "@id": "urn:ld4p:qa:agrovoc",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "AGROVOC (QA)"
+      }
+    ]
+  }
+]

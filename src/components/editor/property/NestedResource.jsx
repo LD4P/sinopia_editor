@@ -1,24 +1,36 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
+import { useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import NestedProperty from "./NestedProperty"
 import NestedResourceActionButtons from "./NestedResourceActionButtons"
 import { selectNormValue, selectNormSubject } from "selectors/resources"
-import { selectSubjectTemplate } from "selectors/templates"
-import { connect } from "react-redux"
+import {
+  selectSubjectTemplate,
+  selectPropertyTemplateForProperty,
+} from "selectors/templates"
 import useNavTarget from "hooks/useNavTarget"
+import ValuePropertyURI from "./ValuePropertyURI"
+import _ from "lodash"
 
 // AKA a value subject.
-const NestedResource = (props) => {
-  const { handleNavTargetClick, navTargetId } = useNavTarget(props.valueSubject)
+const NestedResource = ({ valueKey, readOnly }) => {
+  const value = useSelector((state) => selectNormValue(state, valueKey))
+  const valueSubject = useSelector((state) =>
+    selectNormSubject(state, value?.valueSubjectKey)
+  )
+  const subjectTemplate = useSelector((state) =>
+    selectSubjectTemplate(state, valueSubject?.subjectTemplateKey)
+  )
+  const propertyTemplate = useSelector((state) =>
+    selectPropertyTemplateForProperty(state, value.propertyKey)
+  )
+
+  const { handleNavTargetClick, navTargetId } = useNavTarget(valueSubject)
 
   // On the preview page, don't show this nested resource if no values are present
-  if (
-    props.readOnly &&
-    props.valueSubject.descUriOrLiteralValueKeys.length === 0
-  )
-    return null
+  if (readOnly && _.isEmpty(valueSubject.descUriOrLiteralValueKeys)) return null
 
   // onClick is to support left navigation, so ignoring jsx-ally seems reasonable.
   /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -29,24 +41,29 @@ const NestedResource = (props) => {
       onClick={handleNavTargetClick}
       id={navTargetId}
     >
-      <div className="row" key={props.valueKey}>
+      <div className="row" key={valueKey}>
         <section className="col-md-6">
-          <h5>{props.subjectTemplate.label}</h5>
+          <h5>{subjectTemplate.label}</h5>
         </section>
         <section className="col-md-6">
-          {!props.readOnly && (
-            <NestedResourceActionButtons value={props.value} />
-          )}
+          {!readOnly && <NestedResourceActionButtons value={value} />}
         </section>
       </div>
-      <div>
-        {props.valueSubject.propertyKeys.map((propertyKey) => (
-          <NestedProperty
-            key={propertyKey}
-            propertyKey={propertyKey}
-            readOnly={props.readOnly}
-          />
-        ))}
+      <ValuePropertyURI
+        propertyTemplate={propertyTemplate}
+        value={value}
+        readOnly={readOnly}
+      />
+      <div className="row">
+        <div className="col">
+          {valueSubject.propertyKeys.map((propertyKey) => (
+            <NestedProperty
+              key={propertyKey}
+              propertyKey={propertyKey}
+              readOnly={readOnly}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -54,23 +71,7 @@ const NestedResource = (props) => {
 
 NestedResource.propTypes = {
   valueKey: PropTypes.string.isRequired,
-  value: PropTypes.object,
-  valueSubject: PropTypes.object,
-  subjectTemplate: PropTypes.object,
   readOnly: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = (state, ourProps) => {
-  const value = selectNormValue(state, ourProps.valueKey)
-  const valueSubject = selectNormSubject(state, value?.valueSubjectKey)
-  return {
-    value,
-    valueSubject,
-    subjectTemplate: selectSubjectTemplate(
-      state,
-      valueSubject?.subjectTemplateKey
-    ),
-  }
-}
-
-export default connect(mapStateToProps)(NestedResource)
+export default NestedResource

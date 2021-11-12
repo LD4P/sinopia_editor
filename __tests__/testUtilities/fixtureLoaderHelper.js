@@ -10,6 +10,8 @@ const resourceFilenames = {
   "a4181509-8046-47c8-9327-6e576c517d70": "test2.json",
   "9c5bd9f5-1804-45bd-99ed-b6e3774c896e": "instance.json",
   "a5c5f4c0-e7cd-4ca5-a20f-2a37fe1080d5": "instance_with_refs.json",
+  "b6c5f4c0-e7cd-4ca5-a20f-2a37fe1080d6": "test-inputs.json",
+  "c7c5f4c0-e7cd-4ca5-a20f-2a37fe1080d7": "test-multiple_property_uris.json",
 }
 
 const templateFilenames = {
@@ -34,6 +36,13 @@ const templateFilenames = {
   "resourceTemplate:testing:uber4": "uber_template4.json",
   "resourceTemplate:testing:uber5": "uber_template5.json",
   "resourceTemplate:bf2:Instance": "Instance.json",
+  "resourceTemplate:testing:literal": "testing_literal.json",
+  "resourceTemplate:testing:uri": "testing_uri.json",
+  "resourceTemplate:testing:inputs": "testing_inputs.json",
+  "resourceTemplate:testing:ordered": "testing_ordered.json",
+  "resourceTemplate:testing:suppressible": "testing_suppressible.json",
+  "resourceTemplate:testing:multiplePropertyUris":
+    "testing_multiple_property_uris.json",
 }
 
 export const hasFixtureResource = (uri) =>
@@ -48,7 +57,6 @@ export const getFixtureResource = (uri) => {
   if (uri === "http://error") throw new Error("Ooops")
   if (uri === "http://localhost:3000/resource/ld4p:RT:bf2:xxx")
     throw new Error("Error retrieving resource: Not Found")
-
   const id = normUri(uri)
   // For some reason, require must have __xxx__ and cannot be provided in variable.
   let resource

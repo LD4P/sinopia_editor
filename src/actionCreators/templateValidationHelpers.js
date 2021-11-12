@@ -71,30 +71,31 @@ const validatePropertyTemplates = (propertyTemplates) => {
 
 const validatePropertyTemplate = (template) => {
   const errors = []
-  if (!template.uri) {
+  const firstUri = _.first(Object.keys(template.uris || {}))
+  if (_.isEmpty(template.uris)) {
     errors.push("Property template URI is required.")
     return errors
   }
   if (!template.label)
-    errors.push(`Property template label is required for ${template.uri}.`)
+    errors.push(`Property template label is required for ${firstUri}.`)
   if (!template.type)
     errors.push(
-      `Cannot determine type for ${template.uri}. Must be resource, lookup, or literal.`
+      `Cannot determine type for ${firstUri}. Must be resource, lookup, or literal.`
     )
   if (!template.component)
-    errors.push(`Cannot determine component for ${template.uri}.`)
+    errors.push(`Cannot determine component for ${firstUri}.`)
   template.authorities.forEach((authority) => {
     if (!authority.label)
-      errors.push(
-        `Misconfigured authority ${authority.uri} for ${template.uri}.`
-      )
+      errors.push(`Misconfigured authority ${authority.uri} for ${firstUri}.`)
   })
   if (
     template.type === "resource" &&
     _.isEmpty(template.valueSubjectTemplateKeys)
   ) {
     errors.push(
-      `The field "${template.label}" with property "${template.uri}" has type nested resource, but does not specify a template in Nested resource attributes.`
+      `The field "${template.label}" with property "${_.first(
+        Object.keys(template.uris)
+      )}" has type nested resource, but does not specify a template in Nested resource attributes.`
     )
   }
   return errors
@@ -102,17 +103,23 @@ const validatePropertyTemplate = (template) => {
 
 const validateRepeatedPropertyTemplates = (propertyTemplates) => {
   const dupes = []
-  const propertyTemplateIds = []
+  const propertyTemplateUris = []
   propertyTemplates.forEach((propertyTemplate) => {
-    if (propertyTemplateIds.indexOf(propertyTemplate.uri) !== -1) {
-      dupes.push(propertyTemplate.uri)
-    } else {
-      propertyTemplateIds.push(propertyTemplate.uri)
+    if (!_.isEmpty(propertyTemplate.uris)) {
+      Object.keys(propertyTemplate.uris).forEach((uri) => {
+        if (propertyTemplateUris.includes(uri)) {
+          dupes.push(uri)
+        } else {
+          propertyTemplateUris.push(uri)
+        }
+      })
     }
   })
   if (dupes.length > 0) {
     return [
-      `Repeated property templates with same property URI (${dupes}) are not allowed.`,
+      `Repeated property templates with same property URI (${dupes.join(
+        ", "
+      )}) are not allowed.`,
     ]
   }
   return []
@@ -212,7 +219,9 @@ const validateUniqueResourceURIs =
       )
       return multipleClasses.map((clazz) => {
         const classIdsStr = classResourceTemplateIds[clazz].join(", ")
-        return `The following resource templates references for ${propertyTemplate.uri} have the same class (${clazz}), but must be unique: ${classIdsStr}`
+        return `The following resource templates references for ${_.first(
+          Object.keys(propertyTemplate.uris)
+        )} have the same class (${clazz}), but must be unique: ${classIdsStr}`
       })
     })
   }

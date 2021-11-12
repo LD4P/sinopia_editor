@@ -14,6 +14,7 @@ import { selectPropertyTemplate } from "selectors/templates"
 import useNavTarget from "hooks/useNavTarget"
 import useAlerts from "hooks/useAlerts"
 import _ from "lodash"
+import PropertyPropertyURI from "./PropertyPropertyURI"
 
 const PanelProperty = ({ propertyKey, readOnly, id, isTemplate }) => {
   const dispatch = useDispatch()
@@ -28,11 +29,10 @@ const PanelProperty = ({ propertyKey, readOnly, id, isTemplate }) => {
   // Null values indicates that can be added.
   const isAdd = !property.valueKeys
   const isRequired = propertyTemplate.required
-  const nbsp = "\u00A0"
   const trashIcon = faTrashAlt
   const { handleNavTargetClick, navTargetId } = useNavTarget(property)
 
-  const cardClassName = ["card"]
+  const cardClassName = ["card", "container", "px-0"]
 
   if (isTemplate) {
     cardClassName.push("template")
@@ -52,14 +52,17 @@ const PanelProperty = ({ propertyKey, readOnly, id, isTemplate }) => {
         data-label={propertyTemplate.label}
         style={{ marginBottom: "1em" }}
       >
-        <div className="prop-heading">
-          <h5>
-            <PropertyLabel
-              required={propertyTemplate.required}
-              label={propertyTemplate.label}
-            />
-            <PropertyLabelInfo propertyTemplate={propertyTemplate} />
-            {nbsp}
+        <div className="prop-heading row mx-0">
+          <div className="col px-0">
+            <h5>
+              <PropertyLabel
+                required={propertyTemplate.required}
+                label={propertyTemplate.label}
+              />
+              <PropertyLabelInfo propertyTemplate={propertyTemplate} />
+            </h5>
+          </div>
+          <div className="col">
             {isAdd && !readOnly && (
               <button
                 type="button"
@@ -84,16 +87,25 @@ const PanelProperty = ({ propertyKey, readOnly, id, isTemplate }) => {
                 <FontAwesomeIcon className="trash-icon" icon={trashIcon} />
               </button>
             )}
-          </h5>
+          </div>
         </div>
         {!isAdd && (
-          <div className="panel-property">
-            <PropertyComponent
-              property={property}
-              propertyTemplate={propertyTemplate}
-              readOnly={readOnly}
-            />
-          </div>
+          <React.Fragment>
+            <div className="prop-heading pt-2">
+              <PropertyPropertyURI
+                propertyTemplate={propertyTemplate}
+                property={property}
+                readOnly={readOnly}
+              />
+            </div>
+            <div className="panel-property">
+              <PropertyComponent
+                property={property}
+                propertyTemplate={propertyTemplate}
+                readOnly={readOnly}
+              />
+            </div>
+          </React.Fragment>
         )}
       </div>
     </div>

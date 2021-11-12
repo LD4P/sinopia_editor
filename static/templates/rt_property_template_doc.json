@@ -258,6 +258,9 @@
     "http://sinopia.io/vocabulary/hasPropertyAttribute": [
       {
         "@id": "http://sinopia.io/vocabulary/propertyAttribute/required"
+      },
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyType": [

@@ -1,7 +1,9 @@
 import TemplatesBuilder from "TemplatesBuilder"
 import { datasetFromN3 } from "utilities/Utilities"
+import ResourceBuilder from "resourceBuilderUtils"
 
 describe("TemplatesBuilder", () => {
+  const build = new ResourceBuilder()
   it("builds subjectTemplate", async () => {
     const rdf = `<> <http://sinopia.io/vocabulary/hasAuthor> "Justin Littman"@eng .
 <> <http://sinopia.io/vocabulary/hasClass> <http://id.loc.gov/ontologies/bibframe/Uber1> .
@@ -17,21 +19,20 @@ describe("TemplatesBuilder", () => {
     const subjectTemplate = new TemplatesBuilder(dataset, "", "stanford", [
       "cornell",
     ]).build()
-    expect(subjectTemplate).toStrictEqual({
-      key: "resourceTemplate:testing:uber1",
-      id: "resourceTemplate:testing:uber1",
-      uri: "",
-      class: "http://id.loc.gov/ontologies/bibframe/Uber1",
-      label: "Uber template1",
-      author: "Justin Littman",
-      remark: "Template for testing purposes.",
-      date: "2020-07-27",
-      propertyTemplateKeys: [],
-      propertyTemplates: [],
-      suppressible: true,
-      group: "stanford",
-      editGroups: ["cornell"],
-    })
+    expect(subjectTemplate).toStrictEqual(
+      build.subjectTemplate({
+        id: "resourceTemplate:testing:uber1",
+        clazz: "http://id.loc.gov/ontologies/bibframe/Uber1",
+        label: "Uber template1",
+        author: "Justin Littman",
+        remark: "Template for testing purposes.",
+        date: "2020-07-27",
+        propertyTemplates: [],
+        suppressible: true,
+        group: "stanford",
+        editGroups: ["cornell"],
+      })
+    )
   })
 
   it("builds common property template properties", async () => {
@@ -52,32 +53,38 @@ _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.i
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/ordered> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/immutable> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyType> <http://sinopia.io/vocabulary/propertyType/literal> .
-_:b1_c14n0 <http://sinopia.io/vocabulary/hasRemark> "A repeatable literal."@eng .
+_:b1_c14n0 <http://sinopia.io/vocabulary/hasRemark> "A repeatable literal with multiple URIs."@eng .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasRemarkUrl> <http://access.rdatoolkit.org/2.4.2.html> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyUri> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> .
+_:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyUri> <http://id.loc.gov/ontologies/bibframe/uber/template1/property2> .
 _:b1_c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/PropertyTemplate> .
 _:b1_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, property2"@eng .
-<http://access.rdatoolkit.org/2.4.2.html> <http://www.w3.org/2000/01/rdf-schema#label> "Note on Manifestation"@eng .`
+<http://access.rdatoolkit.org/2.4.2.html> <http://www.w3.org/2000/01/rdf-schema#label> "Note on Manifestation"@eng .
+<http://id.loc.gov/ontologies/bibframe/uber/template1/property1> <http://www.w3.org/2000/01/rdf-schema#label> "Property 1"@eng .`
+
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, "").build()
-    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual({
-      key: "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      subjectTemplateKey: "resourceTemplate:testing:uber1",
-      label: "Uber template1, property2",
-      uri: "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      required: true,
-      repeatable: true,
-      ordered: true,
-      immutable: true,
-      remark: "A repeatable literal.",
-      remarkUrl: "http://access.rdatoolkit.org/2.4.2.html",
-      remarkUrlLabel: "Note on Manifestation",
-      defaults: [],
-      valueSubjectTemplateKeys: [],
-      authorities: [],
-      type: "literal",
-      component: "InputLiteral",
-    })
+    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
+      build.propertyTemplate({
+        subjectTemplateKey: "resourceTemplate:testing:uber1",
+        label: "Uber template1, property2",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "Property 1",
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property2":
+            "http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
+        },
+        required: true,
+        repeatable: true,
+        ordered: true,
+        immutable: true,
+        remark: "A repeatable literal with multiple URIs.",
+        remarkUrl: "http://access.rdatoolkit.org/2.4.2.html",
+        remarkUrlLabel: "Note on Manifestation",
+        type: "literal",
+        component: "InputLiteral",
+      })
+    )
   })
 
   it("builds literal property template", async () => {
@@ -100,27 +107,22 @@ _:b2_c14n1 <http://sinopia.io/vocabulary/hasDefault> "default2" .
 _:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LiteralPropertyTemplate> .`
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, "").build()
-    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual({
-      key: "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      subjectTemplateKey: "resourceTemplate:testing:uber1",
-      label: "Uber template1, property2",
-      uri: "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      required: false,
-      repeatable: false,
-      ordered: false,
-      immutable: false,
-      remark: null,
-      remarkUrl: null,
-      remarkUrlLabel: null,
-      defaults: [
-        { literal: "default1", lang: "eng" },
-        { literal: "default2", lang: null },
-      ],
-      valueSubjectTemplateKeys: [],
-      authorities: [],
-      type: "literal",
-      component: "InputLiteral",
-    })
+    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
+      build.propertyTemplate({
+        subjectTemplateKey: "resourceTemplate:testing:uber1",
+        label: "Uber template1, property2",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+        },
+        defaults: [
+          { literal: "default1", lang: "eng" },
+          { literal: "default2", lang: null },
+        ],
+        type: "literal",
+        component: "InputLiteral",
+      })
+    )
   })
 
   it("builds URI property template", async () => {
@@ -148,27 +150,22 @@ _:b3_c14n3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/
 _:b3_c14n3 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, property2"@eng .`
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, "").build()
-    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual({
-      key: "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      subjectTemplateKey: "resourceTemplate:testing:uber1",
-      label: "Uber template1, property2",
-      uri: "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      required: false,
-      repeatable: false,
-      ordered: false,
-      immutable: false,
-      remark: null,
-      remarkUrl: null,
-      remarkUrlLabel: null,
-      defaults: [
-        { uri: "http://sinopia.io/uri1", label: "Test uri1" },
-        { uri: "http://sinopia.io/uri2", label: null },
-      ],
-      valueSubjectTemplateKeys: [],
-      authorities: [],
-      type: "uri",
-      component: "InputURI",
-    })
+    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
+      build.propertyTemplate({
+        subjectTemplateKey: "resourceTemplate:testing:uber1",
+        label: "Uber template1, property2",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+        },
+        defaults: [
+          { uri: "http://sinopia.io/uri1", label: "Test uri1" },
+          { uri: "http://sinopia.io/uri2", label: null },
+        ],
+        type: "uri",
+        component: "InputURI",
+      })
+    )
   })
 
   it("builds nested resource property template", async () => {
@@ -191,27 +188,22 @@ _:b4_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/
 _:b4_c14n1 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, property2"@eng .`
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, "").build()
-    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual({
-      key: "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      subjectTemplateKey: "resourceTemplate:testing:uber1",
-      label: "Uber template1, property2",
-      uri: "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      required: false,
-      repeatable: false,
-      ordered: false,
-      immutable: false,
-      remark: null,
-      remarkUrl: null,
-      remarkUrlLabel: null,
-      defaults: [],
-      valueSubjectTemplateKeys: [
-        "resourceTemplate:testing:uber2",
-        "resourceTemplate:testing:uber3",
-      ],
-      authorities: [],
-      component: "NestedResource",
-      type: "resource",
-    })
+    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
+      build.propertyTemplate({
+        subjectTemplateKey: "resourceTemplate:testing:uber1",
+        label: "Uber template1, property2",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+        },
+        valueSubjectTemplateKeys: [
+          "resourceTemplate:testing:uber2",
+          "resourceTemplate:testing:uber3",
+        ],
+        component: "NestedResource",
+        type: "resource",
+      })
+    )
   })
 
   it("builds lookup property template", async () => {
@@ -242,44 +234,40 @@ _:b5_c14n2 <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@eng .`
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, "").build()
 
-    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual({
-      key: "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      subjectTemplateKey: "resourceTemplate:testing:uber1",
-      label: "Uber template1, property2",
-      uri: "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-      required: false,
-      repeatable: false,
-      ordered: false,
-      immutable: false,
-      remark: null,
-      remarkUrl: null,
-      remarkUrlLabel: null,
-      defaults: [{ uri: "http://sinopia.io/uri1", label: "URI1" }],
-      valueSubjectTemplateKeys: [],
-      authorities: [
-        {
-          uri: "urn:discogs",
-          label: "Discogs",
-          authority: "discogs",
-          subauthority: "all",
-          nonldLookup: true,
+    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
+      build.propertyTemplate({
+        subjectTemplateKey: "resourceTemplate:testing:uber1",
+        label: "Uber template1, property2",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
         },
-        {
-          uri: "urn:ld4p:qa:agrovoc",
-          label: "AGROVOC (QA)",
-          authority: "agrovoc_ld4l_cache",
-          subauthority: "",
-          nonldLookup: false,
-        },
-        {
-          label: "Sinopia BIBFRAME instance resources",
-          nonldLookup: false,
-          type: "http://id.loc.gov/ontologies/bibframe/Instance",
-          uri: "urn:ld4p:sinopia:bibframe:instance",
-        },
-      ],
-      type: "uri",
-      component: "InputLookup",
-    })
+        defaults: [{ uri: "http://sinopia.io/uri1", label: "URI1" }],
+        authorities: [
+          {
+            uri: "urn:discogs",
+            label: "Discogs",
+            authority: "discogs",
+            subauthority: "all",
+            nonldLookup: true,
+          },
+          {
+            uri: "urn:ld4p:qa:agrovoc",
+            label: "AGROVOC (QA)",
+            authority: "agrovoc_ld4l_cache",
+            subauthority: "",
+            nonldLookup: false,
+          },
+          {
+            label: "Sinopia BIBFRAME instance resources",
+            nonldLookup: false,
+            type: "http://id.loc.gov/ontologies/bibframe/Instance",
+            uri: "urn:ld4p:sinopia:bibframe:instance",
+          },
+        ],
+        type: "uri",
+        component: "InputLookup",
+      })
+    )
   })
 })

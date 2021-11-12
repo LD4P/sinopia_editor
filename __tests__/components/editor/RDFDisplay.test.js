@@ -10,6 +10,9 @@ import {
   selectCurrentResourceKey,
 } from "selectors/resources"
 import * as dataSetUtils from "utilities/Utilities"
+import { featureSetup } from "featureUtils"
+
+featureSetup()
 
 describe("<RDFDisplay />", () => {
   const state = createState({ hasTwoLiteralResources: true })

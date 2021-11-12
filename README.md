@@ -289,6 +289,7 @@ The following are only in the resource subject (that is, the base subject).
   descUriOrLiteralValueKeys = [key of descendant uri or literal Value, ...]
   descWithErrorPropertyKeys = [key of descendant or self Property with an error, ...]
   labels = [labels of property/resource templates of self and ancestors, ...]
+  propertyUri: <property uri, e.g., "http://id.loc.gov/ontologies/bibframe/title - only when property is ordered">
 }
 ```
 -> Added by selector, not stored in state.
@@ -296,10 +297,11 @@ The following are only in the resource subject (that is, the base subject).
 ### Property template model
 ```
 {
-  key: <resource template id > property uri>,
+  key: <resource template id > property uris>,
   subjectTemplateKey: <key of subject template>,
   label: <label, e.g., "Title Information">,
-  uri: <property uri, e.g., "http://id.loc.gov/ontologies/bibframe/title">
+  uris: {<property uri, e.g., "http://id.loc.gov/ontologies/bibframe/title">: <property uri label>}
+  defaultUri: <a property uri used as default when creating a value>
   required: <true | false>
   repeatable: <true | false>
   ordered: <true | false>
@@ -345,6 +347,7 @@ The following are only in the resource subject (that is, the base subject).
   rootPropertyKey: <key of root property that this subject is part of>
   component: <InputLiteralValue | InputURIValue | InputLookupValue | InputListValue>,
   errors: [validation errors, ...]
+  propertyUri: <property uri, e.g., "http://id.loc.gov/ontologies/bibframe/title - only when property is unordered">
 }
 ```
 -> Added by selector, not stored in state.

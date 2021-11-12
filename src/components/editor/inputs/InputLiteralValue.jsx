@@ -8,6 +8,7 @@ import DiacriticsButton from "./DiacriticsButton"
 import RemoveButton from "./RemoveButton"
 import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelection"
 import useDiacritics from "hooks/useDiacritics"
+import ValuePropertyURI from "../property/ValuePropertyURI"
 import _ from "lodash"
 
 const InputLiteralValue = ({
@@ -74,6 +75,7 @@ const InputLiteralValue = ({
 
   return (
     <React.Fragment>
+      <ValuePropertyURI propertyTemplate={propertyTemplate} value={value} />
       <div className="row my-2">
         <div className="col">
           <TextareaAutosize

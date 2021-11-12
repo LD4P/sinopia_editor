@@ -98,8 +98,8 @@ describe("searching and preview a resource", () => {
       )
 
       // Modal has edit and copy buttons
-      screen.getByTestId("edit-resource")
-      screen.getByTestId("copy-resource")
+      screen.getByTestId("Edit Example Label")
+      screen.getByTestId("Copy Example Label")
 
       // But no MARC and Export buttons
       expect(
@@ -111,15 +111,14 @@ describe("searching and preview a resource", () => {
 
       // Edit button opens the editor with existing resource
       fireEvent.click(
-        screen.getByLabelText("Edit", { selector: "button", exact: true })
+        screen.getByTestId("Edit Example Label", { selector: "button" })
       )
       await screen.findByText("Example Label", { selector: "h3" })
-      screen.getByText("Copy URI", { selector: "button" })
 
       // Make sure nav panel didn't disappear
       fireEvent.click(screen.getByText("Resource Templates", { selector: "a" }))
       fireEvent.click(
-        await screen.findByTitle("Create resource for Title note")
+        await screen.findByTestId("Create resource for Title note")
       )
       await screen.findByTestId("Go to Note Text", { selector: "button" })
 
@@ -140,7 +139,7 @@ describe("searching and preview a resource", () => {
         .mockResolvedValue(resourceSearchResults(uri))
     })
 
-    it.only("renders a modal without the empty resource and properties", async () => {
+    it("renders a modal without the empty resource and properties", async () => {
       renderApp()
 
       fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
