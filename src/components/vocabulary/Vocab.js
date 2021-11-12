@@ -119,6 +119,10 @@ const vocabulary = {
     description: "Property value is required",
     url: "http://sinopia.io/vocabulary/propertyAttribute/required",
   },
+  "propertyAttribute/suppressLanguage": {
+    description: "Language selection is suppressed",
+    url: "http://sinopia.io/vocabulary/propertyAttribute/languageSuppressed",
+  },
   "propertyType/literal": {
     description: "Literal property value",
     url: "http://sinopia.io/vocabulary/propertyType/literal",

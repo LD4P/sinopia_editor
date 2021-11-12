@@ -188,6 +188,9 @@ export default class TemplatesBuilder {
       immutable: propertyAttrValues.includes(
         "http://sinopia.io/vocabulary/propertyAttribute/immutable"
       ),
+      languageSuppressed: propertyAttrValues.includes(
+        "http://sinopia.io/vocabulary/propertyAttribute/languageSuppressed"
+      ),
       remark: this.valueFor(
         propertyTerm,
         "http://sinopia.io/vocabulary/hasRemark"
@@ -297,13 +300,19 @@ export default class TemplatesBuilder {
       attributeTerm,
       "http://sinopia.io/vocabulary/hasDefault"
     )
-    return defaultTerms.map((defaultTerm) => ({
-      uri: this.valueFor(defaultTerm, "http://sinopia.io/vocabulary/hasUri"),
-      label: this.valueFor(
+    return defaultTerms.map((defaultTerm) => {
+      const defaultLabelTerm = this.objectFor(
         defaultTerm,
         "http://www.w3.org/2000/01/rdf-schema#label"
-      ),
-    }))
+      )
+      return {
+        uri: this.valueFor(defaultTerm, "http://sinopia.io/vocabulary/hasUri"),
+        label: defaultLabelTerm?.value || null,
+        lang: _.isEmpty(defaultLabelTerm?.language)
+          ? null
+          : defaultLabelTerm.language,
+      }
+    })
   }
 
   newAuthorities(propertyTerm) {

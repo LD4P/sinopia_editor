@@ -107,6 +107,8 @@ const InputURIValue = ({
     event.preventDefault()
   }
 
+  const showLang = !propertyTemplate.languageSuppressed || value.lang
+
   const uriControlClasses = ["form-control"]
   const uriErrors = value.errors.filter((error) => error !== "Label required")
   if (displayValidations && !_.isEmpty(uriErrors))
@@ -192,7 +194,7 @@ const InputURIValue = ({
             handleClick={toggleDiacritics}
             handleBlur={handleLabelBlur}
           />
-          <LanguageButton value={value} />
+          {showLang && <LanguageButton value={value} />}
         </div>
         <div className="col-sm-1 d-flex align-items-end">
           <RemoveButton

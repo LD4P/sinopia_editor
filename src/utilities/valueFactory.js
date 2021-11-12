@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import { defaultLanguageId } from "utilities/Utilities"
+import Config from "Config"
 
 const newValue = (
   property,
@@ -22,12 +22,7 @@ const newValue = (
   component,
 })
 
-export const newLiteralValue = (
-  property,
-  propertyUri,
-  literal,
-  lang = defaultLanguageId
-) =>
+export const newLiteralValue = (property, propertyUri, literal, lang) =>
   newValue(
     property,
     propertyUri,
@@ -39,33 +34,31 @@ export const newLiteralValue = (
     "InputLiteralValue"
   )
 
-export const newBlankLiteralValue = (property, propertyUri) =>
+export const newBlankLiteralValue = (
+  property,
+  languageSuppressed,
+  propertyUri
+) =>
   newValue(
     property,
     propertyUri,
     null,
-    defaultLanguageId,
+    languageSuppressed ? null : Config.defaultLanguageId,
     null,
     null,
     null,
     "InputLiteralValue"
   )
 
-export const newUriValue = (
-  property,
-  propertyUri,
-  uri,
-  label,
-  lang = defaultLanguageId
-) =>
+export const newUriValue = (property, propertyUri, uri, label, lang) =>
   newValue(property, propertyUri, null, lang, uri, label, null, "InputURIValue")
 
-export const newBlankUriValue = (property, propertyUri) =>
+export const newBlankUriValue = (property, languageSuppressed, propertyUri) =>
   newValue(
     property,
     propertyUri,
     null,
-    defaultLanguageId,
+    languageSuppressed ? null : Config.defaultLanguageId,
     null,
     null,
     null,

@@ -94,25 +94,72 @@ describe("addProperty()", () => {
           },
           values: [],
           show: true,
+          propertyUri: null,
         },
       }
       const newState = reducer(oldState.entities, action)
-      expect(newState.properties.vmq88891).toStrictEqual({
-        key: "vmq88891",
-        subjectKey: "t9zVwg2zO",
-        rootSubjectKey: "t9zVwg2zO",
-        propertyTemplateKey:
-          "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
-        valueKeys: ["abc123"],
-        show: false,
-        showNav: false,
-        rootPropertyKey: "vmq88891",
-        descUriOrLiteralValueKeys: [],
-        descWithErrorPropertyKeys: [],
-        labels: ["Abbreviated Title", "Abbreviated Title"],
-      })
+      expect(newState.properties.vmq88891).toStrictEqual(
+        build.property({
+          key: "vmq88891",
+          subjectKey: "t9zVwg2zO",
+          rootSubjectKey: "t9zVwg2zO",
+          propertyTemplateKey:
+            "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+          valueKeys: ["abc123"],
+          show: false,
+          rootPropertyKey: "vmq88891",
+          labels: ["Abbreviated Title", "Abbreviated Title"],
+        })
+      )
+      // New value added
+      expect(newState.values.abc123).toStrictEqual(
+        build.value({
+          key: "abc123",
+          propertyKey: "vmq88891",
+          propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
+          lang: "eng",
+          component: "InputLiteralValue",
+          rootSubjectKey: "t9zVwg2zO",
+        })
+      )
       expect(newState.subjects.t9zVwg2zO.propertyKeys).toContain("vmq88891")
       expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
+    })
+  })
+
+  describe("new property with no values and suppressed language", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithLiteral: true })
+      oldState.entities.propertyTemplates[
+        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+      ].languageSuppressed = true
+
+      const action = {
+        type: "ADD_PROPERTY",
+        payload: {
+          key: "vmq88891",
+          subject: { key: "t9zVwg2zO" },
+          propertyTemplate: {
+            key: "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
+          },
+          values: [],
+          show: true,
+          propertyUri: null,
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+      // New value added with no lang
+      expect(newState.values.abc123).toStrictEqual(
+        build.value({
+          key: "abc123",
+          propertyKey: "vmq88891",
+          propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
+          lang: null,
+          component: "InputLiteralValue",
+          rootSubjectKey: "t9zVwg2zO",
+        })
+      )
     })
   })
 

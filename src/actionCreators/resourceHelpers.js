@@ -5,7 +5,6 @@ import { nanoid } from "nanoid"
 import _ from "lodash"
 import { loadResourceTemplate } from "actionCreators/templates"
 import { addSubject as addSubjectAction, setUnusedRDF } from "actions/resources"
-
 import { selectProperty, selectSubject, selectValue } from "selectors/resources"
 import {
   newLiteralValue,
@@ -551,7 +550,8 @@ export function defaultValuesFor(property) {
         property,
         property.propertyTemplate.defaultUri,
         defaultValue.uri,
-        defaultValue.label
+        defaultValue.label,
+        defaultValue.lang
       )
     }
     return newLiteralValue(

@@ -225,4 +225,18 @@ describe("editing a literal property", () => {
     )
     expect(langBtn).toHaveTextContent("No language specified")
   }, 15000)
+
+  describe("editing a literal with suppressed language", () => {
+    const history = createHistory([
+      "/editor/resourceTemplate:testing:suppressLanguage",
+    ])
+
+    it("does not allow selecting a language", async () => {
+      renderApp(null, history)
+
+      await screen.findByText("Suppress language", { selector: "h3" })
+
+      expect(screen.queryAllByTestId(/Change language/)).toHaveLength(0)
+    })
+  })
 })

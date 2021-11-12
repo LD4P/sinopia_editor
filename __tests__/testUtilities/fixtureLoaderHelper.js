@@ -43,6 +43,7 @@ const templateFilenames = {
   "resourceTemplate:testing:suppressible": "testing_suppressible.json",
   "resourceTemplate:testing:multiplePropertyUris":
     "testing_multiple_property_uris.json",
+  "resourceTemplate:testing:suppressLanguage": "testing_suppress_language.json",
 }
 
 export const hasFixtureResource = (uri) =>
