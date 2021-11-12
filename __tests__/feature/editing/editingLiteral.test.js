@@ -244,7 +244,9 @@ describe("editing a literal property", () => {
     it("does not allow selecting a language", async () => {
       renderApp(null, history)
 
-      await screen.findByText("Suppress language", { selector: "h3" })
+      await screen.findByText("Suppress language", {
+        selector: "h3#resource-header",
+      })
 
       expect(screen.queryAllByTestId(/Change language/)).toHaveLength(0)
     })

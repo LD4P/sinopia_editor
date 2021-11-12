@@ -11,7 +11,7 @@ describe("editing a property URI", () => {
     it("does not allow property URI to be edited", async () => {
       renderApp(null, history)
 
-      await screen.findByText("Inputs", { selector: "h3" })
+      await screen.findByText("Inputs", { selector: "h3#resource-header" })
 
       screen.getByText(
         "Property1 (http://sinopia.io/testing/Inputs/property1)",
@@ -45,7 +45,7 @@ describe("editing a property URI", () => {
       renderApp(null, history)
 
       await screen.findByText("Inputs with multiple property URIs", {
-        selector: "h3",
+        selector: "h3#resource-header",
       })
 
       const input = screen.getByTestId("Select property for Literal input", {
