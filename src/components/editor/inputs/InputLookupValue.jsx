@@ -12,7 +12,7 @@ import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelectio
 import useDiacritics from "hooks/useDiacritics"
 import DiacriticsButton from "./DiacriticsButton"
 import Lookup from "./Lookup"
-import { defaultLanguageId } from "utilities/Utilities"
+import Config from "Config"
 import ResourceList from "../property/ResourceList"
 import RemoveButton from "./RemoveButton"
 import ValuePropertyURI from "../property/ValuePropertyURI"
@@ -80,7 +80,13 @@ const InputLookupValue = ({
     hideLookup()
     closeDiacritics()
     dispatch(
-      updateURIValue(value.key, null, null, defaultLanguageId, "InputURIValue")
+      updateURIValue(
+        value.key,
+        null,
+        null,
+        propertyTemplate.languageSuppressed ? null : Config.defaultLanguageId,
+        "InputURIValue"
+      )
     )
     event.preventDefault()
   }
@@ -105,7 +111,7 @@ const InputLookupValue = ({
       updateLiteralValue(
         value.key,
         literal,
-        defaultLanguageId,
+        propertyTemplate.languageSuppressed ? null : Config.defaultLanguageId,
         "InputLiteralValue"
       )
     )

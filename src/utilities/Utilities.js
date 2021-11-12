@@ -11,8 +11,6 @@ const concatStream = require("concat-stream")
 const Readable = require("stream").Readable
 const SerializerJsonld = require("@rdfjs/serializer-jsonld-ext")
 
-export const defaultLanguageId = "eng"
-
 export const isResourceWithValueTemplateRef = (property) =>
   property?.type === "resource" &&
   property?.valueConstraint?.valueTemplateRefs?.length > 0

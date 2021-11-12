@@ -69,6 +69,8 @@ const InputLiteralValue = ({
     handleKeyDownDiacritics(event)
   }
 
+  const showLang = !propertyTemplate.languageSuppressed || value.lang
+
   const controlClasses = ["form-control"]
   if (displayValidations && !_.isEmpty(value.errors))
     controlClasses.push("is-invalid")
@@ -100,7 +102,7 @@ const InputLiteralValue = ({
             handleClick={toggleDiacritics}
             handleBlur={handleBlur}
           />
-          <LanguageButton value={value} />
+          {showLang && <LanguageButton value={value} />}
         </div>
         <div className="col-sm-1">
           <RemoveButton

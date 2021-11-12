@@ -52,6 +52,7 @@ _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.i
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/required> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/ordered> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/immutable> .
+_:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyAttribute> <http://sinopia.io/vocabulary/propertyAttribute/suppressLanguage> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasPropertyType> <http://sinopia.io/vocabulary/propertyType/literal> .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasRemark> "A repeatable literal with multiple URIs."@eng .
 _:b1_c14n0 <http://sinopia.io/vocabulary/hasRemarkUrl> <http://access.rdatoolkit.org/2.4.2.html> .
@@ -78,6 +79,7 @@ _:b1_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
         repeatable: true,
         ordered: true,
         immutable: true,
+        suppressLanguage: true,
         remark: "A repeatable literal with multiple URIs.",
         remarkUrl: "http://access.rdatoolkit.org/2.4.2.html",
         remarkUrlLabel: "Note on Manifestation",
@@ -159,8 +161,8 @@ _:b3_c14n3 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
             "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
         },
         defaults: [
-          { uri: "http://sinopia.io/uri1", label: "Test uri1" },
-          { uri: "http://sinopia.io/uri2", label: null },
+          { uri: "http://sinopia.io/uri1", label: "Test uri1", lang: "eng" },
+          { uri: "http://sinopia.io/uri2", label: null, lang: null },
         ],
         type: "uri",
         component: "InputURI",
@@ -242,7 +244,9 @@ _:b5_c14n2 <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@eng .`
           "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
             "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
         },
-        defaults: [{ uri: "http://sinopia.io/uri1", label: "URI1" }],
+        defaults: [
+          { uri: "http://sinopia.io/uri1", label: "URI1", lang: "eng" },
+        ],
         authorities: [
           {
             uri: "urn:discogs",

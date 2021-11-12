@@ -10,5 +10,9 @@
   {
     "uri": "http://sinopia.io/vocabulary/propertyAttribute/ordered",
     "label": "ordered"
+  },
+  {
+    "uri": "http://sinopia.io/vocabulary/propertyAttribute/languageSuppressed",
+    "label": "language suppressed"
   }
 ]
