@@ -38,7 +38,7 @@ const PropertyURI = ({
     <div className="row mb-2">
       <label
         htmlFor={`property-select-${obj.key}`}
-        className="col-auto col-form-label"
+        className="col-sm-1 col-form-label"
       >
         Property
       </label>
