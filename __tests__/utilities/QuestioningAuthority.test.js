@@ -1,78 +1,81 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import { createLookupPromise, getTerm } from "utilities/QuestioningAuthority"
 import { findAuthorityConfig } from "utilities/authorityConfig"
+import Swagger from "swagger-client"
+
+jest.mock("swagger-client")
 
 describe("createLookupPromise()", () => {
-  const response = {
-    ok: true,
-    url: "https://lookup.ld4l.org/search/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true&response_header=true&startRecord=1",
-    status: 200,
-    statusText: "OK",
-    body: {
-      response_header: {
-        start_record: 1,
-        requested_records: 8,
-        retrieved_records: 8,
-        total_records: 23,
-      },
-      results: [
-        {
-          uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-          id: "http://aims.fao.org/aos/agrovoc/c_331388",
-          label: "corn sheller",
-        },
-        {
-          uri: "http://aims.fao.org/aos/agrovoc/c_33224",
-          id: "http://aims.fao.org/aos/agrovoc/c_33224",
-          label: "Corn Belt (USA)",
-        },
-        {
-          uri: "http://aims.fao.org/aos/agrovoc/c_16171",
-          id: "http://aims.fao.org/aos/agrovoc/c_16171",
-          label: "corn cob mix",
-        },
-        {
-          uri: "http://aims.fao.org/aos/agrovoc/c_14385",
-          id: "http://aims.fao.org/aos/agrovoc/c_14385",
-          label: "soft corn",
-        },
-        {
-          uri: "http://aims.fao.org/aos/agrovoc/c_fd817c5d",
-          id: "http://aims.fao.org/aos/agrovoc/c_fd817c5d",
-          label: "southern leaf blight of maize",
-        },
-        {
-          uri: "http://aims.fao.org/aos/agrovoc/c_34f087cf",
-          id: "http://aims.fao.org/aos/agrovoc/c_34f087cf",
-          label: "maize gluten",
-        },
-        {
-          uri: "http://aims.fao.org/aos/agrovoc/c_d859f064",
-          id: "http://aims.fao.org/aos/agrovoc/c_d859f064",
-          label: "maize bran",
-        },
-        {
-          uri: "http://aims.fao.org/aos/agrovoc/c_7552",
-          id: "http://aims.fao.org/aos/agrovoc/c_7552",
-          label: "sweet corn",
-        },
-      ],
-    },
-    authLabel: "AGROVOC (QA)",
-    authURI: "urn:ld4p:qa:agrovoc",
-    label: "AGROVOC (QA)",
-    id: "urn:ld4p:qa:agrovoc",
-  }
-
-  beforeEach(() => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve(response))
-  })
-
   it("returns a promise from a search", async () => {
+    const response = {
+      ok: true,
+      url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true",
+      status: 200,
+      statusText: "OK",
+      body: {
+        response_header: {
+          start_record: 1,
+          requested_records: 8,
+          retrieved_records: 8,
+          total_records: 23,
+        },
+        results: [
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_331388",
+            id: "http://aims.fao.org/aos/agrovoc/c_331388",
+            label: "corn sheller",
+          },
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_33224",
+            id: "http://aims.fao.org/aos/agrovoc/c_33224",
+            label: "Corn Belt (USA)",
+          },
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_16171",
+            id: "http://aims.fao.org/aos/agrovoc/c_16171",
+            label: "corn cob mix",
+          },
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_14385",
+            id: "http://aims.fao.org/aos/agrovoc/c_14385",
+            label: "soft corn",
+          },
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_fd817c5d",
+            id: "http://aims.fao.org/aos/agrovoc/c_fd817c5d",
+            label: "southern leaf blight of maize",
+          },
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_34f087cf",
+            id: "http://aims.fao.org/aos/agrovoc/c_34f087cf",
+            label: "maize gluten",
+          },
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_d859f064",
+            id: "http://aims.fao.org/aos/agrovoc/c_d859f064",
+            label: "maize bran",
+          },
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_7552",
+            id: "http://aims.fao.org/aos/agrovoc/c_7552",
+            label: "sweet corn",
+          },
+        ],
+      },
+      authLabel: "AGROVOC (QA)",
+      authURI: "urn:ld4p:qa:agrovoc",
+      label: "AGROVOC (QA)",
+      id: "urn:ld4p:qa:agrovoc",
+    }
+
+    const mockActionFunction = jest.fn().mockResolvedValue(response)
+    const client = {
+      apis: { SearchQuery: { GET_searchAuthority: mockActionFunction } },
+    }
+    Swagger.mockResolvedValue(client)
+
     const authorityConfig = findAuthorityConfig("urn:ld4p:qa:agrovoc")
     const result = await createLookupPromise("Corn", authorityConfig)
-    expect(global.fetch).toHaveBeenCalledTimes(1)
-    expect(global.fetch).toHaveBeenCalledWith(response.url)
     expect(result.body.results.length).toEqual(8)
   })
 })
