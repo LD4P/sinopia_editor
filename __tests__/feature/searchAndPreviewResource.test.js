@@ -113,7 +113,9 @@ describe("searching and preview a resource", () => {
       fireEvent.click(
         screen.getByTestId("Edit Example Label", { selector: "button" })
       )
-      await screen.findByText("Example Label", { selector: "h3" })
+      await screen.findByText("Example Label", {
+        selector: "h3#resource-header",
+      })
 
       // Make sure nav panel didn't disappear
       fireEvent.click(screen.getByText("Resource Templates", { selector: "a" }))
