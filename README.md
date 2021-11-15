@@ -313,9 +313,10 @@ The following are only in the resource subject (that is, the base subject).
   remarkUrlLabel: <a descriptive label about the remark url, e.g., "Title Proper">
   type: <resource | uri | literal>,
   component: <InputLookup | InputLookupQA | InputList | InputLiteral | InputURI>,
-  valueSubjectTemplateKeys: [<subject template keys>]
-  authorities: [{authority}, ...]
-
+  valueSubjectTemplateKeys: [<subject template keys>],
+  authorities: [{authority}, ...],
+  validationRegex: <regex for literal validation, as a string with backslashes double-escaped (e.g. "^\\d+$" becomes /^\d+$/)>,
+  validationDataType: <uri for integer, dateTime, etc. for literal validation>
 }
 ```
 
