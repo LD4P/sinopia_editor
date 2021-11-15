@@ -123,10 +123,10 @@ const InputURIValue = ({
     <React.Fragment>
       <ValuePropertyURI propertyTemplate={propertyTemplate} value={value} />
       <div className="row my-2">
-        <div className="col">
-          <label htmlFor={uriId} className="form-label">
-            URI
-          </label>
+        <label htmlFor={uriId} className="col-sm-1 col-form-label">
+          URI
+        </label>
+        <div className="col-sm-11">
           <TextareaAutosize
             required={propertyTemplate.required}
             className={uriControlClasses.join(" ")}
@@ -162,11 +162,13 @@ const InputURIValue = ({
             </a>
           </div>
         )}
+      </div>
 
-        <div className="col">
-          <label htmlFor={labelId} className="form-label">
-            Label
-          </label>
+      <div className="row my-2">
+        <label htmlFor={labelId} className="col-sm-1 col-form-label">
+          Label
+        </label>
+        <div className="col-sm-9">
           <TextareaAutosize
             required={propertyTemplate.required}
             className={labelControlClasses.join(" ")}
@@ -187,7 +189,7 @@ const InputURIValue = ({
             {labelErrors.join(", ")}
           </div>
         </div>
-        <div className="col-md-auto d-flex align-items-end">
+        <div className="col-sm-2 d-flex align-items-end">
           <DiacriticsButton
             id={diacriticsBtnId}
             content={currentLabelContent}
@@ -195,8 +197,6 @@ const InputURIValue = ({
             handleBlur={handleLabelBlur}
           />
           {showLang && <LanguageButton value={value} />}
-        </div>
-        <div className="col-sm-1 d-flex align-items-end">
           <RemoveButton
             content={currentURIContent}
             handleClick={handleRemoveClick}
