@@ -129,8 +129,11 @@ export default class TemplatesBuilder {
     propertyTemplate.defaults = this.defaultsForLiteral(propertyTerm)
     propertyTemplate.validationRegex =
       this.validationRegexForLiteral(propertyTerm)
-    propertyTemplate.validationDataType =
-      this.validationDataTypeForLiteral(propertyTerm)
+    const validationDataType = this.validationDataTypeForLiteral(propertyTerm)
+    if (validationDataType) {
+      propertyTemplate.languageSuppressed = true
+      propertyTemplate.validationDataType = validationDataType
+    }
     propertyTemplate.component = "InputLiteral"
     return propertyTemplate
   }
