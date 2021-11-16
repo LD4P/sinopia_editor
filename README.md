@@ -186,7 +186,7 @@ A "resource template" is comprised of one or more "property templates."  But the
 
 **base templates** are in the `static/templates/` folder, and may themselves refer to files up a level in the `static/` folder.  The loading of the base templates is baked into the sinopia_editor code.
 
-Reiterating: the UI widgets displayed for a property template are driven by what is in the `static/` folder and its subfolders.  There is no additional deployment necessary.
+Reiterating: the UI widgets displayed for creating/editing a property template are driven by what is in the `static/` folder and its subfolders.  There is no additional deployment necessary.
 
 #### Updates to https://sinopia.io/vocabulary
 
