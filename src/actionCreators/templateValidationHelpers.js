@@ -19,11 +19,14 @@ export const validateTemplates =
       Promise.resolve(
         validatePropertyTemplates(subjectTemplate.propertyTemplates)
       ),
-      Promise.resolve(
-        validateRepeatedPropertyTemplates(subjectTemplate.propertyTemplates)
-      ),
       dispatch(
         validateAllRefResourceTemplatesExist(
+          subjectTemplate.propertyTemplates,
+          resourceTemplatePromises
+        )
+      ),
+      dispatch(
+        validateRepeatedPropertyTemplates(
           subjectTemplate.propertyTemplates,
           resourceTemplatePromises
         )
@@ -101,28 +104,87 @@ const validatePropertyTemplate = (template) => {
   return errors
 }
 
-const validateRepeatedPropertyTemplates = (propertyTemplates) => {
-  const dupes = []
-  const propertyTemplateUris = []
-  propertyTemplates.forEach((propertyTemplate) => {
-    if (!_.isEmpty(propertyTemplate.uris)) {
-      Object.keys(propertyTemplate.uris).forEach((uri) => {
-        if (propertyTemplateUris.includes(uri)) {
-          dupes.push(uri)
-        } else {
-          propertyTemplateUris.push(uri)
+const validateRepeatedPropertyTemplates =
+  (propertyTemplates, resourceTemplatePromises) => (dispatch) => {
+    const dupes = new Set()
+    const found = {}
+    return Promise.all(
+      propertyTemplates.map((propertyTemplate) => {
+        if (!_.isEmpty(propertyTemplate.uris)) {
+          return Promise.all(
+            Object.keys(propertyTemplate.uris).map((uri) => {
+              if (_.isEmpty(propertyTemplate.valueSubjectTemplateKeys)) {
+                pushFoundOrDupe(uri, null, found, dupes)
+                return Promise.resolve()
+              }
+              return Promise.all(
+                propertyTemplate.valueSubjectTemplateKeys.map(
+                  (subjectTemplateKey) =>
+                    dispatch(
+                      loadResourceTemplateWithoutValidation(
+                        subjectTemplateKey,
+                        resourceTemplatePromises
+                      )
+                    )
+                      .then((resourceTemplate) => {
+                        pushFoundOrDupe(
+                          uri,
+                          resourceTemplate.class,
+                          found,
+                          dupes
+                        )
+                        return Promise.resolve()
+                      })
+                      // Some templates may not exist. This is not validated here.
+                      .catch(() => {})
+                )
+              )
+            })
+          )
         }
       })
-    }
-  })
-  if (dupes.length > 0) {
-    return [
-      `Repeated property templates with same property URI (${dupes.join(
-        ", "
-      )}) are not allowed.`,
-    ]
+    ).then(() => {
+      if (_.isEmpty(dupes)) return []
+
+      return [
+        `A property template may not use the same property URI as another property template (${Array.from(
+          dupes
+        ).join(
+          ", "
+        )}) unless both propery templates are of type nested resource and the nested resources are of different classes.`,
+      ]
+    })
   }
-  return []
+
+const pushFoundOrDupe = (uri, clazz, found, dupes) => {
+  // Nested resource properties have clazz; other properties do not.
+  // Other properties should not have same URI as any other property (including nested).
+  // Nested resource properties should not have the same URI and class as any other nested resource property.
+  const isNestedProperty = !!clazz
+  if (found[uri]) {
+    if (isNestedProperty) {
+      // If a nested property and there are already classes for this URI, then check this class.
+      if (Array.isArray(found[uri])) {
+        // If this class found, then a dupe. Otherwise, add to list of classes for this URI.
+        if (found[uri].includes(clazz)) {
+          dupes.add(uri)
+        } else {
+          found[uri].add(clazz)
+        }
+      } else {
+        // There is already a property, so a dupe.
+        dupes.add(uri)
+      }
+    } else {
+      dupes.add(uri)
+    }
+  } else if (isNestedProperty) {
+    // For nested properties, keep track of classes.
+    found[uri] = [clazz]
+  } else {
+    // For others, just set to true to indicate that the property has been found.
+    found[uri] = true
+  }
 }
 
 const validateAllRefResourceTemplatesExist =

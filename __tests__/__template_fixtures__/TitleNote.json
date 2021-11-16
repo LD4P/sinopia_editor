@@ -42,7 +42,7 @@
     ],
     "http://sinopia.io/vocabulary/hasClass": [
       {
-        "@id": "http://id.loc.gov/ontologies/bibframe/Note"
+        "@id": "http://id.loc.gov/ontologies/bibframe/TitleNote"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [

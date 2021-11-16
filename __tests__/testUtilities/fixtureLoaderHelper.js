@@ -1,5 +1,8 @@
 import TemplatesBuilder from "../../src/TemplatesBuilder"
-import { datasetFromJsonld } from "../../src/utilities/Utilities"
+import {
+  datasetFromJsonld,
+  resourceToName,
+} from "../../src/utilities/Utilities"
 import _ from "lodash"
 
 const resourceFilenames = {
@@ -46,21 +49,25 @@ const templateFilenames = {
   "resourceTemplate:testing:suppressLanguage": "testing_suppress_language.json",
   "resourceTemplate:testing:literalValidation":
     "testing_literalValidation.json",
+  "resourceTemplate:testing:dupeProperties": "testing_dupe_properties.json",
 }
 
-export const hasFixtureResource = (uri) =>
-  !!resourceFilenames[normUri(uri)] ||
-  !!templateFilenames[normUri(uri)] ||
-  ["http://error", "http://localhost:3000/resource/ld4p:RT:bf2:xxx"].includes(
-    uri
+export const hasFixtureResource = (uri) => {
+  return (
+    !!resourceFilenames[resourceToName(uri)] ||
+    !!templateFilenames[resourceToName(uri)] ||
+    ["http://error", "http://localhost:3000/resource/ld4p:RT:bf2:xxx"].includes(
+      uri
+    )
   )
+}
 
 export const getFixtureResource = (uri) => {
   // A special URI for testing.
   if (uri === "http://error") throw new Error("Ooops")
   if (uri === "http://localhost:3000/resource/ld4p:RT:bf2:xxx")
     throw new Error("Error retrieving resource: Not Found")
-  const id = normUri(uri)
+  const id = resourceToName(uri)
   // For some reason, require must have __xxx__ and cannot be provided in variable.
   let resource
   if (resourceFilenames[id]) {
@@ -83,10 +90,6 @@ export const getFixtureResource = (uri) => {
     bfInstanceRefs: [],
     bfWorkRefs: [],
   }
-}
-
-const normUri = (uri) => {
-  return uri.substring(uri.indexOf("resource/") + 9)
 }
 
 // Cache of search results

@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { findAuthorityConfig } from "utilities/authorityConfig"
 import rdf from "rdf-ext"
+import { resourceToName } from "utilities/Utilities"
 
 const rdfsLabel = "http://www.w3.org/2000/01/rdf-schema#label"
 
@@ -224,7 +225,10 @@ export default class TemplatesBuilder {
       propertyTemplate.valueSubjectTemplateKeys = this.valuesFor(
         attributeTerm,
         "http://sinopia.io/vocabulary/hasResourceTemplateId"
-      )
+      ).map((subjectTemplateKey) => resourceToName(subjectTemplateKey))
+      propertyTemplate.key = `${
+        propertyTemplate.key
+      } > ${propertyTemplate.valueSubjectTemplateKeys.sort().join(", ")}`
       propertyTemplate.component = "NestedResource"
     }
     return propertyTemplate

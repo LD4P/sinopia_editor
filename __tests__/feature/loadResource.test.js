@@ -108,7 +108,9 @@ describe("loading saved resource", () => {
       fireEvent.click(screen.getByTestId(`Edit ${uri}`))
 
       // Error displayed and remain on search page.
-      await screen.findByText(/Repeated property templates/)
+      await screen.findByText(
+        /property template may not use the same property URI/
+      )
     })
   })
 })

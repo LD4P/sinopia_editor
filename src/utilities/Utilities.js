@@ -18,7 +18,11 @@ export const isResourceWithValueTemplateRef = (property) =>
 export const resourceToName = (uri) => {
   if (!_.isString(uri)) return undefined
 
-  return uri.substr(uri.lastIndexOf("/") + 1)
+  const index = uri.lastIndexOf("/")
+
+  if (index === -1) return uri
+
+  return uri.substr(index + 1)
 }
 
 export const isValidURI = (value) => {

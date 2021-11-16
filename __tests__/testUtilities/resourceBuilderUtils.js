@@ -74,8 +74,11 @@ export default class ResourceBuilder {
     component,
   }) {
     assertProps({ subjectTemplateKey, label, uris, type, component })
+    let key = `${subjectTemplateKey} > ${Object.keys(uris).join(", ")}`
+    if (!_.isEmpty(valueSubjectTemplateKeys))
+      key = `${key} > ${valueSubjectTemplateKeys.join(", ")}`
     return {
-      key: `${subjectTemplateKey} > ${Object.keys(uris).join(", ")}`,
+      key,
       subjectTemplateKey,
       label,
       uris,
