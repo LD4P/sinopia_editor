@@ -8,6 +8,7 @@ const expectedAction = {
   payload: build.subject({
     uri: "http://localhost:3000/resource/b6c5f4c0-e7cd-4ca5-a20f-2a37fe1080d6",
     subjectTemplate: orderedSubjectTemplate,
+    classes: ["http://sinopia.io/testing/Ordered"],
     properties: [
       build.property({
         propertyUri: "http://sinopia.io/testing/Ordered/property1",

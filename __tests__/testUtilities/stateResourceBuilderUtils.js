@@ -7,6 +7,7 @@ export default class StateResourceBuilder {
   subjectTemplate({
     id,
     clazz,
+    classes = null,
     uri = null,
     label,
     author = null,
@@ -22,6 +23,7 @@ export default class StateResourceBuilder {
       key: id,
       id,
       class: clazz,
+      classes: classes || { [clazz]: clazz },
       uri,
       label,
       author,
@@ -115,6 +117,7 @@ export default class StateResourceBuilder {
     subjectTemplateKey,
     propertyKeys,
     labels,
+    classes,
     showNav = false,
     uri = null,
     rootSubjectKey = null,
@@ -122,11 +125,12 @@ export default class StateResourceBuilder {
     descUriOrLiteralValueKeys = [],
     descWithErrorPropertyKeys = [],
   }) {
-    assertProps({ key, subjectTemplateKey, propertyKeys, labels })
+    assertProps({ key, subjectTemplateKey, propertyKeys, labels, classes })
     return {
       key,
       subjectTemplateKey,
       propertyKeys,
+      classes,
       uri,
       showNav,
       labels,

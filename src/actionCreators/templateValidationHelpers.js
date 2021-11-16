@@ -114,7 +114,7 @@ const validateRepeatedPropertyTemplates =
           return Promise.all(
             Object.keys(propertyTemplate.uris).map((uri) => {
               if (_.isEmpty(propertyTemplate.valueSubjectTemplateKeys)) {
-                pushFoundOrDupe(uri, null, found, dupes)
+                pushFoundOrDupe(uri, found, dupes)
                 return Promise.resolve()
               }
               return Promise.all(
@@ -127,11 +127,15 @@ const validateRepeatedPropertyTemplates =
                       )
                     )
                       .then((resourceTemplate) => {
-                        pushFoundOrDupe(
-                          uri,
-                          resourceTemplate.class,
-                          found,
-                          dupes
+                        Object.keys(resourceTemplate.classes).forEach(
+                          (clazz) => {
+                            pushFoundOrDupeNestedResource(
+                              uri,
+                              clazz,
+                              found,
+                              dupes
+                            )
+                          }
                         )
                         return Promise.resolve()
                       })
@@ -156,34 +160,35 @@ const validateRepeatedPropertyTemplates =
     })
   }
 
-const pushFoundOrDupe = (uri, clazz, found, dupes) => {
-  // Nested resource properties have clazz; other properties do not.
+const pushFoundOrDupe = (uri, found, dupes) => {
   // Other properties should not have same URI as any other property (including nested).
-  // Nested resource properties should not have the same URI and class as any other nested resource property.
-  const isNestedProperty = !!clazz
   if (found[uri]) {
-    if (isNestedProperty) {
-      // If a nested property and there are already classes for this URI, then check this class.
-      if (Array.isArray(found[uri])) {
-        // If this class found, then a dupe. Otherwise, add to list of classes for this URI.
-        if (found[uri].includes(clazz)) {
-          dupes.add(uri)
-        } else {
-          found[uri].add(clazz)
-        }
-      } else {
-        // There is already a property, so a dupe.
-        dupes.add(uri)
-      }
-    } else {
-      dupes.add(uri)
-    }
-  } else if (isNestedProperty) {
-    // For nested properties, keep track of classes.
-    found[uri] = [clazz]
+    dupes.add(uri)
   } else {
     // For others, just set to true to indicate that the property has been found.
     found[uri] = true
+  }
+}
+
+const pushFoundOrDupeNestedResource = (uri, clazz, found, dupes) => {
+  // Nested resource properties have clazz; other properties do not.
+  // Nested resource properties should not have the same URI and class as any other nested resource property.
+  if (found[uri]) {
+    // If a nested property and there are already classes for this URI, then check this class.
+    if (Array.isArray(found[uri])) {
+      // If this class found, then a dupe. Otherwise, add to list of classes for this URI.
+      if (found[uri].includes(clazz)) {
+        dupes.add(uri)
+      } else {
+        found[uri].add(clazz)
+      }
+    } else {
+      // There is already a property, so a dupe.
+      dupes.add(uri)
+    }
+  } else {
+    // For nested properties, keep track of classes.
+    found[uri] = [clazz]
   }
 }
 
@@ -260,6 +265,7 @@ const validateUniqueResourceURIs =
         )
           .then((subjectTemplate) => [
             subjectTemplate.class,
+            Object.keys(subjectTemplate.classes),
             subjectTemplate.id,
           ])
           .catch(() => {
@@ -267,20 +273,27 @@ const validateUniqueResourceURIs =
           })
       )
     ).then((results) => {
-      const classResourceTemplateIds = {}
+      // No other nested template can have (required) class or optional class that is the same as this (required) class.
+      // Nested templates can have same optional classes.
+      const classToResourceTemplateIds = {}
+      const classes = []
       _.compact(results).forEach((result) => {
-        const clazz = result[0]
-        const resourceTemplateId = result[1]
-        if (!classResourceTemplateIds[clazz])
-          classResourceTemplateIds[clazz] = []
-        classResourceTemplateIds[clazz].push(resourceTemplateId)
+        const [clazz, allClasses, resourceTemplateId] = result
+        classes.push(clazz)
+        allClasses.forEach((allClazz) => {
+          if (!classToResourceTemplateIds[allClazz])
+            classToResourceTemplateIds[allClazz] = []
+          classToResourceTemplateIds[allClazz].push(resourceTemplateId)
+        })
       })
 
-      const multipleClasses = Object.keys(classResourceTemplateIds).filter(
-        (clazz) => classResourceTemplateIds[clazz].length > 1
-      )
-      return multipleClasses.map((clazz) => {
-        const classIdsStr = classResourceTemplateIds[clazz].join(", ")
+      const multipleClasses = new Set()
+      classes.forEach((clazz) => {
+        if (classToResourceTemplateIds[clazz].length > 1)
+          multipleClasses.add(clazz)
+      })
+      return Array.from(multipleClasses).map((clazz) => {
+        const classIdsStr = classToResourceTemplateIds[clazz].join(", ")
         return `The following resource templates references for ${_.first(
           Object.keys(propertyTemplate.uris)
         )} have the same class (${clazz}), but must be unique: ${classIdsStr}`

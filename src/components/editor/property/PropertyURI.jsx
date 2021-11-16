@@ -17,7 +17,9 @@ const PropertyURI = ({
 
   if (Object.keys(propertyTemplate.uris).length === 1 || readOnly) {
     return (
-      <span className="property-uri">{propertyUriLabel(obj.propertyUri)}</span>
+      <span className="property-uri">
+        Property: {propertyUriLabel(obj.propertyUri)}
+      </span>
     )
   }
 

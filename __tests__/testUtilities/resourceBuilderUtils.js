@@ -8,9 +8,11 @@ export default class ResourceBuilder {
   constructor({
     injectPropertyKeyIntoValue = false,
     injectPropertyIntoValue = false,
+    injectClassesIntoSubject = false,
   } = {}) {
     this.injectPropertyKeyIntoValue = injectPropertyKeyIntoValue
     this.injectPropertyIntoValue = injectPropertyIntoValue
+    this.injectClassesIntoSubject = injectClassesIntoSubject
   }
 
   key() {
@@ -20,6 +22,7 @@ export default class ResourceBuilder {
   subjectTemplate({
     id,
     clazz,
+    classes = null,
     uri = null,
     label = null,
     author = null,
@@ -36,6 +39,7 @@ export default class ResourceBuilder {
       key: id,
       id,
       class: clazz,
+      classes: classes || { [clazz]: clazz },
       uri,
       label,
       author,
@@ -119,24 +123,36 @@ export default class ResourceBuilder {
     }
   }
 
-  subject({ subjectTemplate, properties, uri = null }) {
+  subject({ subjectTemplate, properties, uri = null, classes = null }) {
     assertProps({ subjectTemplate, properties })
-    return {
+    const subject = {
       key: this.key(),
       subjectTemplate,
       properties,
       uri,
     }
+
+    if (classes) {
+      subject.classes = classes
+    } else if (this.injectClassesIntoSubject) {
+      subject.classes = [subjectTemplate.class]
+    }
+
+    return subject
   }
 
   // The subjectTemplates for ordered subjects (after the first) are removed by safeStringify
-  orderedSubject({ properties, uri = null }) {
+  orderedSubject({ properties, uri = null, classes = null }) {
     assertProps({ properties })
-    return {
+    const subject = {
       key: this.key(),
       properties,
       uri,
     }
+
+    if (classes) subject.classes = classes
+
+    return subject
   }
 
   property({

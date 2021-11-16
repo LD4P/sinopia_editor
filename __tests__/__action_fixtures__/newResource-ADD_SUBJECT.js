@@ -1,5 +1,6 @@
 import ResourceBuilder from "resourceBuilderUtils"
 import subjectTemplate from "./subjectTemplate-inputs"
+import literalSubjectTemplate from "./subjectTemplate-literal"
 
 const build = new ResourceBuilder({ injectPropertyKeyIntoValue: true })
 
@@ -30,25 +31,7 @@ const expectedAction = {
           build.value({
             propertyUri: "http://sinopia.io/testing/Inputs/property5",
             valueSubject: build.subject({
-              subjectTemplate: build.subjectTemplate({
-                uri: "http://localhost:3000/resource/resourceTemplate:testing:literal",
-                id: "resourceTemplate:testing:literal",
-                clazz: "http://sinopia.io/testing/Literal",
-                label: "Literal",
-                remark: "A template that contains a single literal input.",
-                propertyTemplates: [
-                  build.propertyTemplate({
-                    subjectTemplateKey: "resourceTemplate:testing:literal",
-                    label: "Literal input",
-                    uris: {
-                      "http://sinopia.io/testing/Literal/property1":
-                        "Property1",
-                    },
-                    type: "literal",
-                    component: "InputLiteral",
-                  }),
-                ],
-              }),
+              subjectTemplate: literalSubjectTemplate,
               properties: [
                 build.property({
                   values: null,

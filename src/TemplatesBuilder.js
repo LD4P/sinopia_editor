@@ -44,6 +44,7 @@ export default class TemplatesBuilder {
         this.resourceTerm,
         "http://sinopia.io/vocabulary/hasClass"
       ),
+      classes: this.buildClasses(),
       label: this.valueFor(this.resourceTerm, rdfsLabel),
       author: this.valueFor(
         this.resourceTerm,
@@ -65,6 +66,25 @@ export default class TemplatesBuilder {
       group: this.group,
       editGroups: this.editGroups,
     }
+  }
+
+  buildClasses() {
+    const classTerms = this.objectsFor(
+      this.resourceTerm,
+      "http://sinopia.io/vocabulary/hasOptionalClass"
+    )
+
+    classTerms.push(
+      this.objectFor(this.resourceTerm, "http://sinopia.io/vocabulary/hasClass")
+    )
+
+    const classesMap = {}
+    classTerms.forEach((classTerm) => {
+      const label = this.valueFor(classTerm, rdfsLabel)
+      classesMap[classTerm.value] = label || classTerm.value
+    })
+
+    return classesMap
   }
 
   buildPropertyTemplates() {

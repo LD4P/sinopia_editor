@@ -98,12 +98,6 @@ export const addResourceFromDataset =
         rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate")
       )
     )
-    context.usedDataset.addAll(
-      context.dataset.match(
-        subjectTerm,
-        rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
-      )
-    )
     return dispatch(
       recursiveResourceFromDataset(
         subjectTerm,
@@ -176,12 +170,7 @@ const expandProperty = (property, errorKey) => (dispatch) => {
 export const recursiveResourceFromDataset =
   (subjectTerm, uri, resourceTemplateId, suppress, context) => (dispatch) =>
     dispatch(
-      newSubject(
-        uri,
-        resourceTemplateId,
-        context.resourceTemplatePromises,
-        context.errorKey
-      )
+      newSubjectFromDataset(subjectTerm, uri, resourceTemplateId, context)
     ).then((subject) =>
       dispatch(
         newPropertiesFromTemplates(subject, true, context.errorKey)
@@ -213,6 +202,28 @@ export const recursiveResourceFromDataset =
         })
       )
     )
+
+const newSubjectFromDataset =
+  (subjectTerm, uri, resourceTemplateId, context) => (dispatch) =>
+    dispatch(
+      newSubject(
+        uri,
+        resourceTemplateId,
+        context.resourceTemplatePromises,
+        context.errorKey
+      )
+    ).then((subject) => {
+      // Add classes
+      const typeQuads = context.dataset
+        .match(
+          subjectTerm,
+          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+        )
+        .toArray()
+      context.usedDataset.addAll(typeQuads)
+      subject.classes = typeQuads.map((quad) => quad.object.value)
+      return subject
+    })
 
 export const newSubject =
   (uri, resourceTemplateId, resourceTemplatePromises, errorKey) =>
@@ -590,7 +601,7 @@ const valuesForExpandedProperty =
 
 export const newSubjectCopy = (subjectKey, value) => (dispatch, getState) => {
   const subject = selectSubject(getState(), subjectKey)
-  const newSubject = _.pick(subject, ["subjectTemplate"])
+  const newSubject = _.pick(subject, ["subjectTemplate", "classes"])
 
   // Add to value
   if (value) value.valueSubject = newSubject

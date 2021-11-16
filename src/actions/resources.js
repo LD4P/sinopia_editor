@@ -174,3 +174,11 @@ export const setPropertyPropertyURI = (propertyKey, uri) => ({
     uri,
   },
 })
+
+export const setClasses = (subjectKey, classes) => ({
+  type: "SET_CLASSES",
+  payload: {
+    subjectKey,
+    classes,
+  },
+})

@@ -12,6 +12,7 @@ import {
 } from "selectors/templates"
 import useNavTarget from "hooks/useNavTarget"
 import ValuePropertyURI from "./ValuePropertyURI"
+import ResourceClass from "./ResourceClass"
 import _ from "lodash"
 
 // AKA a value subject.
@@ -49,11 +50,20 @@ const NestedResource = ({ valueKey, readOnly }) => {
           {!readOnly && <NestedResourceActionButtons value={value} />}
         </section>
       </div>
-      <ValuePropertyURI
-        propertyTemplate={propertyTemplate}
-        value={value}
-        readOnly={readOnly}
-      />
+      <div className="row">
+        <div className="col">
+          <ValuePropertyURI
+            propertyTemplate={propertyTemplate}
+            value={value}
+            readOnly={readOnly}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <ResourceClass readOnly={readOnly} resource={valueSubject} />
+        </div>
+      </div>
       <div className="row">
         <div className="col">
           {valueSubject.propertyKeys.map((propertyKey) => (

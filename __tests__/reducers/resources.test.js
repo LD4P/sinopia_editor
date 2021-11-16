@@ -304,7 +304,10 @@ describe("addSubject()", () => {
       const oldState = createState()
       oldState.entities.subjectTemplates[
         "resourceTemplate:bf2:Identifiers:Barcode"
-      ] = { label: "Barcode" }
+      ] = {
+        label: "Barcode",
+        class: "http://id.loc.gov/ontologies/bibframe/Barcode",
+      }
 
       const action = {
         type: "ADD_SUBJECT",
@@ -328,6 +331,7 @@ describe("addSubject()", () => {
           bfItemRefs: [],
           bfWorkRefs: [],
           changed: true,
+          classes: ["http://id.loc.gov/ontologies/bibframe/Barcode"],
           group: null,
           editGroups: [],
           subjectTemplateKey: "resourceTemplate:bf2:Identifiers:Barcode",
@@ -369,6 +373,7 @@ describe("addSubject()", () => {
         bfItemRefs: [],
         bfWorkRefs: [],
         changed: true,
+        classes: ["http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle"],
         descUriOrLiteralValueKeys: [],
         descWithErrorPropertyKeys: [],
         group: null,
@@ -420,6 +425,7 @@ describe("addSubject()", () => {
         subjectTemplateKey: "ld4p:RT:bf2:Title:AbbrTitle",
         propertyKeys: ["KQEtq-vmq9"],
         changed: true,
+        classes: ["http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle"],
         bfAdminMetadataRefs: [],
         bfInstanceRefs: [],
         bfItemRefs: [],

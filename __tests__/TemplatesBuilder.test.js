@@ -7,13 +7,18 @@ describe("TemplatesBuilder", () => {
   it("builds subjectTemplate", async () => {
     const rdf = `<> <http://sinopia.io/vocabulary/hasAuthor> "Justin Littman"@eng .
 <> <http://sinopia.io/vocabulary/hasClass> <http://id.loc.gov/ontologies/bibframe/Uber1> .
+<> <http://sinopia.io/vocabulary/hasOptionalClass> <http://id.loc.gov/ontologies/bibframe/Uber2> .
+<> <http://sinopia.io/vocabulary/hasOptionalClass> <http://id.loc.gov/ontologies/bibframe/Uber3> .
 <> <http://sinopia.io/vocabulary/hasDate> "2020-07-27"@eng .
 <> <http://sinopia.io/vocabulary/hasRemark> "Template for testing purposes."@eng .
 <> <http://sinopia.io/vocabulary/hasResourceId> <resourceTemplate:testing:uber1> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "sinopia:template:resource" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/ResourceTemplate> .
 <> <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1"@eng .
-<> <http://sinopia.io/vocabulary/hasResourceAttribute> <http://sinopia.io/vocabulary/resourceAttribute/suppressible> .`
+<> <http://sinopia.io/vocabulary/hasResourceAttribute> <http://sinopia.io/vocabulary/resourceAttribute/suppressible> .
+<http://id.loc.gov/ontologies/bibframe/Uber1> <http://www.w3.org/2000/01/rdf-schema#label> "Uber1"@eng .
+<http://id.loc.gov/ontologies/bibframe/Uber2> <http://www.w3.org/2000/01/rdf-schema#label> "Uber2"@eng .
+<http://id.loc.gov/ontologies/bibframe/Uber3> <http://www.w3.org/2000/01/rdf-schema#label> "Uber3"@eng .`
 
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, "", "stanford", [
@@ -23,6 +28,11 @@ describe("TemplatesBuilder", () => {
       build.subjectTemplate({
         id: "resourceTemplate:testing:uber1",
         clazz: "http://id.loc.gov/ontologies/bibframe/Uber1",
+        classes: {
+          "http://id.loc.gov/ontologies/bibframe/Uber1": "Uber1",
+          "http://id.loc.gov/ontologies/bibframe/Uber2": "Uber2",
+          "http://id.loc.gov/ontologies/bibframe/Uber3": "Uber3",
+        },
         label: "Uber template1",
         author: "Justin Littman",
         remark: "Template for testing purposes.",
