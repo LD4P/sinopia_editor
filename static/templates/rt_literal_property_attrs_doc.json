@@ -46,6 +46,11 @@
         "@id": "http://sinopia.io/vocabulary/hasValidationRegex"
       }
     ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/languageSuppressed"
+      }
+    ],
     "http://sinopia.io/vocabulary/hasPropertyType": [
       {
         "@id": "http://sinopia.io/vocabulary/propertyType/literal"
@@ -68,6 +73,11 @@
     "http://sinopia.io/vocabulary/hasPropertyUri": [
       {
         "@id": "http://sinopia.io/vocabulary/hasValidationDataType"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/languageSuppressed"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyType": [
