@@ -157,7 +157,12 @@ export default class ResourceBuilder {
 
     // Inject property into value
     if (!_.isEmpty(values) && this.injectPropertyIntoValue)
-      values.forEach((value) => (value.propertyKey = property.key))
+      values.forEach((value) => {
+        value.propertyKey = property.key
+        if (value.literal && property?.propertyTemplate?.validationDataType) {
+          value.property = property
+        }
+      })
 
     return property
   }
@@ -185,7 +190,6 @@ export default class ResourceBuilder {
 
   literalValue({ literal, lang = "eng", ...props }) {
     assertProps({ literal })
-
     return this.value({
       literal,
       lang,
