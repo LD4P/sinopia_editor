@@ -13,9 +13,7 @@ import _ from "lodash"
 import { datasetFromN3 } from "utilities/Utilities"
 import { selectSearchUri, selectSearchResults } from "selectors/search"
 import useAlerts from "hooks/useAlerts"
-
-// Errors from retrieving a resource from this page.
-export const searchQARetrieveErrorKey = "searchqaresource"
+import { searchQARetrieveErrorKey } from "utilities/errorKeyFactory"
 
 const QASearchResults = () => {
   const dispatch = useDispatch()

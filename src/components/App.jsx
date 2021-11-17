@@ -9,11 +9,9 @@ import HomePage from "./home/HomePage"
 import "../styles/main.scss"
 import Editor from "./editor/Editor"
 import Footer from "./Footer"
-import Dashboard, { dashboardErrorKey } from "./dashboard/Dashboard"
+import Dashboard from "./dashboard/Dashboard"
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom"
-import ResourceTemplate, {
-  templateErrorKey,
-} from "./templates/ResourceTemplate"
+import ResourceTemplate from "./templates/ResourceTemplate"
 import LoadResource from "./load/LoadResource"
 import Search from "./search/Search"
 import CanvasMenu from "./menu/CanvasMenu"
@@ -22,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchGroups } from "actionCreators/groups"
 import { fetchLanguages } from "actionCreators/languages"
 import { fetchExports } from "actionCreators/exports"
-import Exports, { exportsErrorKey } from "./exports/Exports"
+import Exports from "./exports/Exports"
 import { authenticate } from "actionCreators/authenticate"
 import { hasUser as hasUserSelector } from "selectors/authenticate"
 import { isModalOpen as isModalOpenSelector } from "selectors/modals"
@@ -34,6 +32,11 @@ import {
 } from "actionCreators/resources"
 import usePermissions from "hooks/usePermissions"
 import { showModal } from "actions/modals"
+import {
+  dashboardErrorKey,
+  templateErrorKey,
+  exportsErrorKey,
+} from "utilities/errorKeyFactory"
 
 const FourOhFour = () => <h1>404</h1>
 

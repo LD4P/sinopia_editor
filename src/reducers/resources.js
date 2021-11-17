@@ -1,5 +1,4 @@
 import _ from "lodash"
-import { resourceEditErrorKey } from "components/editor/Editor"
 import { emptyValue } from "utilities/Utilities"
 import {
   newBlankLiteralValue,
@@ -27,6 +26,7 @@ import {
   clearValueFromNewState,
 } from "./resourceHelpers"
 import { clearRelationships } from "./relationships"
+import { resourceEditErrorKey } from "utilities/errorKeyFactory"
 
 export const setBaseURL = (state, action) =>
   mergeSubjectPropsToNewState(state, action.payload.resourceKey, {

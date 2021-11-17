@@ -16,8 +16,7 @@ import _ from "lodash"
 import PreviewModal from "../editor/preview/PreviewModal"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
-
-export const dashboardErrorKey = "dashboard"
+import { dashboardErrorKey } from "utilities/errorKeyFactory"
 
 const Dashboard = (props) => {
   const historicalTemplates = useSelector((state) =>

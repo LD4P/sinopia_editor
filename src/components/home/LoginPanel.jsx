@@ -5,8 +5,7 @@ import { signIn } from "actionCreators/authenticate"
 import Config from "Config"
 import { selectErrors } from "selectors/errors"
 import _ from "lodash"
-
-export const signInErrorKey = "signin"
+import { signInErrorKey } from "utilities/errorKeyFactory"
 
 const LoginPanel = () => {
   const dispatch = useDispatch()
