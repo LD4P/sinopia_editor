@@ -18,8 +18,7 @@ import { sinopiaSearchUri } from "utilities/authorityConfig"
 import useSearch from "hooks/useSearch"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
-
-export const searchErrorKey = "search"
+import { searchErrorKey } from "utilities/errorKeyFactory"
 
 const Search = (props) => {
   const { fetchSearchResults } = useSearch()

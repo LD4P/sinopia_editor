@@ -6,8 +6,7 @@ import Header from "../Header"
 import TemplateSearch from "./TemplateSearch"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
-
-export const templateErrorKey = "template"
+import { templateErrorKey } from "utilities/errorKeyFactory"
 
 const ResourceTemplate = (props) => (
   <AlertsContextProvider value={templateErrorKey}>

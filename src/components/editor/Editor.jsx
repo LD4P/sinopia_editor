@@ -19,10 +19,7 @@ import EditorPreviewModal from "./preview/EditorPreviewModal"
 import { selectSubjectTemplateForSubject } from "selectors/templates"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
-
-// Error key for errors that occur while editing a resource.
-export const resourceEditErrorKey = (resourceKey) =>
-  `resourceedit-${resourceKey}`
+import { resourceEditErrorKey } from "utilities/errorKeyFactory"
 
 const Editor = (props) => {
   const history = useHistory()

@@ -8,8 +8,7 @@ import Config from "Config"
 import { selectExports } from "selectors/exports"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
-
-export const exportsErrorKey = "exports"
+import { exportsErrorKey } from "utilities/errorKeyFactory"
 
 const Exports = (props) => {
   const exportFiles = useSelector((state) => selectExports(state))
