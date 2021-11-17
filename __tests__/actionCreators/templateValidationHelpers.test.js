@@ -289,9 +289,134 @@ describe("validateTemplates()", () => {
       const payload = {
         errorKey: "testerrorkey",
         error:
-          "Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.",
+          "A property template may not use the same property URI as another property template (http://id.loc.gov/ontologies/bibframe/geographicCoverage) unless both propery templates are of type nested resource and the nested resources are of different classes.",
       }
       expect(store.getActions()).toHaveAction("ADD_ERROR", payload)
+    })
+  })
+
+  describe("template with repeated nested resource properties (same property URI and class)", () => {
+    const subjectTemplate = build.subjectTemplate({
+      id: "resourceTemplate:testing:dupeProperties",
+      clazz: "http://sinopia.io/testing/DupeProperties",
+      label: "Nested resource with duplicate properties",
+      propertyTemplates: [
+        build.propertyTemplate({
+          subjectTemplateKey: "resourceTemplate:testing:dupeProperties",
+          label: "Dupe property1",
+          uris: {
+            "http://sinopia.io/testing/DupeProperties/property1": "Property1",
+          },
+          type: "resource",
+          component: "NestedResource",
+          valueSubjectTemplateKeys: ["resourceTemplate:bf2:Note"],
+        }),
+        build.propertyTemplate({
+          subjectTemplateKey: "resourceTemplate:testing:dupeProperties",
+          label: "Dupe property2",
+          uris: {
+            "http://sinopia.io/testing/DupeProperties/property1": "Property1",
+          },
+          type: "resource",
+          component: "NestedResource",
+          valueSubjectTemplateKeys: ["resourceTemplate:bf2:Note:Immutable"],
+        }),
+      ],
+    })
+
+    it("returns error", async () => {
+      const store = mockStore(createState())
+
+      expect(
+        await store.dispatch(
+          validateTemplates(subjectTemplate, {}, "testerrorkey")
+        )
+      ).toBe(false)
+      const payload = {
+        errorKey: "testerrorkey",
+        error:
+          "A property template may not use the same property URI as another property template (http://sinopia.io/testing/DupeProperties/property1) unless both propery templates are of type nested resource and the nested resources are of different classes.",
+      }
+      expect(store.getActions()).toHaveAction("ADD_ERROR", payload)
+    })
+  })
+
+  describe("template with repeated properties (same property URI, different class, both nested resources)", () => {
+    const subjectTemplate = build.subjectTemplate({
+      id: "resourceTemplate:testing:dupeProperties",
+      clazz: "http://sinopia.io/testing/DupeProperties",
+      label: "Nested resource with duplicate properties",
+      propertyTemplates: [
+        build.propertyTemplate({
+          subjectTemplateKey: "resourceTemplate:testing:dupeProperties",
+          label: "Dupe property1",
+          uris: {
+            "http://sinopia.io/testing/DupeProperties/property1": "Property1",
+          },
+          type: "resource",
+          component: "NestedResource",
+          valueSubjectTemplateKeys: ["resourceTemplate:bf2:Note"],
+        }),
+        build.propertyTemplate({
+          subjectTemplateKey: "resourceTemplate:testing:dupeProperties",
+          label: "Dupe property2",
+          uris: {
+            "http://sinopia.io/testing/DupeProperties/property1": "Property1",
+          },
+          type: "resource",
+          component: "NestedResource",
+          valueSubjectTemplateKeys: ["resourceTemplate:bf2:Title:Note"],
+        }),
+      ],
+    })
+
+    it("does not return returns error", async () => {
+      const store = mockStore(createState())
+
+      expect(
+        await store.dispatch(
+          validateTemplates(subjectTemplate, {}, "testerrorkey")
+        )
+      ).toBe(true)
+    })
+  })
+
+  describe("template with repeated properties (same property URI, different class, both not nested resources)", () => {
+    const subjectTemplate = build.subjectTemplate({
+      id: "resourceTemplate:testing:dupeProperties",
+      clazz: "http://sinopia.io/testing/DupeProperties",
+      label: "Nested resource with duplicate properties",
+      propertyTemplates: [
+        build.propertyTemplate({
+          subjectTemplateKey: "resourceTemplate:testing:dupeProperties",
+          label: "Dupe property1",
+          uris: {
+            "http://sinopia.io/testing/DupeProperties/property1": "Property1",
+          },
+          type: "resource",
+          component: "NestedResource",
+          valueSubjectTemplateKeys: ["resourceTemplate:bf2:Note"],
+        }),
+        build.propertyTemplate({
+          subjectTemplateKey: "resourceTemplate:testing:dupeProperties",
+          label: "Dupe property2",
+          uris: {
+            "http://sinopia.io/testing/DupeProperties/property1": "Property1",
+          },
+          type: "uri",
+          component: "InputLookup",
+        }),
+      ],
+    })
+
+    it("returns error", async () => {
+      const store = mockStore(createState())
+
+      expect(
+        await store.dispatch(
+          validateTemplates(subjectTemplate, {}, "testerrorkey")
+        )
+      ).toBe(false)
     })
   })
 

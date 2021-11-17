@@ -6,6 +6,7 @@ import { addTemplates } from "actions/templates"
 import { selectSubjectAndPropertyTemplates } from "selectors/templates"
 import TemplatesBuilder from "TemplatesBuilder"
 import { fetchResource } from "sinopiaApi"
+import { resourceToName } from "../utilities/Utilities"
 
 /**
  * A thunk that gets a resource template from state or the server.
@@ -59,7 +60,8 @@ export const loadResourceTemplateWithoutValidation =
       return Promise.resolve(subjectTemplate)
     }
 
-    const templateUri = `${Config.sinopiaApiBase}/resource/${resourceTemplateId}`
+    const id = resourceToName(resourceTemplateId)
+    const templateUri = `${Config.sinopiaApiBase}/resource/${id}`
 
     const newResourceTemplatePromise = fetchResource(templateUri, {
       isTemplate: true,

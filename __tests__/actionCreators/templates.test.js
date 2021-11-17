@@ -74,7 +74,7 @@ describe("loadResourceTemplate()", () => {
           payload: {
             errorKey: "testerrorkey",
             error:
-              "Repeated property templates with same property URI (http://id.loc.gov/ontologies/bibframe/geographicCoverage) are not allowed.",
+              "A property template may not use the same property URI as another property template (http://id.loc.gov/ontologies/bibframe/geographicCoverage) unless both propery templates are of type nested resource and the nested resources are of different classes.",
           },
         },
       ])

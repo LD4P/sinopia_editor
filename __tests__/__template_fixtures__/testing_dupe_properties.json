@@ -1,0 +1,168 @@
+[
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:testing:dupeProperties",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@value": "resourceTemplate:testing:dupeProperties",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://sinopia.io/testing/DupeProperties"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Nested resource with duplicate properties",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "A template that contains nested resources with duplicate properties but different classes.",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b9"
+          },
+          {
+            "@id": "_:b11"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@id": "_:b10",
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
+      {
+        "@id": "http://localhost:3000/resource/resourceTemplate:bf2:Title:Note"
+      }
+    ]
+  },
+  {
+    "@id": "_:b11",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Duplicate property2",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/DupeProperties/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttributes": [
+      {
+        "@id": "_:b12"
+      }
+    ]
+  },
+  {
+    "@id": "_:b12",
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
+      {
+        "@id": "http://localhost:3000/resource/resourceTemplate:bf2:Note"
+      }
+    ]
+  },
+  {
+    "@id": "_:b9",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Duplicate property1",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/DupeProperties/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttributes": [
+      {
+        "@id": "_:b10"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:bf2:Title:Note",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Title note",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:bf2:Note",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Note",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/DupeProperties",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Duplicate properties",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/DupeProperties/property1",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property1",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/propertyType/resource",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "nested resource"
+      }
+    ]
+  }
+]
