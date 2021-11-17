@@ -6,7 +6,7 @@
  */
 
 import express from "express"
-import request from "request"
+import got from "got"
 import Config from "./src/Config"
 import _ from "lodash"
 import cors from "cors"
@@ -33,11 +33,10 @@ app.post("/api/search/:index/sinopia/_search", (req, res) => {
     searchUri += new URL(originalUrl).search
   }
 
-  request({
+  got(searchUri, {
     method: req.method,
-    uri: searchUri,
-    body: req.body,
-    json: true,
+    json: req.body,
+    responseType: "json",
   })
     .on("error", (err) => {
       console.error(`error making request to ElasticSearch: ${err}`)
@@ -48,9 +47,9 @@ app.post("/api/search/:index/sinopia/_search", (req, res) => {
     .pipe(res)
     .on("error", (err) => {
       console.error(`error returning ElasticSearch response: ${err}`)
-      res
-        .status(500)
-        .json({ error: "server error: could not send ElasticSearch response" })
+      res.status(500).json({
+        error: "server error: could not send ElasticSearch response",
+      })
     })
 })
 
