@@ -532,6 +532,7 @@ describe("addValue()", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
@@ -549,6 +550,7 @@ describe("addValue()", () => {
         label: null,
         valueSubjectKey: null,
         errors: ["Literal required"],
+        component: "InputLiteralValue",
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)

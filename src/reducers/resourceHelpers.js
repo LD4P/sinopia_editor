@@ -188,7 +188,7 @@ export const updateValueErrors = (state, valueKey) => {
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
   // If this is first value, then must have a value.
   const errors = []
-  if (propertyTemplate.type === "literal") {
+  if (value.component === "InputLiteralValue") {
     errors.push(literalRequiredError(value, property, propertyTemplate))
     if (value.literal !== null && value.literal !== "") {
       errors.push(literalRegexValidationError(value, propertyTemplate))
@@ -196,9 +196,7 @@ export const updateValueErrors = (state, valueKey) => {
       errors.push(literalDateTimeValidationError(value, propertyTemplate))
       errors.push(literalDateTimeStampValidationError(value, propertyTemplate))
     }
-  }
-
-  if (propertyTemplate.type === "uri") {
+  } else if (propertyTemplate.type === "uri") {
     errors.push(uriPropertiesAndValueErrors(value, property, propertyTemplate))
   }
 

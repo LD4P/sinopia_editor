@@ -32,6 +32,7 @@ describe("new literal value with validationDataType of integer", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
@@ -60,6 +61,7 @@ describe("new literal value with validationDataType of integer", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
@@ -161,6 +163,7 @@ describe("new literal value with validationDataType of dateTime", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
@@ -189,6 +192,7 @@ describe("new literal value with validationDataType of dateTime", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
@@ -217,6 +221,7 @@ describe("new literal value with validationDataType of dateTime", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
@@ -249,6 +254,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
@@ -277,6 +283,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
@@ -305,6 +312,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
             uri: null,
             label: null,
             valueSubjectKey: null,
+            component: "InputLiteralValue",
           },
         },
       }
