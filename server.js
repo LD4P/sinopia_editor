@@ -7,7 +7,6 @@
 
 import express from "express"
 import request from "request"
-import bodyParser from "body-parser"
 import Config from "./src/Config"
 import _ from "lodash"
 import cors from "cors"
@@ -16,8 +15,8 @@ const port = 8000
 const app = express()
 
 // Required for ElasticSearch proxy middleware to parse response body as JSON
-app.use(bodyParser.json()) // handle json data
-app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
+app.use(express.json()) // handle json data
+app.use(express.urlencoded({ extended: true })) // handle URL-encoded data
 
 app.use(cors())
 app.options("*", cors())
