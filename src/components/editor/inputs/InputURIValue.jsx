@@ -126,7 +126,7 @@ const InputURIValue = ({
         <label htmlFor={uriId} className="col-sm-1 col-form-label">
           URI
         </label>
-        <div className="col-sm-11">
+        <div className="col-sm-10">
           <TextareaAutosize
             required={propertyTemplate.required}
             className={uriControlClasses.join(" ")}
@@ -146,8 +146,8 @@ const InputURIValue = ({
             {uriErrors.join(", ")}
           </div>
         </div>
-        {showLink && (
-          <div className="col-md-auto d-flex align-items-end pb-2 ps-0">
+        <div className="col-md-auto d-flex align-items-end pb-2 ps-0">
+          {showLink && (
             <a
               href={currentURIContent}
               target="_blank"
@@ -160,8 +160,8 @@ const InputURIValue = ({
                 icon={faExternalLinkAlt}
               />
             </a>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <div className="row my-2">
