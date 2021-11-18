@@ -70,6 +70,7 @@
     "crypto-browserify": "3.12.0",
     "crypto-js": "^4.1.1",
     "dotenv": "^8.6.0",
+    "edtf": "^4.1.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.4",
     "express-http-proxy": "^1.6.3",
