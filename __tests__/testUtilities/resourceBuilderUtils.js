@@ -6,10 +6,10 @@ import { findAuthorityConfig } from "utilities/authorityConfig"
  */
 export default class ResourceBuilder {
   constructor({
-    injectPropertyTemplateIntoValue = false,
+    injectPropertyKeyIntoValue = false,
     injectPropertyIntoValue = false,
   } = {}) {
-    this.injectPropertyTemplateIntoValue = injectPropertyTemplateIntoValue
+    this.injectPropertyKeyIntoValue = injectPropertyKeyIntoValue
     this.injectPropertyIntoValue = injectPropertyIntoValue
   }
 
@@ -160,7 +160,7 @@ export default class ResourceBuilder {
     if (subjectKey) property.subjectKey = subjectKey
 
     // Inject propertyTemplate into value
-    if (!_.isEmpty(values) && this.injectPropertyTemplateIntoValue)
+    if (!_.isEmpty(values) && this.injectPropertyKeyIntoValue)
       values.forEach((value) => (value.propertyKey = property.key))
 
     // Inject property into value

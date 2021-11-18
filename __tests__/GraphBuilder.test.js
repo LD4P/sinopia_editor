@@ -3,7 +3,7 @@ import ResourceBuilder from "resourceBuilderUtils"
 
 describe("GraphBuilder", () => {
   const build = new ResourceBuilder({
-    injectPropertyTemplateIntoValue: true,
+    injectPropertyKeyIntoValue: true,
     injectPropertyIntoValue: true,
   })
   describe("graph()", () => {
