@@ -9,6 +9,7 @@ import RemoveButton from "./RemoveButton"
 import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelection"
 import useDiacritics from "hooks/useDiacritics"
 import ValuePropertyURI from "../property/ValuePropertyURI"
+import LiteralTypeLabel from "../property/LiteralTypeLabel"
 import _ from "lodash"
 
 const InputLiteralValue = ({
@@ -69,7 +70,9 @@ const InputLiteralValue = ({
     handleKeyDownDiacritics(event)
   }
 
-  const showLang = !propertyTemplate.languageSuppressed || value.lang
+  const showLang =
+    (!propertyTemplate.languageSuppressed || value.lang) &&
+    !propertyTemplate.validationDataType
 
   const controlClasses = ["form-control"]
   if (displayValidations && !_.isEmpty(value.errors))
@@ -78,6 +81,7 @@ const InputLiteralValue = ({
   return (
     <React.Fragment>
       <ValuePropertyURI propertyTemplate={propertyTemplate} value={value} />
+      <LiteralTypeLabel propertyTemplate={propertyTemplate} />
       <div className="row my-2">
         <div className="col">
           <TextareaAutosize

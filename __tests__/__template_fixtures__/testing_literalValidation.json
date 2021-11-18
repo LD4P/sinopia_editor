@@ -154,7 +154,7 @@
     ],
     "http://sinopia.io/vocabulary/hasValidationDataType": [
       {
-        "@id": "http://www.w3.org/2001/XMLSchema/integer"
+        "@id": "http://www.w3.org/2001/XMLSchema#integer"
       }
     ]
   },
@@ -192,7 +192,7 @@
     ],
     "http://sinopia.io/vocabulary/hasValidationDataType": [
       {
-        "@id": "http://www.w3.org/2001/XMLSchema/dateTime"
+        "@id": "http://www.w3.org/2001/XMLSchema#dateTime"
       }
     ]
   },
@@ -230,7 +230,7 @@
     ],
     "http://sinopia.io/vocabulary/hasValidationDataType": [
       {
-        "@id": "http://www.w3.org/2001/XMLSchema/dateTimeStamp"
+        "@id": "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
       }
     ]
   },
@@ -305,7 +305,7 @@
     ]
   },
   {
-    "@id": "http://www.w3.org/2001/XMLSchema/dateTime",
+    "@id": "http://www.w3.org/2001/XMLSchema#dateTime",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Date and time with or without timezone (xsd:dateTime)"
@@ -313,7 +313,7 @@
     ]
   },
   {
-    "@id": "http://www.w3.org/2001/XMLSchema/dateTimeStamp",
+    "@id": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Date and time with required timezone (xsd:dateTimeStamp)"
@@ -321,7 +321,7 @@
     ]
   },
   {
-    "@id": "http://www.w3.org/2001/XMLSchema/integer",
+    "@id": "http://www.w3.org/2001/XMLSchema#integer",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Integer (xsd:integer)"

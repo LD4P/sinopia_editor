@@ -36,12 +36,12 @@ export const literalIntegerValidationError = (value, propertyTemplate) => {
   const integerRegex = /^\d+$/
   if (
     propertyTemplate.validationDataType ===
-      "http://www.w3.org/2001/XMLSchema/integer" &&
+      "http://www.w3.org/2001/XMLSchema#integer" &&
     (!integerRegex.test(value.literal) ||
       Number.isNaN(parseInt(value.literal, 10)))
   )
     errors.push(
-      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/integer' but '${value.literal}' is not an integer.`
+      `Expected datatype is 'http://www.w3.org/2001/XMLSchema#integer' but '${value.literal}' is not an integer.`
     )
   return errors
 }
@@ -56,11 +56,11 @@ export const literalDateTimeValidationError = (value, propertyTemplate) => {
 
   if (
     propertyTemplate.validationDataType ===
-      "http://www.w3.org/2001/XMLSchema/dateTime" &&
+      "http://www.w3.org/2001/XMLSchema#dateTime" &&
     !isValidXsdDateTime(value.literal)
   )
     errors.push(
-      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTime' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'.`
+      `Expected datatype is 'http://www.w3.org/2001/XMLSchema#dateTime' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'.`
     )
   return errors
 }
@@ -79,11 +79,11 @@ export const literalDateTimeStampValidationError = (
 
   if (
     propertyTemplate.validationDataType ===
-      "http://www.w3.org/2001/XMLSchema/dateTimeStamp" &&
+      "http://www.w3.org/2001/XMLSchema#dateTimeStamp" &&
     !isValidXsdDateTimeStamp(value.literal)
   )
     errors.push(
-      `Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTimeStamp' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'.`
+      `Expected datatype is 'http://www.w3.org/2001/XMLSchema#dateTimeStamp' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'.`
     )
   return errors
 }

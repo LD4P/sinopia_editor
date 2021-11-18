@@ -179,11 +179,11 @@ const buildResourceWithLiteral = (state, options) => {
 
   let validationDataType = null
   if (options.hasIntegerValidation)
-    validationDataType = "http://www.w3.org/2001/XMLSchema/integer"
+    validationDataType = "http://www.w3.org/2001/XMLSchema#integer"
   if (options.hasDateTimeValidation)
-    validationDataType = "http://www.w3.org/2001/XMLSchema/dateTime"
+    validationDataType = "http://www.w3.org/2001/XMLSchema#dateTime"
   if (options.hasDateTimeStampValidation)
-    validationDataType = "http://www.w3.org/2001/XMLSchema/dateTimeStamp"
+    validationDataType = "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
 
   state.entities.propertyTemplates = {
     "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle":
