@@ -1,6 +1,6 @@
 import ResourceBuilder from "resourceBuilderUtils"
 
-const build = new ResourceBuilder({ injectPropertyIntoValue: true })
+const build = new ResourceBuilder({ injectPropertyKeyIntoValue: true })
 
 const expectedAction = {
   type: "ADD_SUBJECT",

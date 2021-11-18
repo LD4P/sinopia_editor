@@ -106,7 +106,16 @@ export default class GraphBuilder {
   }
 
   buildLiteralValue(value, subjectTerm, propertyTerm) {
-    const valueTerm = rdf.literal(value.literal, value.lang)
+    // TODO: ?. accessor for 2 tests that are hella annoying to fix
+    const validationDataType =
+      value.property?.propertyTemplate?.validationDataType
+    let valueTerm
+    if (validationDataType) {
+      const namedNode = rdf.namedNode(validationDataType)
+      valueTerm = rdf.literal(value.literal, namedNode)
+    } else {
+      valueTerm = rdf.literal(value.literal, value.lang)
+    }
     this.dataset.add(rdf.quad(subjectTerm, propertyTerm, valueTerm))
   }
 

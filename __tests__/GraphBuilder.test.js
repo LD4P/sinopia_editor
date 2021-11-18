@@ -2,7 +2,10 @@ import GraphBuilder from "GraphBuilder"
 import ResourceBuilder from "resourceBuilderUtils"
 
 describe("GraphBuilder", () => {
-  const build = new ResourceBuilder({ injectPropertyIntoValue: true })
+  const build = new ResourceBuilder({
+    injectPropertyKeyIntoValue: true,
+    injectPropertyIntoValue: true,
+  })
   describe("graph()", () => {
     it("builds a graph for literals", () => {
       const resource = build.subject({
@@ -35,6 +38,44 @@ describe("GraphBuilder", () => {
 <> <http://id.loc.gov/ontologies/bibframe/uber/template1/property3> "literal2" .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .`
+      expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
+    })
+
+    it("builds a graph for literal with validationDataType", () => {
+      const resource = build.subject({
+        subjectTemplate: build.subjectTemplate({
+          id: "resourceTemplate:testing:literalValidation",
+          clazz: "http://sinopia.io/testing/LiteralValidation",
+        }),
+        properties: [
+          build.literalProperty({
+            propertyTemplate: build.propertyTemplate({
+              subjectTemplateKey: "resourceTemplate:testing:literalValidation",
+              label: "literalValidation, integer validationDataType",
+              uris: {
+                "http://sinopia.io/testing/LiteralValidation/property3":
+                  "http://sinopia.io/testing/LiteralValidation/property3",
+              },
+              type: "literal",
+              validationDataType: "http://www.w3.org/2001/XMLSchema#integer",
+              languageSuppressed: true,
+              component: "InputLiteral",
+            }),
+            values: [
+              build.literalValue({
+                literal: "literal with dataType",
+                lang: null,
+                propertyUri:
+                  "http://sinopia.io/testing/LiteralValidation/property3",
+              }),
+            ],
+          }),
+        ],
+      })
+
+      const rdf = `<> <http://sinopia.io/testing/LiteralValidation/property3> "literal with dataType"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:literalValidation" .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/LiteralValidation> .`
       expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
     })
 
