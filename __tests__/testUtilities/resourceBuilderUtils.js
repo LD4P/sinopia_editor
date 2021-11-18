@@ -5,8 +5,12 @@ import { findAuthorityConfig } from "utilities/authorityConfig"
  * Helper for building resources (and parts) and templates.
  */
 export default class ResourceBuilder {
-  constructor({ injectPropertyTemplateIntoValue = false } = {}) {
+  constructor({
+    injectPropertyTemplateIntoValue = false,
+    injectPropertyIntoValue = false,
+  } = {}) {
     this.injectPropertyTemplateIntoValue = injectPropertyTemplateIntoValue
+    this.injectPropertyIntoValue = injectPropertyIntoValue
   }
 
   key() {
@@ -155,14 +159,13 @@ export default class ResourceBuilder {
     if (propertyTemplateKey) property.propertyTemplateKey = propertyTemplateKey
     if (subjectKey) property.subjectKey = subjectKey
 
-    // Inject property into value
+    // Inject propertyTemplate into value
     if (!_.isEmpty(values) && this.injectPropertyTemplateIntoValue)
-      values.forEach((value) => {
-        value.propertyKey = property.key
-        if (value.literal && property?.propertyTemplate?.validationDataType) {
-          value.property = property
-        }
-      })
+      values.forEach((value) => (value.propertyKey = property.key))
+
+    // Inject property into value
+    if (!_.isEmpty(values) && this.injectPropertyIntoValue)
+      values.forEach((value) => (value.property = property))
 
     return property
   }

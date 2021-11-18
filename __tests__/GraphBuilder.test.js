@@ -2,7 +2,10 @@ import GraphBuilder from "GraphBuilder"
 import ResourceBuilder from "resourceBuilderUtils"
 
 describe("GraphBuilder", () => {
-  const build = new ResourceBuilder({ injectPropertyIntoValue: true })
+  const build = new ResourceBuilder({
+    injectPropertyTemplateIntoValue: true,
+    injectPropertyIntoValue: true,
+  })
   describe("graph()", () => {
     it("builds a graph for literals", () => {
       const resource = build.subject({
