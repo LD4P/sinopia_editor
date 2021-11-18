@@ -30,12 +30,12 @@ const LookupTab = (props) => {
     )
   }
 
-  if (!props.result.totalHits) {
-    return <strong>No results</strong>
+  if (props.result.error) {
+    return <span className="text-danger">{props.result.error}</span>
   }
 
-  if (props.result.error) {
-    return <span className="dropdown-error">{props.result.error}</span>
+  if (!props.result.totalHits) {
+    return <strong>No results</strong>
   }
 
   const tabResults = props.result.results.map((hit) => (
