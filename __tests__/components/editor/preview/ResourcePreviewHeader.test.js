@@ -1,24 +1,19 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
-import { render } from "@testing-library/react"
+import { createStore, renderComponent } from "testUtils"
 import { createState } from "stateUtils"
 import { selectNormSubject } from "selectors/resources"
-import configureMockStore from "redux-mock-store"
 import ResourcePreviewHeader from "components/editor/preview/ResourcePreviewHeader"
-import { Provider } from "react-redux"
-
-const mockStore = configureMockStore()
 
 describe("<ResourcePreviewHeader />", () => {
   it("displays label, url and edit groups", () => {
     const state = createState({ hasTwoLiteralResources: true })
-    const store = mockStore(state)
+    const store = createStore(state)
     const resource = selectNormSubject(state, "t9zVwg2zO")
-    const header = render(
-      <Provider store={store}>
-        <ResourcePreviewHeader resource={resource} />
-      </Provider>
+    const header = renderComponent(
+      <ResourcePreviewHeader resource={resource} />,
+      store
     )
     expect(header.getByText("Abbreviated Title")).toBeTruthy // label is shown
     expect(header.getByText("Stanford University")).toBeTruthy // owner is shown with full group name
