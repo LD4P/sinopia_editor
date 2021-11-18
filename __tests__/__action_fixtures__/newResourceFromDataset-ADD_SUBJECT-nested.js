@@ -2,7 +2,7 @@ import ResourceBuilder from "resourceBuilderUtils"
 import suppressibleSubjectTemplate from "./subjectTemplate-suppressible"
 import uriSubjectTemplate from "./subjectTemplate-uri"
 
-const build = new ResourceBuilder({ injectPropertyIntoValue: true })
+const build = new ResourceBuilder({ injectPropertyTemplateIntoValue: true })
 
 const expectedAction = {
   type: "ADD_SUBJECT",

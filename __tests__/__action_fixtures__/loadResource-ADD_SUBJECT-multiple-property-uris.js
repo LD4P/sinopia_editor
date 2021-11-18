@@ -1,7 +1,7 @@
 import ResourceBuilder from "resourceBuilderUtils"
 import subjectTemplate from "./subjectTemplate-multiple_property_uris"
 
-const build = new ResourceBuilder({ injectPropertyIntoValue: true })
+const build = new ResourceBuilder({ injectPropertyTemplateIntoValue: true })
 
 const expectedAction = {
   type: "ADD_SUBJECT",

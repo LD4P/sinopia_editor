@@ -2,7 +2,7 @@ import ResourceBuilder from "resourceBuilderUtils"
 import inputsSubjectTemplate from "./subjectTemplate-inputs"
 import literalSubjectTemplate from "./subjectTemplate-literal"
 
-const build = new ResourceBuilder({ injectPropertyIntoValue: true })
+const build = new ResourceBuilder({ injectPropertyTemplateIntoValue: true })
 
 const expectedAction = {
   type: "ADD_SUBJECT",

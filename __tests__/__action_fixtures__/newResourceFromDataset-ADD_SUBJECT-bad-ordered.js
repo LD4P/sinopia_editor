@@ -1,7 +1,7 @@
 import ResourceBuilder from "resourceBuilderUtils"
 import orderedSubjectTemplate from "./subjectTemplate-ordered"
 
-const build = new ResourceBuilder({ injectPropertyIntoValue: true })
+const build = new ResourceBuilder({ injectPropertyTemplateIntoValue: true })
 
 const expectedAction = {
   type: "ADD_SUBJECT",
