@@ -135,29 +135,19 @@ describe("getLookupResult()", () => {
   describe("QA lookup", () => {
     beforeEach(() => {
       qaSearch.createLookupPromise.mockResolvedValue({
-        ok: true,
-        url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true",
-        status: 200,
-        statusText: "OK",
-        body: {
-          response_header: {
-            start_record: 1,
-            requested_records: 1,
-            retrieved_records: 1,
-            total_records: 1,
-          },
-          results: [
-            {
-              uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-              id: "http://aims.fao.org/aos/agrovoc/c_331388",
-              label: "corn sheller",
-            },
-          ],
+        response_header: {
+          start_record: 1,
+          requested_records: 1,
+          retrieved_records: 1,
+          total_records: 1,
         },
-        authLabel: "AGROVOC (QA)",
-        authURI: "urn:ld4p:qa:agrovoc",
-        label: "AGROVOC (QA)",
-        id: "urn:ld4p:qa:agrovoc",
+        results: [
+          {
+            uri: "http://aims.fao.org/aos/agrovoc/c_331388",
+            id: "http://aims.fao.org/aos/agrovoc/c_331388",
+            label: "corn sheller",
+          },
+        ],
       })
     })
     it("returns result", async () => {
@@ -184,29 +174,19 @@ describe("getLookupResult()", () => {
   })
   describe("QA lookup with bad total_records", () => {
     qaSearch.createLookupPromise = jest.fn().mockResolvedValue({
-      ok: true,
-      url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=8&lang=en&context=true",
-      status: 200,
-      statusText: "OK",
-      body: {
-        response_header: {
-          start_record: 1,
-          requested_records: 1,
-          retrieved_records: 1,
-          total_records: "NOT_REPORTED",
-        },
-        results: [
-          {
-            uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-            id: "http://aims.fao.org/aos/agrovoc/c_331388",
-            label: "corn sheller",
-          },
-        ],
+      response_header: {
+        start_record: 1,
+        requested_records: 1,
+        retrieved_records: 1,
+        total_records: "NOT_REPORTED",
       },
-      authLabel: "AGROVOC (QA)",
-      authURI: "urn:ld4p:qa:agrovoc",
-      label: "AGROVOC (QA)",
-      id: "urn:ld4p:qa:agrovoc",
+      results: [
+        {
+          uri: "http://aims.fao.org/aos/agrovoc/c_331388",
+          id: "http://aims.fao.org/aos/agrovoc/c_331388",
+          label: "corn sheller",
+        },
+      ],
     })
     it("returns result", async () => {
       const authorityConfig = findAuthorityConfig("urn:ld4p:qa:agrovoc")

@@ -47,15 +47,15 @@ const sinopiaContext = (result) => {
 const getQALookupResult = (query, authorityConfig, options) =>
   createLookupPromise(query, authorityConfig, options).then((response) => {
     if (response.isError) return { error: response.errorObject.message }
-    const totalRecords = response.body.response_header.total_records
+    const totalRecords = response.response_header.total_records
     return {
       authorityConfig,
-      results: response.body.results,
+      results: response.results,
       // Some QA authorities return total_records like 'NOT_REPORTED'.
       // This may need more sophisticated handling in future.
       totalHits: Number.isInteger(totalRecords)
         ? totalRecords
-        : response.body.results.length,
+        : response.results.length,
     }
   })
 
