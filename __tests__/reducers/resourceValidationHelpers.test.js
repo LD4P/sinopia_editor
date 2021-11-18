@@ -69,7 +69,7 @@ describe("new literal value with validationDataType of integer", () => {
       const newState = reducer(oldState.entities, action)
 
       expect(newState.values.DxGx7WMh3.errors).toEqual([
-        "Expected datatype is 'http://www.w3.org/2001/XMLSchema/integer' but 'abc' is not an integer.",
+        "Expected datatype is 'http://www.w3.org/2001/XMLSchema#integer' but 'abc' is not an integer.",
       ])
     })
   })
@@ -95,7 +95,7 @@ describe("update literal value with validationDataType", () => {
       const newState = reducer(oldState.entities, action)
 
       expect(newState.values.CxGx7WMh2.errors).toEqual([
-        "Expected datatype is 'http://www.w3.org/2001/XMLSchema/integer' but '88.9' is not an integer.",
+        "Expected datatype is 'http://www.w3.org/2001/XMLSchema#integer' but '88.9' is not an integer.",
       ])
     })
   })
@@ -229,7 +229,7 @@ describe("new literal value with validationDataType of dateTime", () => {
       const newState = reducer(oldState.entities, action)
 
       expect(newState.values.DxGx7WMh3.errors).toEqual([
-        "Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTime' but '2021-11-03T10:23:00Z-07:00' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'.",
+        "Expected datatype is 'http://www.w3.org/2001/XMLSchema#dateTime' but '2021-11-03T10:23:00Z-07:00' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)'.",
       ])
     })
   })
@@ -320,7 +320,7 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
       const newState = reducer(oldState.entities, action)
 
       expect(newState.values.DxGx7WMh3.errors).toEqual([
-        "Expected datatype is 'http://www.w3.org/2001/XMLSchema/dateTimeStamp' but '2021-11-03T10:23:00' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'.",
+        "Expected datatype is 'http://www.w3.org/2001/XMLSchema#dateTimeStamp' but '2021-11-03T10:23:00' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'.",
       ])
     })
   })

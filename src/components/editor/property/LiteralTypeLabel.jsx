@@ -4,14 +4,14 @@ import PropTypes from "prop-types"
 const LiteralTypeLabel = ({ propertyTemplate }) => {
   const labelText = (propertyTemplate) => {
     const typeLabelLookup = {
-      "http://www.w3.org/2001/XMLSchema/integer": "integer",
-      "http://www.w3.org/2001/XMLSchema/dateTime": "date time",
-      "http://www.w3.org/2001/XMLSchema/dateTimeStamp":
-        "date time with timezone",
+      "http://www.w3.org/2001/XMLSchema#integer": "an integer",
+      "http://www.w3.org/2001/XMLSchema#dateTime": "a date time",
+      "http://www.w3.org/2001/XMLSchema#dateTimeStamp":
+        "a date time with timezone",
     }
 
-    let label = `Enter a ${
-      typeLabelLookup[propertyTemplate.validationDataType] ?? "literal"
+    let label = `Enter ${
+      typeLabelLookup[propertyTemplate.validationDataType] ?? "a literal"
     }`
     if (propertyTemplate.validationRegex) {
       label += ` in the form "${propertyTemplate.validationRegex}"`
