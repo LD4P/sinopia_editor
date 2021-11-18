@@ -6,53 +6,30 @@
  */
 
 import express from "express"
-import request from "request"
 import Config from "./src/Config"
-import _ from "lodash"
+
 import cors from "cors"
+import proxy from "express-http-proxy"
 
 const port = 8000
 const app = express()
 
-// Required for ElasticSearch proxy middleware to parse response body as JSON
-app.use(express.json()) // handle json data
 app.use(express.urlencoded({ extended: true })) // handle URL-encoded data
 
 app.use(cors())
 app.options("*", cors())
 
-// ElasticSearch proxy middleware
-app.post("/api/search/:index/sinopia/_search", (req, res) => {
-  // Only use the method, path, and body from the original request: method and
-  // path have already been validated above and the body must be a
-  // JSON-serializeable entity
-
-  let searchUri = `${Config.indexUrl}/${req.params.index}/sinopia/_search`
-  if (!_.isEmpty(req.query)) {
-    const originalUrl = `${req.protocol}://${req.hostname}${req.originalUrl}`
-    searchUri += new URL(originalUrl).search
-  }
-
-  request({
-    method: req.method,
-    uri: searchUri,
-    body: req.body,
-    json: true,
+app.use(
+  "/api/search",
+  proxy(Config.indexUrl, {
+    parseReqBody: false,
+    proxyReqOptDecorator(proxyReqOpts) {
+      delete proxyReqOpts.headers.origin
+      return proxyReqOpts
+    },
+    filter: (req) => req.method === "POST",
   })
-    .on("error", (err) => {
-      console.error(`error making request to ElasticSearch: ${err}`)
-      res.status(500).json({
-        error: "server error: could not make request to ElasticSearch",
-      })
-    })
-    .pipe(res)
-    .on("error", (err) => {
-      console.error(`error returning ElasticSearch response: ${err}`)
-      res
-        .status(500)
-        .json({ error: "server error: could not send ElasticSearch response" })
-    })
-})
+)
 
 app.get("/", (req, res) => {
   res.sendFile(`${__dirname}/dist/index.html`)
