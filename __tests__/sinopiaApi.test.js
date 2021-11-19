@@ -44,6 +44,7 @@ const resource = {
   bfInstanceRefs: [],
   bfItemRefs: [],
   bfWorkRefs: [],
+  sinopiaLocalAdminMetadataForRefs: [],
   group: "yale",
   editGroups: ["cornell"],
   types: ["https://w3id.org/arm/core/ontology/0.1/Enclosure"],

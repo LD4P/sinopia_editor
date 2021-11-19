@@ -38,6 +38,7 @@
   "rootPropertyKey": null,
   "labels": ["Uber template1"],
   "bfAdminMetadataRefs": [],
+  "localAdminMetadataForRefs": [],
   "bfItemRefs": [],
   "bfInstanceRefs": [],
   "bfWorkRefs": [],

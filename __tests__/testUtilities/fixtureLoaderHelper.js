@@ -95,6 +95,7 @@ export const getFixtureResource = (uri) => {
     bfItemRefs: [],
     bfInstanceRefs: [],
     bfWorkRefs: [],
+    sinopiaLocalAdminMetadataForRefs: [],
   }
 }
 

@@ -330,6 +330,7 @@ describe("addSubject()", () => {
           bfInstanceRefs: [],
           bfItemRefs: [],
           bfWorkRefs: [],
+          localAdminMetadataForRefs: [],
           changed: true,
           classes: ["http://id.loc.gov/ontologies/bibframe/Barcode"],
           group: null,
@@ -372,6 +373,7 @@ describe("addSubject()", () => {
         bfInstanceRefs: [],
         bfItemRefs: [],
         bfWorkRefs: [],
+        localAdminMetadataForRefs: [],
         changed: true,
         classes: ["http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle"],
         descUriOrLiteralValueKeys: [],
@@ -430,6 +432,7 @@ describe("addSubject()", () => {
         bfInstanceRefs: [],
         bfItemRefs: [],
         bfWorkRefs: [],
+        localAdminMetadataForRefs: [],
         group: null,
         editGroups: [],
         labels: ["Abbreviated Title"],
@@ -788,6 +791,9 @@ describe("addValue()", () => {
       expect(newState.subjects["wihOjn-0Z"].bfAdminMetadataRefs).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfInstanceRefs).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfItemRefs).toHaveLength(0)
+      expect(
+        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs
+      ).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfWorkRefs).toEqual([
         "http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738",
         "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
@@ -813,6 +819,9 @@ describe("addValue()", () => {
       const newState = reducer(oldState.entities, newAddUriAction)
 
       expect(newState.subjects["wihOjn-0Z"].bfAdminMetadataRefs).toHaveLength(0)
+      expect(
+        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs
+      ).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfInstanceRefs).toEqual([
         "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
       ])
@@ -843,6 +852,9 @@ describe("addValue()", () => {
       expect(newState.subjects["wihOjn-0Z"].bfItemRefs).toEqual([
         "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
       ])
+      expect(
+        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs
+      ).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfWorkRefs).toHaveLength(1)
     })
   })
@@ -870,6 +882,36 @@ describe("addValue()", () => {
       expect(newState.subjects["wihOjn-0Z"].bfInstanceRefs).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfItemRefs).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfWorkRefs).toHaveLength(1)
+      expect(
+        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs
+      ).toHaveLength(0)
+    })
+  })
+
+  describe("new uri value that is a sinopia Local Admin Metadata ref", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithLookup: true })
+
+      const newAddUriAction = {
+        ...addUriAction,
+        payload: {
+          ...addUriAction.payload,
+          value: {
+            ...addUriAction.payload.value,
+            propertyUri: "https://sinopia.io/vocabulary/localAdminMetadataFor",
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, newAddUriAction)
+
+      expect(newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs).toEqual([
+        "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
+      ])
+      expect(newState.subjects["wihOjn-0Z"].bfInstanceRefs).toHaveLength(0)
+      expect(newState.subjects["wihOjn-0Z"].bfItemRefs).toHaveLength(0)
+      expect(newState.subjects["wihOjn-0Z"].bfWorkRefs).toHaveLength(1)
+      expect(newState.subjects["wihOjn-0Z"].bfAdminMetadataRefs).toHaveLength(0)
     })
   })
 })
@@ -1024,6 +1066,27 @@ describe("removeValue()", () => {
       expect(
         newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
       ).not.toContain("CxGx7WMh2")
+    })
+  })
+  describe("with a uri that is a sinopia Local Admin Metadata ref", () => {
+    it("removes a value for a property", () => {
+      const oldState = createState({ hasResourceWithLookup: true })
+      oldState.entities.values["s8-qt3-uu"].propertyUri =
+        "https://sinopia.io/vocabulary/localAdminMetadataFor"
+      oldState.entities.subjects["wihOjn-0Z"].localAdminMetadataForRefs = [
+        "http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738",
+      ]
+
+      const action = {
+        type: "REMOVE_VALUE",
+        payload: "s8-qt3-uu",
+      }
+
+      const newState = reducer(oldState.entities, action)
+      expect(newState.values["s8-qt3-uu"]).toBe(undefined)
+      expect(newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs).toEqual(
+        []
+      )
     })
   })
   describe("with an error", () => {

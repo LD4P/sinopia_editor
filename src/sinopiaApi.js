@@ -257,6 +257,7 @@ const saveBodyForResource = (resource, user, group, editGroups) => {
       templateId: resource.subjectTemplate.id,
       types: [resource.subjectTemplate.class],
       bfAdminMetadataRefs: resource.bfAdminMetadataRefs,
+      sinopiaLocalAdminMetadataForRefs: resource.localAdminMetadataForRefs,
       bfItemRefs: resource.bfItemRefs,
       bfInstanceRefs: resource.bfInstanceRefs,
       bfWorkRefs: resource.bfWorkRefs,

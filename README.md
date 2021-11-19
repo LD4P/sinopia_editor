@@ -250,7 +250,8 @@ The following are only in the resource subject (that is, the base subject).
   bfAdminMetadataRefs: [uri of referenced admin metadata resource, ...],
   bfWorkRefs: [uri of referenced Bibframe Work resource, ...],
   bfInstanceRefs: [uri of referenced Bibframe Instance resource, ...],
-  bfItemRefs: [uri of referenced Bibframe Item resources, ...]
+  bfItemRefs: [uri of referenced Bibframe Item resources, ...],
+  sinopiaLocalAdminMetadataForRefs: [uri of referenced resources, ...]
 }
 ```
 
