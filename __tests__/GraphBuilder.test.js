@@ -5,6 +5,7 @@ describe("GraphBuilder", () => {
   const build = new ResourceBuilder({
     injectPropertyKeyIntoValue: true,
     injectPropertyIntoValue: true,
+    injectClassesIntoSubject: true,
   })
   describe("graph()", () => {
     it("builds a graph for literals", () => {
@@ -615,6 +616,45 @@ _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 <http://sinopia.io/uri1> <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@eng .
 _:c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template2/property2> "literal3"@eng .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .`
+    expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
+  })
+
+  it("builds a graph when multiple classes", () => {
+    const resource = build.subject({
+      subjectTemplate: build.subjectTemplate({
+        id: "resourceTemplate:testing:uber1",
+        clazz: "http://id.loc.gov/ontologies/bibframe/Uber1",
+      }),
+      classes: [
+        "http://id.loc.gov/ontologies/bibframe/Uber1",
+        "http://id.loc.gov/ontologies/bibframe/Uber2",
+      ],
+      properties: [
+        build.literalProperty({
+          values: [
+            // With languange
+            build.literalValue({
+              literal: "literal1",
+              propertyUri:
+                "http://id.loc.gov/ontologies/bibframe/uber/template1/property2",
+            }),
+            // Without language
+            build.literalValue({
+              literal: "literal2",
+              lang: null,
+              propertyUri:
+                "http://id.loc.gov/ontologies/bibframe/uber/template1/property3",
+            }),
+          ],
+        }),
+      ],
+    })
+
+    const rdf = `<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property2> "literal1"@eng .
+<> <http://id.loc.gov/ontologies/bibframe/uber/template1/property3> "literal2" .
+<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .
+<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .`
     expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
   })
 })

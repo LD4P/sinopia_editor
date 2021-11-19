@@ -163,6 +163,10 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
     newSubject.labels = [subjectTemplate.label]
   }
 
+  // Add classes if it doesn't already have.
+  if (_.isEmpty(newSubject.classes))
+    newSubject.classes = [subjectTemplate.class]
+
   // Add properties for resource (if root subject)
   if (newSubject.rootSubjectKey === newSubject.key) {
     if (_.isUndefined(newSubject.group)) newSubject.group = null
@@ -576,4 +580,9 @@ export const setValuePropertyURI = (state, action) => {
 export const setPropertyPropertyURI = (state, action) => {
   const { propertyKey, uri } = action.payload
   return mergePropertyPropsToNewState(state, propertyKey, { propertyUri: uri })
+}
+
+export const setClasses = (state, action) => {
+  const { subjectKey, classes } = action.payload
+  return mergeSubjectPropsToNewState(state, subjectKey, { classes })
 }

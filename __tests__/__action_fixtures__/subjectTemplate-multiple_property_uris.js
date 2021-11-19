@@ -6,6 +6,9 @@ const subjectTemplate = build.subjectTemplate({
   uri: "http://localhost:3000/resource/resourceTemplate:testing:multiplePropertyUris",
   id: "resourceTemplate:testing:multiplePropertyUris",
   clazz: "http://sinopia.io/testing/MultiplePropertyUris",
+  classes: {
+    "http://sinopia.io/testing/MultiplePropertyUris": "Multiple Property URIs",
+  },
   label: "Inputs with multiple property URIs",
   remark:
     "A template that contains multiple inputs with multiple property URIs.",

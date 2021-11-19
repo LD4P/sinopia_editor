@@ -17,8 +17,12 @@ const vocabulary = {
     url: "http://sinopia.io/vocabulary/hasAuthority",
   },
   hasClass: {
-    description: "The RDF class for a property",
+    description: "The RDF class for a resource",
     url: "http://sinopia.io/vocabulary/hasClass",
+  },
+  hasOptionalClass: {
+    description: "Optional RDF classes for a resource",
+    url: "http://sinopia.io/vocabulary/hasOptionalClass",
   },
   hasDate: {
     description: "Date associated with the template",

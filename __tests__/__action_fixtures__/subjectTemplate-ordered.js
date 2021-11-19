@@ -6,6 +6,9 @@ const subjectTemplate = build.subjectTemplate({
   uri: "http://localhost:3000/resource/resourceTemplate:testing:ordered",
   id: "resourceTemplate:testing:ordered",
   clazz: "http://sinopia.io/testing/Ordered",
+  classes: {
+    "http://sinopia.io/testing/Ordered": "Ordered",
+  },
   label: "Ordered",
   remark: "A template that contains an ordered nested resource.",
   propertyTemplates: [

@@ -9,6 +9,7 @@ const expectedAction = {
   payload: build.subject({
     uri: "http://localhost:3000/resource/b6c5f4c0-e7cd-4ca5-a20f-2a37fe1080d6",
     subjectTemplate: inputsSubjectTemplate,
+    classes: ["http://sinopia.io/testing/Inputs"],
     properties: [
       build.property({
         values: [
@@ -58,6 +59,7 @@ const expectedAction = {
             propertyUri: "http://sinopia.io/testing/Inputs/property5",
             valueSubject: build.subject({
               subjectTemplate: literalSubjectTemplate,
+              classes: ["http://sinopia.io/testing/Literal"],
               properties: [
                 build.property({
                   values: [

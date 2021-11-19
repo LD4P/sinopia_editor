@@ -4,6 +4,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import PanelProperty from "./PanelProperty"
 import LeftNav from "../leftNav/LeftNav"
+import ResourceClass from "./ResourceClass"
 
 // Top-level resource
 const PanelResource = ({ resource, readOnly = false }) => {
@@ -15,6 +16,11 @@ const PanelResource = ({ resource, readOnly = false }) => {
       {!readOnly && <LeftNav resource={resource} />}
       <div className={resourceDivClass}>
         <form>
+          <div className="row">
+            <div className="col">
+              <ResourceClass readOnly={readOnly} resource={resource} />
+            </div>
+          </div>
           {resource.propertyKeys.map((propertyKey, index) => (
             <PanelProperty
               propertyKey={propertyKey}

@@ -57,6 +57,6 @@ describe("Copying a template resource", () => {
     const templateClasses = screen.getAllByTestId("container", {
       selector: ".template",
     })
-    expect(templateClasses.length).toEqual(8)
+    expect(templateClasses.length).toEqual(9)
   })
 })

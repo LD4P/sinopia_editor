@@ -6,6 +6,9 @@ const subjectTemplate = build.subjectTemplate({
   uri: "http://localhost:3000/resource/resourceTemplate:testing:uri",
   id: "resourceTemplate:testing:uri",
   clazz: "http://sinopia.io/testing/Uri",
+  classes: {
+    "http://sinopia.io/testing/Uri": "URI",
+  },
   label: "URI",
   remark: "A template that contains a single URI input.",
   suppressible: true,

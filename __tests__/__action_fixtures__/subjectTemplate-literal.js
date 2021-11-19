@@ -6,6 +6,9 @@ const subjectTemplate = build.subjectTemplate({
   uri: "http://localhost:3000/resource/resourceTemplate:testing:literal",
   id: "resourceTemplate:testing:literal",
   clazz: "http://sinopia.io/testing/Literal",
+  classes: {
+    "http://sinopia.io/testing/Literal": "Literal",
+  },
   label: "Literal",
   remark: "A template that contains a single literal input.",
   propertyTemplates: [

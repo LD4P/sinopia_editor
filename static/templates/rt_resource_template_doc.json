@@ -155,6 +155,35 @@
     ]
   },
   {
+    "@id": "_:b6",
+    "@type": ["http://sinopia.io/vocabulary/PropertyTemplate"],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Optional classes"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Optional classes for the resource."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/vocabulary/hasOptionalClass"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ]
+  },
+  {
     "@id": "_:b7",
     "@type": ["http://sinopia.io/vocabulary/PropertyTemplate"],
     "http://www.w3.org/2000/01/rdf-schema#label": [
@@ -286,6 +315,9 @@
           },
           {
             "@id": "_:b5"
+          },
+          {
+            "@id": "_:b6"
           },
           {
             "@id": "_:b7"

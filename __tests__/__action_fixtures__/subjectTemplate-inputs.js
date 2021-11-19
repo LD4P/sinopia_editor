@@ -6,6 +6,9 @@ const subjectTemplate = build.subjectTemplate({
   uri: "http://localhost:3000/resource/resourceTemplate:testing:inputs",
   id: "resourceTemplate:testing:inputs",
   clazz: "http://sinopia.io/testing/Inputs",
+  classes: {
+    "http://sinopia.io/testing/Inputs": "Inputs",
+  },
   label: "Inputs",
   remark: "A template that contains multiple inputs.",
   propertyTemplates: [

@@ -25,6 +25,8 @@ const templateFilenames = {
   "test:resource:SinopiaLookup": "SinopiaLookup.json",
   "resourceTemplate:bf2:Title": "Title.json",
   "resourceTemplate:bf2:Title:Note": "TitleNote.json",
+  "resourceTemplate:bf2:Title:Note:OptionalClass":
+    "TitleNoteOptionalClass.json",
   "test:resource:WikidataLookup": "WikidataLookup.json",
   "resourceTemplate:bf2:WorkTitle": "WorkTitle.json",
   "rt:repeated:propertyURI:propertyLabel": "propertyURIRepeated.json",
@@ -50,6 +52,10 @@ const templateFilenames = {
   "resourceTemplate:testing:literalValidation":
     "testing_literalValidation.json",
   "resourceTemplate:testing:dupeProperties": "testing_dupe_properties.json",
+  "resourceTemplate:testing:multipleClassLiteral":
+    "testing_multiple_class_literal.json",
+  "resourceTemplate:testing:multipleClassInputs":
+    "testing_multiple_class_inputs.json",
 }
 
 export const hasFixtureResource = (uri) => {

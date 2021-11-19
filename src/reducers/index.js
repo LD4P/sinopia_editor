@@ -33,6 +33,7 @@ import {
   clearVersions,
   setValuePropertyURI,
   setPropertyPropertyURI,
+  setClasses,
 } from "./resources"
 import { setRelationships, clearRelationships } from "./relationships"
 import {
@@ -132,6 +133,7 @@ const entityHandlers = {
   REMOVE_VALUE: removeValue,
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
+  SET_CLASSES: setClasses,
   SET_VALUE_PROPERTY_URI: setValuePropertyURI,
   SET_PROPERTY_PROPERTY_URI: setPropertyPropertyURI,
   SET_RELATIONSHIPS: setRelationships,

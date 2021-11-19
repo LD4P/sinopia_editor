@@ -141,7 +141,7 @@ describe("newResourceFromDataset", () => {
     })
   })
 
-  describe("loading a legavy suppressed nested resource (suppressed nested resource that is not suppressed)", () => {
+  describe("loading a legacy suppressed nested resource (suppressed nested resource that is not suppressed)", () => {
     const n3 = `<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:suppressible" .
     <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Suppressible> .
     <> <http://sinopia.io/testing/Suppressible/property1> _:b3 .

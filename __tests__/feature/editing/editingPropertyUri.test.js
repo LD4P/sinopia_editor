@@ -14,23 +14,23 @@ describe("editing a property URI", () => {
       await screen.findByText("Inputs", { selector: "h3#resource-header" })
 
       screen.getByText(
-        "Property1 (http://sinopia.io/testing/Inputs/property1)",
+        "Property: Property1 (http://sinopia.io/testing/Inputs/property1)",
         { selectors: ".property-uri" }
       )
       screen.getByText(
-        "Property2 (http://sinopia.io/testing/Inputs/property2)",
+        "Property: Property2 (http://sinopia.io/testing/Inputs/property2)",
         { selectors: ".property-uri" }
       )
       screen.getByText(
-        "Property3 (http://sinopia.io/testing/Inputs/property3)",
+        "Property: Property3 (http://sinopia.io/testing/Inputs/property3)",
         { selectors: ".property-uri" }
       )
       screen.getByText(
-        "Property4 (http://sinopia.io/testing/Inputs/property4)",
+        "Property: Property4 (http://sinopia.io/testing/Inputs/property4)",
         { selectors: ".property-uri" }
       )
       screen.getByText(
-        "Property5 (http://sinopia.io/testing/Inputs/property5)",
+        "Property: Property5 (http://sinopia.io/testing/Inputs/property5)",
         { selectors: ".property-uri" }
       )
     })
@@ -41,7 +41,7 @@ describe("editing a property URI", () => {
       "/editor/resourceTemplate:testing:multiplePropertyUris",
     ])
 
-    it("does not allow property URI to be edited", async () => {
+    it("allows property URI to be edited", async () => {
       renderApp(null, history)
 
       await screen.findByText("Inputs with multiple property URIs", {

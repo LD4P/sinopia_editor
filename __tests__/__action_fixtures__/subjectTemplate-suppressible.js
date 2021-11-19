@@ -6,6 +6,9 @@ const subjectTemplate = build.subjectTemplate({
   uri: "http://localhost:3000/resource/resourceTemplate:testing:suppressible",
   id: "resourceTemplate:testing:suppressible",
   clazz: "http://sinopia.io/testing/Suppressible",
+  classes: {
+    "http://sinopia.io/testing/Suppressible": "Suppressible",
+  },
   label: "Suppressible nested resource",
   remark: "A template that contains a suppressible nested resource.",
   propertyTemplates: [

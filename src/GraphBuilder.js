@@ -28,13 +28,15 @@ export default class GraphBuilder {
   }
 
   buildSubject(subject, subjectTerm) {
-    this.dataset.add(
-      rdf.quad(
-        subjectTerm,
-        rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
-        rdf.namedNode(subject.subjectTemplate.class)
+    subject.classes.forEach((clazz) => {
+      this.dataset.add(
+        rdf.quad(
+          subjectTerm,
+          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+          rdf.namedNode(clazz)
+        )
       )
-    )
+    })
     subject.properties.forEach((property) =>
       this.buildProperty(property, subjectTerm)
     )

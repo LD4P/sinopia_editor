@@ -237,6 +237,7 @@ The sinopia_editor code displays the properties and classes prefixed "http://sin
   -> properties: [{property}, ...]
   labels = [labels of property/resource templates of self and ancestors, ...]
   showNav: <true | false>
+  classes: [resource type URI, e.g., http://id.loc.gov/ontologies/bibframe/Instance, ...]
 }
 ```
 -> Added by selector, not stored in state.
@@ -259,7 +260,8 @@ The following are only in the resource subject (that is, the base subject).
   key: <resource template id, e.g., resourceTemplate:bf2:Monograph:Instance>,
   id: <resource template id, e.g., resourceTemplate:bf2:Monograph:Instance>,
   uri: <resource template uri, e.g. http://datastore/resource/resourceTemplate:bf2:Monograph:Instance>,
-  class: <resource URI, e.g., http://id.loc.gov/ontologies/bibframe/Instance>,
+  class: <required resource type URI, e.g., http://id.loc.gov/ontologies/bibframe/Instance>,
+  classes: {resource type URI: resource URI label, ... This includes required resource and optional URIs}
   label: <resource label, e.g., "BIBFRAME Instance">,
   author: <author>,
   remark: <remark>,
