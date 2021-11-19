@@ -90,6 +90,8 @@ jobs:
           path: /home/circleci/sinopia_editor/screenshots
   test:
     executor: default
+    environment:
+      NODE_OPTIONS: --max_old_space_size=4096
     steps:
       - checkout
       - node/install-packages
