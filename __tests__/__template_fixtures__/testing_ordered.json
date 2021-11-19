@@ -12,7 +12,7 @@
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
         "@value": "resourceTemplate:testing:ordered",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [
@@ -23,13 +23,13 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Ordered",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
         "@value": "A template that contains an ordered nested resource.",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyTemplate": [
@@ -50,7 +50,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Ordered nested resource",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -93,7 +93,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -102,7 +102,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Ordered",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -127,7 +127,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   }

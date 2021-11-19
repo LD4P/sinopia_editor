@@ -401,7 +401,7 @@ describe("new literal value with validationRegex", () => {
         payload: {
           valueKey: "CxGx7WMh2",
           literal: "Vinsky",
-          lang: "eng",
+          lang: "en",
         },
       }
 
@@ -423,7 +423,7 @@ describe("new literal value with validationRegex", () => {
         payload: {
           valueKey: "CxGx7WMh2",
           literal: "Stravinsky",
-          lang: "eng",
+          lang: "en",
         },
       }
       const newState = reducer(oldState.entities, action)

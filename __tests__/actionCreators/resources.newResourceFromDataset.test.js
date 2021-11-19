@@ -41,16 +41,16 @@ describe("newResourceFromDataset", () => {
 
   const n3 = `<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:inputs" .
   <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Inputs> .
-  <> <http://sinopia.io/testing/Inputs/property1> "A literal value"@eng .
+  <> <http://sinopia.io/testing/Inputs/property1> "A literal value"@en .
   <> <http://sinopia.io/testing/Inputs/property2> <http://uri/value> .
   <> <http://sinopia.io/testing/Inputs/property3> <http://aims.fao.org/aos/agrovoc/c_331388> .
   <> <http://sinopia.io/testing/Inputs/property4> <http://id.loc.gov/vocabulary/carriers/sq> .
   <> <http://sinopia.io/testing/Inputs/property5> _:b2 .
-  <http://uri/value> <http://www.w3.org/2000/01/rdf-schema#label> "A URI value"@eng .
-  <http://aims.fao.org/aos/agrovoc/c_331388> <http://www.w3.org/2000/01/rdf-schema#label> "corn sheller"@eng .
+  <http://uri/value> <http://www.w3.org/2000/01/rdf-schema#label> "A URI value"@en .
+  <http://aims.fao.org/aos/agrovoc/c_331388> <http://www.w3.org/2000/01/rdf-schema#label> "corn sheller"@en .
   <http://id.loc.gov/vocabulary/carriers/sq> <http://www.w3.org/2000/01/rdf-schema#label> "audio roll" .
   _:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Literal> .
-  _:b2 <http://sinopia.io/testing/Literal/property1> "A nested resource"@eng .
+  _:b2 <http://sinopia.io/testing/Literal/property1> "A nested resource"@en .
   `
 
   describe("loading a resource", () => {
@@ -98,7 +98,7 @@ describe("newResourceFromDataset", () => {
     <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Suppressible> .
     <> <http://sinopia.io/testing/Suppressible/property1> <http://foo/bar> .
     <http://foo/bar> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Uri> .
-    <http://foo/bar> <http://www.w3.org/2000/01/rdf-schema#label> "Foo Bar"@eng .    
+    <http://foo/bar> <http://www.w3.org/2000/01/rdf-schema#label> "Foo Bar"@en .    
     `
 
     const store = mockStore(createState())
@@ -147,7 +147,7 @@ describe("newResourceFromDataset", () => {
     <> <http://sinopia.io/testing/Suppressible/property1> _:b3 .
     _:b3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Uri> .
     _:b3 <http://sinopia.io/testing/Uri/property1> <http://foo/bar> .
-    <http://foo/bar> <http://www.w3.org/2000/01/rdf-schema#label> "Foo Bar"@eng .  
+    <http://foo/bar> <http://www.w3.org/2000/01/rdf-schema#label> "Foo Bar"@en .  
     `
 
     const store = mockStore(createState())
@@ -241,7 +241,7 @@ describe("newResourceFromDataset", () => {
     const store = mockStore(createState())
 
     it("dispatches actions", async () => {
-      const extraRdf = `<http://uri/value> <http://www.w3.org/2000/01/rdf-schema#label> "An extra label"@eng .`
+      const extraRdf = `<http://uri/value> <http://www.w3.org/2000/01/rdf-schema#label> "An extra label"@en .`
 
       const dataset = await datasetFromN3(n3 + extraRdf)
       const result = await store.dispatch(
@@ -272,9 +272,9 @@ describe("newResourceFromDataset", () => {
     _:b10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
     _:b10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:b12 .
     _:b11 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Literal> .
-    _:b11 <http://sinopia.io/testing/Literal/property1> "literal1"@eng .
+    _:b11 <http://sinopia.io/testing/Literal/property1> "literal1"@en .
     _:b12 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Literal> .
-    _:b12 <http://sinopia.io/testing/Literal/property1> "literal2"@eng .    
+    _:b12 <http://sinopia.io/testing/Literal/property1> "literal2"@en .    
     `
 
     const store = mockStore(createState())
@@ -310,7 +310,7 @@ describe("newResourceFromDataset", () => {
     <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Ordered> .
     <> <http://sinopia.io/testing/Ordered/property1> _:b9 .
     _:b9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Literal> .
-    _:b9 <http://sinopia.io/testing/Literal/property1> "literal1"@eng .    
+    _:b9 <http://sinopia.io/testing/Literal/property1> "literal1"@en .    
 `
       const dataset = await datasetFromN3(n3)
       const result = await store.dispatch(
@@ -327,7 +327,7 @@ describe("newResourceFromDataset", () => {
 
       expect(actions).toHaveAction("SET_UNUSED_RDF", {
         resourceKey: "abc123",
-        rdf: `_:c14n0 <http://sinopia.io/testing/Literal/property1> "literal1"@eng .
+        rdf: `_:c14n0 <http://sinopia.io/testing/Literal/property1> "literal1"@en .
 _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/testing/Literal> .
 `,
       })

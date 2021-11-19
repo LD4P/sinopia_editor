@@ -53,10 +53,10 @@ describe("searching and preview a resource", () => {
       })
 
       // Literals are rendered
-      screen.getByText("Uber template3, property2, value1 [English]", {
+      screen.getByText("Uber template3, property2, value1 [en]", {
         selector: "p",
       })
-      screen.getByText("Uber template3, property2, value2 [English]", {
+      screen.getByText("Uber template3, property2, value2 [en]", {
         selector: "p",
       })
 
@@ -67,7 +67,7 @@ describe("searching and preview a resource", () => {
       ).not.toBeInTheDocument()
 
       // URIs are rendered.
-      screen.getByText(/ubertemplate1:property5 \[English\]:/, {
+      screen.getByText(/ubertemplate1:property5 \[en\]:/, {
         selector: "p",
       })
       screen.getByText("http://example.edu/ubertemplate1:property5", {

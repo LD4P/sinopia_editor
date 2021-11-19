@@ -34,6 +34,10 @@ export const initialState = {
   entities: {
     languageLookup: [],
     languages: {},
+    scriptLookup: [],
+    scripts: {},
+    transliterations: {},
+    transliterationLookup: [],
     groupMap: {},
     lookups: {},
     exports: [],

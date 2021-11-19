@@ -17,7 +17,7 @@ const expectedAction = {
             propertyUri:
               "http://sinopia.io/testing/MultiplePropertyUris/property1b",
             literal: "A literal value",
-            lang: "eng",
+            lang: "en",
             component: "InputLiteralValue",
           }),
         ],
@@ -27,7 +27,7 @@ const expectedAction = {
           build.value({
             propertyUri:
               "http://sinopia.io/testing/MultiplePropertyUris/property2b",
-            lang: "eng",
+            lang: "en",
             uri: "http://uri/value",
             label: "A URI value",
             component: "InputURIValue",
@@ -39,7 +39,7 @@ const expectedAction = {
           build.value({
             propertyUri:
               "http://sinopia.io/testing/MultiplePropertyUris/property3b",
-            lang: "eng",
+            lang: "en",
             uri: "http://aims.fao.org/aos/agrovoc/c_331388",
             label: "corn sheller",
             component: "InputURIValue",
@@ -72,7 +72,7 @@ const expectedAction = {
                       propertyUri:
                         "http://sinopia.io/testing/Literal/property1",
                       literal: "A nested resource",
-                      lang: "eng",
+                      lang: "en",
                       component: "InputLiteralValue",
                     }),
                   ],

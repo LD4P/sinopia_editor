@@ -12,7 +12,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Instance1",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://id.loc.gov/ontologies/bibframe/instanceOf": [
@@ -26,7 +26,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Work1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   }

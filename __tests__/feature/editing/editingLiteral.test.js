@@ -35,7 +35,7 @@ describe("editing a literal property", () => {
     screen.getByTestId("Remove foo")
     // There is language button.
     expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-      "English"
+      "en"
     )
 
     // Clicking remove
@@ -70,7 +70,7 @@ describe("editing a literal property", () => {
     screen.getByTestId("Remove foo")
     // There is language button.
     expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-      "English"
+      "en"
     )
 
     // And bar text.
@@ -78,7 +78,7 @@ describe("editing a literal property", () => {
     screen.getByTestId("Remove bar")
     // There is language button.
     expect(screen.getByTestId("Change language for bar")).toHaveTextContent(
-      "English"
+      "en"
     )
     // An add another
     screen.getByTestId("Add another Uber template1, property2")
@@ -145,44 +145,30 @@ describe("editing a literal property", () => {
     )
     // There is language button.
     const langBtn = screen.getByTestId("Change language for foo")
-    expect(langBtn).toHaveTextContent("English")
+    expect(langBtn).toHaveTextContent("en")
 
     fireEvent.click(langBtn)
     // Using getByRole here and below because it limits to the visible modal.
-    screen.getByRole("heading", { name: "Languages" })
-
-    const radioButtons = await screen.findAllByRole("radio")
-
-    let checkedRadioButtons = radioButtons.filter((el) => el.checked)
-    let unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
-
-    // the correct "language selected" radio button is pre-checked
-    expect(checkedRadioButtons[0].value).toEqual("present")
-    expect(unCheckedRadioButtons[0].value).toEqual("absent")
+    screen.getByRole("heading", { name: "Select language tag for foo" })
 
     const langInput = screen.getByTestId("langComponent-foo")
 
     fireEvent.click(langInput)
-    fireEvent.change(langInput, { target: { value: "Tai languages" } })
+    fireEvent.change(langInput, { target: { value: "Tai (taw)" } })
     fireEvent.click(
-      screen.getByText("Tai languages", { selector: ".rbt-highlight-text" })
+      screen.getByText("Tai (taw)", { selector: ".rbt-highlight-text" })
     )
 
-    checkedRadioButtons = radioButtons.filter((el) => el.checked)
-    unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
-
-    // the correct "language selected" radio button is still checked
-    expect(checkedRadioButtons[0].value).toEqual("present")
-    expect(unCheckedRadioButtons[0].value).toEqual("absent")
-
-    fireEvent.click(screen.getByRole("button", { name: "Submit" }))
+    fireEvent.click(screen.getByTestId("Select language for foo"))
 
     await waitFor(() =>
       expect(
-        screen.queryAllByRole("heading", { name: "Languages" }).length
+        screen.queryAllByRole("heading", {
+          name: "Select language tag for foo",
+        }).length
       ).toBeFalsy()
     )
-    expect(langBtn).toHaveTextContent("Tai languages")
+    expect(langBtn).toHaveTextContent("taw")
   }, 25000)
 
   it("allows selecting no language", async () => {
@@ -203,34 +189,17 @@ describe("editing a literal property", () => {
     )
     // There is language button.
     const langBtn = screen.getByTestId("Change language for foo")
-    expect(langBtn).toHaveTextContent("English")
+    expect(langBtn).toHaveTextContent("en")
 
     fireEvent.click(langBtn)
-    screen.getByRole("heading", { name: "Languages" })
+    screen.getByRole("heading", { name: "Select language tag for foo" })
 
-    const radioButtons = await screen.findAllByRole("radio")
-
-    let checkedRadioButtons = radioButtons.filter((el) => el.checked)
-    let unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
-
-    // the correct "language selected" radio button is pre-checked
-    expect(checkedRadioButtons[0].value).toEqual("present")
-    expect(unCheckedRadioButtons[0].value).toEqual("absent")
-
-    // Using testid here because there are multiple modals.
-    fireEvent.click(screen.getByTestId("noLangRadio-foo"))
-    fireEvent.click(screen.getByTestId("submit-foo"))
-
-    checkedRadioButtons = radioButtons.filter((el) => el.checked)
-    unCheckedRadioButtons = radioButtons.filter((el) => !el.checked)
-
-    // the correct "no language selected" radio button is now checked
-    expect(checkedRadioButtons[0].value).toEqual("absent")
-    expect(unCheckedRadioButtons[0].value).toEqual("present")
+    fireEvent.click(screen.getByTestId("Clear language for foo"))
+    fireEvent.click(screen.getByTestId("Select language for foo"))
 
     await waitFor(() =>
       expect(
-        screen.queryAllByRole("heading", { name: "Languages" })
+        screen.queryAllByRole("heading", { name: "Change language for foo" })
       ).toHaveLength(0)
     )
     expect(langBtn).toHaveTextContent("No language specified")

@@ -12,7 +12,7 @@
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
         "@value": "resourceTemplate:testing:multiplePropertyUris",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [
@@ -23,13 +23,13 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Inputs with multiple property URIs",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
         "@value": "A template that contains multiple inputs with multiple property URIs.",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyTemplate": [
@@ -62,7 +62,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal input",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -87,7 +87,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "URI input",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -112,7 +112,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Lookup input",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -153,7 +153,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "List input",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -194,7 +194,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Nested resource",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -232,7 +232,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -241,7 +241,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property1b",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -250,7 +250,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property2",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -259,7 +259,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property2b",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -268,7 +268,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property3",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -277,7 +277,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property3b",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -286,7 +286,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property4",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -295,7 +295,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property4b",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -304,7 +304,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property5",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -313,7 +313,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property5b",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -322,7 +322,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Multiple Property URIs",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -363,7 +363,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },

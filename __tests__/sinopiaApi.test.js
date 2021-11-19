@@ -27,7 +27,7 @@ const resource = {
       "http://id.loc.gov/ontologies/bibframe/mainTitle": [
         {
           "@value": "Columbia University minor publications",
-          "@language": "eng",
+          "@language": "en",
         },
       ],
     },

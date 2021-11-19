@@ -209,7 +209,7 @@ export default class StateResourceBuilder {
     return this.orderedValue({ ...props, propertyUri })
   }
 
-  literalValue({ literal, lang = "eng", ...props }) {
+  literalValue({ literal, lang = "en", ...props }) {
     assertProps({ literal })
     return this.value({
       literal,
@@ -219,7 +219,7 @@ export default class StateResourceBuilder {
     })
   }
 
-  uriValue({ uri, label, lang = "eng", ...props }) {
+  uriValue({ uri, label, lang = "en", ...props }) {
     assertProps({ uri, label })
     return this.value({
       uri,

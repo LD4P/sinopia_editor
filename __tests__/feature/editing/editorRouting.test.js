@@ -22,14 +22,16 @@ describe("routing in editor", () => {
     it("opens a new resource in editor", async () => {
       renderApp(null, history)
 
-      expect(history.location.pathname).toEqual(
-        "/editor/resourceTemplate:testing:uber1"
+      await waitFor(() =>
+        expect(history.location.pathname).toEqual(
+          "/editor/resourceTemplate:testing:uber1"
+        )
       )
 
       await screen.findByText("Uber template1", {
         selector: "h3#resource-header",
       })
-    })
+    }, 10000)
   })
 
   describe("/editor/:templateId when user does not have create permissions", () => {
@@ -78,7 +80,7 @@ describe("routing in editor", () => {
       await screen.findByText("Example Label", {
         selector: "h3#resource-header",
       })
-    })
+    }, 10000)
   })
 
   describe("/editor/resource/:resourceId when user does not have edit permissions", () => {

@@ -1,74 +1,103 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Typeahead } from "react-bootstrap-typeahead"
 import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { isCurrentModal } from "selectors/modals"
 import { languageSelected } from "actions/languages"
 import { hideModal } from "actions/modals"
-import { bindActionCreators } from "redux"
 import ModalWrapper from "components/ModalWrapper"
-import { selectLanguages, hasLanguages } from "selectors/languages"
+import {
+  selectLanguages,
+  selectScripts,
+  selectTransliterations,
+} from "selectors/languages"
+import { parseLangTag, stringifyLangTag } from "utilities/Language"
+import _ from "lodash"
 
-/**
- * Provides the RFC 5646 language tag for a literal element.
- * See https://tools.ietf.org/html/rfc5646
- * See ISO 639 for the list of registered language codes
- */
-const InputLang = (props) => {
-  const noLangSelected = "absent" // the values of the radio buttons for when a language is selected or not
-  const langSelected = "present"
-
-  const [lang, setLang] = useState(props.lang)
-  const [submitEnabled, setSubmitEnabled] = useState(true)
-  const [radioButtonValue, setRadioButtonValue] = useState(
-    props.lang === null ? noLangSelected : langSelected
+const InputLang = ({ value }) => {
+  const dispatch = useDispatch()
+  const show = useSelector((state) =>
+    isCurrentModal(state, `LanguageModal-${value.key}`)
   )
+  const langOptions = useSelector((state) => selectLanguages(state))
+  const scriptOptions = useSelector((state) => selectScripts(state))
+  const transliterationOptions = useSelector((state) =>
+    selectTransliterations(state)
+  )
+  const textValue = value.literal || value.label || ""
+  const [selectedLangOptions, setSelectedLanguageOptions] = useState([])
+  const [selectedScriptOptions, setSelectedScriptOptions] = useState([])
+  const [selectedTransliterationOptions, setSelectedTransliterationOptions] =
+    useState([])
+
+  const newTag = stringifyLangTag(
+    _.first(selectedLangOptions)?.id,
+    _.first(selectedScriptOptions)?.id,
+    _.first(selectedTransliterationOptions)?.id
+  )
+
+  useEffect(() => {
+    if (!value.lang) return
+    const [langSubtag, scriptSubtag, transliterationSubtag] = parseLangTag(
+      value.lang
+    )
+
+    const newLangOptions = findOptions(langSubtag, langOptions)
+    if (!newLangOptions) return
+
+    setSelectedLanguageOptions(newLangOptions)
+    const newScriptOptions = findOptions(scriptSubtag, scriptOptions)
+    if (newScriptOptions) setSelectedScriptOptions(newScriptOptions)
+
+    const newTransliterationOptions = findOptions(
+      transliterationSubtag,
+      transliterationOptions
+    )
+    if (newTransliterationOptions)
+      setSelectedTransliterationOptions(newTransliterationOptions)
+  }, [value.lang, langOptions, scriptOptions, transliterationOptions])
+
+  const findOptions = (id, options) => {
+    if (!id) return []
+    const option = options.find((option) => option.id === id)
+
+    return option ? [option] : []
+  }
 
   const classes = ["modal", "fade"]
   let display = "none"
 
-  if (props.show) {
+  if (show) {
     classes.push("show")
     display = "block"
   }
 
-  // This function is called when a user picks a language in the type ahead component:
-  //  (1) record the radio button checked in state
-  //  (2) if a language was selected, set it in state to this value and then select the correct radio button
-  //  (3) if no language was selected, set the language in state to null and then select the correct radio button
-  const selectLanguage = (selected) => {
-    setSubmitEnabled(true)
-    if (selected.length === 1) {
-      setLang(selected[0].id)
-      setRadioButtonValue(langSelected)
-    } else {
-      setLang(null)
-      setRadioButtonValue(noLangSelected)
+  const handleLangChange = (selected) => {
+    setSelectedLanguageOptions(selected)
+    if (_.isEmpty(selected)) {
+      setSelectedScriptOptions([])
+      setSelectedTransliterationOptions([])
     }
   }
 
-  // This function is called when a user clicks one of the radio buttons:
-  //  (1) select the correct radio button
-  //  (2) if they selected the "no language" radio button, set language in state to null
-  const handleLanguageRadio = (event) => {
-    if (event.target.value === noLangSelected) setLang(null)
-    setRadioButtonValue(event.target.value)
+  const handleScriptChange = (selected) => {
+    setSelectedScriptOptions(selected)
+  }
+
+  const handleTransliterationChange = (selected) => {
+    setSelectedTransliterationOptions(selected)
   }
 
   const close = (event) => {
     event.preventDefault()
-    props.hideModal()
+    dispatch(hideModal())
   }
 
   const handleLangSubmit = (event) => {
-    if (radioButtonValue === langSelected && lang === null) {
-      setSubmitEnabled(false)
-      return false
-    }
     close(event)
-    props.languageSelected(props.value.key, lang)
+    dispatch(languageSelected(value.key, newTag))
   }
 
   const modal = (
@@ -76,53 +105,114 @@ const InputLang = (props) => {
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h4 className="modal-title">Languages</h4>
+            <h4 className="modal-title">Select language tag for {textValue}</h4>
           </div>
           <div className="modal-body">
-            <div className="form-check">
-              <input
-                type="radio"
-                className="form-check-input"
-                id={langSelected}
-                value={langSelected}
-                checked={radioButtonValue === langSelected}
-                onChange={handleLanguageRadio}
-              />
-              <label className="form-check-label" htmlFor={langSelected}>
-                Select language for {props.textValue}
-                <Typeahead
-                  disabled={radioButtonValue === noLangSelected}
-                  onChange={selectLanguage}
-                  isLoading={props.loading}
-                  options={props.options}
-                  emptyLabel={"retrieving list of languages..."}
-                  id="langComponent"
-                  inputProps={{
-                    "data-testid": `langComponent-${props.textValue}`,
-                  }}
-                />
-              </label>
-              <p style={{ fontStyle: "italic", marginTop: "10px" }}>
-                or select
-              </p>
+            <div className="row">
+              <div className="col-sm-3">Current tag:</div>
+              <div className="col-sm-9">{value.lang || "None specified"}</div>
             </div>
-
-            <div className="form-check">
-              <input
-                type="radio"
-                className="form-check-input"
-                id={`noLangRadio-${props.textValue}`}
-                data-testid={`noLangRadio-${props.textValue}`}
-                value={noLangSelected}
-                checked={radioButtonValue === noLangSelected}
-                onChange={handleLanguageRadio}
-              />
+            <div className="row mb-4">
+              <div className="col-sm-3">New tag:</div>
+              <div className="col-sm-9">{newTag || "None specified"}</div>
+            </div>
+            <div className="row mb-1">
               <label
-                className="form-check-label"
-                htmlFor={`noLangRadio-${props.textValue}`}
+                className="col-sm-3 col-form-label"
+                htmlFor="langComponent"
               >
-                No language specified
+                Language:
               </label>
+              <div className="col-sm-9">
+                <div className="input-group">
+                  <Typeahead
+                    onChange={handleLangChange}
+                    isLoading={_.isEmpty(langOptions)}
+                    options={langOptions}
+                    emptyLabel={"retrieving list of languages..."}
+                    placeholder="None specified"
+                    id="langComponent"
+                    selected={selectedLangOptions}
+                    inputProps={{
+                      "data-testid": `langComponent-${textValue}`,
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-lang-clear"
+                    onClick={() => handleLangChange([])}
+                    aria-label={`Clear language for ${textValue}`}
+                    data-testid={`Clear language for ${textValue}`}
+                    title="Clear language"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <div className="row mb-1">
+              <label
+                className="col-sm-3 col-form-label"
+                htmlFor="scriptComponent"
+              >
+                Script:
+              </label>
+              <div className="col-sm-9">
+                <div className="input-group">
+                  <Typeahead
+                    onChange={handleScriptChange}
+                    isLoading={_.isEmpty(scriptOptions)}
+                    disabled={_.isEmpty(selectedLangOptions)}
+                    options={scriptOptions}
+                    emptyLabel={"retrieving list of scripts..."}
+                    placeholder="None specified"
+                    id="scriptComponent"
+                    selected={selectedScriptOptions}
+                    inputProps={{
+                      "data-testid": `scriptComponent-${textValue}`,
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-lang-clear"
+                    onClick={() => handleScriptChange([])}
+                    aria-label={`Clear script for ${textValue}`}
+                    data-testid={`Clear script for ${textValue}`}
+                    title="Clear script"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <label
+                className="col-sm-3 col-form-label"
+                htmlFor="transliterationComponent"
+              >
+                Transliteration:
+              </label>
+              <div className="col-sm-9">
+                <div className="input-group">
+                  <Typeahead
+                    onChange={handleTransliterationChange}
+                    isLoading={_.isEmpty(transliterationOptions)}
+                    disabled={_.isEmpty(selectedLangOptions)}
+                    options={transliterationOptions}
+                    emptyLabel={"retrieving list of transliterations..."}
+                    placeholder="None specified"
+                    id="transliterationComponent"
+                    selected={selectedTransliterationOptions}
+                    inputProps={{
+                      "data-testid": `transliterationComponent-${textValue}`,
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-lang-clear"
+                    onClick={() => handleTransliterationChange([])}
+                    aria-label={`Clear transliteration for ${textValue}`}
+                    data-testid={`Clear transliteration for ${textValue}`}
+                    title="Clear transliteration"
+                  ></button>
+                </div>
+              </div>
             </div>
           </div>
           <div className="modal-footer">
@@ -132,8 +222,8 @@ const InputLang = (props) => {
             <button
               className="btn btn-primary"
               onClick={handleLangSubmit}
-              data-testid={`submit-${props.textValue}`}
-              disabled={!submitEnabled}
+              data-testid={`Select language for ${textValue}`}
+              aria-label={`Select language for ${textValue}`}
             >
               Submit
             </button>
@@ -147,28 +237,7 @@ const InputLang = (props) => {
 }
 
 InputLang.propTypes = {
-  textValue: PropTypes.string.isRequired,
   value: PropTypes.object.isRequired,
-  languageSelected: PropTypes.func,
-  options: PropTypes.array,
-  loading: PropTypes.bool,
-  hideModal: PropTypes.func,
-  show: PropTypes.bool,
-  lang: PropTypes.string,
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const show = isCurrentModal(state, `LanguageModal-${ownProps.value.key}`)
-  return {
-    lang: ownProps.value.lang,
-    textValue: ownProps.value.literal || ownProps.value.label || "",
-    options: selectLanguages(state),
-    loading: hasLanguages(state),
-    show,
-  }
-}
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ hideModal, languageSelected }, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(InputLang)
+export default InputLang

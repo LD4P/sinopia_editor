@@ -41,14 +41,14 @@ describe("<RDFDisplay />", () => {
         "td"
       )
     ).toHaveLength(1)
-    screen.getByText("foo [eng]", "td")
+    screen.getByText("foo [en]", "td")
   })
 
   it("renders N-Triples", async () => {
     render(<RDFDisplay dataset={dataset} format="n-triples" />)
 
     await screen.findByText(
-      /<https:\/\/api.sinopia.io\/resource\/0894a8b3> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng \./
+      /<https:\/\/api.sinopia.io\/resource\/0894a8b3> <http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@en \./
     )
   })
 
@@ -56,7 +56,7 @@ describe("<RDFDisplay />", () => {
     render(<RDFDisplay dataset={dataset} format="turtle" />)
 
     await screen.findByText(
-      /<http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@eng./
+      /<http:\/\/id.loc.gov\/ontologies\/bibframe\/mainTitle> "foo"@en./
     )
   })
 

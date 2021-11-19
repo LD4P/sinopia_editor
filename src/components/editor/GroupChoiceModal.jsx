@@ -132,6 +132,7 @@ const GroupChoiceModal = () => {
                   onBlur={handleOwnerChange}
                   onChange={handleOwnerChange}
                   value={ownerGroupId}
+                  data-testid="Who owns this?"
                 >
                   {ownerGroupOptions}
                 </select>

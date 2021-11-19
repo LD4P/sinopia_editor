@@ -12,7 +12,7 @@
     "http://sinopia.io/testing/MultiplePropertyUris/property1b": [
       {
         "@value": "A literal value",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/testing/MultiplePropertyUris/property2b": [
@@ -44,7 +44,7 @@
     "http://sinopia.io/testing/Literal/property1": [
       {
         "@value": "A nested resource",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -53,7 +53,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "corn sheller",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -70,7 +70,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "A URI value",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   }

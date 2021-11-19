@@ -7,7 +7,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal input",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -29,7 +29,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Nested resource",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -72,7 +72,7 @@
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
         "@value": "resourceTemplate:testing:multipleClassInputs",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [
@@ -91,13 +91,13 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Multiple class inputs",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
         "@value": "A template that contains multiple inputs with multiple classes.",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyTemplate": [
@@ -118,7 +118,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -127,7 +127,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Multiple class inputs",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -136,7 +136,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -145,7 +145,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property5",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -170,7 +170,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Multiple Class Inputs subclass A",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -179,7 +179,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Multiple Class Inputs subclass B",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   }

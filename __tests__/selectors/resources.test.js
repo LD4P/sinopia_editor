@@ -44,13 +44,6 @@ describe("selectValue()", () => {
     const value = selectValue(state, "VDOeQCnFA8")
     expect(value).toBeValue("VDOeQCnFA8")
   })
-
-  it("adds langLabel to value", () => {
-    const state = createState({ hasResourceWithLiteral: true })
-    const value = selectValue(state, "CxGx7WMh2")
-    expect(value).toBeValue("CxGx7WMh2")
-    expect(value.langLabel).toEqual("English")
-  })
 })
 
 describe("selectFullSubject()", () => {

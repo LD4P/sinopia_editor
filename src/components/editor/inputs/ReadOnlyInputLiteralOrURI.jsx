@@ -23,7 +23,7 @@ const ReadOnlyInputLiteralOrURI = ({ propertyKey }) => {
       value.uri
     )
     if (value.label) {
-      const langLabel = value.langLabel ? ` [${value.langLabel}]` : ""
+      const langLabel = value.lang ? ` [${value.lang}]` : ""
       return (
         <p key={value.key}>
           {value.label}
@@ -35,7 +35,7 @@ const ReadOnlyInputLiteralOrURI = ({ propertyKey }) => {
   }
 
   const literalValue = (value) => {
-    const language = value.langLabel || "No language specified"
+    const language = value.lang || "No language specified"
     return (
       <p key={value.key}>
         {value.literal} [{language}]

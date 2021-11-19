@@ -41,9 +41,7 @@ describe("saving a resource", () => {
       fireEvent.click(saveBtn)
 
       // Change the owner
-      const ownerSelect = await screen.findByRole("combobox", {
-        name: "Who owns this?",
-      })
+      const ownerSelect = await screen.findByTestId("Who owns this?")
       expect(ownerSelect).toHaveValue("stanford")
       fireEvent.change(ownerSelect, { target: { value: "pcc" } })
       expect(ownerSelect).toHaveValue("pcc")
@@ -70,6 +68,6 @@ describe("saving a resource", () => {
       )
 
       screen.getByText("Permissions")
-    })
+    }, 10000)
   })
 })

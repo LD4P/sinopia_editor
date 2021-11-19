@@ -12,7 +12,7 @@
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
         "@value": "resourceTemplate:testing:dupeProperties",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [
@@ -23,13 +23,13 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Nested resource with duplicate properties",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
         "@value": "A template that contains nested resources with duplicate properties but different classes.",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyTemplate": [
@@ -64,7 +64,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Duplicate property2",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -102,7 +102,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Duplicate property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -126,7 +126,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Title note",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -135,7 +135,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Note",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -144,7 +144,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Duplicate properties",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -153,7 +153,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },

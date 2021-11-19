@@ -14,10 +14,10 @@ describe("loading RDF with unused triples", () => {
     screen.getByText("Load RDF into Editor")
 
     const rdf = `
-<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
+<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:Title:AbbrTitle" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
-<> <http://foo/bar/mainTitle> "bar"@eng .
+<> <http://foo/bar/mainTitle> "bar"@en .
     `
 
     fireEvent.change(
@@ -39,6 +39,6 @@ describe("loading RDF with unused triples", () => {
       target: { value: "turtle" },
     })
 
-    await screen.findByText('<> <http://foo/bar/mainTitle> "bar"@eng.')
+    await screen.findByText('<> <http://foo/bar/mainTitle> "bar"@en.')
   })
 })

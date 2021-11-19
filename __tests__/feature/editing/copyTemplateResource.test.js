@@ -58,5 +58,5 @@ describe("Copying a template resource", () => {
       selector: ".template",
     })
     expect(templateClasses.length).toEqual(9)
-  })
+  }, 10000)
 })

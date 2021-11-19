@@ -207,7 +207,7 @@ export default class ResourceBuilder {
     })
   }
 
-  literalValue({ literal, lang = "eng", ...props }) {
+  literalValue({ literal, lang = "en", ...props }) {
     assertProps({ literal })
     return this.value({
       literal,
@@ -217,7 +217,7 @@ export default class ResourceBuilder {
     })
   }
 
-  uriValue({ uri, label, lang = "eng", ...props }) {
+  uriValue({ uri, label, lang = "en", ...props }) {
     assertProps({ uri })
     return this.value({
       uri,

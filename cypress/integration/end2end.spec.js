@@ -105,7 +105,7 @@ describe("End-to-end test", () => {
     cy.get('button[title="Preview resource"]').first().scrollIntoView().click()
     cy.get("select#format").select("n-triples")
     cy.contains(
-      `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@eng .`
+      `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@en .`
     )
     cy.contains(
       '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .'

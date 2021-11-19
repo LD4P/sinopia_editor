@@ -49,7 +49,7 @@ describe("ResourceDiffer", () => {
     expect(propertyDiff.addedValues).toEqual([])
     expect(propertyDiff.removedValues).toEqual([])
     expect(propertyDiff.changedValues).toHaveLength(1)
-    expect(propertyDiff.changedValues[0][0].lang).toEqual("eng")
+    expect(propertyDiff.changedValues[0][0].lang).toEqual("en")
     expect(propertyDiff.changedValues[0][1].lang).toEqual("bhu")
   })
 
@@ -107,7 +107,7 @@ describe("ResourceDiffer", () => {
     property.values.push({
       key: "zaD077UWwRFvQN2vzbJFN",
       literal: "Uber template1, property2, number2",
-      lang: "eng",
+      lang: "en",
       uri: null,
       label: null,
       component: "InputLiteralValue",
@@ -207,7 +207,7 @@ describe("ResourceDiffer", () => {
     property.values.push({
       key: "EQYqd1xcBdX9R2efo7Qhx",
       literal: "Uber template2, property1, number2",
-      lang: "eng",
+      lang: "en",
       uri: null,
       label: null,
       component: "InputLiteralValue",

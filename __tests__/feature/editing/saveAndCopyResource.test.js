@@ -36,7 +36,7 @@ describe("saving a resource", () => {
       screen.getByTestId("Remove foo")
       // There is language button.
       expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-        "English"
+        "en"
       )
 
       expect(saveBtn).not.toBeDisabled()

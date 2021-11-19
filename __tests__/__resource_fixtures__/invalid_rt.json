@@ -7,13 +7,13 @@
     "http://id.loc.gov/ontologies/bibframe/uber/template3/property1": [
       {
         "@value": "Uber template3, property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://id.loc.gov/ontologies/bibframe/uber/template3/property2": [
       {
         "@value": "Uber template3, property2",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -25,7 +25,7 @@
     "http://id.loc.gov/ontologies/bibframe/uber/template2/property1": [
       {
         "@value": "Uber template2, property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -37,7 +37,7 @@
     "http://id.loc.gov/ontologies/bibframe/uber/template2/property1": [
       {
         "@value": "Uber template2, property1b",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -49,7 +49,7 @@
     "http://id.loc.gov/ontologies/bibframe/uber/template4/property1": [
       {
         "@value": "Uber template4, property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -125,13 +125,13 @@
     "http://id.loc.gov/ontologies/bibframe/uber/template1/property2": [
       {
         "@value": "Uber template1, property2",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://id.loc.gov/ontologies/bibframe/uber/template1/property4": [
       {
         "@value": "Uber template1, property4",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://id.loc.gov/ontologies/bibframe/uber/template1/property5": [
@@ -147,7 +147,7 @@
     "http://id.loc.gov/ontologies/bibframe/uber/template1/property9": [
       {
         "@value": "Uber template1, property9",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://id.loc.gov/ontologies/bibframe/uber/template1/property10": [

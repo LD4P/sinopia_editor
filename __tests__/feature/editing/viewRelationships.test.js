@@ -82,6 +82,6 @@ describe("relationships", () => {
 
       // No relationships pill
       expect(screen.queryByText("Relationships")).not.toBeInTheDocument()
-    })
+    }, 10000)
   })
 })

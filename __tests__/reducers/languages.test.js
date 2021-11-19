@@ -11,40 +11,6 @@ const reducers = {
 }
 const reducer = createReducer(reducers)
 
-describe("languagesReceived()", () => {
-  it("creates a hash of options that it renders in the form field", () => {
-    const lcLanguage = [
-      {
-        "@id": "http://id.loc.gov/vocabulary/iso639-2/sna",
-        "http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [
-          {
-            "@language": "en",
-            "@value": "Shona",
-          },
-        ],
-      },
-      {
-        "@id": "http://id.loc.gov/vocabulary/languages/oops",
-      },
-    ]
-
-    const oldState = {
-      languages: [],
-    }
-
-    const action = {
-      type: "LANGUAGES_RECEIVED",
-      payload: lcLanguage,
-    }
-
-    const newState = reducer(oldState, action)
-    expect(newState).toEqual({
-      languageLookup: [{ id: "sna", label: "Shona" }],
-      languages: { sna: "Shona" },
-    })
-  })
-})
-
 describe("setLanguage", () => {
   it("sets value language", () => {
     const oldState = createState({ hasResourceWithLiteral: true })

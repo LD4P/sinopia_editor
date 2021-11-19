@@ -243,7 +243,7 @@
                   {
                     "key": "VPYqd1xcBdX9R2efo7Qhw",
                     "literal": "Uber template2, property1",
-                    "lang": "eng",
+                    "lang": "en",
                     "uri": null,
                     "label": null,
                     "component": "InputLiteralValue",
@@ -309,7 +309,7 @@
                   {
                     "key": "KZPCVlbaBefGKiyUZ6cpL",
                     "literal": "Uber template2, property1b",
-                    "lang": "eng",
+                    "lang": "en",
                     "uri": null,
                     "label": null,
                     "component": "InputLiteralValue",
@@ -413,7 +413,7 @@
                   {
                     "key": "_gLYnkinYXQlEzQbhp5KX",
                     "literal": "Uber template3, property1",
-                    "lang": "eng",
+                    "lang": "en",
                     "uri": null,
                     "label": null,
                     "component": "InputLiteralValue",
@@ -467,7 +467,7 @@
                   {
                     "key": "4-GcfGxYsKNkrITQ5Ai_B",
                     "literal": "Uber template3, property2, value1",
-                    "lang": "eng",
+                    "lang": "en",
                     "uri": null,
                     "label": null,
                     "component": "InputLiteralValue",
@@ -481,7 +481,7 @@
                   {
                     "key": "UGlBEolVe-5wq3DP9Zi04",
                     "literal": "Uber template3, property2, value2",
-                    "lang": "eng",
+                    "lang": "en",
                     "uri": null,
                     "label": null,
                     "component": "InputLiteralValue",
@@ -532,7 +532,7 @@
         {
           "key": "yzD077UWwRFvQN2vzbJFM",
           "literal": "Uber template1, property2",
-          "lang": "eng",
+          "lang": "en",
           "uri": null,
           "label": null,
           "component": "InputLiteralValue",
@@ -612,7 +612,7 @@
         {
           "key": "vf9q7JJE47EHHVXY5jUY5",
           "literal": "Uber template1, property4",
-          "lang": "eng",
+          "lang": "en",
           "uri": null,
           "label": null,
           "component": "InputLiteralValue",
@@ -658,7 +658,7 @@
         {
           "key": "-2U26IodHl6YVR58LEupp",
           "literal": null,
-          "lang": "eng",
+          "lang": "en",
           "uri": "http://example.edu/ubertemplate1:property5",
           "label": "ubertemplate1:property5",
           "component": "InputURIValue",
@@ -830,7 +830,7 @@
         {
           "key": "5lmXnk-o7xuor0R0dmyM1",
           "literal": "Uber template1, property9",
-          "lang": "eng",
+          "lang": "en",
           "uri": null,
           "label": null,
           "component": "InputLiteralValue",
@@ -1399,7 +1399,7 @@
                   {
                     "key": "b0nX4RjwGM3PiFYxM7hSZ",
                     "literal": "Uber template4, property1",
-                    "lang": "eng",
+                    "lang": "en",
                     "uri": null,
                     "label": null,
                     "component": "InputLiteralValue",
@@ -1500,7 +1500,7 @@
                   {
                     "key": "732h53yafaiaD8FX57G8d",
                     "literal": "Uber template4, property1, first",
-                    "lang": "eng",
+                    "lang": "en",
                     "uri": null,
                     "label": null,
                     "component": "InputLiteralValue",
@@ -1566,7 +1566,7 @@
                   {
                     "key": "_-LI4cG4scu-rtL9GHKVP",
                     "literal": "Uber template4, property1, second",
-                    "lang": "eng",
+                    "lang": "en",
                     "uri": null,
                     "label": null,
                     "component": "InputLiteralValue",
@@ -1816,7 +1816,7 @@
         {
           "key": "rGNQ7spX6tWB2IGRfTx9R",
           "literal": null,
-          "lang": "eng",
+          "lang": "en",
           "uri": null,
           "label": null,
           "component": "InputLiteralValue",
@@ -1939,7 +1939,7 @@
         {
           "key": "sfvRsbV-1cuqAVaungZZs",
           "literal": null,
-          "lang": "eng",
+          "lang": "en",
           "uri": null,
           "label": null,
           "component": "InputLiteralValue",

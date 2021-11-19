@@ -12,7 +12,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "The Practitioner's Guide to Graph Data",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   }

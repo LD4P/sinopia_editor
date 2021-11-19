@@ -7,7 +7,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal input",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -34,7 +34,7 @@
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
         "@value": "resourceTemplate:testing:multipleClassLiteral",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [
@@ -53,13 +53,13 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal with multiple optional classes",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
         "@value": "A template that contains a single literal input with optional classes.",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyTemplate": [
@@ -77,7 +77,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -86,7 +86,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal subclass A",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -95,7 +95,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Literal subclass B",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -104,7 +104,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },

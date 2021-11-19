@@ -3,7 +3,21 @@ export const languageSelected = (valueKey, lang) => ({
   payload: { valueKey, lang },
 })
 
-export const languagesReceived = (languages) => ({
+export const languagesReceived = (
+  languages,
+  languageLookup,
+  scripts,
+  scriptLookup,
+  transliterations,
+  transliterationLookup
+) => ({
   type: "LANGUAGES_RECEIVED",
-  payload: languages,
+  payload: {
+    languages,
+    languageLookup,
+    scripts,
+    scriptLookup,
+    transliterations,
+    transliterationLookup,
+  },
 })
