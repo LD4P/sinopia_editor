@@ -5,6 +5,7 @@ import {
   literalIntegerValidationError,
   literalDateTimeValidationError,
   literalDateTimeStampValidationError,
+  literalEdtfValidationError,
   uriPropertiesAndValueErrors,
 } from "./resourceValidationHelpers"
 import _ from "lodash"
@@ -195,6 +196,7 @@ export const updateValueErrors = (state, valueKey) => {
       errors.push(literalIntegerValidationError(value, propertyTemplate))
       errors.push(literalDateTimeValidationError(value, propertyTemplate))
       errors.push(literalDateTimeStampValidationError(value, propertyTemplate))
+      errors.push(literalEdtfValidationError(value, propertyTemplate))
     }
   } else if (propertyTemplate.type === "uri") {
     errors.push(uriPropertiesAndValueErrors(value, property, propertyTemplate))

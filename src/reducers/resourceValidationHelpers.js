@@ -1,4 +1,5 @@
 import { isValidURI } from "utilities/Utilities"
+import edtfParse from "edtf"
 
 export const literalRequiredError = (value, property, propertyTemplate) => {
   const errors = []
@@ -84,6 +85,31 @@ export const literalDateTimeStampValidationError = (
   )
     errors.push(
       `Expected datatype is 'http://www.w3.org/2001/XMLSchema#dateTimeStamp' but '${value.literal}' is not of the format 'YYYY-MM-DDThh:mm:ss(.s+)?(Z|([+-]hh:mm))'.`
+    )
+  return errors
+}
+
+export const literalEdtfValidationError = (value, propertyTemplate) => {
+  const errors = []
+
+  // see https://www.loc.gov/standards/datetime/ (and https://www.npmjs.com/package/edtf)
+  //    for more information about valid EDTF
+  const isValidEdtf = (value) => {
+    try {
+      edtfParse(value)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
+  if (
+    propertyTemplate.validationDataType ===
+      "http://id.loc.gov/datatypes/edtf/" &&
+    !isValidEdtf(value.literal)
+  )
+    errors.push(
+      `Expected datatype is 'http://id.loc.gov/datatypes/edtf/' but '${value.literal}' is not a valid EDTF format. See https://www.loc.gov/standards/datetime/.`
     )
   return errors
 }

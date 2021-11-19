@@ -326,6 +326,68 @@ describe("new literal value with validationDataType of dateTimeStamp", () => {
   })
 })
 
+describe("new literal value with validationDataType of EDTF", () => {
+  describe("when value is valid EDTF", () => {
+    it("validates and updates state", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasEdtfValidation: true,
+      })
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            propertyKey: "JQEtq-vmq8",
+            literal: "1945-05-2X/1964-XX-XX",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+            component: "InputLiteralValue",
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3.errors).toEqual([])
+    })
+  })
+
+  describe("when value is NOT a valid EDTF", () => {
+    it("validates and updates state including error", () => {
+      const oldState = createState({
+        hasResourceWithLiteral: true,
+        hasEdtfValidation: true,
+      })
+
+      const action = {
+        type: "ADD_VALUE",
+        payload: {
+          value: {
+            key: "DxGx7WMh3",
+            propertyKey: "JQEtq-vmq8",
+            literal: "not EDTF",
+            lang: null,
+            uri: null,
+            label: null,
+            valueSubjectKey: null,
+            component: "InputLiteralValue",
+          },
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values.DxGx7WMh3.errors).toEqual([
+        "Expected datatype is 'http://id.loc.gov/datatypes/edtf/' but 'not EDTF' is not a valid EDTF format. See https://www.loc.gov/standards/datetime/.",
+      ])
+    })
+  })
+})
+
 describe("new literal value with validationRegex", () => {
   describe("when value matches regex", () => {
     it("validates and updates state", () => {

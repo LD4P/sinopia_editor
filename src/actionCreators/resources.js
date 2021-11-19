@@ -90,7 +90,7 @@ export const loadResource =
           })
       })
       .catch((err) => {
-        console.error(err)
+        // console.error(err)
         dispatch(
           addError(errorKey, `Error retrieving ${uri}: ${err.message || err}`)
         )
