@@ -1,4 +1,4 @@
-FROM cypress/included:8.3.1
+FROM cypress/included:9.0.0
 
 COPY cypress /cypress
 COPY cypress.json cypress.json
