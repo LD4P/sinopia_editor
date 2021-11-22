@@ -7,7 +7,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "URI input",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
@@ -34,7 +34,7 @@
     "http://sinopia.io/vocabulary/hasResourceId": [
       {
         "@value": "resourceTemplate:testing:uri",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasClass": [
@@ -45,13 +45,13 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "URI",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
         "@value": "A template that contains a single URI input.",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasResourceAttribute": [
@@ -74,7 +74,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "URI",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
@@ -83,7 +83,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },

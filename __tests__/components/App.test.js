@@ -19,10 +19,6 @@ beforeEach(() => {
     '<?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Contents><Key>alberta_2020-09-06T00:01:18.798Z.zip</Key></Contents><Contents><Key>sinopia_export_all_2020-09-06T00:01:17.621Z.zip</Key></Contents></ListBucketResult>'
   )
   fetchMock.mock(
-    "https://id.loc.gov/vocabulary/iso639-2.json",
-    '[{"@id": "http://id.loc.gov/vocabulary/iso639-2/tai","http://www.loc.gov/mads/rdf/v1#authoritativeLabel": [{"@language": "en","@value": "Tai languages"}]}]'
-  )
-  fetchMock.mock(
     "https://ld4p.github.io/sinopia/help_and_resources/menu_content.html",
     '<ul><li><a href="https://github.com/ld4p/sinopia/wiki" target="_blank" rel="noopener noreferrer" className="menu-item">Sinopia help site</a></li></ul>'
   )

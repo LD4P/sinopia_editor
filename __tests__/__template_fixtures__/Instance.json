@@ -28,7 +28,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Instance of",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [

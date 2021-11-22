@@ -73,12 +73,35 @@ const buildLanguages = (state, options) => {
   if (options.noLanguage) return
 
   state.entities.languageLookup = [
-    { id: "tai", label: "Tai languages" },
-    { id: "eng", label: "English" },
+    { id: "taw", label: "Tai (taw)" },
+    { id: "en", label: "English (en)" },
   ]
   state.entities.languages = {
-    tai: "Tai languages",
+    taw: "Tai",
+    en: "English",
     eng: "English",
+  }
+  state.entities.scriptLookup = [
+    { id: "Adlm", label: "Adlam (Adlm)" },
+    { id: "Latn", label: "Latin (Latn)" },
+  ]
+  state.entities.scripts = {
+    Adlm: "Adlam",
+    Latn: "Latin",
+  }
+  state.entities.transliterationLookup = [
+    {
+      id: "alalc",
+      label: "American Library Association-Library of Congress (alalc)",
+    },
+    {
+      id: "buckwalt",
+      label: "Buckwalter Arabic transliteration system (buckwalt)",
+    },
+  ]
+  state.entities.transliterations = {
+    alalc: "American Library Association-Library of Congress",
+    buckwalt: "Buckwalter Arabic transliteration system",
   }
 }
 
@@ -340,7 +363,7 @@ const buildTwoLiteralResources = (state, options) => {
       propertyKey: "JQEtq-vmq8",
       rootSubjectKey: "t9zVwg2zO",
       literal: "foo",
-      lang: "eng",
+      lang: "en",
       propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
     }),
     DyHy8XNi3: build.literalValue({
@@ -348,7 +371,7 @@ const buildTwoLiteralResources = (state, options) => {
       propertyKey: "KRFur-wnr9",
       rootSubjectKey: "u0aWxh3a1",
       literal: "This is a note",
-      lang: "eng",
+      lang: "en",
       propertyUri: "http://id.loc.gov/ontologies/bibframe/note",
     }),
   }
@@ -760,7 +783,7 @@ const buildResourceWithNestedResource = (state, options) => {
       rootSubjectKey: "ljAblGiBW",
       rootPropertyKey: "v1o90QO1Qx",
       literal: options.hasError ? null : "foo",
-      lang: "eng",
+      lang: "en",
       errors: options.hasError ? ["Literal required"] : [],
       propertyUri:
         "http://id.loc.gov/ontologies/bibframe/uber/template2/property1",

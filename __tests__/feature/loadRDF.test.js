@@ -17,7 +17,7 @@ describe("loading from RDF", () => {
       screen.getByText("Load RDF into Editor")
 
       const rdf = `
-<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
+<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:Title:AbbrTitle" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
       `
@@ -49,7 +49,7 @@ describe("loading from RDF", () => {
       screen.getByText("Load RDF into Editor")
 
       const rdf = `
-<http://sinopia/c73d2fa9> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
+<http://sinopia/c73d2fa9> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
 <http://sinopia/c73d2fa9> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:Title:AbbrTitle" .
 <http://sinopia/c73d2fa9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
       `
@@ -89,7 +89,7 @@ describe("loading from RDF", () => {
       screen.getByText("Load RDF into Editor")
 
       const rdf = `
-<http://sinopia/c73d2fa9> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
+<http://sinopia/c73d2fa9> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
 <http://sinopia/c73d2fa9> <http://sinopia.io/vocabulary/hasResourceTemplate> "ld4p:RT:bf2:Title:AbbrTitle" .
 <http://sinopia/c73d2fa9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
       `
@@ -128,7 +128,7 @@ describe("loading from RDF", () => {
       screen.getByText("Load RDF into Editor")
 
       const rdf = `
-<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@eng .
+<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "foo"@en .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle> .
       `
 

@@ -26,7 +26,7 @@ const expectedAction = {
                       propertyUri:
                         "http://sinopia.io/testing/Literal/property1",
                       literal: "literal1",
-                      lang: "eng",
+                      lang: "en",
                       component: "InputLiteralValue",
                     }),
                   ],
@@ -45,7 +45,7 @@ const expectedAction = {
                       propertyUri:
                         "http://sinopia.io/testing/Literal/property1",
                       literal: "literal2",
-                      lang: "eng",
+                      lang: "en",
                       component: "InputLiteralValue",
                     }),
                   ],

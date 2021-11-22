@@ -35,5 +35,5 @@ describe("expanding and contracting properties", () => {
     fireEvent.click(screen.getByTestId("Show Uber template2, property1"))
     // Input box displayed
     await screen.findByPlaceholderText("Uber template2, property1")
-  }, 25000)
+  }, 30000)
 })

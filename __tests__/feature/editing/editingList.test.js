@@ -60,7 +60,7 @@ describe("editing a list property", () => {
         'select[aria-label="Select Uber template1, property10"]'
       )
     ).toHaveValue("default")
-  }, 10000)
+  }, 15000)
 
   it("allows entering a repeatable list", async () => {
     const { container } = renderApp(null, history)
@@ -115,5 +115,5 @@ describe("editing a list property", () => {
         'div[data-label="Uber template1, property12"] option[value="http://id.loc.gov/vocabulary/mrecmedium/mag"]'
       )
     ).toBeInTheDocument()
-  })
+  }, 10000)
 })

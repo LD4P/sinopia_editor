@@ -296,9 +296,6 @@ const addValueToNewState = (
   }
   const property = state.properties[newValue.propertyKey]
 
-  // langLabel
-  delete newValue.langLabel
-
   // Add root subject and property from property
   newValue.rootSubjectKey = property.rootSubjectKey
   newValue.rootPropertyKey = property.rootPropertyKey

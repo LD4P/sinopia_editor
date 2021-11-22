@@ -4,7 +4,6 @@ import {
   selectSubjectTemplate,
   selectPropertyTemplate,
 } from "selectors/templates"
-import { selectLanguageLabel } from "selectors/languages"
 import Config from "Config"
 
 // Always use selectNormSubject/Property/Value in components.
@@ -66,8 +65,6 @@ export const selectValue = (state, key) => {
   )
   newValue.property = newProperty
   newValue.valueSubject = selectSubject(state, newValue.valueSubjectKey)
-  if (newValue.lang)
-    newValue.langLabel = selectLanguageLabel(state, newValue.lang)
   return newValue
 }
 

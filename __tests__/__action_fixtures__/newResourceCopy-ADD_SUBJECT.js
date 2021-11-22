@@ -33,7 +33,7 @@ const expectedAction = {
         values: [
           build.value({
             literal: "foo",
-            lang: "eng",
+            lang: "en",
             component: "InputLiteralValue",
             propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
           }),

@@ -50,8 +50,8 @@ describe("editing a URI property", () => {
     // There is language button.
     expect(
       screen.getByTestId("Change language for Wittgenstein, Ludwig, 1889-1951")
-    ).toHaveTextContent("English")
-  })
+    ).toHaveTextContent("en")
+  }, 10000)
 
   it("allows entering a non-HTTP URI", async () => {
     renderApp(null, history)
@@ -190,27 +190,29 @@ describe("editing a URI property", () => {
     )
     // There is language button.
     const langBtn = screen.getByTestId("Change language for foo")
-    expect(langBtn).toHaveTextContent("English")
+    expect(langBtn).toHaveTextContent("en")
 
     fireEvent.click(langBtn)
     // Using getByRole here and below because it limits to the visible modal.
-    screen.getByRole("heading", { name: "Languages" })
+    screen.getByRole("heading", { name: "Select language tag for foo" })
 
     const langInput = screen.getByTestId("langComponent-foo")
 
     fireEvent.click(langInput)
-    fireEvent.change(langInput, { target: { value: "Tai languages" } })
+    fireEvent.change(langInput, { target: { value: "Tai (taw)" } })
     fireEvent.click(
-      screen.getByText("Tai languages", { selector: ".rbt-highlight-text" })
+      screen.getByText("Tai (taw)", { selector: ".rbt-highlight-text" })
     )
-    fireEvent.click(screen.getByRole("button", { name: "Submit" }))
+    fireEvent.click(screen.getByTestId("Select language for foo"))
 
     await waitFor(() =>
       expect(
-        screen.queryAllByRole("heading", { name: "Languages" }).length
+        screen.queryAllByRole("heading", {
+          name: "Select language tag for foo",
+        }).length
       ).toBeFalsy()
     )
-    expect(langBtn).toHaveTextContent("Tai languages")
+    expect(langBtn).toHaveTextContent("taw")
   }, 25000)
 
   it("validates that a valid URI", async () => {
@@ -229,7 +231,7 @@ describe("editing a URI property", () => {
     fireEvent.click(saveBtn)
 
     await screen.findByText("Invalid URI")
-  })
+  }, 10000)
 
   it("validates that has a label", async () => {
     renderApp(null, history)
@@ -253,7 +255,7 @@ describe("editing a URI property", () => {
         "Label errors for http://id.loc.gov/authorities/names/n79032058"
       )
     ).toHaveTextContent("Label required")
-  })
+  }, 10000)
 
   it("validates that has a URI", async () => {
     renderApp(null, history)
@@ -279,5 +281,5 @@ describe("editing a URI property", () => {
         "URI errors for Wittgenstein, Ludwig, 1889-1951"
       )
     ).toHaveTextContent("URI required")
-  })
+  }, 10000)
 })

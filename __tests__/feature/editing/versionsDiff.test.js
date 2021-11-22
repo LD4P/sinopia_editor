@@ -55,7 +55,7 @@ describe("versions", () => {
       )
 
       fireEvent.click(screen.getByText("Compare", { selector: "button" }))
-      await screen.findByText("Uber template1, property4 [eng]", {
+      await screen.findByText("Uber template1, property4 [en]", {
         selector: ".remove",
       })
       screen.getByText(/foo/, { selector: ".add" })
@@ -65,7 +65,7 @@ describe("versions", () => {
       expect(
         screen.queryByText(/foo/, { selector: ".add" })
       ).not.toBeInTheDocument()
-    }, 15000)
+    }, 20000)
   })
   describe("when no change", () => {
     it("lists versions, previews versions, and displays diffs", async () => {
@@ -103,6 +103,6 @@ describe("versions", () => {
       await screen.findByText("No differences")
 
       fireEvent.click(screen.getByTestId("Close"))
-    }, 15000)
+    }, 25000)
   })
 })

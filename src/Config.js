@@ -24,6 +24,10 @@ class Config {
     return false
   }
 
+  static get useLanguageFixtures() {
+    return false
+  }
+
   static get sinopiaUrl() {
     return process.env.SINOPIA_URI || "https://sinopia.io"
   }
@@ -145,7 +149,7 @@ class Config {
   }
 
   static get defaultLanguageId() {
-    return "eng"
+    return "en"
   }
 }
 

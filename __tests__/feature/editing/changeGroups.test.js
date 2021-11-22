@@ -29,9 +29,7 @@ describe("user that can edit, but not an owner, can view groups", () => {
     fireEvent.click(screen.getByText("Permissions"))
 
     // Change the owner
-    const ownerSelect = await screen.findByRole("combobox", {
-      name: "Who owns this?",
-    })
+    const ownerSelect = await screen.findByTestId("Who owns this?")
     expect(ownerSelect).toHaveValue("stanford")
     fireEvent.change(ownerSelect, { target: { value: "pcc" } })
     expect(ownerSelect).toHaveValue("pcc")

@@ -51,7 +51,7 @@ describe("user permissions", () => {
     expect(screen.queryByTestId(`Copy ${uri}`)).not.toBeInTheDocument()
     // Cannot edit a resource
     expect(screen.queryByTestId(`Edit ${uri}`)).not.toBeInTheDocument()
-  })
+  }, 10000)
 
   it("allows a user with groups to create or edit", async () => {
     renderApp()
@@ -90,7 +90,7 @@ describe("user permissions", () => {
     screen.getByTestId(`Copy ${uri}`)
     // Can edit a resource
     screen.getByTestId(`Edit ${uri}`)
-  })
+  }, 10000)
 
   it("does not allow a user without edit permissions to edit", async () => {
     const state = createState({ otherGroups: true })
@@ -131,5 +131,5 @@ describe("user permissions", () => {
     screen.getByTestId(`Copy ${uri}`)
     // Cannot edit a resource
     expect(screen.queryByTestId(`Edit ${uri}`)).not.toBeInTheDocument()
-  })
+  }, 10000)
 })

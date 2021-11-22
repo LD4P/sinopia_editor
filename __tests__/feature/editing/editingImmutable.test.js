@@ -37,6 +37,6 @@ describe("editing an immutable property", () => {
 
     // No longer editable
     expect(screen.queryByPlaceholderText("Note")).not.toBeInTheDocument()
-    screen.getByText("foo [English]")
-  })
+    screen.getByText("foo [en]")
+  }, 10000)
 })

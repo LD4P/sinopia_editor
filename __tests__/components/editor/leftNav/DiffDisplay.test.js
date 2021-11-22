@@ -14,7 +14,7 @@ describe("<DiffDisplay />", () => {
           values: [
             {
               literal: "Value 1",
-              lang: "eng",
+              lang: "en",
               key: "abc0",
             },
             {
@@ -30,7 +30,7 @@ describe("<DiffDisplay />", () => {
     }
     render(<DiffDisplay diff={diff} />)
     const property1 = screen.getByText("Property 1", { selector: ".add" })
-    within(property1).getByText("Value 1 [eng]")
+    within(property1).getByText("Value 1 [en]")
     within(property1).getByText("Value 2")
   })
 
@@ -46,7 +46,7 @@ describe("<DiffDisplay />", () => {
             {
               uri: "http://test/value1",
               label: "Value 1",
-              lang: "eng",
+              lang: "en",
               key: "abc0",
             },
             {
@@ -64,7 +64,7 @@ describe("<DiffDisplay />", () => {
     render(<DiffDisplay diff={diff} />)
     const property1 = screen.getByText("Property 1", { selector: ".add" })
     within(property1).getByText("http://test/value1", { selector: "a" })
-    within(property1).getByText(/Value 1 \[eng\]/)
+    within(property1).getByText(/Value 1 \[en\]/)
     within(property1).getByText("test:value2")
   })
 
@@ -80,7 +80,7 @@ describe("<DiffDisplay />", () => {
           values: [
             {
               literal: "Value 1",
-              lang: "eng",
+              lang: "en",
               key: "abc0",
             },
           ],
@@ -90,7 +90,7 @@ describe("<DiffDisplay />", () => {
     }
     render(<DiffDisplay diff={diff} />)
     const property1 = screen.getByText("Property 1", { selector: ".remove" })
-    within(property1).getByText("Value 1 [eng]")
+    within(property1).getByText("Value 1 [en]")
   })
 
   it("displays removed URI property", async () => {
@@ -106,7 +106,7 @@ describe("<DiffDisplay />", () => {
             {
               uri: "http://test/value1",
               label: "Value 1",
-              lang: "eng",
+              lang: "en",
               key: "abc0",
             },
           ],
@@ -117,7 +117,7 @@ describe("<DiffDisplay />", () => {
     render(<DiffDisplay diff={diff} />)
     const property1 = screen.getByText("Property 1", { selector: ".remove" })
     within(property1).getByText("http://test/value1", { selector: "a" })
-    within(property1).getByText(/Value 1 \[eng\]/)
+    within(property1).getByText(/Value 1 \[en\]/)
   })
 
   it("displays changed properties", async () => {
@@ -134,14 +134,14 @@ describe("<DiffDisplay />", () => {
           addedValues: [
             {
               literal: "Value 1",
-              lang: "eng",
+              lang: "en",
               key: "abc0",
             },
           ],
           removedValues: [
             {
               literal: "Value 2",
-              lang: "eng",
+              lang: "en",
               key: "abc1",
             },
           ],
@@ -149,7 +149,7 @@ describe("<DiffDisplay />", () => {
             [
               {
                 literal: "Value 3",
-                lang: "eng",
+                lang: "en",
                 key: "abc2",
               },
               {
@@ -165,9 +165,9 @@ describe("<DiffDisplay />", () => {
     }
     render(<DiffDisplay diff={diff} />)
     const property1 = screen.getByText("Property 1")
-    within(property1).getByText("Value 1 [eng]", { selector: ".add" })
-    within(property1).getByText("Value 2 [eng]", { selector: ".remove" })
-    within(property1).getByText("Value 3 [eng]", { selector: ".remove" })
+    within(property1).getByText("Value 1 [en]", { selector: ".add" })
+    within(property1).getByText("Value 2 [en]", { selector: ".remove" })
+    within(property1).getByText("Value 3 [en]", { selector: ".remove" })
     within(property1).getByText("Value 3 [bhu]", { selector: ".add" })
   })
 
@@ -201,7 +201,7 @@ describe("<DiffDisplay />", () => {
                   values: [
                     {
                       literal: "Value 1",
-                      lang: "eng",
+                      lang: "en",
                       key: "abc0",
                     },
                   ],
@@ -220,6 +220,6 @@ describe("<DiffDisplay />", () => {
     const property2 = within(template1).getByText("Property 2", {
       selector: ".add",
     })
-    within(property2).getByText("Value 1 [eng]")
+    within(property2).getByText("Value 1 [en]")
   })
 })

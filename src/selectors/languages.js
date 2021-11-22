@@ -1,16 +1,34 @@
 // Copyright 2019 Stanford University see LICENSE for license
+import { parseLangTag } from "utilities/Language"
 
-/**
- * Return the full name of the language given the ISO 639 language code
- * @param [Object] state
- * @param [string] languageId the identifier of the language, (e.g. 'eng')
- * @return [string] the label of the language or an empty string
- */
-export const selectLanguageLabel = (state, languageId) =>
-  state.entities.languages[languageId] || ""
+export const selectLanguageLabel = (state, tag) => {
+  if (!tag) return "No language specified"
+  // Cheat.
+  if (tag === "en") return "English"
+
+  const [langSubtag, scriptSubtag, transliterationSubtag] = parseLangTag(tag)
+  const labels = [
+    state.entities.languages[langSubtag] || `Unknown language (${langSubtag})`,
+  ]
+  if (scriptSubtag)
+    labels.push(
+      state.entities.scripts[scriptSubtag] || `Unknown script (${scriptSubtag})`
+    )
+  if (transliterationSubtag)
+    labels.push(
+      state.entities.transliterations[transliterationSubtag] ||
+        `Unknown transliteration (${transliterationSubtag})`
+    )
+  return labels.join(" - ")
+}
 
 export const hasLanguages = (state) => {
   state.entities.languages.length > 0
 }
 
 export const selectLanguages = (state) => state.entities.languageLookup
+
+export const selectScripts = (state) => state.entities.scriptLookup
+
+export const selectTransliterations = (state) =>
+  state.entities.transliterationLookup

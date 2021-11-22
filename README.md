@@ -341,7 +341,6 @@ The following are only in the resource subject (that is, the base subject).
   -> property: {<property>},
   literal: <literal>,
   lang: <language for literal or URI label>,
-  -> langLabel: <label for language>,
   uri: <uri>,
   label: <label for uri>,
   valueSubjectKey: <key for subject for a nested resource>,

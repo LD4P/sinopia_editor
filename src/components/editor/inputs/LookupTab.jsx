@@ -17,7 +17,7 @@ const LookupTab = (props) => {
 
   const handleSelectionChanged = (item) => {
     // Hardcoding to English. See https://github.com/LD4P/sinopia_editor/issues/3058
-    props.handleUpdateURI(item.uri, item.label, "eng")
+    props.handleUpdateURI(item.uri, item.label, "en")
   }
 
   if (_.isEmpty(query)) return null

@@ -7,13 +7,13 @@
     "http://id.loc.gov/ontologies/bibframe/uber/template3/property1": [
       {
         "@value": "Uber template3, property1",
-        "@language": "eng"
+        "@language": "en"
       }
     ],
     "http://id.loc.gov/ontologies/bibframe/uber/template3/property2": [
       {
         "@value": "Uber template3, property2",
-        "@language": "eng"
+        "@language": "en"
       }
     ]
   },
