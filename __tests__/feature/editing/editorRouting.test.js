@@ -41,7 +41,9 @@ describe("routing in editor", () => {
     it("redirects to dashboard", async () => {
       renderApp(store, history)
 
-      expect(history.location.pathname).toEqual("/dashboard")
+      await waitFor(() =>
+        expect(history.location.pathname).toEqual("/dashboard")
+      )
     })
   })
 
