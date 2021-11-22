@@ -49,6 +49,9 @@
           },
           {
             "@id": "_:b49"
+          },
+          {
+            "@id": "_:b51"
           }
         ]
       }
@@ -235,6 +238,44 @@
     ]
   },
   {
+    "@id": "_:b51",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "EDTF literal input",
+        "@language": "eng"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/LiteralValidation/edtf"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/literal"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLiteralAttributes": [
+      {
+        "@id": "_:b52"
+      }
+    ]
+  },
+  {
+    "@id": "_:b52",
+    "@type": [
+      "http://sinopia.io/vocabulary/LiteralPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasValidationDataType": [
+      {
+        "@id": "http://id.loc.gov/datatypes/edtf/"
+      }
+    ]
+  },
+  {
     "@id": "http://sinopia.io/testing/LiteralValidation",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
@@ -289,6 +330,15 @@
     ]
   },
   {
+    "@id": "http://sinopia.io/testing/LiteralValidation/edtf",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "property for EDTF validation",
+        "@language": "eng"
+      }
+    ]
+  },
+  {
     "@id": "http://sinopia.io/vocabulary/propertyAttribute/required",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
@@ -325,6 +375,14 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Integer (xsd:integer)"
+      }
+    ]
+  },
+  {
+    "@id": "http://id.loc.gov/datatypes/edtf/",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Extended Date/Time Format (EDTF)"
       }
     ]
   }
