@@ -44,5 +44,5 @@ describe("getting property related info from a resource", () => {
       "data-bs-content",
       "A repeatable, required literal"
     )
-  }, 10000)
+  }, 15000)
 })
