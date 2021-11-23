@@ -118,7 +118,7 @@ export const updateBibframeRefs = (state, value) => {
       // References admin metadata
       addToKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
       break
-    case "https://sinopia.io/vocabulary/localAdminMetadataFor":
+    case "http://sinopia.io/vocabulary/localAdminMetadataFor":
       // References Sinopia localadmin metadata
       addToKeyArray(newSubject, "localAdminMetadataForRefs", value.uri)
       break
@@ -160,7 +160,7 @@ export const removeBibframeRefs = (state, value) => {
       // References admin metadata
       removeFromKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
       break
-    case "https://sinopia.io/vocabulary/localAdminMetadataFor":
+    case "http://sinopia.io/vocabulary/localAdminMetadataFor":
       // References Sinopia localadmin metadata
       removeFromKeyArray(newSubject, "localAdminMetadataForRefs", value.uri)
       break

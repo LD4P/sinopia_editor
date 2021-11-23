@@ -898,7 +898,7 @@ describe("addValue()", () => {
           ...addUriAction.payload,
           value: {
             ...addUriAction.payload.value,
-            propertyUri: "https://sinopia.io/vocabulary/localAdminMetadataFor",
+            propertyUri: "http://sinopia.io/vocabulary/localAdminMetadataFor",
           },
         },
       }
@@ -1072,7 +1072,7 @@ describe("removeValue()", () => {
     it("removes a value for a property", () => {
       const oldState = createState({ hasResourceWithLookup: true })
       oldState.entities.values["s8-qt3-uu"].propertyUri =
-        "https://sinopia.io/vocabulary/localAdminMetadataFor"
+        "http://sinopia.io/vocabulary/localAdminMetadataFor"
       oldState.entities.subjects["wihOjn-0Z"].localAdminMetadataForRefs = [
         "http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738",
       ]
