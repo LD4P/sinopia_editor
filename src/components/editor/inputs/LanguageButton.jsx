@@ -3,8 +3,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useDispatch, useSelector } from "react-redux"
-import InputLang from "./InputLang"
-import { showModal } from "actions/modals"
+import { showLangModal } from "actions/modals"
 import { selectLanguageLabel } from "selectors/languages"
 
 const LanguageButton = ({ value }) => {
@@ -15,10 +14,9 @@ const LanguageButton = ({ value }) => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    dispatch(showModal(`LanguageModal-${value.key}`))
+    dispatch(showLangModal(value.key))
   }
 
-  // const lang = value.lang || "No language specified"
   const label = `Change language for ${value.literal || value.label || ""}`
 
   return (
@@ -33,7 +31,6 @@ const LanguageButton = ({ value }) => {
       >
         {value.lang || "No language specified"}
       </button>
-      <InputLang value={value} />
     </React.Fragment>
   )
 }

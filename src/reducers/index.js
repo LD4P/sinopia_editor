@@ -42,7 +42,7 @@ import {
   clearErrors,
   showValidationErrors,
 } from "./errors"
-import { showModal, hideModal } from "./modals"
+import { showModal, hideModal, showLangModal } from "./modals"
 import { showCopyNewMessage } from "./messages"
 import { exportsReceived } from "./exports"
 import { addTemplates } from "./templates"
@@ -101,6 +101,7 @@ const editorHandlers = {
   SET_CURRENT_PREVIEW_RESOURCE: setCurrentPreviewResource,
   SET_UNUSED_RDF: setUnusedRDF,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
+  SHOW_LANG_MODAL: showLangModal,
   SHOW_MODAL: showModal,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
 }

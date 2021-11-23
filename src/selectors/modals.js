@@ -9,3 +9,6 @@ export const isModalOpen = (state) => !!state.editor.currentModal
 
 export const isCurrentModal = (state, name) =>
   state.editor.currentModal === name
+
+export const selectCurrentLangModalValue = (state) =>
+  state.editor.currentLangModalValue

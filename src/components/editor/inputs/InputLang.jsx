@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect } from "react"
 import { Typeahead } from "react-bootstrap-typeahead"
-import PropTypes from "prop-types"
 import { useSelector, useDispatch } from "react-redux"
-import { isCurrentModal } from "selectors/modals"
+import { isCurrentModal, selectCurrentLangModalValue } from "selectors/modals"
 import { languageSelected } from "actions/languages"
 import { hideModal } from "actions/modals"
 import ModalWrapper from "components/ModalWrapper"
@@ -13,20 +12,21 @@ import {
   selectScripts,
   selectTransliterations,
 } from "selectors/languages"
+import { selectNormValue } from "selectors/resources"
 import { parseLangTag, stringifyLangTag } from "utilities/Language"
 import _ from "lodash"
 
-const InputLang = ({ value }) => {
+const InputLang = () => {
   const dispatch = useDispatch()
-  const show = useSelector((state) =>
-    isCurrentModal(state, `LanguageModal-${value.key}`)
-  )
+  const show = useSelector((state) => isCurrentModal(state, `LangModal`))
+  const valueKey = useSelector((state) => selectCurrentLangModalValue(state))
+  const value = useSelector((state) => selectNormValue(state, valueKey))
   const langOptions = useSelector((state) => selectLanguages(state))
   const scriptOptions = useSelector((state) => selectScripts(state))
   const transliterationOptions = useSelector((state) =>
     selectTransliterations(state)
   )
-  const textValue = value.literal || value.label || ""
+  const textValue = value?.literal || value?.label || ""
   const [selectedLangOptions, setSelectedLanguageOptions] = useState([])
   const [selectedScriptOptions, setSelectedScriptOptions] = useState([])
   const [selectedTransliterationOptions, setSelectedTransliterationOptions] =
@@ -39,7 +39,7 @@ const InputLang = ({ value }) => {
   )
 
   useEffect(() => {
-    if (!value.lang) return
+    if (!value?.lang) return
     const [langSubtag, scriptSubtag, transliterationSubtag] = parseLangTag(
       value.lang
     )
@@ -57,7 +57,7 @@ const InputLang = ({ value }) => {
     )
     if (newTransliterationOptions)
       setSelectedTransliterationOptions(newTransliterationOptions)
-  }, [value.lang, langOptions, scriptOptions, transliterationOptions])
+  }, [value, langOptions, scriptOptions, transliterationOptions])
 
   const findOptions = (id, options) => {
     if (!id) return []
@@ -110,7 +110,7 @@ const InputLang = ({ value }) => {
           <div className="modal-body">
             <div className="row">
               <div className="col-sm-3">Current tag:</div>
-              <div className="col-sm-9">{value.lang || "None specified"}</div>
+              <div className="col-sm-9">{value?.lang || "None specified"}</div>
             </div>
             <div className="row mb-4">
               <div className="col-sm-3">New tag:</div>
@@ -234,10 +234,6 @@ const InputLang = ({ value }) => {
   )
 
   return <ModalWrapper modal={modal} />
-}
-
-InputLang.propTypes = {
-  value: PropTypes.object.isRequired,
 }
 
 export default InputLang

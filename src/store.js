@@ -18,6 +18,7 @@ export const initialState = {
     currentPreviewResource: undefined,
     currentComponent: {},
     currentModal: undefined,
+    currentLangModalValue: undefined, // the value key of the value to be displayed in the InputLang modal.
     currentDiff: {
       compareFrom: undefined,
       compareTo: undefined,
