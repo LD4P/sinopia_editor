@@ -59,7 +59,7 @@ const vocabulary = {
   hasRemark: {
     description:
       "Comment or guiding statement intended to be presented as supplementary information in user display",
-    url: "https://sinopia.io/vocabulary/hasRemark",
+    url: "http://sinopia.io/vocabulary/hasRemark",
   },
   hasRemarkUrl: {
     description: "The property's remark as a URL",

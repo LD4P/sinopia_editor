@@ -1,4 +1,4 @@
-import { renderApp, createStore } from "testUtils"
+import { renderApp, createStore, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import { createState } from "stateUtils"
 import { featureSetup } from "featureUtils"
@@ -6,26 +6,19 @@ import * as sinopiaApi from "sinopiaApi"
 
 featureSetup()
 
-const uri =
-  "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+const history = createHistory([
+  "/editor/resource/b6c5f4c0-e7cd-4ca5-a20f-2a37fe1080d6",
+])
+
 jest.spyOn(sinopiaApi, "putResource").mockResolvedValue(true)
 
 describe("user that can edit, but not an owner, can view groups", () => {
   it("user changes groups", async () => {
     const state = createState()
     const store = createStore(state)
-    renderApp(store)
+    renderApp(store, history)
 
-    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-
-    fireEvent.change(screen.getByLabelText("Search"), {
-      target: { value: uri },
-    })
-    fireEvent.click(screen.getByTestId("Submit search"))
-    await screen.findByText(uri)
-    fireEvent.click(screen.getByRole("button", { name: `Edit ${uri}` }))
-
-    await screen.findByText("Example Label", { selector: "h3#resource-header" })
+    await screen.findByText("Inputs", { selector: "h3#resource-header" })
     fireEvent.click(screen.getByText("Permissions"))
 
     // Change the owner

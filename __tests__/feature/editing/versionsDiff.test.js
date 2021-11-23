@@ -1,36 +1,19 @@
-import { renderApp } from "testUtils"
+import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
-import * as sinopiaSearch from "sinopiaSearch"
-import { resourceSearchResults } from "fixtureLoaderHelper"
 import { featureSetup } from "featureUtils"
 
 featureSetup()
-jest.mock("sinopiaSearch")
 
 describe("versions", () => {
-  const uri =
-    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-  sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-    resourceSearchResults(uri)
-  )
+  const history = createHistory([
+    "/editor/resource/b6c5f4c0-e7cd-4ca5-a20f-2a37fe1080d6",
+  ])
 
   describe("when a change", () => {
     it("lists versions, previews versions, and displays diffs", async () => {
-      renderApp()
+      renderApp(null, history)
 
-      fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-
-      fireEvent.change(screen.getByLabelText("Search"), {
-        target: { value: uri },
-      })
-      fireEvent.click(screen.getByTestId("Submit search"))
-
-      // The result
-      await screen.findByText(uri)
-
-      // Click edit
-      fireEvent.click(screen.getByTestId(`Edit ${uri}`))
-      await screen.findByText("Example Label", {
+      await screen.findByText("Inputs", {
         selector: "h3#resource-header",
       })
 
@@ -42,20 +25,14 @@ describe("versions", () => {
       expect(screen.getByTestId("Compare from version 3")).toBeChecked()
 
       // Change something
-      // Add a value
-      fireEvent.change(
-        screen.getByPlaceholderText("Uber template1, property4"),
-        {
-          target: { value: "foo" },
-        }
-      )
-      fireEvent.keyDown(
-        screen.getByPlaceholderText("Uber template1, property4"),
-        { key: "Enter", code: 13, charCode: 13 }
-      )
+      const input = screen.getAllByPlaceholderText("Literal input")[0]
+      fireEvent.change(input, {
+        target: { value: "foo" },
+      })
+      fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
       fireEvent.click(screen.getByText("Compare", { selector: "button" }))
-      await screen.findByText("Uber template1, property4 [en]", {
+      await screen.findByText("A literal value [en]", {
         selector: ".remove",
       })
       screen.getByText(/foo/, { selector: ".add" })
@@ -65,25 +42,13 @@ describe("versions", () => {
       expect(
         screen.queryByText(/foo/, { selector: ".add" })
       ).not.toBeInTheDocument()
-    }, 20000)
+    }, 15000)
   })
   describe("when no change", () => {
     it("lists versions, previews versions, and displays diffs", async () => {
-      renderApp()
+      renderApp(null, history)
 
-      fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
-
-      fireEvent.change(screen.getByLabelText("Search"), {
-        target: { value: uri },
-      })
-      fireEvent.click(screen.getByTestId("Submit search"))
-
-      // The result
-      await screen.findByText(uri)
-
-      // Click edit
-      fireEvent.click(screen.getByTestId(`Edit ${uri}`))
-      await screen.findByText("Example Label", {
+      await screen.findByText("Inputs", {
         selector: "h3#resource-header",
       })
 
@@ -101,8 +66,6 @@ describe("versions", () => {
       // fixtureLoaderHelper always returns the same resource regardless of versions, so no diff.
       fireEvent.click(screen.getByText("Compare", { selector: "button" }))
       await screen.findByText("No differences")
-
-      fireEvent.click(screen.getByTestId("Close"))
-    }, 25000)
+    }, 15000)
   })
 })
