@@ -83,7 +83,7 @@ describe("getGroups", () => {
     expect(result).toEqual(groups)
     expect(global.fetch).toHaveBeenCalledWith("http://localhost:3000/groups", {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { Accept: "application/json" },
     })
   })
 })
@@ -494,7 +494,7 @@ describe("fetchResourceRelationships", () => {
       expect(result).toStrictEqual(refs)
       expect(global.fetch).toHaveBeenCalledWith(
         "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships",
-        { headers: { Accept: "application/json" } }
+        { headers: { Accept: "application/json" }, method: "GET" }
       )
     })
 

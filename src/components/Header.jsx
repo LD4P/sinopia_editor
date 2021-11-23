@@ -16,7 +16,9 @@ const Header = (props) => {
   const { canCreate } = usePermissions()
   const location = useLocation()
   const isActionsActive =
-    location.pathname === "/exports" || location.pathname === "/load"
+    location.pathname === "/exports" ||
+    location.pathname === "/load" ||
+    location.pathname.startsWith("/metrics/")
 
   return (
     <React.Fragment>
@@ -107,6 +109,24 @@ const Header = (props) => {
               <li>
                 <NavLink className="dropdown-item" to="/exports">
                   Exports
+                </NavLink>
+              </li>
+              <li>
+                <h6 className="dropdown-header">View metrics</h6>
+              </li>
+              <li>
+                <NavLink className="dropdown-item" to="/metrics/resources">
+                  Resources
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="dropdown-item" to="/metrics/templates">
+                  Templates
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="dropdown-item" to="/metrics/users">
+                  Users
                 </NavLink>
               </li>
             </ul>

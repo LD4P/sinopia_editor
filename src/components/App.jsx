@@ -37,6 +37,9 @@ import {
   templateErrorKey,
   exportsErrorKey,
 } from "utilities/errorKeyFactory"
+import TemplateMetrics from "./metrics/TemplateMetrics"
+import ResourceMetrics from "./metrics/ResourceMetrics"
+import UserMetrics from "./metrics/UserMetrics"
 
 const FourOhFour = () => <h1>404</h1>
 
@@ -191,6 +194,36 @@ const App = (props) => {
         path="/dashboard"
         render={(renderProps) => (
           <Dashboard
+            {...renderProps}
+            triggerHandleOffsetMenu={props.handleOffsetMenu}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/metrics/users"
+        render={(renderProps) => (
+          <UserMetrics
+            {...renderProps}
+            triggerHandleOffsetMenu={props.handleOffsetMenu}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/metrics/templates"
+        render={(renderProps) => (
+          <TemplateMetrics
+            {...renderProps}
+            triggerHandleOffsetMenu={props.handleOffsetMenu}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/metrics/resources"
+        render={(renderProps) => (
+          <ResourceMetrics
             {...renderProps}
             triggerHandleOffsetMenu={props.handleOffsetMenu}
           />

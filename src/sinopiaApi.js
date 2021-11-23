@@ -11,7 +11,6 @@ import {
 } from "../__tests__/testUtilities/fixtureLoaderHelper"
 import GraphBuilder from "GraphBuilder"
 import { v4 as uuidv4 } from "uuid"
-import Auth from "@aws-amplify/auth"
 import rtLiteralPropertyAttrs from "../static/templates/rt_literal_property_attrs_doc.json"
 import rtLookupPropertyAttrs from "../static/templates/rt_lookup_property_attrs_doc.json"
 import rtPropertyTemplate from "../static/templates/rt_property_template_doc.json"
@@ -19,6 +18,14 @@ import rtResourcePropertyAttrs from "../static/templates/rt_resource_property_at
 import rtResourceRemplate from "../static/templates/rt_resource_template_doc.json"
 import rtUri from "../static/templates/rt_uri_doc.json"
 import rtUriPropertyAttrs from "../static/templates/rt_uri_property_attrs_doc.json"
+import {
+  checkResp,
+  getJsonData,
+  getJson,
+  isTemplate,
+  templateIdFor,
+  getJwt,
+} from "./utilities/SinopiaApiHelper"
 
 const baseTemplates = {
   "sinopia:template:property:literal": rtLiteralPropertyAttrs,
@@ -88,12 +95,7 @@ export const fetchResourceVersions = (uri) => {
   if (Config.useResourceTemplateFixtures && hasFixtureResource(uri)) {
     return Promise.resolve(getFixtureResourceVersions())
   }
-  return fetch(`${uri}/versions`, {
-    headers: { Accept: "application/json" },
-  })
-    .then((resp) => checkResp(resp))
-    .then((resp) => resp.json())
-    .then((json) => json.versions)
+  return getJsonData(`${uri}/versions`)
 }
 
 export const fetchResourceRelationships = (uri) => {
@@ -101,24 +103,11 @@ export const fetchResourceRelationships = (uri) => {
     return Promise.resolve(getFixtureResourceRelationships())
   }
 
-  return fetch(`${uri}/relationships`, {
-    headers: { Accept: "application/json" },
-  })
-    .then((resp) => checkResp(resp))
-    .then((resp) => resp.json())
+  return getJson(`${uri}/relationships`)
 }
 
 // Fetches list of groups
-export const getGroups = () =>
-  fetch(`${Config.sinopiaApiBase}/groups`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((resp) => checkResp(resp))
-    .then((resp) => resp.json())
-    .then((json) => json.data)
+export const getGroups = () => getJsonData(`${Config.sinopiaApiBase}/groups`)
 
 // Publishes (saves) a new resource
 export const postResource = (resource, currentUser, group, editGroups) => {
@@ -263,46 +252,4 @@ const saveBodyForResource = (resource, user, group, editGroups) => {
       bfWorkRefs: resource.bfWorkRefs,
     })
   )
-}
-
-const isTemplate = (resource) =>
-  resource.subjectTemplate.id === Config.rootResourceTemplateId
-
-const templateIdFor = (resource) => {
-  const resourceIdProperty = resource.properties.find(
-    (property) =>
-      property.propertyTemplate.defaultUri ===
-      "http://sinopia.io/vocabulary/hasResourceId"
-  )
-  return resourceIdProperty.values[0].literal
-}
-
-const getJwt = () =>
-  Auth.currentSession()
-    .then((data) => {
-      if (!data.idToken.jwtToken) throw new Error("jwt is undefined")
-      return data.idToken.jwtToken
-    })
-    .catch((err) => {
-      if (err) throw err
-      throw new Error("Error getting current authentication session")
-    })
-
-const checkResp = (resp) => {
-  if (resp.ok) return Promise.resolve(resp)
-  return resp
-    .json()
-    .then((errors) => {
-      // Assuming only one for now.
-      const error = errors[0]
-      const newError = error.details
-        ? new Error(`${error.title}: ${error.details}`)
-        : new Error(`${error.title}`)
-      newError.name = "ApiError"
-      throw newError
-    })
-    .catch((err) => {
-      if (err.name === "ApiError") throw err
-      throw new Error(`Sinopia API returned ${resp.statusText}`)
-    })
 }
