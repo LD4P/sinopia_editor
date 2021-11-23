@@ -17,16 +17,13 @@ export const initialState = {
     currentResource: undefined,
     currentPreviewResource: undefined,
     currentComponent: {},
+    currentModal: undefined,
     currentDiff: {
       compareFrom: undefined,
       compareTo: undefined,
     },
     errors: {}, // {<error key>: [errors...]} or {<error key>: {<resourceKey>: [errors...]}}
     lastSave: {}, // {<resourceKey>: date}
-    modal: {
-      name: undefined, // Name of modal to show. Should only be one at a time.
-      messages: [],
-    },
     resources: [], // Subject keys for open resources
     resourceValidation: {}, // Show validation {<resourceKey>: boolean}
     unusedRDF: {}, // {<resourceKey>: rdf}

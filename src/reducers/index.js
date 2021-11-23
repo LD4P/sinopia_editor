@@ -42,12 +42,7 @@ import {
   clearErrors,
   showValidationErrors,
 } from "./errors"
-import {
-  showModal,
-  hideModal,
-  addModalMessage,
-  clearModalMessages,
-} from "./modals"
+import { showModal, hideModal } from "./modals"
 import { showCopyNewMessage } from "./messages"
 import { exportsReceived } from "./exports"
 import { addTemplates } from "./templates"
@@ -67,7 +62,7 @@ export const setCurrentComponent = (state, action) => {
   const rootPropertyKey = action.payload.rootPropertyKey
 
   // Don't change if modal open
-  if (state.modal.name) return state
+  if (state.currentModal) return state
 
   const currentComponent = state.currentComponent[rootSubjectKey]
   if (
@@ -95,9 +90,7 @@ const authHandlers = {
 
 const editorHandlers = {
   ADD_ERROR: addError,
-  ADD_MODAL_MESSAGE: addModalMessage,
   CLEAR_ERRORS: clearErrors,
-  CLEAR_MODAL_MESSAGES: clearModalMessages,
   CLEAR_RESOURCE: clearResourceFromEditor,
   HIDE_MODAL: hideModal,
   HIDE_VALIDATION_ERRORS: hideValidationErrors,
