@@ -90,8 +90,6 @@ jobs:
           path: /home/circleci/sinopia_editor/screenshots
   test:
     executor: default
-    environment:
-      NODE_OPTIONS: --max_old_space_size=4096
     steps:
       - checkout
       - node/install-packages
@@ -104,8 +102,6 @@ jobs:
       - run:
           name: Run tests
           command: DEBUG_PRINT_LIMIT=200000 npm run test
-          # Since the test reporter is quiet while running tests, this is necessary.
-          no_output_timeout: 15m
       - run:
           name: Send coverage report to Code Climate
           command: |
