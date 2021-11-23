@@ -93,6 +93,7 @@ export default class StateResourceBuilder {
     bfItemRefs = [],
     bfInstanceRefs = [],
     bfWorkRefs = [],
+    localAdminMetadataForRefs = [],
     changed = false,
     label = null,
     ...props
@@ -107,6 +108,7 @@ export default class StateResourceBuilder {
       bfItemRefs,
       bfInstanceRefs,
       bfWorkRefs,
+      localAdminMetadataForRefs,
       changed,
       label: label || _.first(props?.labels),
     }

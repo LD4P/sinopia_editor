@@ -173,6 +173,8 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
     if (_.isUndefined(newSubject.editGroups)) newSubject.editGroups = []
     if (_.isUndefined(newSubject.bfAdminMetadataRefs))
       newSubject.bfAdminMetadataRefs = []
+    if (_.isUndefined(newSubject.localAdminMetadataForRefs))
+      newSubject.localAdminMetadataForRefs = []
     if (_.isUndefined(newSubject.bfItemRefs)) newSubject.bfItemRefs = []
     if (_.isUndefined(newSubject.bfInstanceRefs)) newSubject.bfInstanceRefs = []
     if (_.isUndefined(newSubject.bfWorkRefs)) newSubject.bfWorkRefs = []

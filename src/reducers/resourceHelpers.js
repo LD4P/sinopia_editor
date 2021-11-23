@@ -118,6 +118,10 @@ export const updateBibframeRefs = (state, value) => {
       // References admin metadata
       addToKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
       break
+    case "https://sinopia.io/vocabulary/localAdminMetadataFor":
+      // References Sinopia localadmin metadata
+      addToKeyArray(newSubject, "localAdminMetadataForRefs", value.uri)
+      break
     case "http://id.loc.gov/ontologies/bibframe/itemOf":
       // References instance
       addToKeyArray(newSubject, "bfInstanceRefs", value.uri)
@@ -155,6 +159,10 @@ export const removeBibframeRefs = (state, value) => {
     case "http://id.loc.gov/ontologies/bibframe/adminMetadata":
       // References admin metadata
       removeFromKeyArray(newSubject, "bfAdminMetadataRefs", value.uri)
+      break
+    case "https://sinopia.io/vocabulary/localAdminMetadataFor":
+      // References Sinopia localadmin metadata
+      removeFromKeyArray(newSubject, "localAdminMetadataForRefs", value.uri)
       break
     case "http://id.loc.gov/ontologies/bibframe/itemOf":
       // References instance
