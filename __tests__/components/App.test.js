@@ -62,7 +62,7 @@ describe("<App />", () => {
     })
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:3000/groups", {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { Accept: "application/json" },
     })
   })
 

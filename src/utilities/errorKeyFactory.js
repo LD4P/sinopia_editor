@@ -12,3 +12,5 @@ export const signInErrorKey = "signin"
 export const searchQARetrieveErrorKey = "searchqaresource"
 
 export const searchErrorKey = "search"
+
+export const metricsErrorKey = "metrics"
