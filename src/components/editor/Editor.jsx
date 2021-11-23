@@ -20,6 +20,7 @@ import { selectSubjectTemplateForSubject } from "selectors/templates"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
 import { resourceEditErrorKey } from "utilities/errorKeyFactory"
+import InputLang from "./inputs/InputLang"
 
 const Editor = (props) => {
   const history = useHistory()
@@ -83,6 +84,7 @@ const Editor = (props) => {
           <ErrorMessages resourceKey={resourceKey} />
         )}
         <GroupChoiceModal />
+        <InputLang />
         <ResourcesNav />
         <EditorActions />
         <ResourceComponent />

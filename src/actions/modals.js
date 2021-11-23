@@ -6,3 +6,8 @@ export const showModal = (name) => ({
   type: "SHOW_MODAL",
   payload: name,
 })
+
+export const showLangModal = (valueKey) => ({
+  type: "SHOW_LANG_MODAL",
+  payload: valueKey,
+})
