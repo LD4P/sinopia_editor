@@ -16,10 +16,13 @@ describe("fetchSinopiaSearchResults", () => {
   const query = "*"
   const mockSearchResults = {
     totalHits: 1,
-    results: {
-      uri: "http://sinopia.io/resource/123",
-      label: "A lonely title",
-    },
+    results: [
+      {
+        uri: "http://sinopia.io/resource/123",
+        label: "A lonely title",
+        type: ["http://id.loc.gov/ontologies/bibframe/Item"],
+      },
+    ],
   }
 
   const mockFacetResults = {
@@ -30,6 +33,8 @@ describe("fetchSinopiaSearchResults", () => {
       },
     ],
   }
+
+  jest.spyOn(sinopiaApi, "fetchResourceRelationships").mockResolvedValue({})
 
   it("dispatches actions", async () => {
     server.getSearchResultsWithFacets = jest
@@ -52,7 +57,7 @@ describe("fetchSinopiaSearchResults", () => {
 
     const actions = store.getActions()
 
-    expect(actions).toHaveLength(3)
+    expect(actions).toHaveLength(4)
     expect(actions).toHaveAction("CLEAR_ERRORS")
     expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
       searchType: "resource",

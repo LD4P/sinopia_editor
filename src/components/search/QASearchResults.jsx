@@ -63,33 +63,32 @@ const QASearchResults = () => {
   }, [dispatch, resourceId, resourceURI, searchUri, errorKey])
 
   // Transform the results into the format to be displayed in the table.
-  const tableData = useMemo(
-    () =>
-      searchResults.map((result) => {
-        const types = []
-        const contexts = {}
-        let imageURL
-        if (result.context) {
-          const typeValues = getContextValues(result.context, "Type")
-          imageURL = _.first(getContextValues(result.context, "Image URL"))
-          if (typeValues) types.push(...typeValues)
-          const excludeProperties = ["Type", "Title", "Image URL"]
-          result.context.forEach((context) => {
-            if (!excludeProperties.includes(context.property))
-              contexts[context.property] = context.values
-          })
-        }
-        return {
-          label: result.label,
-          uri: result.uri,
-          id: result.id,
-          types,
-          contexts,
-          imageURL,
-        }
-      }),
-    [searchResults]
-  )
+  const tableData = useMemo(() => {
+    if (_.isEmpty(searchResults)) return []
+    return searchResults.map((result) => {
+      const types = []
+      const contexts = {}
+      let imageURL
+      if (result.context) {
+        const typeValues = getContextValues(result.context, "Type")
+        imageURL = _.first(getContextValues(result.context, "Image URL"))
+        if (typeValues) types.push(...typeValues)
+        const excludeProperties = ["Type", "Title", "Image URL"]
+        result.context.forEach((context) => {
+          if (!excludeProperties.includes(context.property))
+            contexts[context.property] = context.values
+        })
+      }
+      return {
+        label: result.label,
+        uri: result.uri,
+        id: result.id,
+        types,
+        contexts,
+        imageURL,
+      }
+    })
+  }, [searchResults])
 
   const handleCopy = (uri, id) => {
     setResourceURI(uri)
@@ -173,7 +172,7 @@ const QASearchResults = () => {
     return rows
   }
 
-  if (searchResults.length === 0) {
+  if (_.isEmpty(searchResults)) {
     return null
   }
 

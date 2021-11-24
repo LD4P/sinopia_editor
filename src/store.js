@@ -58,6 +58,7 @@ export const initialState = {
     //   results: [],
     //   totalResults: 0,
     //   facetResults: {},
+    //   relationshipResults: {}
     //   query: undefined,
     //   options: {
     //     resultsPerPage: Config.searchResultsPerPage,

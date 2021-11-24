@@ -110,7 +110,10 @@ describe("setSearchResults()", () => {
       },
     }
     const newState = reducer(oldState, action)
-    expect(newState.resource).toStrictEqual(searchExample)
+    expect(newState.resource).toStrictEqual({
+      ...searchExample,
+      relationshipResults: {},
+    })
   })
 
   it("sets defaults for options", () => {

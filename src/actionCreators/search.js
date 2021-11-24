@@ -9,6 +9,8 @@ import {
 import { addSearchHistory as addApiSearchHistory } from "actionCreators/user"
 import { addSearchHistory } from "actions/history"
 import { clearErrors, addError } from "actions/errors"
+import { isBfWorkInstanceItem } from "utilities/Bibframe"
+import { loadSearchRelationships } from "./relationships"
 
 export const fetchSinopiaSearchResults =
   (query, options, errorKey) => (dispatch) => {
@@ -29,6 +31,13 @@ export const fetchSinopiaSearchResults =
             response.error
           )
         )
+        if (response.results) {
+          response.results
+            .filter((result) => isBfWorkInstanceItem(result.type))
+            .forEach((result) => {
+              dispatch(loadSearchRelationships(result.uri, errorKey))
+            })
+        }
         if (response.error) {
           dispatch(
             addError(errorKey, [

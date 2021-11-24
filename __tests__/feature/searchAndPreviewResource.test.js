@@ -32,6 +32,11 @@ describe("searching and preview a resource", () => {
         screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture")
       ).toBeInTheDocument()
 
+      // Relationships toggle not shown since not VF
+      expect(
+        screen.queryByTestId(`Show relationships for ${uri}`)
+      ).not.toBeInTheDocument()
+
       // Modal hasn't rendered yet
       expect(
         screen.queryByRole("dialog", { name: "Preview Resource" })

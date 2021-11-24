@@ -7,8 +7,11 @@ export const selectRelationships = (state, resourceKey) => {
   const relationships =
     state.entities.relationships[resourceKey] || emptyRelationships
 
-  const mergeRelationship = (field) =>
-    _.uniq([...resource[field], ...relationships[field]])
+  const mergeRelationship = (field) => {
+    const resourceRelationships = resource[field] || []
+    const inferredRelationships = relationships[field] || []
+    return _.uniq([...resourceRelationships, ...inferredRelationships])
+  }
 
   return {
     bfAdminMetadataRefs: mergeRelationship("bfAdminMetadataRefs"),
@@ -25,13 +28,18 @@ const emptyRelationships = {
   bfWorkRefs: [],
 }
 
-export const hasRelationships = (state, resourceKey) => {
-  const { bfAdminMetadataRefs, bfItemRefs, bfInstanceRefs, bfWorkRefs } =
-    selectRelationships(state, resourceKey)
-  return (
-    !_.isEmpty(bfAdminMetadataRefs) ||
-    !_.isEmpty(bfItemRefs) ||
-    !_.isEmpty(bfInstanceRefs) ||
-    !_.isEmpty(bfWorkRefs)
-  )
+export const hasRelationships = (state, resourceKey) =>
+  !isEmpty(selectRelationships(state, resourceKey))
+
+export const hasSearchRelationships = (state, uri) =>
+  !isEmpty(selectSearchRelationships(state, uri))
+
+export const selectSearchRelationships = (state, uri) => {
+  const relationshipResults = state.search.resource?.relationshipResults || {}
+  return relationshipResults[uri]
+}
+
+const isEmpty = (relationships) => {
+  if (_.isEmpty(relationships)) return true
+  return Object.values(relationships).every((refs) => _.isEmpty(refs))
 }

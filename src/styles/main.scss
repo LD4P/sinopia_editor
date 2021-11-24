@@ -342,3 +342,26 @@ div.rbt div {
 .rdf-display-panel table td {
   background-color: $greyblue;
 }
+
+.search-relationship {
+  h5 {
+    font-weight: bold;
+    font-size: var(--bs-body-font-size);
+  }
+
+  .table > :not(:first-child) {
+    border-top: 2px dotted currentColor;
+  }
+}
+
+td.search-no-border {
+  border: none;
+}
+
+.search-no-bottom-border {
+  border-bottom: none;
+}
+
+.search-no-top-border {
+  border-top: none;
+}

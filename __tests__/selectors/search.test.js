@@ -109,13 +109,17 @@ describe("selectSearchFacetResults()", () => {
     })
   })
   describe("without search", () => {
-    it("returns empty array", () => {
-      expect(selectSearchFacetResults(state, "template", "types")).toEqual([])
+    it("returns undefined", () => {
+      expect(selectSearchFacetResults(state, "template", "types")).toEqual(
+        undefined
+      )
     })
   })
   describe("without facets", () => {
-    it("returns empty array", () => {
-      expect(selectSearchFacetResults(state, "resource", "groups")).toEqual([])
+    it("returns undefined", () => {
+      expect(selectSearchFacetResults(state, "resource", "groups")).toEqual(
+        undefined
+      )
     })
   })
 })
@@ -159,8 +163,8 @@ describe("selectSearchResults()", () => {
     })
   })
   describe("without search", () => {
-    it("returns empty array", () => {
-      expect(selectSearchResults(state, "template")).toEqual([])
+    it("returns undefined", () => {
+      expect(selectSearchResults(state, "template")).toEqual(undefined)
     })
   })
 })

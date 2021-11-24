@@ -35,7 +35,11 @@ import {
   setPropertyPropertyURI,
   setClasses,
 } from "./resources"
-import { setRelationships, clearRelationships } from "./relationships"
+import {
+  setRelationships,
+  clearRelationships,
+  setSearchRelationships,
+} from "./relationships"
 import {
   hideValidationErrors,
   addError,
@@ -150,6 +154,7 @@ const historyHandlers = {
 
 const searchHandlers = {
   CLEAR_SEARCH_RESULTS: clearSearchResults,
+  SET_SEARCH_RELATIONSHIPS: setSearchRelationships,
   SET_SEARCH_RESULTS: setSearchResults,
 }
 

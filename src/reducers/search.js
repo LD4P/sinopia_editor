@@ -14,6 +14,7 @@ export const setSearchResults = (state, action) => ({
     results: action.payload.results,
     totalResults: action.payload.totalResults,
     facetResults: action.payload.facetResults || {},
+    relationshipResults: {},
     query: action.payload.query,
     options: {
       resultsPerPage:
