@@ -17,11 +17,15 @@ const NewsItem = () => (
       </i>
     </p>
     <ul>
-      <li>Resource versions and display of differences</li>
-      <li>URLs for bookmarking and sharing resources</li>
-      <li>BIBFRAME relationships displayed</li>
-      <li>Editor layout improvements</li>
-      <li>Improved tooltips (remarks) for templates</li>
+      <li>
+        Language tagging improvements: use of IANA Registry, addition of script
+        and transliteration tags
+      </li>
+      <li>
+        Multiple nested resource fields permitted to use same property as long
+        as the nested resources are of different classes
+      </li>
+      <li>Fields can be configured to allow choice of property</li>
     </ul>
   </div>
 )
