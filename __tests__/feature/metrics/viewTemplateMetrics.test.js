@@ -11,6 +11,9 @@ describe("viewing template metrics", () => {
       jest
         .spyOn(sinopiaMetrics, "getTemplateCount")
         .mockResolvedValue({ count: 1 })
+      jest
+        .spyOn(sinopiaMetrics, "getTemplateCreatedCount")
+        .mockResolvedValue({ count: 5 })
     })
 
     it("displays the metrics", async () => {
@@ -23,6 +26,26 @@ describe("viewing template metrics", () => {
 
       await screen.findByText("Template count")
       screen.getByText("1", { selector: ".card-text" })
+
+      await screen.findByText("Template creation")
+      screen.getByText("5", { selector: ".card-text" })
+
+      // Change template creation filters
+      fireEvent.change(screen.getByLabelText("Start"), {
+        target: { value: "2021-01-01" },
+      })
+      fireEvent.change(screen.getByLabelText("End"), {
+        target: { value: "2022-01-01" },
+      })
+      fireEvent.change(screen.getByLabelText("Group"), {
+        target: { value: "stanford" },
+      })
+
+      expect(sinopiaMetrics.getTemplateCreatedCount).toHaveBeenCalledWith({
+        startDate: "2021-01-01",
+        endDate: "2022-01-01",
+        group: "stanford",
+      })
     })
   })
 

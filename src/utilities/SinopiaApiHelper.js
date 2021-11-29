@@ -1,5 +1,6 @@
 import Config from "../Config"
 import Auth from "@aws-amplify/auth"
+import _ from "lodash"
 
 export const checkResp = (resp) => {
   if (resp.ok) return Promise.resolve(resp)
@@ -20,8 +21,8 @@ export const checkResp = (resp) => {
     })
 }
 
-export const getJson = (url) =>
-  fetch(url, {
+export const getJson = (url, queryParams = {}) =>
+  fetch(urlWithQueryString(url, queryParams), {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -29,6 +30,12 @@ export const getJson = (url) =>
   })
     .then((resp) => checkResp(resp))
     .then((resp) => resp.json())
+
+const urlWithQueryString = (url, queryParams) => {
+  if (_.isEmpty(queryParams)) return url
+
+  return `${url}?${new URLSearchParams(queryParams)}`
+}
 
 export const getJsonData = (url) => getJson(url).then((json) => json.data)
 

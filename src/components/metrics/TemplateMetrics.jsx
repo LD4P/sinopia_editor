@@ -3,30 +3,26 @@
 import React from "react"
 import PropTypes from "prop-types"
 import MetricsWrapper from "./MetricsWrapper"
-import CountCard from "./CountCard"
-import useMetric from "hooks/useMetric"
+import TemplateCountMetric from "./TemplateCountMetric"
+import TemplateCreatedCountMetric from "./TemplateCreatedCountMetric"
 
-const TemplateMetrics = ({ triggerHandleOffsetMenu }) => {
-  const templateCountMetric = useMetric("getTemplateCount")
-
-  return (
-    <MetricsWrapper
-      triggerHandleOffsetMenu={triggerHandleOffsetMenu}
-      title="Template metrics"
-    >
-      <div className="row">
-        <div className="col-md-3">
-          {templateCountMetric?.count && (
-            <CountCard
-              count={templateCountMetric?.count}
-              title="Template count"
-            />
-          )}
-        </div>
+const TemplateMetrics = ({ triggerHandleOffsetMenu }) => (
+  <MetricsWrapper
+    triggerHandleOffsetMenu={triggerHandleOffsetMenu}
+    title="Template metrics"
+  >
+    <div className="row mb-4">
+      <div className="col-md-3">
+        <TemplateCountMetric />
       </div>
-    </MetricsWrapper>
-  )
-}
+    </div>
+    <div className="row">
+      <div className="col-md-3">
+        <TemplateCreatedCountMetric />
+      </div>
+    </div>
+  </MetricsWrapper>
+)
 
 TemplateMetrics.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,
