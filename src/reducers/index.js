@@ -2,7 +2,7 @@
 
 import { combineReducers } from "redux"
 import { setUser, removeUser } from "./authenticate"
-import { setLanguage, languagesReceived } from "./languages"
+import { setLanguage, languagesReceived, setDefaultLang } from "./languages"
 import { groupsReceived } from "./groups"
 import {
   setBaseURL,
@@ -132,6 +132,7 @@ const entityHandlers = {
   SAVE_RESOURCE_FINISHED: saveResourceFinished,
   SET_BASE_URL: setBaseURL,
   SET_CLASSES: setClasses,
+  SET_DEFAULT_LANG: setDefaultLang,
   SET_VALUE_PROPERTY_URI: setValuePropertyURI,
   SET_PROPERTY_PROPERTY_URI: setPropertyPropertyURI,
   SET_RELATIONSHIPS: setRelationships,

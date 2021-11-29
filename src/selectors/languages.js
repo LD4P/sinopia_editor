@@ -1,5 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import { parseLangTag } from "utilities/Language"
+import { selectNormSubject } from "./resources"
 
 export const selectLanguageLabel = (state, tag) => {
   if (!tag) return "No language specified"
@@ -32,3 +33,6 @@ export const selectScripts = (state) => state.entities.scriptLookup
 
 export const selectTransliterations = (state) =>
   state.entities.transliterationLookup
+
+export const selectDefaultLang = (state, resourceKey) =>
+  selectNormSubject(state, resourceKey)?.defaultLang

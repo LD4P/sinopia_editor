@@ -343,6 +343,7 @@ describe("addSubject()", () => {
           labels: ["Barcode"],
           label: "Barcode",
           showNav: false,
+          defaultLang: "en",
         },
       })
     })
@@ -385,6 +386,7 @@ describe("addSubject()", () => {
         labels: ["Abbreviated Title"],
         label: "Abbreviated Title",
         showNav: false,
+        defaultLang: "en",
       })
     })
   })
@@ -438,6 +440,7 @@ describe("addSubject()", () => {
         labels: ["Abbreviated Title"],
         label: "Abbreviated Title",
         showNav: true,
+        defaultLang: "en",
       })
       // Replaces values
       expect(newState.properties["KQEtq-vmq9"]).not.toBeUndefined()

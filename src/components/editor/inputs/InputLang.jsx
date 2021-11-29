@@ -4,13 +4,14 @@ import React, { useState, useEffect } from "react"
 import { Typeahead } from "react-bootstrap-typeahead"
 import { useSelector, useDispatch } from "react-redux"
 import { isCurrentModal, selectCurrentLangModalValue } from "selectors/modals"
-import { languageSelected } from "actions/languages"
+import { languageSelected, setDefaultLang } from "actions/languages"
 import { hideModal } from "actions/modals"
 import ModalWrapper from "components/ModalWrapper"
 import {
   selectLanguages,
   selectScripts,
   selectTransliterations,
+  selectDefaultLang,
 } from "selectors/languages"
 import { selectNormValue } from "selectors/resources"
 import { parseLangTag, stringifyLangTag } from "utilities/Language"
@@ -26,11 +27,15 @@ const InputLang = () => {
   const transliterationOptions = useSelector((state) =>
     selectTransliterations(state)
   )
+  const resourceDefaultLang = useSelector((state) =>
+    selectDefaultLang(state, value?.rootSubjectKey)
+  )
   const textValue = value?.literal || value?.label || ""
   const [selectedLangOptions, setSelectedLanguageOptions] = useState([])
   const [selectedScriptOptions, setSelectedScriptOptions] = useState([])
   const [selectedTransliterationOptions, setSelectedTransliterationOptions] =
     useState([])
+  const [isDefaultLang, setIsDefaultLang] = useState(false)
 
   const newTag = stringifyLangTag(
     _.first(selectedLangOptions)?.id,
@@ -38,7 +43,10 @@ const InputLang = () => {
     _.first(selectedTransliterationOptions)?.id
   )
 
+  const showDefaultLang = resourceDefaultLang !== newTag
+
   useEffect(() => {
+    setIsDefaultLang(false)
     if (!value?.lang) return
     const [langSubtag, scriptSubtag, transliterationSubtag] = parseLangTag(
       value.lang
@@ -98,6 +106,11 @@ const InputLang = () => {
   const handleLangSubmit = (event) => {
     close(event)
     dispatch(languageSelected(value.key, newTag))
+    if (isDefaultLang) dispatch(setDefaultLang(value.rootSubjectKey, newTag))
+  }
+
+  const handleDefaultLangClick = () => {
+    setIsDefaultLang(!isDefaultLang)
   }
 
   const modal = (
@@ -112,9 +125,28 @@ const InputLang = () => {
               <div className="col-sm-3">Current tag:</div>
               <div className="col-sm-9">{value?.lang || "None specified"}</div>
             </div>
-            <div className="row mb-4">
+            <div className="row">
               <div className="col-sm-3">New tag:</div>
               <div className="col-sm-9">{newTag || "None specified"}</div>
+            </div>
+            <div className="row mb-4">
+              <div className="col-sm-3"></div>
+              <div className="col-sm-9">
+                {showDefaultLang && (
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      checked={isDefaultLang}
+                      id="defaultLang"
+                      onChange={handleDefaultLangClick}
+                    />
+                    <label className="form-check-label" htmlFor="defaultLang">
+                      Make default for resource.
+                    </label>
+                  </div>
+                )}
+              </div>
             </div>
             <div className="row mb-1">
               <label

@@ -96,6 +96,7 @@ export default class StateResourceBuilder {
     localAdminMetadataForRefs = [],
     changed = false,
     label = null,
+    defaultLang = "en",
     ...props
   }) {
     return {
@@ -111,6 +112,7 @@ export default class StateResourceBuilder {
       localAdminMetadataForRefs,
       changed,
       label: label || _.first(props?.labels),
+      defaultLang,
     }
   }
 

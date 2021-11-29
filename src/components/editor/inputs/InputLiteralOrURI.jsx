@@ -13,6 +13,7 @@ import {
   newBlankListValue,
 } from "utilities/valueFactory"
 import { selectProperty } from "selectors/resources"
+import { selectDefaultLang } from "selectors/languages"
 
 const InputLiteralOrURI = ({
   property,
@@ -22,6 +23,9 @@ const InputLiteralOrURI = ({
   const dispatch = useDispatch()
   const fullProperty = useSelector((state) =>
     selectProperty(state, property.key)
+  )
+  const defaultLang = useSelector((state) =>
+    selectDefaultLang(state, property.rootSubjectKey)
   )
 
   const inputValues = fullProperty.values.map((value) => {
@@ -52,6 +56,7 @@ const InputLiteralOrURI = ({
         newValue = newBlankUriValue(
           property,
           propertyTemplate.languageSuppressed,
+          defaultLang,
           propertyTemplate.defaultUri
         )
         break
@@ -65,6 +70,7 @@ const InputLiteralOrURI = ({
         newValue = newBlankLiteralValue(
           property,
           propertyTemplate.languageSuppressed,
+          defaultLang,
           propertyTemplate.defaultUri
         )
     }

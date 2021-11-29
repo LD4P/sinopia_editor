@@ -27,6 +27,7 @@ import {
 } from "./resourceHelpers"
 import { clearRelationships } from "./relationships"
 import { resourceEditErrorKey } from "utilities/errorKeyFactory"
+import Config from "Config"
 
 export const setBaseURL = (state, action) =>
   mergeSubjectPropsToNewState(state, action.payload.resourceKey, {
@@ -179,6 +180,7 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
     if (_.isUndefined(newSubject.bfInstanceRefs)) newSubject.bfInstanceRefs = []
     if (_.isUndefined(newSubject.bfWorkRefs)) newSubject.bfWorkRefs = []
     newSubject.label = subjectTemplate.label
+    newSubject.defaultLang = Config.defaultLanguageId
   }
 
   const newProperties = newSubject.properties
@@ -508,6 +510,7 @@ const addFirstValue = (state, propertyKey) => {
   if (property.valueKeys === null || !_.isEmpty(property.valueKeys))
     return state
   const propertyTemplate = state.propertyTemplates[property.propertyTemplateKey]
+  const defaultLang = state.subjects[property.rootSubjectKey].defaultLang
   switch (propertyTemplate.component) {
     case "InputLiteral":
       return addValueToNewState(
@@ -515,6 +518,7 @@ const addFirstValue = (state, propertyKey) => {
         newBlankLiteralValue(
           property,
           propertyTemplate.languageSuppressed,
+          defaultLang,
           propertyTemplate.defaultUri
         ),
         null,
@@ -526,6 +530,7 @@ const addFirstValue = (state, propertyKey) => {
         newBlankUriValue(
           property,
           propertyTemplate.languageSuppressed,
+          defaultLang,
           propertyTemplate.defaultUri
         ),
         null,

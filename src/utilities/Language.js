@@ -40,3 +40,6 @@ const parseTransliterationSubtag = (splitLang) => {
   )
   return matchPos ? splitLang[matchPos + 3] : null
 }
+
+export const chooseLang = (isSuppressed, defaultResourceLang) =>
+  isSuppressed ? null : defaultResourceLang
