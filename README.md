@@ -252,6 +252,7 @@ The following are only in the resource subject (that is, the base subject).
   bfInstanceRefs: [uri of referenced Bibframe Instance resource, ...],
   bfItemRefs: [uri of referenced Bibframe Item resources, ...],
   sinopiaLocalAdminMetadataForRefs: [uri of referenced resources, ...]
+  defaultLang: <default language tag>
 }
 ```
 
@@ -287,7 +288,7 @@ The following are only in the resource subject (that is, the base subject).
   -> values: [{value},...]
   show: <true | false>
   showNav: <true | false>
-  rootResourceKey: <key of root resource that this property is descendant of>
+  rootSubjectKey: <key of root resource that this property is descendant of>
   rootPropertyKey: <key of root property that this subject is part of; for root property is own key>
   descUriOrLiteralValueKeys = [key of descendant uri or literal Value, ...]
   descWithErrorPropertyKeys = [key of descendant or self Property with an error, ...]

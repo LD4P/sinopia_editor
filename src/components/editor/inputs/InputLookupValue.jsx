@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSearch } from "@fortawesome/free-solid-svg-icons"
@@ -12,10 +12,11 @@ import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelectio
 import useDiacritics from "hooks/useDiacritics"
 import DiacriticsButton from "./DiacriticsButton"
 import Lookup from "./Lookup"
-import Config from "Config"
 import ResourceList from "../property/ResourceList"
 import RemoveButton from "./RemoveButton"
 import ValuePropertyURI from "../property/ValuePropertyURI"
+import { selectDefaultLang } from "selectors/languages"
+import { chooseLang } from "utilities/Language"
 import _ from "lodash"
 
 const InputLookupValue = ({
@@ -26,6 +27,9 @@ const InputLookupValue = ({
 }) => {
   const dispatch = useDispatch()
   const inputRef = useRef(null)
+  const defaultLang = useSelector((state) =>
+    selectDefaultLang(state, value.rootSubjectKey)
+  )
   const [focusHasBeenSet, setFocusHasBeenSet] = useState(false)
   const [showLookup, setShowLookup] = useState(false)
   // currentContent is what appears in the input. Query is sent to Lookup.
@@ -84,7 +88,7 @@ const InputLookupValue = ({
         value.key,
         null,
         null,
-        propertyTemplate.languageSuppressed ? null : Config.defaultLanguageId,
+        chooseLang(propertyTemplate.languageSuppressed, defaultLang),
         "InputURIValue"
       )
     )
@@ -111,7 +115,7 @@ const InputLookupValue = ({
       updateLiteralValue(
         value.key,
         literal,
-        propertyTemplate.languageSuppressed ? null : Config.defaultLanguageId,
+        propertyTemplate.languageSuppressed ? null : defaultLang,
         "InputLiteralValue"
       )
     )

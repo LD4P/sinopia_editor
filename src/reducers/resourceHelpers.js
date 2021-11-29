@@ -403,3 +403,54 @@ const propertyHasErrors = (state, propertyKey) => {
     return !_.isEmpty(value?.errors)
   })
 }
+
+export const recursiveDescFromSubject = (state, subjectKey, performFunc) => {
+  const oldSubject = state.subjects[subjectKey]
+  if (!oldSubject) return state
+
+  const newSubject = { ...oldSubject }
+  performFunc(newSubject)
+  let newState = replaceSubjectInNewState(state, newSubject)
+
+  if (_.isEmpty(newSubject.propertyKeys)) return newState
+
+  newSubject.propertyKeys.forEach((propertyKey) => {
+    newState = recursiveDescFromProperty(newState, propertyKey, performFunc)
+  })
+  return newState
+}
+
+const recursiveDescFromValue = (state, valueKey, performFunc) => {
+  const oldValue = state.values[valueKey]
+  if (!oldValue) return state
+
+  const newValue = { ...oldValue }
+
+  performFunc(newValue)
+  let newState = replaceValueInNewState(state, newValue)
+
+  if (newValue.valueSubjectKey) {
+    newState = recursiveDescFromSubject(
+      newState,
+      newValue.valueSubjectKey,
+      performFunc
+    )
+  }
+
+  return newState
+}
+
+const recursiveDescFromProperty = (state, propertyKey, performFunc) => {
+  const oldProperty = state.properties[propertyKey]
+  if (!oldProperty) return state
+
+  const newProperty = { ...oldProperty }
+  performFunc(newProperty)
+  let newState = replacePropertyInNewState(state, newProperty)
+
+  if (_.isEmpty(newProperty.valueKeys)) return newState
+  newProperty.valueKeys.forEach((valueKey) => {
+    newState = recursiveDescFromValue(newState, valueKey, performFunc)
+  })
+  return newState
+}

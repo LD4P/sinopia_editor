@@ -21,3 +21,8 @@ export const languagesReceived = (
     transliterationLookup,
   },
 })
+
+export const setDefaultLang = (resourceKey, lang) => ({
+  type: "SET_DEFAULT_LANG",
+  payload: { resourceKey, lang },
+})
