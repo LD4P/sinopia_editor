@@ -132,7 +132,10 @@ export const getFixtureTemplateSearchResults = () => {
 }
 
 // These are used as fake resource search results
-export const resourceSearchResults = (uri) => {
+export const resourceSearchResults = (
+  uri,
+  type = "http://id.loc.gov/ontologies/bibframe/Fixture"
+) => {
   return [
     {
       totalHits: 1,
@@ -142,7 +145,7 @@ export const resourceSearchResults = (uri) => {
           label: uri,
           created: "2020-07-15T20:48:29.274Z",
           modified: "2020-07-15T21:04:46.012Z",
-          type: ["http://id.loc.gov/ontologies/bibframe/Fixture"],
+          type: [type],
           group: "stanford",
           editGroups: ["cornell"],
         },
@@ -151,7 +154,7 @@ export const resourceSearchResults = (uri) => {
     {
       types: [
         {
-          key: "http://id.loc.gov/ontologies/bibframe/Fixture",
+          key: type,
           doc_count: 1,
         },
       ],

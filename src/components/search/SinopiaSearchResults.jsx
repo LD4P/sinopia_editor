@@ -9,13 +9,14 @@ import GroupFilter from "./GroupFilter"
 import SearchResultRows from "./SearchResultRows"
 import SinopiaSort from "./SinopiaSort"
 import PreviewModal from "../editor/preview/PreviewModal"
+import _ from "lodash"
 
 const SinopiaSearchResults = () => {
   const searchResults = useSelector((state) =>
     selectSearchResults(state, "resource")
   )
 
-  if (searchResults.length === 0) {
+  if (_.isEmpty(searchResults)) {
     return null
   }
 
@@ -37,10 +38,10 @@ const SinopiaSearchResults = () => {
             <thead>
               <tr>
                 <th style={{ width: "35%" }}>Label / ID</th>
-                <th style={{ width: "35%" }}>Class</th>
+                <th style={{ width: "30%" }}>Class</th>
                 <th style={{ width: "20%" }}>Group</th>
                 <th style={{ width: "10%" }}>Modified</th>
-                <th>
+                <th style={{ width: "5%" }}>
                   <SinopiaSort />
                 </th>
               </tr>

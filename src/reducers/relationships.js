@@ -15,3 +15,18 @@ export const clearRelationships = (state, action) => {
     relationships: newRelationships,
   }
 }
+
+export const setSearchRelationships = (state, action) => {
+  if (!state.resource) return state
+
+  return {
+    ...state,
+    resource: {
+      ...state.resource,
+      relationshipResults: {
+        ...state.resource.relationshipResults,
+        [action.payload.uri]: action.payload.relationships,
+      },
+    },
+  }
+}

@@ -5,7 +5,7 @@ import { useSelector, shallowEqual } from "react-redux"
 import PropTypes from "prop-types"
 import { postMarc, getMarcJob, getMarc } from "sinopiaApi"
 import { selectPickSubject } from "selectors/resources"
-import { selectSubjectTemplate } from "selectors/templates"
+import { isBfInstance } from "utilities/Bibframe"
 import { saveAs } from "file-saver"
 import { nanoid } from "nanoid"
 
@@ -13,19 +13,16 @@ const MarcButton = ({ resourceKey }) => {
   const marcs = useRef({})
   const resource = useSelector(
     (state) =>
-      selectPickSubject(state, resourceKey, ["uri", "subjectTemplateKey"]),
+      selectPickSubject(state, resourceKey, [
+        "uri",
+        "subjectTemplateKey",
+        "classes",
+      ]),
     shallowEqual
-  )
-  const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplate(state, resource?.subjectTemplateKey)
   )
   const [, setRender] = useState(false)
 
-  if (
-    !resource?.uri ||
-    subjectTemplate?.class !== "http://id.loc.gov/ontologies/bibframe/Instance"
-  )
-    return null
+  if (!resource?.uri || !isBfInstance(resource?.classes)) return null
 
   const marcJobTimer = (marcJobUrl, resourceKey) => {
     getMarcJob(marcJobUrl)

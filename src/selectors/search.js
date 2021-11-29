@@ -13,7 +13,7 @@ export const selectSearchTotalResults = (state, searchType) =>
   state.search[searchType]?.totalResults || 0
 
 export const selectSearchFacetResults = (state, searchType, facetType) =>
-  state.search[searchType]?.facetResults[facetType] || []
+  state.search[searchType]?.facetResults[facetType]
 
 export const selectSearchOptions = (state, searchType) =>
   state.search[searchType]?.options || {
@@ -22,4 +22,4 @@ export const selectSearchOptions = (state, searchType) =>
   }
 
 export const selectSearchResults = (state, searchType) =>
-  state.search[searchType]?.results || []
+  state.search[searchType]?.results
