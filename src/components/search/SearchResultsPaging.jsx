@@ -6,7 +6,8 @@ import PropTypes from "prop-types"
 const SearchResultsPaging = (props) => {
   const currentPage = Math.ceil((props.startOfRange + 1) / props.resultsPerPage)
 
-  const changePage = (page) => {
+  const changePage = (event, page) => {
+    event.preventDefault()
     props.changePage((page - 1) * props.resultsPerPage)
   }
 
@@ -30,7 +31,7 @@ const SearchResultsPaging = (props) => {
         <button
           className="page-link"
           aria-label={key}
-          onClick={() => changePage(page)}
+          onClick={(event) => changePage(event, page)}
         >
           {label}
         </button>
