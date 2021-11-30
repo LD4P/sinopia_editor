@@ -36,6 +36,10 @@ const vocabulary = {
     description: "Attributes for a literal",
     url: "http://sinopia.io/vocabulary/hasLiteralAttributes",
   },
+  hasLiteralPropertyAttributes: {
+    description: "Attributes for a literal property",
+    url: "http://sinopia.io/vocabulary/hasLiteralPropertyAttributes",
+  },
   hasLookupAttributes: {
     description: "Attributes for a lookup",
     url: "http://sinopia.io/vocabulary/hasLookupAttributes",
@@ -111,6 +115,11 @@ const vocabulary = {
     description: "Class for a property template",
     url: "http://sinopia.io/vocabulary/PropertyTemplate",
   },
+  "literalPropertyAttribute/userIdDefault": {
+    description: "Default to the current user's ID",
+    url: "http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault",
+  },
+
   "propertyAttribute/immutable": {
     description: "Value cannot be changed once assigned (for IDs)",
     url: "http://sinopia.io/vocabulary/propertyAttribute/immutable",

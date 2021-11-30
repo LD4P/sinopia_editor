@@ -110,12 +110,12 @@
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
-        "@value": "Whether literal property is repeatable, required, ordered, etc."
+        "@value": "Whether literal property is a user ID default, date default, etc."
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
       {
-        "@id": "http://sinopia.io/vocabulary/hasLiteralPropertyAttribute"
+        "@id": "http://sinopia.io/vocabulary/hasLiteralPropertyAttributes"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyAttribute": [
