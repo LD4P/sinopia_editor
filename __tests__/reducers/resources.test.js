@@ -1183,31 +1183,20 @@ describe("loadResourceFinished()", () => {
 
 describe("setBaseURL()", () => {
   it("sets base url", () => {
-    const oldState = {
-      subjects: {
-        abcde345: {
-          key: "abcde345",
-          uri: "",
-          rootSubjectKey: "fghi678",
-        },
-        fghi678: {
-          key: "fghi678",
-          changed: false,
-        },
-      },
-    }
+    const oldState = createState({ hasResourceWithLiteral: true })
+    oldState.entities.subjects.t9zVwg2zO.uri = null
     const action = {
       type: "SET_BASE_URL",
       payload: {
-        resourceKey: "abcde345",
+        resourceKey: "t9zVwg2zO",
         resourceURI: "https://sinopia.io/stanford/456hkl",
       },
     }
-    const newState = reducer(oldState, action)
-    expect(newState.subjects.abcde345.uri).toEqual(
+    const newState = reducer(oldState.entities, action)
+    expect(newState.subjects.t9zVwg2zO.uri).toEqual(
       "https://sinopia.io/stanford/456hkl"
     )
-    expect(newState.subjects.fghi678.changed).toEqual(false)
+    expect(newState.subjects.t9zVwg2zO.changed).toEqual(false)
   })
 })
 
@@ -1629,6 +1618,7 @@ describe("updateValue()", () => {
       expect(
         newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys
       ).toContain("a_-Jp0pY6pH6ytCtfr-mx")
+      expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.changed).toBe(true)
     })
   })
 

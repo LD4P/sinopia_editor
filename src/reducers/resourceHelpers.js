@@ -76,6 +76,7 @@ export const replaceValueInNewState = (state, value) => {
       [value.key]: value,
     },
   }
+
   // Preventing marking changed when adding a blank value.
   if (unchanged(oldValue, value) || !oldValue || emptyValue(value))
     return newState
@@ -86,7 +87,13 @@ export const replaceValueInNewState = (state, value) => {
 const unchanged = (oldObj, newObj) =>
   _.isEqual(cleanObj(oldObj), cleanObj(newObj))
 
-const cleanObj = (obj) => _.omit(obj, ["show", "showNav", "changed", "uri"])
+const cleanObj = (obj) => {
+  if (!obj) return obj
+  const fields = ["show", "showNav", "changed"]
+  // Omit uri for subject, but not values.
+  if (obj.subjectTemplateKey) fields.push("uri")
+  return _.omit(obj, fields)
+}
 
 export const setSubjectChanged = (state, subjectKey, changed) =>
   mergeSubjectPropsToNewState(state, subjectKey, { changed })
