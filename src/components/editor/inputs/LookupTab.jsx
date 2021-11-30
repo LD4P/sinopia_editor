@@ -57,16 +57,21 @@ const LookupTab = (props) => {
     </div>
   ))
 
+  // Not all authorities support paging
+  const isPaging = props.result.results.length <= Config.maxRecordsForQALookups
+
   return (
     <React.Fragment>
       {tabResults}
-      <SearchResultsPaging
-        key="search-paging"
-        resultsPerPage={Config.maxRecordsForQALookups}
-        startOfRange={props.result.options.startOfRange}
-        totalResults={props.result.totalHits}
-        changePage={handleChangePage}
-      />
+      {isPaging && (
+        <SearchResultsPaging
+          key="search-paging"
+          resultsPerPage={Config.maxRecordsForQALookups}
+          startOfRange={props.result.options.startOfRange}
+          totalResults={props.result.totalHits}
+          changePage={handleChangePage}
+        />
+      )}
     </React.Fragment>
   )
 }

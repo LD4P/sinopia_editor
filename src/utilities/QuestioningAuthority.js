@@ -53,6 +53,17 @@ export const createLookupPromise = (
       return resp
     })
     .then((resp) => resp.json())
+    .then((json) => {
+      // This adapts authorities that don't return headers.
+      if (json.response_header) return json
+
+      return {
+        response_header: {
+          total_records: json.length,
+        },
+        results: json,
+      }
+    })
     .catch((err) => {
       console.error(
         `Error in Questioning Authority lookup: ${err.message || err}`
