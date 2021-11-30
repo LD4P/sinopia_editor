@@ -34,6 +34,7 @@ import {
   setValuePropertyURI,
   setPropertyPropertyURI,
   setClasses,
+  setResourceChanged,
 } from "./resources"
 import {
   setRelationships,
@@ -137,6 +138,7 @@ const entityHandlers = {
   SET_PROPERTY_PROPERTY_URI: setPropertyPropertyURI,
   SET_RELATIONSHIPS: setRelationships,
   SET_RESOURCE_GROUP: setResourceGroup,
+  SET_RESOURCE_CHANGED: setResourceChanged,
   SET_VALUE_ORDER: setValueOrder,
   SET_VERSIONS: setVersions,
   SHOW_NAV_PROPERTY: showNavProperty,

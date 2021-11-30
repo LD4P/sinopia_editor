@@ -10,6 +10,7 @@ import DiacriticsSelection from "components/editor/diacritics/DiacriticsSelectio
 import useDiacritics from "hooks/useDiacritics"
 import ValuePropertyURI from "../property/ValuePropertyURI"
 import LiteralTypeLabel from "../property/LiteralTypeLabel"
+import useResourceHasChanged from "hooks/useResourcHasChanged"
 import _ from "lodash"
 
 const InputLiteralValue = ({
@@ -41,6 +42,7 @@ const InputLiteralValue = ({
     diacriticsBtnId,
     value.literal || ""
   )
+  const handleKeyDownResourceHasChanged = useResourceHasChanged(value)
 
   useEffect(() => {
     if (value.literal === "" && !focusHasBeenSet && shouldFocus) {
@@ -66,6 +68,7 @@ const InputLiteralValue = ({
       dispatch(updateLiteralValue(value.key, currentContent, value.lang))
       event.preventDefault()
     }
+    handleKeyDownResourceHasChanged()
     // Handle any position changing
     handleKeyDownDiacritics(event)
   }

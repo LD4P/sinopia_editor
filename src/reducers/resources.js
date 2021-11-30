@@ -590,3 +590,6 @@ export const setClasses = (state, action) => {
   const { subjectKey, classes } = action.payload
   return mergeSubjectPropsToNewState(state, subjectKey, { classes })
 }
+
+export const setResourceChanged = (state, action) =>
+  mergeSubjectPropsToNewState(state, action.payload, { changed: true })

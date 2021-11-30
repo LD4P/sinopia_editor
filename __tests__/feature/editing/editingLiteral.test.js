@@ -205,6 +205,31 @@ describe("editing a literal property", () => {
     expect(langBtn).toHaveTextContent("No language specified")
   }, 15000)
 
+  it("enables save button on keydown", async () => {
+    const history = createHistory(["/editor/resourceTemplate:testing:literal"])
+
+    renderApp(null, history)
+
+    await screen.findByText("Literal", {
+      selector: "h3#resource-header",
+    })
+
+    const saveBtn = screen.getAllByLabelText("Save", {
+      selector: ".editor-save",
+    })[0]
+    expect(saveBtn).toBeDisabled()
+
+    // Add a value
+    fireEvent.keyDown(screen.getByPlaceholderText("Literal input"), {
+      key: "F",
+      code: 70,
+      charCode: 70,
+    })
+
+    // There is foo text.
+    await waitFor(() => expect(saveBtn).not.toBeDisabled())
+  }, 10000)
+
   describe("editing a literal with suppressed language", () => {
     const history = createHistory([
       "/editor/resourceTemplate:testing:suppressLanguage",

@@ -169,3 +169,8 @@ export const setClasses = (subjectKey, classes) => ({
     classes,
   },
 })
+
+export const setResourceChanged = (resourceKey) => ({
+  type: "SET_RESOURCE_CHANGED",
+  payload: resourceKey,
+})
