@@ -19,7 +19,6 @@ const resourceFilenames = {
 
 const templateFilenames = {
   "test:resource:DiscogsLookup": "DiscogsLookup.json",
-  "test:bf2:soundCharacteristics": "multiple_loc.json",
   "resourceTemplate:bf2:Note": "Note.json",
   "resourceTemplate:bf2:Note:Immutable": "Immutable.json",
   "test:resource:SinopiaLookup": "SinopiaLookup.json",
@@ -56,6 +55,7 @@ const templateFilenames = {
     "testing_multiple_class_literal.json",
   "resourceTemplate:testing:multipleClassInputs":
     "testing_multiple_class_inputs.json",
+  "resourceTemplate:testing:lookup": "testing_lookups.json",
 }
 
 export const hasFixtureResource = (uri) => {

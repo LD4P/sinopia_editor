@@ -1,0 +1,300 @@
+[
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:testing:lookup",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@value": "resourceTemplate:testing:lookup",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://sinopia.io/testing/Lookups"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Lookups",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "A template that contains multiple lookups.",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b12"
+          },
+          {
+            "@id": "_:b15"
+          },
+          {
+            "@id": "_:b17"
+          },
+          {
+            "@id": "_:b19"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@id": "_:b12",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Single authority (AGROVOC)",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Lookups/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b13"
+      }
+    ]
+  },
+  {
+    "@id": "_:b13",
+    "@type": [
+      "http://sinopia.io/vocabulary/LookupPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "urn:ld4p:qa:agrovoc"
+      }
+    ]
+  },
+  {
+    "@id": "_:b15",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Multiple authorities (AGROVOC and Geonames All)",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Lookups/property2"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b16"
+      }
+    ]
+  },
+  {
+    "@id": "_:b16",
+    "@type": [
+      "http://sinopia.io/vocabulary/LookupPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "urn:ld4p:qa:agrovoc"
+      },
+      {
+        "@id": "urn:ld4p:qa:geonames"
+      }
+    ]
+  },
+  {
+    "@id": "_:b17",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Single authority (Publisher Cities)",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Publisher Cities is a QA local authority.",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Lookups/property3"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b18"
+      }
+    ]
+  },
+  {
+    "@id": "_:b18",
+    "@type": [
+      "http://sinopia.io/vocabulary/LookupPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "urn:qa:publisherCities"
+      }
+    ]
+  },
+  {
+    "@id": "_:b19",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Single authority (LOC All names)",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Lookups/property4"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b20"
+      }
+    ]
+  },
+  {
+    "@id": "_:b20",
+    "@type": [
+      "http://sinopia.io/vocabulary/LookupPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "urn:ld4p:qa:names"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Lookups",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Lookups",
+        "@language": "en"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Lookups/property1",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property1",
+        "@language": "en"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Lookups/property2",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property2",
+        "@language": "en"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Lookups/property3",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property3",
+        "@language": "en"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/testing/Lookups/property4",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Property4",
+        "@language": "en"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/propertyType/uri",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "uri or lookup"
+      }
+    ]
+  },
+  {
+    "@id": "urn:ld4p:qa:agrovoc",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "AGROVOC (QA)"
+      }
+    ]
+  },
+  {
+    "@id": "urn:ld4p:qa:geonames",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "GEONAMES all (QA)"
+      }
+    ]
+  },
+  {
+    "@id": "urn:qa:publisherCities",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Publisher Cities"
+      }
+    ]
+  },
+  {
+    "@id": "urn:ld4p:qa:names",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "LOC all names (QA)"
+      }
+    ]
+  }
+]
