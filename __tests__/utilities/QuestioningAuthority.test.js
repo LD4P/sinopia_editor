@@ -96,6 +96,35 @@ describe("createLookupPromise()", () => {
     })
   })
 
+  describe("when no response header", () => {
+    beforeEach(() => {
+      global.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          ok: true,
+          url: "https://lookup.ld4l.org/authorities/search/local/publisher_cities_select_list?q=new+york&maxRecords=8&lang=en&context=true&response_header=true&startRecord=1",
+          status: 200,
+          statusText: "OK",
+          json: () => {
+            return [
+              {
+                id: "http://id.loc.gov/authorities/names/n79007751",
+                label: "New York (N.Y.)",
+                uri: "http://id.loc.gov/authorities/names/n79007751",
+              },
+            ]
+          },
+        })
+      )
+    })
+
+    it("adapts the response", async () => {
+      const authorityConfig = findAuthorityConfig("urn:qa:publisherCities")
+      const response = await createLookupPromise("New York", authorityConfig)
+      expect(response.response_header.total_records).toBe(1)
+      expect(response.results).toHaveLength(1)
+    })
+  })
+
   describe("when error response", () => {
     beforeEach(() => {
       global.fetch = jest.fn().mockImplementation(() =>
