@@ -9,7 +9,7 @@
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
-        "@value": "Whether is property is repeatable, required, ordered, etc."
+        "@value": "Whether property is repeatable, required, ordered, etc."
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyUri": [
