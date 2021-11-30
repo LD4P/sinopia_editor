@@ -35,5 +35,5 @@ describe("user that can edit, but not an owner, can view groups", () => {
 
     // Click cancel
     fireEvent.click(screen.getByLabelText("Cancel Save Group"))
-  }, 15000)
+  }, 20000)
 })

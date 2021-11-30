@@ -41,18 +41,18 @@ describe("searching and preview a resource", () => {
       expect(
         screen.queryByRole("dialog", { name: "Preview Resource" })
       ).not.toBeInTheDocument()
-      expect(screen.getByTestId("view-resource-modal").classList).not.toContain(
-        "show"
-      )
+
+      expect(
+        screen.queryByTestId("view-resource-modal")
+      ).not.toBeInTheDocument()
 
       // Click the view icon next to the search result row
       expect(screen.getByTestId(`View ${uri}`)).toBeInTheDocument()
       fireEvent.click(screen.getByTestId(`View ${uri}`))
 
       // Modal has now rendered
-      expect(await screen.findByTestId("view-resource-modal")).toHaveClass(
-        "show"
-      )
+      await screen.findByTestId("view-resource-modal")
+
       screen.getByText("Uber template1, property1", {
         selector: "h5 span",
       })
@@ -131,7 +131,7 @@ describe("searching and preview a resource", () => {
 
       // Confirm search query is still in place (stored in state and not cleared)
       expect(await screen.getByLabelText("Search").value).toEqual(uri)
-    }, 10000)
+    }, 15000)
   })
 
   describe("for a resource that does not have every value set", () => {
@@ -162,18 +162,16 @@ describe("searching and preview a resource", () => {
       expect(
         screen.queryByRole("dialog", { name: "Preview Resource" })
       ).not.toBeInTheDocument()
-      expect(screen.getByTestId("view-resource-modal").classList).not.toContain(
-        "show"
-      )
+      expect(
+        screen.queryByTestId("view-resource-modal")
+      ).not.toBeInTheDocument()
 
       // Click the view icon next to the search result row
       expect(screen.getByTestId(`View ${uri}`)).toBeInTheDocument()
       fireEvent.click(screen.getByTestId(`View ${uri}`))
 
       // Modal has now rendered
-      expect(
-        (await screen.findByTestId("view-resource-modal")).classList
-      ).toContain("show")
+      await screen.findByTestId("view-resource-modal")
       expect(
         await screen.findAllByText("Uber template1, property1", {
           selector: "h5 span",
@@ -231,17 +229,15 @@ describe("searching and preview a resource", () => {
       expect(
         screen.queryByRole("dialog", { name: "Preview Resource" })
       ).not.toBeInTheDocument()
-      expect(screen.getByTestId("view-resource-modal").classList).not.toContain(
-        "show"
-      )
+      expect(
+        screen.queryByTestId("view-resource-modal")
+      ).not.toBeInTheDocument()
 
       // Click the view icon next to the search result row
       fireEvent.click(screen.getByTestId(`View ${uri}`))
 
       // Modal has now rendered
-      expect(await screen.findByTestId("view-resource-modal")).toHaveClass(
-        "show"
-      )
+      await screen.findByTestId("view-resource-modal")
       expect(
         await screen.findAllByText("Note", {
           selector: "span",

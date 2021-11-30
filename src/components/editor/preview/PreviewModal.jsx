@@ -2,12 +2,8 @@
 
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import ModalWrapper, {
-  useDisplayStyle,
-  useModalCss,
-} from "components/ModalWrapper"
+import ModalWrapper from "components/ModalWrapper"
 import { hideModal } from "actions/modals"
-import { isCurrentModal } from "selectors/modals"
 import {
   selectCurrentPreviewResourceKey,
   selectNormSubject,
@@ -27,7 +23,6 @@ const PreviewModal = () => {
   const dispatch = useDispatch()
   const errorKey = useAlerts()
   const { canEdit, canCreate } = usePermissions()
-  const show = useSelector((state) => isCurrentModal(state, "PreviewModal"))
 
   // Ensure there is a current resource before attempting to render a resource component
   const currentResourceKey = useSelector((state) =>
@@ -63,70 +58,54 @@ const PreviewModal = () => {
     dispatch(clearResource(currentResourceKey))
   }
 
-  const modal = (
-    <div
-      className={useModalCss(show)}
-      tabIndex="-1"
-      role="dialog"
-      id="view-resource-modal"
-      data-testid="view-resource-modal"
-      aria-labelledby="view-resource-modal-title"
-      style={{ display: useDisplayStyle(show) }}
-    >
-      <div
-        className="modal-dialog modal-xl modal-dialog-scrollable"
-        role="document"
-      >
-        <div className="modal-content">
-          <div className="modal-header">
-            <h4 className="modal-title" id="view-resource-modal-title">
-              Preview Resource
-            </h4>
-            <div className="view-resource-buttons">
-              <button
-                type="button"
-                className="btn-close"
-                onClick={handleCloseClick}
-                aria-label="Close"
-              ></button>
-            </div>
-          </div>
-          <div className="modal-body view-resource-modal-content">
-            {currentResource && (
-              <>
-                <ResourcePreviewHeader resource={currentResource} />
-                <ResourceDisplay resourceKey={currentResourceKey} />
-              </>
-            )}
-          </div>
-          <div className="modal-footer">
-            {currentResourceKey && (
-              <MarcButton resourceKey={currentResourceKey} />
-            )}
-            {currentResourceKey && (
-              <TransferButtons resourceKey={currentResourceKey} />
-            )}
-            {canEdit(currentResource) && (
-              <EditButton
-                handleClick={handleEditClick}
-                label={currentResource.label}
-                isLoading={isLoadingEdit}
-              />
-            )}
-            {currentResource && canCreate && (
-              <CopyButton
-                handleClick={handleCopyClick}
-                label={currentResource.label}
-                isLoading={isLoadingCopy}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+  const header = (
+    <h4 className="modal-title" id="view-resource-modal-title">
+      Preview Resource
+    </h4>
   )
 
-  return <ModalWrapper modal={modal} />
+  const body = currentResource ? (
+    <React.Fragment>
+      <ResourcePreviewHeader resource={currentResource} />
+      <ResourceDisplay resourceKey={currentResourceKey} />
+    </React.Fragment>
+  ) : null
+
+  const footer = (
+    <React.Fragment>
+      {currentResourceKey && <MarcButton resourceKey={currentResourceKey} />}
+      {currentResourceKey && (
+        <TransferButtons resourceKey={currentResourceKey} />
+      )}
+      {canEdit(currentResource) && (
+        <EditButton
+          handleClick={handleEditClick}
+          label={currentResource.label}
+          isLoading={isLoadingEdit}
+        />
+      )}
+      {currentResource && canCreate && (
+        <CopyButton
+          handleClick={handleCopyClick}
+          label={currentResource.label}
+          isLoading={isLoadingCopy}
+        />
+      )}
+    </React.Fragment>
+  )
+
+  return (
+    <ModalWrapper
+      modalName="PreviewModal"
+      header={header}
+      body={body}
+      footer={footer}
+      size="lg"
+      data-testid="view-resource-modal"
+      ariaLabel="Preview resource"
+      handleClose={handleCloseClick}
+    />
+  )
 }
 
 export default PreviewModal

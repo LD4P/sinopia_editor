@@ -1,62 +1,40 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { isCurrentModal } from "selectors/modals"
-import { hideModal } from "actions/modals"
-import ModalWrapper, { useDisplayStyle, useModalCss } from "../../ModalWrapper"
+import ModalWrapper from "../../ModalWrapper"
 import SaveAndPublishButton from "../actions/SaveAndPublishButton"
 import ResourceDisplay from "./ResourceDisplay"
 import { selectCurrentResourceKey } from "selectors/resources"
 
 const EditorPreviewModal = () => {
-  const dispatch = useDispatch()
   const show = useSelector((state) => isCurrentModal(state, "RDFModal"))
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
 
-  const handleClose = (event) => {
-    dispatch(hideModal())
-    event.preventDefault()
-  }
+  const header = <h4 className="modal-title">Preview</h4>
 
-  const modal = (
-    <div
-      className={useModalCss(show)}
-      id="rdf-modal"
+  const body = show ? (
+    <ResourceDisplay
+      resourceKey={resourceKey}
+      defaultFormat="table"
+      displayRelationships={false}
+    />
+  ) : null
+
+  const footer = <SaveAndPublishButton class="modal-save" />
+
+  return (
+    <ModalWrapper
+      modalName="RDFModal"
+      header={header}
+      body={body}
+      footer={footer}
       data-testid="rdf-modal"
-      tabIndex="-1"
-      role="dialog"
-      style={{ display: useDisplayStyle(show) }}
-    >
-      <div className="modal-dialog modal-xl modal-dialog-scrollable">
-        <div className="modal-content">
-          <div className="modal-header" data-testid="rdf-modal-header">
-            <h4 className="modal-title">Preview</h4>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={handleClose}
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body rdf-modal-content">
-            {show && (
-              <ResourceDisplay
-                resourceKey={resourceKey}
-                defaultFormat="table"
-                displayRelationships={false}
-              />
-            )}
-          </div>
-          <div className="modal-footer">
-            <SaveAndPublishButton class="modal-save" />
-          </div>
-        </div>
-      </div>
-    </div>
+      ariaLabel="Preview"
+      size="lg"
+    />
   )
-
-  return <ModalWrapper modal={modal} />
 }
 
 export default EditorPreviewModal

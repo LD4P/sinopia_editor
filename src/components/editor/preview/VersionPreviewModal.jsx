@@ -2,12 +2,8 @@
 
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import ModalWrapper, {
-  useDisplayStyle,
-  useModalCss,
-} from "components/ModalWrapper"
+import ModalWrapper from "components/ModalWrapper"
 import { hideModal } from "actions/modals"
-import { isCurrentModal } from "selectors/modals"
 import {
   selectCurrentPreviewResourceKey,
   selectNormSubject,
@@ -18,9 +14,6 @@ import ResourcePreviewHeader from "./ResourcePreviewHeader"
 
 const VersionPreviewModal = () => {
   const dispatch = useDispatch()
-  const show = useSelector((state) =>
-    isCurrentModal(state, "VersionPreviewModal")
-  )
 
   // Ensure there is a current resource before attempting to render a resource component
   const currentResourceKey = useSelector((state) =>
@@ -37,51 +30,33 @@ const VersionPreviewModal = () => {
     dispatch(clearResource(currentResourceKey))
   }
 
-  const modal = (
-    <div
-      className={useModalCss(show)}
-      tabIndex="-1"
-      role="dialog"
-      id="view-resource-modal"
-      data-testid="view-resource-modal"
-      aria-labelledby="view-resource-modal-title"
-      style={{ display: useDisplayStyle(show) }}
-    >
-      <div
-        className="modal-dialog modal-xl modal-dialog-scrollable"
-        role="document"
-      >
-        <div className="modal-content">
-          <div className="modal-header">
-            <h4 className="modal-title" id="view-resource-modal-title">
-              Preview Resource Version
-            </h4>
-            <div className="view-resource-buttons">
-              <button
-                type="button"
-                className="btn-close"
-                onClick={close}
-                aria-label="Close"
-              ></button>
-            </div>
-          </div>
-          <div className="modal-body view-resource-modal-content">
-            {currentResource && (
-              <>
-                <ResourcePreviewHeader resource={currentResource} />
-                <ResourceDisplay
-                  resourceKey={currentResourceKey}
-                  displayRelationships={false}
-                />
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+  const header = (
+    <h4 className="modal-title" id="view-resource-modal-title">
+      Preview Resource Version
+    </h4>
   )
 
-  return <ModalWrapper modal={modal} />
+  const body = currentResource ? (
+    <React.Fragment>
+      <ResourcePreviewHeader resource={currentResource} />
+      <ResourceDisplay
+        resourceKey={currentResourceKey}
+        displayRelationships={false}
+      />
+    </React.Fragment>
+  ) : null
+
+  return (
+    <ModalWrapper
+      modalName="VersionPreviewModal"
+      ariaLabel="Preview resource version"
+      data-testid="view-resource-modal"
+      handleClose={close}
+      header={header}
+      body={body}
+      size="lg"
+    />
+  )
 }
 
 export default VersionPreviewModal

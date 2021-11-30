@@ -65,7 +65,9 @@ describe("End-to-end test", () => {
 
           // Group choice modal
           cy.contains("Who owns this?")
-          cy.get("div#group-choice-modal button").contains("Save").click()
+          cy.get("div[data-testid='group-choice-modal'] button")
+            .contains("Save")
+            .click()
 
           // Waiting for indexing. If this proves problematic, can try a different approach.
           // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -119,7 +121,9 @@ describe("End-to-end test", () => {
     cy.get("button.modal-save").scrollIntoView().click({ force: true })
 
     cy.contains("Who owns this?")
-    cy.get("div#group-choice-modal button").contains("Save").click()
+    cy.get("div[data-testid='group-choice-modal'] button")
+      .contains("Save")
+      .click()
 
     cy.contains("URI for this resource")
     cy.contains("Saved").should("not.exist")

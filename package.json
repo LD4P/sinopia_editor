@@ -63,6 +63,7 @@
     "@honeybadger-io/react": "^1.0.1",
     "@popperjs/core": "^2.10.1",
     "@rdfjs/serializer-jsonld-ext": "^3.0.0",
+    "@reach/dialog": "^0.16.2",
     "assert": "^2.0.0",
     "bootstrap": "^5.1.1",
     "buffer": "^6.0.3",

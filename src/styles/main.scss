@@ -237,6 +237,7 @@ button.collapse-heading.collapsed::before {
 @import "diff";
 @import "relationships";
 @import "resourceEditor";
+@import "modal";
 
 .icon-lg {
   font-size: 20px;
@@ -318,14 +319,6 @@ div.rbt div {
 .expanding-section {
   border-color: $nobel;
   background-color: $solitude;
-}
-
-.modal-open {
-  overflow: hidden;
-}
-
-.modal {
-  background: rgba(0, 0, 0, 0.5);
 }
 
 .rdf-display-panel {

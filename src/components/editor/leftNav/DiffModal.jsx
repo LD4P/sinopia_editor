@@ -8,10 +8,7 @@ import {
   selectCurrentDiffResourceKeys,
   selectFullSubject,
 } from "selectors/resources"
-import ModalWrapper, {
-  useDisplayStyle,
-  useModalCss,
-} from "components/ModalWrapper"
+import ModalWrapper from "components/ModalWrapper"
 import { setCurrentDiff } from "actions/resources"
 import ResourceDiffer from "ResourceDiffer"
 import DiffDisplay from "./DiffDisplay"
@@ -30,7 +27,7 @@ const DiffModal = () => {
   )
 
   let diff = null
-  if (compareFromResource && compareToResource)
+  if (show && compareFromResource && compareToResource)
     diff = new ResourceDiffer(compareFromResource, compareToResource).diff
 
   const close = (event) => {
@@ -44,40 +41,24 @@ const DiffModal = () => {
     event.preventDefault()
   }
 
-  const modal = (
-    <div>
-      <div
-        className={useModalCss(show)}
-        role="dialog"
-        tabIndex="-1"
-        id="diff-modal"
-        data-testid="diff-modal"
-        style={{ display: useDisplayStyle(show) }}
-      >
-        <div className="modal-dialog modal-lg" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h4 className="modal-title" id="view-resource-modal-title">
-                Compare
-              </h4>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={close}
-                aria-label="Close"
-                data-testid="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              {diff && <DiffDisplay diff={diff} />}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  const header = (
+    <h4 className="modal-title" id="view-resource-modal-title">
+      Compare
+    </h4>
   )
 
-  return <ModalWrapper modal={modal} />
+  const body = diff ? <DiffDisplay diff={diff} /> : null
+
+  return (
+    <ModalWrapper
+      modalName="DiffModal"
+      ariaLabel="Compare"
+      data-testid="diff-modal"
+      handleClose={close}
+      header={header}
+      body={body}
+    />
+  )
 }
 
 export default DiffModal

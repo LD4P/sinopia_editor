@@ -1,15 +1,13 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { MultiSelect } from "react-multi-select-component"
 import { hideModal } from "actions/modals"
-import { isCurrentModal } from "selectors/modals"
 import {
   saveNewResource,
   saveResource as saveResourceAction,
 } from "actionCreators/resources"
-import ModalWrapper, { useDisplayStyle, useModalCss } from "../ModalWrapper"
 import {
   selectCurrentResourceKey,
   selectNormSubject,
@@ -18,6 +16,7 @@ import { selectGroups } from "selectors/authenticate"
 import { selectGroupMap } from "selectors/groups"
 import usePermissions from "hooks/usePermissions"
 import useAlerts from "hooks/useAlerts"
+import ModalWrapper from "../ModalWrapper"
 
 const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) =>
   groupIds
@@ -35,7 +34,6 @@ const GroupChoiceModal = () => {
   const errorKey = useAlerts()
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const resource = useSelector((state) => selectNormSubject(state, resourceKey))
-  const show = useSelector((state) => isCurrentModal(state, "GroupChoiceModal"))
   const userGroupIds = useSelector((state) => selectGroups(state))
   const groupMap = useSelector((state) => selectGroupMap(state))
   const [ownerGroupId, setOwnerGroupId] = useState(
@@ -44,6 +42,8 @@ const GroupChoiceModal = () => {
   const [editGroupValues, setEditGroupValues] = useState(
     groupsToGroupValues(resource.editGroups, groupMap)
   )
+  const initialInputRef = useRef()
+
   const ownerGroupLabel = groupMap[ownerGroupId]
   const editGroupLabels = editGroupValues
     .map((groupValue) => groupValue.label)
@@ -101,84 +101,74 @@ const GroupChoiceModal = () => {
     event.preventDefault()
   }
 
-  const modal = (
-    <div>
-      <div
-        className={useModalCss(show)}
-        role="dialog"
-        tabIndex="-1"
-        id="group-choice-modal"
-        data-testid="group-choice-modal"
-        style={{ display: useDisplayStyle(show) }}
-      >
-        <div className="modal-dialog modal-lg" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button
-                type="button"
-                className="btn-close"
-                onClick={close}
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <label htmlFor="ownerSelect">
-                <h4>Who owns this?</h4>
-              </label>
-              {canChange ? (
-                <select
-                  className="form-select mb-4"
-                  id="ownerSelect"
-                  onBlur={handleOwnerChange}
-                  onChange={handleOwnerChange}
-                  value={ownerGroupId}
-                  data-testid="Who owns this?"
-                >
-                  {ownerGroupOptions}
-                </select>
-              ) : (
-                <p>{ownerGroupLabel}</p>
-              )}
-              <h4 id="editSelectLabel">Who else can edit?</h4>
-              {canChange ? (
-                <MultiSelect
-                  options={editGroupOptions}
-                  value={editGroupValues}
-                  onChange={handleEditChange}
-                  hasSelectAll={false}
-                  labelledBy="editSelectLabel"
-                />
-              ) : (
-                <p>{editGroupLabels} </p>
-              )}
-            </div>
-            <div className="modal-footer">
-              <button
-                className="btn btn-link btn-sm"
-                onClick={close}
-                aria-label="Cancel Save Group"
-              >
-                Cancel
-              </button>
-              {canChange && (
-                <button
-                  className="btn btn-primary btn-sm"
-                  data-dismiss="modal"
-                  aria-label="Save Group"
-                  data-testid="Save Group"
-                  onClick={saveAndClose}
-                >
-                  Save
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  const body = (
+    <React.Fragment>
+      <label htmlFor="ownerSelect">
+        <h4>Who owns this?</h4>
+      </label>
+      {canChange ? (
+        <select
+          ref={initialInputRef}
+          className="form-select mb-4"
+          id="ownerSelect"
+          onBlur={handleOwnerChange}
+          onChange={handleOwnerChange}
+          value={ownerGroupId}
+          data-testid="Who owns this?"
+        >
+          {ownerGroupOptions}
+        </select>
+      ) : (
+        <p>{ownerGroupLabel}</p>
+      )}
+      <h4 id="editSelectLabel">Who else can edit?</h4>
+      {canChange ? (
+        <MultiSelect
+          options={editGroupOptions}
+          value={editGroupValues}
+          onChange={handleEditChange}
+          hasSelectAll={false}
+          labelledBy="editSelectLabel"
+        />
+      ) : (
+        <p>{editGroupLabels} </p>
+      )}
+    </React.Fragment>
   )
 
-  return <ModalWrapper modal={modal} />
+  const footer = (
+    <React.Fragment>
+      <button
+        className="btn btn-link btn-sm"
+        onClick={close}
+        aria-label="Cancel Save Group"
+      >
+        Cancel
+      </button>
+      {canChange && (
+        <button
+          className="btn btn-primary btn-sm"
+          data-dismiss="modal"
+          aria-label="Save Group"
+          data-testid="Save Group"
+          onClick={saveAndClose}
+        >
+          Save
+        </button>
+      )}
+    </React.Fragment>
+  )
+
+  return (
+    <ModalWrapper
+      initialInputRef={initialInputRef}
+      body={body}
+      footer={footer}
+      modalName="GroupChoiceModal"
+      ariaLabel="Select permissions"
+      data-testid="group-choice-modal"
+    />
+  )
 }
 
 export default GroupChoiceModal
