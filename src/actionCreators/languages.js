@@ -64,7 +64,7 @@ export const fetchLanguages = () => (dispatch, getState) => {
 }
 
 const transliterationMap = {
-  alalc: "American Library Association-Library of Congress",
+  alaloc: "American Library Association-Library of Congress",
   buckwalt: "Buckwalter Arabic transliteration system",
   ewts: "Extended Wylie Transliteration Scheme",
   mns: "Mongolian National Standard",
@@ -100,8 +100,8 @@ const fetchFixtureLanguages = (dispatch) => {
   }
   const transliterationLookup = [
     {
-      id: "alalc",
-      label: "American Library Association-Library of Congress (alalc)",
+      id: "alaloc",
+      label: "American Library Association-Library of Congress (alaloc)",
     },
     {
       id: "buckwalt",
@@ -109,7 +109,7 @@ const fetchFixtureLanguages = (dispatch) => {
     },
   ]
   const transliterations = {
-    alalc: "American Library Association-Library of Congress",
+    alaloc: "American Library Association-Library of Congress",
     buckwalt: "Buckwalter Arabic transliteration system",
   }
 
