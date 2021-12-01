@@ -97,5 +97,5 @@ describe("loading new resource", () => {
     expect(
       screen.queryByText("Uber template3", { selector: ".left-nav-header" })
     ).not.toBeInTheDocument()
-  }, 15000)
+  }, 20000)
 })

@@ -1,0 +1,40 @@
+.modal-wrapper {
+  [data-reach-dialog-content] {
+    padding: 0;
+
+    .card {
+      background: $spring-wood;
+      border-color: $nobel;
+      border-radius: 2px;
+    }
+
+    .card-header {
+      background-color: rgba(0, 0, 0, 0);
+      justify-content: space-between;
+      align-items: center;
+      display: flex;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .btn-close {
+      padding: 0.5rem 0.5rem;
+      margin: -0.5rem -0.5rem -0.5rem auto;
+    }
+
+    .card-footer {
+      background-color: rgba(0, 0, 0, 0);
+      justify-content: flex-end;
+      align-items: center;
+      display: flex;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+}
+
+.modal-wrapper-lg {
+  [data-reach-dialog-content] {
+    width: 75vw;
+  }
+}

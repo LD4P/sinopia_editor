@@ -237,6 +237,8 @@ const addResourceTemplate = (fixture, fixtureUri) => {
 
     // Group choice modal
     cy.contains("Who owns this?")
-    cy.get("div#group-choice-modal button").contains("Save").click()
+    cy.get("div[data-testid='group-choice-modal'] button")
+      .contains("Save")
+      .click()
   })
 }
