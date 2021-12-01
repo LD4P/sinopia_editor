@@ -106,7 +106,7 @@ const HeaderSearch = () => {
             Sinopia BIBFRAME instance resources
           </option>
           <option value={`${sinopiaSearchUri}/Item`}>
-            Sinopia BIBFRAME Items
+            Sinopia BIBFRAME item resources
           </option>
 
           {options}
