@@ -8,6 +8,8 @@ const LiteralTypeLabel = ({ propertyTemplate }) => {
       "http://www.w3.org/2001/XMLSchema#dateTime": "a date time",
       "http://www.w3.org/2001/XMLSchema#dateTimeStamp":
         "a date time with timezone",
+      "http://id.loc.gov/datatypes/edtf/":
+        "an Extended Date Time Format (EDTF) date",
     }
 
     let label = `Enter ${
