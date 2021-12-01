@@ -282,4 +282,54 @@ describe("editing a URI property", () => {
       )
     ).toHaveTextContent("URI required")
   }, 10000)
+
+  it("enables save button on keydown for URI", async () => {
+    const history = createHistory(["/editor/resourceTemplate:testing:uri"])
+
+    renderApp(null, history)
+
+    await screen.findByText("URI", {
+      selector: "h3#resource-header",
+    })
+
+    const saveBtn = screen.getAllByLabelText("Save", {
+      selector: ".editor-save",
+    })[0]
+    expect(saveBtn).toBeDisabled()
+
+    // Add a value
+    fireEvent.keyDown(screen.getByPlaceholderText("URI input"), {
+      key: "F",
+      code: 70,
+      charCode: 70,
+    })
+
+    // There is foo text.
+    await waitFor(() => expect(saveBtn).not.toBeDisabled())
+  }, 10000)
+
+  it("enables save button on keydown for label", async () => {
+    const history = createHistory(["/editor/resourceTemplate:testing:uri"])
+
+    renderApp(null, history)
+
+    await screen.findByText("URI", {
+      selector: "h3#resource-header",
+    })
+
+    const saveBtn = screen.getAllByLabelText("Save", {
+      selector: ".editor-save",
+    })[0]
+    expect(saveBtn).toBeDisabled()
+
+    // Add a value
+    fireEvent.keyDown(screen.getByPlaceholderText("Label for URI input"), {
+      key: "F",
+      code: 70,
+      charCode: 70,
+    })
+
+    // There is foo text.
+    await waitFor(() => expect(saveBtn).not.toBeDisabled())
+  }, 10000)
 })

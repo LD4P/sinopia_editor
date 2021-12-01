@@ -29,6 +29,7 @@ import {
   clearVersions,
   setValuePropertyURI,
   setPropertyPropertyURI,
+  setResourceChanged,
 } from "reducers/resources"
 
 import { createState } from "stateUtils"
@@ -53,6 +54,7 @@ const reducers = {
   SET_CURRENT_DIFF_RESOURCES: setCurrentDiffResources,
   SET_PROPERTY_PROPERTY_URI: setPropertyPropertyURI,
   SET_RESOURCE_GROUP: setResourceGroup,
+  SET_RESOURCE_CHANGED: setResourceChanged,
   SET_VALUE_ORDER: setValueOrder,
   SET_VALUE_PROPERTY_URI: setValuePropertyURI,
   SET_VERSIONS: setVersions,
@@ -1885,5 +1887,20 @@ describe("setPropertyPropertyURI()", () => {
     expect(newState.properties["JQEtq-vmq8"].propertyUri).toEqual(
       "http://id.loc.gov/ontologies/bibframe/alternateTitle"
     )
+  })
+})
+
+describe("setResourceChanged()", () => {
+  it("updates state", () => {
+    const oldState = createState({ hasResourceWithLiteral: true })
+
+    const action = {
+      type: "SET_RESOURCE_CHANGED",
+      payload: "t9zVwg2zO",
+    }
+
+    const newState = reducer(oldState.entities, action)
+
+    expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
   })
 })

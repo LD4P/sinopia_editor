@@ -15,6 +15,7 @@ import useDiacritics from "hooks/useDiacritics"
 import { isHttp } from "utilities/Utilities"
 import RemoveButton from "./RemoveButton"
 import ValuePropertyURI from "../property/ValuePropertyURI"
+import useResourceHasChanged from "hooks/useResourcHasChanged"
 import _ from "lodash"
 
 const InputURIValue = ({
@@ -50,6 +51,8 @@ const InputURIValue = ({
     diacriticsBtnId,
     value.label || ""
   )
+  const handleKeyDownResourceHasChanged = useResourceHasChanged(value)
+
   const updateURIValue = () => {
     setShowLink(isHttp(currentURIContent))
     dispatch(
@@ -91,6 +94,7 @@ const InputURIValue = ({
       updateURIValue()
       event.preventDefault()
     }
+    handleKeyDownResourceHasChanged()
   }
 
   const handleLabelKeyDown = (event) => {
@@ -98,6 +102,7 @@ const InputURIValue = ({
       updateURIValue()
       event.preventDefault()
     }
+    handleKeyDownResourceHasChanged()
     // Handle any position changing
     handleKeyDownDiacritics(event)
   }
