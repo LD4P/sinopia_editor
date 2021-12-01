@@ -11,6 +11,9 @@ describe("viewing resource metrics", () => {
       jest
         .spyOn(sinopiaMetrics, "getResourceCount")
         .mockResolvedValue({ count: 1 })
+      jest
+        .spyOn(sinopiaMetrics, "getResourceCreatedCount")
+        .mockResolvedValue({ count: 5 })
     })
 
     it("displays the metrics", async () => {
@@ -23,6 +26,26 @@ describe("viewing resource metrics", () => {
 
       await screen.findByText("Resource count")
       screen.getByText("1", { selector: ".card-text" })
+
+      await screen.findByText("Resource creation")
+      screen.getByText("5", { selector: ".card-text" })
+
+      // Change template creation filters
+      fireEvent.change(screen.getByLabelText("Start"), {
+        target: { value: "2021-01-01" },
+      })
+      fireEvent.change(screen.getByLabelText("End"), {
+        target: { value: "2022-01-01" },
+      })
+      fireEvent.change(screen.getByLabelText("Group"), {
+        target: { value: "stanford" },
+      })
+
+      expect(sinopiaMetrics.getResourceCreatedCount).toHaveBeenCalledWith({
+        startDate: "2021-01-01",
+        endDate: "2022-01-01",
+        group: "stanford",
+      })
     })
   })
 

@@ -1,28 +1,37 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { metricsErrorKey } from "utilities/errorKeyFactory"
-import { addError, clearErrors } from "actions/errors"
+import { addError } from "actions/errors"
 import * as sinopiaMetrics from "../sinopiaMetrics"
 
-const useMetric = (name) => {
+const useMetric = (name, params = null) => {
   const dispatch = useDispatch()
   const [metric, setMetric] = useState(null)
+  const [isMounted, setMounted] = useState(false)
 
   useEffect(() => {
-    dispatch(clearErrors(metricsErrorKey))
-    sinopiaMetrics[name]()
+    setMounted(true)
+    return () => {
+      setMounted(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    sinopiaMetrics[name](params || {})
       .then((results) => {
-        setMetric(results)
+        if (isMounted) setMetric(results)
       })
       .catch((err) => {
-        dispatch(
-          addError(
-            metricsErrorKey,
-            `Error retrieving metrics: ${err.message || err}`
+        if (isMounted) {
+          dispatch(
+            addError(
+              metricsErrorKey,
+              `Error retrieving metrics: ${err.message || err}`
+            )
           )
-        )
+        }
       })
-  }, [name, dispatch])
+  }, [name, params, isMounted, dispatch])
 
   return metric
 }

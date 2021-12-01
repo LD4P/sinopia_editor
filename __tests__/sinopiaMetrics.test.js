@@ -2,6 +2,8 @@ import {
   getUserCount,
   getTemplateCount,
   getResourceCount,
+  getTemplateCreatedCount,
+  getResourceCreatedCount,
 } from "sinopiaMetrics"
 
 // Saves global fetch in order to be restored after each test with mocked fetch
@@ -62,6 +64,52 @@ describe("getResourceCount", () => {
     expect(result).toEqual(countResult)
     expect(global.fetch).toHaveBeenCalledWith(
       "http://localhost:3000/metrics/resourceCount/resource",
+      {
+        method: "GET",
+        headers: { Accept: "application/json" },
+      }
+    )
+  })
+})
+
+describe("getTemplateCreatedCount", () => {
+  it("retrieves count", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(countResult),
+      ok: true,
+    })
+
+    const result = await getTemplateCreatedCount({
+      startDate: "2021-01-01",
+      endDate: "2022-01-01",
+      group: "stanford",
+      ignore: "me",
+    })
+    expect(result).toEqual(countResult)
+    expect(global.fetch).toHaveBeenCalledWith(
+      "http://localhost:3000/metrics/createdCount/template?startDate=2021-01-01&endDate=2022-01-01&group=stanford",
+      {
+        method: "GET",
+        headers: { Accept: "application/json" },
+      }
+    )
+  })
+})
+
+describe("getResourceCreatedCount", () => {
+  it("retrieves count", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(countResult),
+      ok: true,
+    })
+
+    const result = await getResourceCreatedCount({
+      startDate: "2021-01-01",
+      endDate: "2022-01-01",
+    })
+    expect(result).toEqual(countResult)
+    expect(global.fetch).toHaveBeenCalledWith(
+      "http://localhost:3000/metrics/createdCount/resource?startDate=2021-01-01&endDate=2022-01-01",
       {
         method: "GET",
         headers: { Accept: "application/json" },
