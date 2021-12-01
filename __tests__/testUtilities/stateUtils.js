@@ -91,8 +91,8 @@ const buildLanguages = (state, options) => {
   }
   state.entities.transliterationLookup = [
     {
-      id: "alalc",
-      label: "American Library Association-Library of Congress (alalc)",
+      id: "alaloc",
+      label: "American Library Association-Library of Congress (alaloc)",
     },
     {
       id: "buckwalt",
@@ -100,7 +100,7 @@ const buildLanguages = (state, options) => {
     },
   ]
   state.entities.transliterations = {
-    alalc: "American Library Association-Library of Congress",
+    alaloc: "American Library Association-Library of Congress",
     buckwalt: "Buckwalter Arabic transliteration system",
   }
 }

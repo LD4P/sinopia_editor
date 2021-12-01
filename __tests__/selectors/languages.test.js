@@ -36,7 +36,7 @@ describe("selectLanguageLabel()", () => {
 
   it("returns transliteration label for transliteration", () => {
     const state = createState()
-    expect(selectLanguageLabel(state, "en-t-en-m0-alalc")).toEqual(
+    expect(selectLanguageLabel(state, "en-t-en-m0-alaloc")).toEqual(
       "English - American Library Association-Library of Congress"
     )
   })

@@ -53,16 +53,16 @@ describe("editing a language", () => {
     fireEvent.click(transliterationInput)
     fireEvent.change(transliterationInput, {
       target: {
-        value: "American Library Association-Library of Congress (alalc)",
+        value: "American Library Association-Library of Congress (alaloc)",
       },
     })
     fireEvent.click(
       screen.getByText(
-        "American Library Association-Library of Congress (alalc)",
+        "American Library Association-Library of Congress (alaloc)",
         { selector: ".rbt-highlight-text" }
       )
     )
-    within(newTagRow).getByText("en-t-en-m0-alalc")
+    within(newTagRow).getByText("en-t-en-m0-alaloc")
 
     // Clear transliteration
     fireEvent.click(screen.getByTestId("Clear transliteration for foo"))
