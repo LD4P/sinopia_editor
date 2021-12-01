@@ -2326,5 +2326,10 @@
     "label": "literal validation data type",
     "uri": "file:/literalDataType.json",
     "component": "list"
+  },
+  {
+    "label": "literalPropertyAttribute",
+    "uri": "file:/literalPropertyAttribute.json",
+    "component": "list"
   }
 ]

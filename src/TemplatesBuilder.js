@@ -6,13 +6,14 @@ import { resourceToName } from "utilities/Utilities"
 const rdfsLabel = "http://www.w3.org/2000/01/rdf-schema#label"
 
 export default class TemplatesBuilder {
-  constructor(dataset, uri, group = null, editGroups = []) {
+  constructor(dataset, uri, userId, group = null, editGroups = []) {
     this.dataset = dataset
     this.uri = uri
     this.resourceTerm = rdf.namedNode(uri)
     this.subjectTemplate = null
     this.group = group
     this.editGroups = editGroups
+    this.userId = userId
   }
 
   /**
@@ -147,7 +148,24 @@ export default class TemplatesBuilder {
   newLiteralPropertyTemplate(propertyTerm) {
     const propertyTemplate = this.newBasePropertyTemplate(propertyTerm)
     propertyTemplate.type = "literal"
-    propertyTemplate.defaults = this.defaultsForLiteral(propertyTerm)
+    const attributeTerm = this.objectFor(
+      propertyTerm,
+      "http://sinopia.io/vocabulary/hasLiteralAttributes"
+    )
+    if (attributeTerm) {
+      propertyTemplate.defaults = this.defaultsForLiteral(attributeTerm)
+      const literalAttrValues = this.valuesFor(
+        this.attributeTerm,
+        "http://sinopia.io/vocabulary/hasLiteralPropertyAttributes"
+      )
+      if (
+        literalAttrValues.includes(
+          "http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault"
+        )
+      ) {
+        propertyTemplate.defaults.push({ literal: this.userId, lang: null })
+      }
+    }
     propertyTemplate.validationRegex =
       this.validationRegexForLiteral(propertyTerm)
     const validationDataType = this.validationDataTypeForLiteral(propertyTerm)
@@ -322,13 +340,7 @@ export default class TemplatesBuilder {
     return quads.map((quad) => quad.object)
   }
 
-  defaultsForLiteral(propertyTerm) {
-    const attributeTerm = this.objectFor(
-      propertyTerm,
-      "http://sinopia.io/vocabulary/hasLiteralAttributes"
-    )
-    if (!attributeTerm) return []
-
+  defaultsForLiteral(attributeTerm) {
     const defaultTerms = this.objectsFor(
       attributeTerm,
       "http://sinopia.io/vocabulary/hasDefault"

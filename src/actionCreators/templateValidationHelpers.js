@@ -103,6 +103,7 @@ const validatePropertyTemplate = (template) => {
       )}" has type nested resource, but does not specify a template in Nested resource attributes.`
     )
   }
+
   return errors
 }
 
