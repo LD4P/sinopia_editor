@@ -32,6 +32,7 @@ const ResourceCreatedCountMetric = () => {
     <CountCard
       count={resourceCreatedCountMetric?.count}
       title="Resource creation"
+      help="The total number of resources (excluding templates) created in a specified time period, optionally filtered by group."
       footer={footer}
     />
   )

@@ -2,10 +2,11 @@ import React from "react"
 import PropTypes from "prop-types"
 import _ from "lodash"
 
-const CountCard = ({ title, count = null, footer = null }) => (
-  <div className="card">
+const CountCard = ({ title, help = null, count = null, footer = null }) => (
+  <div className="card metrics-card">
     <div className="card-header">
       <h5>{title}</h5>
+      {help && <div className="form-text">{help}</div>}
     </div>
     <div className="card-body">
       <div className="card-text display-1 text-center">
@@ -24,6 +25,7 @@ const CountCard = ({ title, count = null, footer = null }) => (
 
 CountCard.propTypes = {
   title: PropTypes.string.isRequired,
+  help: PropTypes.string,
   count: PropTypes.number,
   footer: PropTypes.oneOfType([
     PropTypes.node,

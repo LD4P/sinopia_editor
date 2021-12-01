@@ -32,6 +32,7 @@ const TemplateCreatedCountMetric = () => {
     <CountCard
       count={templateCreatedCountMetric?.count}
       title="Template creation"
+      help="The total number of templates created in a specified time period, optionally filtered by group."
       footer={footer}
     />
   )
