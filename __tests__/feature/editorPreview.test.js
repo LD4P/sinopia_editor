@@ -52,5 +52,5 @@ describe("preview within editor", () => {
 
     // Verify that does not have relationships view
     expect(screen.queryByText("Relationships")).not.toBeInTheDocument()
-  }, 15000)
+  }, 20000)
 })
