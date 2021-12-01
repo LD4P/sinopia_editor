@@ -7,7 +7,13 @@ import useMetric from "hooks/useMetric"
 const ResourceCountMetric = () => {
   const resourceCountMetric = useMetric("getResourceCount")
 
-  return <CountCard count={resourceCountMetric?.count} title="Resource count" />
+  return (
+    <CountCard
+      count={resourceCountMetric?.count}
+      title="Resource count"
+      help="The total number of resources (excluding templates)."
+    />
+  )
 }
 
 export default ResourceCountMetric

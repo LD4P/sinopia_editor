@@ -17,7 +17,11 @@ const UserMetrics = ({ triggerHandleOffsetMenu }) => {
       <div className="row">
         <div className="col-md-3">
           {userCountMetric?.count && (
-            <CountCard count={userCountMetric?.count} title="User count" />
+            <CountCard
+              count={userCountMetric?.count}
+              title="User count"
+              help="The total number of users."
+            />
           )}
         </div>
       </div>

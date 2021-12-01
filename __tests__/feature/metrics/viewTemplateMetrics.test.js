@@ -25,6 +25,7 @@ describe("viewing template metrics", () => {
       await screen.findByText("Template metrics")
 
       await screen.findByText("Template count")
+      screen.getByText("The total number of templates.")
       screen.getByText("1", { selector: ".card-text" })
 
       await screen.findByText("Template creation")
