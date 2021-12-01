@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 import MetricsWrapper from "./MetricsWrapper"
 import TemplateCountMetric from "./TemplateCountMetric"
 import TemplateCreatedCountMetric from "./TemplateCreatedCountMetric"
+import TemplateEditedCountMetric from "./TemplateEditedCountMetric"
 
 const TemplateMetrics = ({ triggerHandleOffsetMenu }) => (
   <MetricsWrapper
@@ -16,9 +17,14 @@ const TemplateMetrics = ({ triggerHandleOffsetMenu }) => (
         <TemplateCountMetric />
       </div>
     </div>
-    <div className="row">
+    <div className="row mb-4">
       <div className="col-md-3">
         <TemplateCreatedCountMetric />
+      </div>
+    </div>
+    <div className="row">
+      <div className="col-md-3">
+        <TemplateEditedCountMetric />
       </div>
     </div>
   </MetricsWrapper>
