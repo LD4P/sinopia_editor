@@ -95,7 +95,7 @@ export const fetchResourceVersions = (uri) => {
   if (Config.useResourceTemplateFixtures && hasFixtureResource(uri)) {
     return Promise.resolve(getFixtureResourceVersions())
   }
-  return getJsonData(`${uri}/versions`)
+  return getJson(`${uri}/versions`).then((json) => json.versions)
 }
 
 export const fetchResourceRelationships = (uri) => {
