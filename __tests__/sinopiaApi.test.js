@@ -11,6 +11,7 @@ import {
   putUserHistory,
   postTransfer,
   fetchResourceRelationships,
+  fetchResourceVersions,
 } from "sinopiaApi"
 import { selectFullSubject } from "selectors/resources"
 import { selectUser } from "selectors/authenticate"
@@ -518,6 +519,76 @@ describe("fetchResourceRelationships", () => {
         )
       ).rejects.toThrow(
         "Error parsing resource: Not Found: not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships"
+      )
+    })
+  })
+})
+
+describe("fetchResourceVersions", () => {
+  describe("when using fixtures", () => {
+    jest
+      .spyOn(Config, "useResourceTemplateFixtures", "get")
+      .mockReturnValue(true)
+
+    it("retrieves versions", async () => {
+      const result = await fetchResourceVersions(
+        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      )
+      expect(result).toHaveLength(3)
+    })
+  })
+
+  describe("when using the api", () => {
+    const resp = {
+      id: "61f2f457-31f5-432c-8acf-b4037f77541f",
+      versions: [
+        {
+          timestamp: "2021-10-22T13:26:35.238Z",
+          user: "jlittman",
+          group: "other",
+          editGroups: [],
+          templateId: "resourceTemplate:testing:uber1",
+        },
+      ],
+    }
+
+    it("retrieves versions", async () => {
+      // mocks call to Sinopia API for a resource
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue(resp),
+        ok: true,
+      })
+
+      const result = await fetchResourceVersions(
+        "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f"
+      )
+      expect(result).toStrictEqual(resp.versions)
+      expect(global.fetch).toHaveBeenCalledWith(
+        "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/versions",
+        { headers: { Accept: "application/json" }, method: "GET" }
+      )
+    })
+
+    it("errors when unable to retrieve versions", async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        status: 404,
+        ok: false,
+        json: jest.fn().mockResolvedValue([
+          {
+            title: "Not Found",
+            details:
+              "not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/versions",
+            status: "404",
+          },
+        ]),
+      })
+
+      await expect(
+        fetchResourceVersions(
+          "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships"
+        )
+      ).rejects.toThrow(
+        "Not Found: not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/versions"
       )
     })
   })
