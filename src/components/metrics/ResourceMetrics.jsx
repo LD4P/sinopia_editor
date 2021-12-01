@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 import MetricsWrapper from "./MetricsWrapper"
 import ResourceCountMetric from "./ResourceCountMetric"
 import ResourceCreatedCountMetric from "./ResourceCreatedCountMetric"
+import ResourceEditedCountMetric from "./ResourceEditedCountMetric"
 
 const ResourceMetrics = ({ triggerHandleOffsetMenu }) => (
   <MetricsWrapper
@@ -16,9 +17,14 @@ const ResourceMetrics = ({ triggerHandleOffsetMenu }) => (
         <ResourceCountMetric />
       </div>
     </div>
-    <div className="row">
+    <div className="row mb-4">
       <div className="col-md-3">
         <ResourceCreatedCountMetric />
+      </div>
+    </div>
+    <div className="row">
+      <div className="col-md-3">
+        <ResourceEditedCountMetric />
       </div>
     </div>
   </MetricsWrapper>

@@ -14,6 +14,9 @@ describe("viewing resource metrics", () => {
       jest
         .spyOn(sinopiaMetrics, "getResourceCreatedCount")
         .mockResolvedValue({ count: 5 })
+      jest
+        .spyOn(sinopiaMetrics, "getResourceEditedCount")
+        .mockResolvedValue({ count: 10 })
     })
 
     it("displays the metrics", async () => {
@@ -40,6 +43,9 @@ describe("viewing resource metrics", () => {
       fireEvent.change(screen.getByLabelText("Group"), {
         target: { value: "stanford" },
       })
+
+      await screen.findByText("Resource editing")
+      screen.getByText("10", { selector: ".card-text" })
 
       expect(sinopiaMetrics.getResourceCreatedCount).toHaveBeenCalledWith({
         startDate: "2021-01-01",

@@ -11,16 +11,30 @@ export const getTemplateCount = () =>
 export const getResourceCount = () =>
   getJson(`${Config.sinopiaApiBase}/metrics/resourceCount/resource`)
 
+const dateGroupFields = ["startDate", "endDate", "group"]
+
 export const getTemplateCreatedCount = (params) =>
   getJson(
     `${Config.sinopiaApiBase}/metrics/createdCount/template`,
-    compactPick(params, ["startDate", "endDate", "group"])
+    compactPick(params, dateGroupFields)
   )
 
 export const getResourceCreatedCount = (params) =>
   getJson(
     `${Config.sinopiaApiBase}/metrics/createdCount/resource`,
-    compactPick(params, ["startDate", "endDate", "group"])
+    compactPick(params, dateGroupFields)
+  )
+
+export const getTemplateEditedCount = (params) =>
+  getJson(
+    `${Config.sinopiaApiBase}/metrics/editedCount/template`,
+    compactPick(params, dateGroupFields)
+  )
+
+export const getResourceEditedCount = (params) =>
+  getJson(
+    `${Config.sinopiaApiBase}/metrics/editedCount/resource`,
+    compactPick(params, dateGroupFields)
   )
 
 const compactPick = (obj, keys) =>
