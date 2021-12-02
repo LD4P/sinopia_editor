@@ -108,7 +108,7 @@ describe("searching and preview a resource", () => {
 
       // But no MARC and Export buttons
       expect(
-        screen.queryByText("Request MARC", { selector: "button" })
+        screen.queryByText("MARC", { selector: "button" })
       ).not.toBeInTheDocument()
       expect(
         screen.queryByText(/Export to/, { selector: "button" })
@@ -244,7 +244,7 @@ describe("searching and preview a resource", () => {
         })
       ).toHaveLength(1)
 
-      screen.getByText("Request MARC", { selector: "button" })
+      screen.getByText("MARC", { selector: "button" })
       screen.getByText(/Export to/, { selector: "button" })
 
       // Switch to relationships

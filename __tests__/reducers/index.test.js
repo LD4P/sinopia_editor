@@ -45,7 +45,7 @@ describe("setCurrentComponent()", () => {
   describe("when modal open", () => {
     it("does not set current component", () => {
       const oldState = createState()
-      oldState.editor.currentModal = "GroupChoiceModal"
+      oldState.editor.currentModal = ["GroupChoiceModal"]
 
       const action = {
         type: "SET_CURRENT_COMPONENT",

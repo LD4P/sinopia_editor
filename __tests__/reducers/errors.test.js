@@ -102,7 +102,7 @@ describe("hideValidationErrors()", () => {
 describe("showValidationErrors()", () => {
   it("shows validation errors for a resource", () => {
     const oldState = {
-      currentModal: "An error modal",
+      currentModal: ["An error modal"],
       resourceValidation: {
         fgen0234: false,
       },
@@ -115,7 +115,7 @@ describe("showValidationErrors()", () => {
 
     const newState = reducer(oldState, action)
 
-    expect(newState.currentModal).toBe(null)
+    expect(newState.currentModal).toEqual([])
     expect(newState.resourceValidation.fgen0234).toBeTruthy()
   })
 })

@@ -47,7 +47,7 @@ import {
   clearErrors,
   showValidationErrors,
 } from "./errors"
-import { showModal, hideModal, showLangModal } from "./modals"
+import { showModal, hideModal, showLangModal, showMarcModal } from "./modals"
 import { showCopyNewMessage } from "./messages"
 import { exportsReceived } from "./exports"
 import { addTemplates } from "./templates"
@@ -60,6 +60,7 @@ import {
 } from "./history"
 import { clearSearchResults, setSearchResults } from "./search"
 import { lookupOptionsRetrieved } from "./lookups"
+import _ from "lodash"
 
 export const setCurrentComponent = (state, action) => {
   const rootSubjectKey = action.payload.rootSubjectKey
@@ -67,7 +68,7 @@ export const setCurrentComponent = (state, action) => {
   const rootPropertyKey = action.payload.rootPropertyKey
 
   // Don't change if modal open
-  if (state.currentModal) return state
+  if (!_.isEmpty(state.currentModal)) return state
 
   const currentComponent = state.currentComponent[rootSubjectKey]
   if (
@@ -107,6 +108,7 @@ const editorHandlers = {
   SET_UNUSED_RDF: setUnusedRDF,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_LANG_MODAL: showLangModal,
+  SHOW_MARC_MODAL: showMarcModal,
   SHOW_MODAL: showModal,
   SHOW_VALIDATION_ERRORS: showValidationErrors,
 }

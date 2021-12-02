@@ -1,16 +1,21 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useRef } from "react"
-import { useSelector, shallowEqual } from "react-redux"
+import React, { useState, useRef, useEffect } from "react"
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import PropTypes from "prop-types"
 import { postMarc, getMarcJob, getMarc } from "sinopiaApi"
 import { selectPickSubject } from "selectors/resources"
 import { isBfInstance } from "utilities/Bibframe"
 import { saveAs } from "file-saver"
-import { nanoid } from "nanoid"
+import { showMarcModal } from "actions/modals"
+import useAlerts from "hooks/useAlerts"
+import { clearErrors, addError } from "actions/errors"
 
 const MarcButton = ({ resourceKey }) => {
+  const dispatch = useDispatch()
+  const errorKey = useAlerts()
   const marcs = useRef({})
+  const isMounted = useRef(false)
   const resource = useSelector(
     (state) =>
       selectPickSubject(state, resourceKey, [
@@ -20,35 +25,53 @@ const MarcButton = ({ resourceKey }) => {
       ]),
     shallowEqual
   )
-  const [, setRender] = useState(false)
+
+  const [isRequesting, setRequesting] = useState(false)
+
+  useEffect(() => {
+    isMounted.current = true
+    return () => {
+      isMounted.current = false
+    }
+  })
 
   if (!resource?.uri || !isBfInstance(resource?.classes)) return null
 
   const marcJobTimer = (marcJobUrl, resourceKey) => {
     getMarcJob(marcJobUrl)
       .then(([url, body]) => {
+        if (!isMounted.current) return
         if (!url) {
           setTimeout(marcJobTimer, 10000, marcJobUrl, resourceKey)
           return
         }
         marcs.current[resourceKey] = { marc: body, marcUrl: url }
-        setRender(nanoid())
+        setRequesting(false)
       })
       .catch((err) => {
-        marcs.current[resourceKey] = { error: err.message || err }
-        setRender(nanoid())
+        if (!isMounted.current) return
+        dispatch(
+          addError(errorKey, `Error requesting MARC: ${err.message || err}`)
+        )
+        setRequesting(false)
       })
   }
 
   const handleRequest = (event) => {
+    setRequesting(true)
+    dispatch(clearErrors(errorKey))
     delete marcs.current[resourceKey]
     postMarc(resource.uri)
       .then((marcJobUrl) => {
-        marcJobTimer(marcJobUrl, resourceKey)
+        if (!isMounted.current) return
+        setTimeout(marcJobTimer, 1000, marcJobUrl, resourceKey)
       })
       .catch((err) => {
-        marcs.current[resourceKey] = { error: err.message || err }
-        setRender(nanoid())
+        if (!isMounted.current) return
+        dispatch(
+          addError(errorKey, `Error requesting MARC: ${err.message || err}`)
+        )
+        setRequesting(false)
       })
     event.preventDefault()
   }
@@ -72,18 +95,39 @@ const MarcButton = ({ resourceKey }) => {
     event.preventDefault()
   }
 
-  const btnClasses = ["btn", "dropdown-toggle", "btn-no-outline"]
-  if (marcs.current[resourceKey]?.marc) {
-    btnClasses.push("btn-success")
-  } else if (marcs.current[resourceKey]?.error) {
-    btnClasses.push("btn-danger")
-  } else {
-    btnClasses.push("btn-secondary")
+  const handleViewMarc = (event) => {
+    dispatch(showMarcModal(marcs.current[resourceKey].marc))
+    event.preventDefault()
   }
+
+  const btnClasses = ["btn", "dropdown-toggle", "btn-no-outline"]
   const dropDownItemBtnClasses = ["btn", "btn-secondary", "dropdown-item"]
 
+  if (isRequesting) {
+    return (
+      <React.Fragment>
+        <button
+          type="button"
+          id="marcBtn"
+          className="btn btn-no-outline"
+          aria-label="MARC record"
+          title="MARC record"
+          disabled={true}
+        >
+          <span
+            className="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Requesting MARC ...
+        </button>
+        <div className="separator-circle">•</div>
+      </React.Fragment>
+    )
+  }
+
   return (
-    <div className="btn-group dropstart">
+    <div className="btn-group dropdown">
       <button
         type="button"
         id="marcBtn"
@@ -91,16 +135,15 @@ const MarcButton = ({ resourceKey }) => {
         aria-label="MARC record"
         title="MARC record"
         data-bs-toggle="dropdown"
-        aria-haspopup="true"
         aria-expanded="false"
       >
-        Request MARC
+        MARC
       </button>
       <div className="separator-circle">•</div>
       <div className="dropdown-menu" aria-labelledby="marcBtn">
         <button
           className={dropDownItemBtnClasses.join(" ")}
-          onClick={(event) => handleRequest(event)}
+          onClick={handleRequest}
         >
           Request conversion to MARC
         </button>
@@ -108,42 +151,23 @@ const MarcButton = ({ resourceKey }) => {
           <React.Fragment>
             <button
               className={dropDownItemBtnClasses.join(" ")}
-              onClick={(event) => handleDownloadTxt(event)}
+              onClick={handleViewMarc}
+            >
+              View MARC
+            </button>
+            <button
+              className={dropDownItemBtnClasses.join(" ")}
+              onClick={handleDownloadTxt}
             >
               Download text
             </button>
             <button
               className={dropDownItemBtnClasses.join(" ")}
-              onClick={(event) => handleDownloadMarc(event)}
+              onClick={handleDownloadMarc}
             >
               Download MARC
             </button>
-            <pre
-              style={{
-                marginLeft: "10px",
-                marginRight: "10px",
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                maxWidth: "750px",
-              }}
-            >
-              <bdi>{marcs.current[resourceKey].marc}</bdi>
-            </pre>
           </React.Fragment>
-        )}
-        {marcs.current[resourceKey]?.error && (
-          <div
-            className="alert alert-danger"
-            role="alert"
-            style={{
-              marginLeft: "10px",
-              marginRight: "10px",
-              paddingLeft: "10px",
-              paddingRight: "10px",
-            }}
-          >
-            {marcs.current[resourceKey].error}
-          </div>
         )}
       </div>
     </div>

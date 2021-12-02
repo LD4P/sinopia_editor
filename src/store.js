@@ -17,7 +17,7 @@ export const initialState = {
     currentResource: undefined,
     currentPreviewResource: undefined,
     currentComponent: {},
-    currentModal: undefined,
+    currentModal: [], // a stack of modal names. This allows a modal to be opened from a modal, but only one displays at a time.
     currentLangModalValue: undefined, // the value key of the value to be displayed in the InputLang modal.
     currentDiff: {
       compareFrom: undefined,
@@ -28,6 +28,7 @@ export const initialState = {
     resources: [], // Subject keys for open resources
     resourceValidation: {}, // Show validation {<resourceKey>: boolean}
     unusedRDF: {}, // {<resourceKey>: rdf}
+    marc: null, // marc record for display
   },
   entities: {
     languageLookup: [],
