@@ -17,7 +17,7 @@ const TemplateMetrics = ({ triggerHandleOffsetMenu }) => (
       <div className="col-md-3">
         <TemplateCountMetric />
       </div>
-      <div className="col-md-3">
+      <div className="col-md-6">
         <TemplateUsageCountMetric />
       </div>
     </div>
