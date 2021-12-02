@@ -5,8 +5,6 @@ import { useSelector } from "react-redux"
 import PanelResource from "./property/PanelResource"
 import CopyToNewMessage from "./CopyToNewMessage"
 import ResourceURIMessage from "./ResourceURIMessage"
-import CopyToNewButton from "./actions/CopyToNewButton"
-import PreviewButton from "./actions/PreviewButton"
 import PermissionsAction from "./actions/PermissionsAction"
 import SaveAlert from "./SaveAlert"
 import {
@@ -17,6 +15,9 @@ import UnusedRDFDisplay from "./UnusedRDFDisplay"
 import { isInViewport } from "utilities/Utilities"
 import CloseButton from "./actions/CloseButton"
 import SaveAndPublishButton from "./actions/SaveAndPublishButton"
+import CopyToNewButton from "./actions/CopyToNewButton"
+import PreviewButton from "./actions/PreviewButton"
+import ResourceTitle from "./ResourceTitle"
 
 /**
  * This is the root component of the editor on the resource edit page
@@ -51,7 +52,7 @@ const ResourceComponent = () => {
     <div id="resourceTemplate">
       <section className="resource-header">
         <h3 id="resource-header">
-          {resource.label}
+          <ResourceTitle resource={resource} />
           <CopyToNewButton />
           <PreviewButton />
         </h3>
@@ -71,7 +72,7 @@ const ResourceComponent = () => {
         <div className="row">
           <div className="col-md-10">
             <h3>
-              {resource.label}
+              <ResourceTitle resource={resource} />
               <CopyToNewButton />
               <PreviewButton />
             </h3>

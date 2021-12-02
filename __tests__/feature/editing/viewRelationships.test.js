@@ -50,6 +50,11 @@ describe("relationships", () => {
 
       await screen.findByText("Instance1", { selector: "h3#resource-header" })
 
+      // Has a badge
+      expect(
+        screen.getAllByText("INSTANCE", { selector: ".badge" })
+      ).toHaveLength(2)
+
       fireEvent.click(screen.getByText("Relationships"))
 
       await screen.findByText("Works", { selector: "h5" })
@@ -74,11 +79,14 @@ describe("relationships", () => {
     })
 
     it("lists versions, previews versions, and displays diffs", async () => {
-      renderApp(null, history)
+      const { container } = renderApp(null, history)
 
       await screen.findByText("Example Label", {
         selector: "h3#resource-header",
       })
+
+      // No badge
+      expect(container.querySelector(".badge")).not.toBeInTheDocument()
 
       // No relationships pill
       expect(screen.queryByText("Relationships")).not.toBeInTheDocument()
