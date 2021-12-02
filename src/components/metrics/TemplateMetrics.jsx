@@ -17,20 +17,16 @@ const TemplateMetrics = ({ triggerHandleOffsetMenu }) => (
       <div className="col-md-3">
         <TemplateCountMetric />
       </div>
+      <div className="col-md-3">
+        <TemplateUsageCountMetric />
+      </div>
     </div>
     <div className="row mb-4">
       <div className="col-md-3">
         <TemplateCreatedCountMetric />
       </div>
-    </div>
-    <div className="row mb-4">
       <div className="col-md-3">
         <TemplateEditedCountMetric />
-      </div>
-    </div>
-    <div className="row">
-      <div className="col-md-3">
-        <TemplateUsageCountMetric />
       </div>
     </div>
   </MetricsWrapper>

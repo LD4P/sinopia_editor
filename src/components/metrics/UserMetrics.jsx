@@ -16,13 +16,9 @@ const UserMetrics = ({ triggerHandleOffsetMenu }) => (
       <div className="col-md-3">
         <UserCountMetric />
       </div>
-    </div>
-    <div className="row mb-4">
       <div className="col-md-3">
         <UserResourceCountMetric />
       </div>
-    </div>
-    <div className="row mb-4">
       <div className="col-md-3">
         <UserTemplateCountMetric />
       </div>
