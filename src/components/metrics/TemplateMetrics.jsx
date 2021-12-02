@@ -6,6 +6,7 @@ import MetricsWrapper from "./MetricsWrapper"
 import TemplateCountMetric from "./TemplateCountMetric"
 import TemplateCreatedCountMetric from "./TemplateCreatedCountMetric"
 import TemplateEditedCountMetric from "./TemplateEditedCountMetric"
+import TemplateUsageCountMetric from "./TemplateUsageCountMetric"
 
 const TemplateMetrics = ({ triggerHandleOffsetMenu }) => (
   <MetricsWrapper
@@ -22,9 +23,14 @@ const TemplateMetrics = ({ triggerHandleOffsetMenu }) => (
         <TemplateCreatedCountMetric />
       </div>
     </div>
-    <div className="row">
+    <div className="row mb-4">
       <div className="col-md-3">
         <TemplateEditedCountMetric />
+      </div>
+    </div>
+    <div className="row">
+      <div className="col-md-3">
+        <TemplateUsageCountMetric />
       </div>
     </div>
   </MetricsWrapper>
