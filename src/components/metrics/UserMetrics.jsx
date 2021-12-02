@@ -3,31 +3,28 @@
 import React from "react"
 import PropTypes from "prop-types"
 import MetricsWrapper from "./MetricsWrapper"
-import CountCard from "./CountCard"
-import useMetric from "hooks/useMetric"
+import UserCountMetric from "./UserCountMetric"
+import UserResourceCountMetric from "./UserResourceCountMetric"
+import UserTemplateCountMetric from "./UserTemplateCountMetric"
 
-const UserMetrics = ({ triggerHandleOffsetMenu }) => {
-  const userCountMetric = useMetric("getUserCount")
-
-  return (
-    <MetricsWrapper
-      triggerHandleOffsetMenu={triggerHandleOffsetMenu}
-      title="User metrics"
-    >
-      <div className="row">
-        <div className="col-md-3">
-          {userCountMetric?.count && (
-            <CountCard
-              count={userCountMetric?.count}
-              title="User count"
-              help="The total number of users."
-            />
-          )}
-        </div>
+const UserMetrics = ({ triggerHandleOffsetMenu }) => (
+  <MetricsWrapper
+    triggerHandleOffsetMenu={triggerHandleOffsetMenu}
+    title="User metrics"
+  >
+    <div className="row mb-4">
+      <div className="col-md-3">
+        <UserCountMetric />
       </div>
-    </MetricsWrapper>
-  )
-}
+      <div className="col-md-3">
+        <UserResourceCountMetric />
+      </div>
+      <div className="col-md-3">
+        <UserTemplateCountMetric />
+      </div>
+    </div>
+  </MetricsWrapper>
+)
 
 UserMetrics.propTypes = {
   triggerHandleOffsetMenu: PropTypes.func,

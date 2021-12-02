@@ -16,15 +16,11 @@ const ResourceMetrics = ({ triggerHandleOffsetMenu }) => (
       <div className="col-md-3">
         <ResourceCountMetric />
       </div>
-    </div>
-    <div className="row mb-4">
-      <div className="col-md-3">
-        <ResourceCreatedCountMetric />
-      </div>
-    </div>
-    <div className="row">
       <div className="col-md-3">
         <ResourceEditedCountMetric />
+      </div>
+      <div className="col-md-3">
+        <ResourceCreatedCountMetric />
       </div>
     </div>
   </MetricsWrapper>
