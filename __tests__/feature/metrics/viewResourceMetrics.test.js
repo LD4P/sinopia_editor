@@ -47,7 +47,7 @@ describe("viewing resource metrics", () => {
       await screen.findByText("Resource editing")
       screen.getByText("10", { selector: ".card-text" })
 
-      expect(sinopiaMetrics.getResourceCreatedCount).toHaveBeenCalledWith({
+      expect(sinopiaMetrics.getResourceEditedCount).toHaveBeenCalledWith({
         startDate: "2021-01-01",
         endDate: "2022-01-01",
         group: "stanford",

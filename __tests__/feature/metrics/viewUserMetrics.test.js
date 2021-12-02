@@ -9,6 +9,12 @@ describe("viewing user metrics", () => {
   describe("when no error", () => {
     beforeEach(() => {
       jest.spyOn(sinopiaMetrics, "getUserCount").mockResolvedValue({ count: 1 })
+      jest
+        .spyOn(sinopiaMetrics, "getResourceUserCount")
+        .mockResolvedValue({ count: 5 })
+      jest
+        .spyOn(sinopiaMetrics, "getTemplateUserCount")
+        .mockResolvedValue({ count: 10 })
     })
 
     it("displays the metrics", async () => {
@@ -21,6 +27,10 @@ describe("viewing user metrics", () => {
 
       await screen.findByText("User count")
       screen.getByText("1", { selector: ".card-text" })
+      await screen.findByText("User Resource Saved Count")
+      screen.getByText("5", { selector: ".card-text" })
+      await screen.findByText("User Template Saved Count")
+      screen.getByText("10", { selector: ".card-text" })
     })
   })
 
