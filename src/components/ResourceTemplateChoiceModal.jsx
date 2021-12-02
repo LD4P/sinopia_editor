@@ -1,42 +1,16 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-import React, { useState, useCallback } from "react"
+import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import ModalWrapper from "components/ModalWrapper"
 import PropTypes from "prop-types"
 import { hideModal } from "actions/modals"
-import { Typeahead, withAsync } from "react-bootstrap-typeahead"
-import { getTemplateSearchResults } from "sinopiaSearch"
-
-const AsyncTypeahead = withAsync(Typeahead)
+import InputTemplate from "./InputTemplate"
 
 const ResourceTemplateChoiceModal = (props) => {
   const dispatch = useDispatch()
 
-  const [isLoading, setLoading] = useState(false)
-  const [options, setOptions] = useState([])
-  const [selected, setSelected] = useState([])
   const [selectedValue, setSelectedValue] = useState(undefined)
-
-  const search = useCallback((query) => {
-    setLoading(true)
-    getTemplateSearchResults(query).then((searchResults) => {
-      setOptions(
-        searchResults.results.map((result) => ({
-          label: `${result.resourceLabel} (${result.id})`,
-          id: result.id,
-        }))
-      )
-      setLoading(false)
-    })
-  }, [])
-
-  const change = (newSelected) => {
-    setSelected(newSelected)
-    if (newSelected.length === 1) {
-      setSelectedValue(newSelected[0].id)
-    }
-  }
 
   const close = (event) => {
     event.preventDefault()
@@ -56,18 +30,7 @@ const ResourceTemplateChoiceModal = (props) => {
       <label htmlFor="template-lookup">
         Into which resource template do you want to load this resource?
       </label>
-      <AsyncTypeahead
-        onSearch={search}
-        onChange={change}
-        options={options}
-        multiple={false}
-        isLoading={isLoading}
-        selected={selected}
-        placeholder="Enter id, label, URI, remark, or author"
-        minLength={1}
-        allowNew={() => false}
-        id={"template-lookup"}
-      />
+      <InputTemplate id="template-lookup" setTemplateId={setSelectedValue} />
     </React.Fragment>
   )
 

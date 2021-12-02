@@ -6,6 +6,7 @@ import {
   getResourceCreatedCount,
   getTemplateEditedCount,
   getResourceEditedCount,
+  getTemplateUsageCount,
 } from "sinopiaMetrics"
 
 // Saves global fetch in order to be restored after each test with mocked fetch
@@ -158,6 +159,28 @@ describe("getResourceEditedCount", () => {
     expect(result).toEqual(countResult)
     expect(global.fetch).toHaveBeenCalledWith(
       "http://localhost:3000/metrics/editedCount/resource?startDate=2021-01-01&endDate=2022-01-01",
+      {
+        method: "GET",
+        headers: { Accept: "application/json" },
+      }
+    )
+  })
+})
+
+describe("getTemplateUsageCount", () => {
+  it("retrieves count", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(countResult),
+      ok: true,
+    })
+
+    const result = await getTemplateUsageCount({
+      templateId: "pcc:bf2:Monograph:Instance",
+      ignore: "me",
+    })
+    expect(result).toEqual(countResult)
+    expect(global.fetch).toHaveBeenCalledWith(
+      "http://localhost:3000/metrics/templateUsageCount?templateId=pcc%3Abf2%3AMonograph%3AInstance",
       {
         method: "GET",
         headers: { Accept: "application/json" },

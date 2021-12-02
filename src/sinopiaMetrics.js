@@ -37,6 +37,12 @@ export const getResourceEditedCount = (params) =>
     compactPick(params, dateGroupFields)
   )
 
+export const getTemplateUsageCount = (params) =>
+  getJson(
+    `${Config.sinopiaApiBase}/metrics/templateUsageCount`,
+    compactPick(params, ["templateId"])
+  )
+
 const compactPick = (obj, keys) =>
   _.pickBy(
     obj,

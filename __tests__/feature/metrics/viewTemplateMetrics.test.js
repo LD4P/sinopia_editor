@@ -1,6 +1,7 @@
 import { renderApp } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import * as sinopiaMetrics from "sinopiaMetrics"
+import * as sinopiaSearch from "sinopiaSearch"
 import { featureSetup } from "featureUtils"
 
 featureSetup()
@@ -17,6 +18,22 @@ describe("viewing template metrics", () => {
       jest
         .spyOn(sinopiaMetrics, "getTemplateEditedCount")
         .mockResolvedValue({ count: 10 })
+      jest
+        .spyOn(sinopiaMetrics, "getTemplateUsageCount")
+        .mockResolvedValue({ count: 15 })
+
+      jest.spyOn(sinopiaSearch, "getTemplateSearchResults").mockResolvedValue({
+        totalHits: 1,
+        results: [
+          {
+            id: "ld4p:RT:bf2:Title:AbbrTitle",
+            resourceLabel: "Abbreviated Title",
+            resourceURI:
+              "http://id.loc.gov/ontologies/bibframe/AbbreviatedTitle",
+          },
+        ],
+        error: undefined,
+      })
     })
 
     it("displays the metrics", async () => {
@@ -45,13 +62,28 @@ describe("viewing template metrics", () => {
         target: { value: "stanford" },
       })
 
-      await screen.findByText("Template editing")
-      screen.getByText("10", { selector: ".card-text" })
-
       expect(sinopiaMetrics.getTemplateCreatedCount).toHaveBeenCalledWith({
         startDate: "2021-01-01",
         endDate: "2022-01-01",
         group: "stanford",
+      })
+
+      await screen.findByText("Template editing")
+      screen.getByText("10", { selector: ".card-text" })
+
+      await screen.findByText("Template usage")
+      screen.getByText("15", { selector: ".card-text" })
+
+      // Change template usage filter
+      fireEvent.change(screen.getByPlaceholderText(/Enter id, label/), {
+        target: { value: "ld4p:RT:bf2:Title:AbbrTitle" },
+      })
+      fireEvent.click(await screen.findByText(/Abbreviated Title/))
+
+      await screen.findByText("15", { selector: ".card-text" })
+
+      expect(sinopiaMetrics.getTemplateUsageCount).toHaveBeenCalledWith({
+        templateId: "ld4p:RT:bf2:Title:AbbrTitle",
       })
     })
   })
