@@ -13,7 +13,10 @@ import {
   displayResourceValidations,
   hasValidationErrors as hasValidationErrorsSelector,
 } from "selectors/errors"
-import { showModal as showModalAction } from "actions/modals"
+import {
+  showModal as showModalAction,
+  hideModal as hideModalAction,
+} from "actions/modals"
 import {
   showValidationErrors as showValidationErrorsAction,
   hideValidationErrors as hideValidationErrorsAction,
@@ -68,6 +71,7 @@ const SaveAndPublishButton = (props) => {
         )
       } else {
         // Show group chooser
+        dispatch(hideModalAction())
         dispatch(showModalAction("GroupChoiceModal"))
       }
     }

@@ -17,6 +17,7 @@ import PreviewModal from "../editor/preview/PreviewModal"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
 import { dashboardErrorKey } from "utilities/errorKeyFactory"
+import MarcModal from "../editor/actions/MarcModal"
 
 const Dashboard = (props) => {
   const historicalTemplates = useSelector((state) =>
@@ -40,6 +41,7 @@ const Dashboard = (props) => {
         <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
         <ContextAlert />
         <PreviewModal />
+        <MarcModal />
         {showWelcome && (
           <div>
             <h2>Welcome to Sinopia.</h2>

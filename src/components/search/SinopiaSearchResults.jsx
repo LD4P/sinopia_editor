@@ -9,6 +9,7 @@ import GroupFilter from "./GroupFilter"
 import SearchResultRows from "./SearchResultRows"
 import SinopiaSort from "./SinopiaSort"
 import PreviewModal from "../editor/preview/PreviewModal"
+import MarcModal from "../editor/actions/MarcModal"
 import _ from "lodash"
 
 const SinopiaSearchResults = () => {
@@ -23,6 +24,7 @@ const SinopiaSearchResults = () => {
   return (
     <React.Fragment>
       <PreviewModal />
+      <MarcModal />
       <div className="row">
         <div className="col" style={{ marginBottom: "5px" }}>
           <TypeFilter />
