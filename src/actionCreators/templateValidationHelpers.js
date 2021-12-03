@@ -58,7 +58,9 @@ const validateSuppressible = (template) => {
   if (!template.suppressible) return []
 
   if (template.propertyTemplates.length !== 1)
-    return ["A suppressible template must have one property template."]
+    return [
+      "A suppressible template cannot contain more than one property template.",
+    ]
   if (template.propertyTemplates[0].type !== "uri")
     return ["The property for a suppressible template must be a URI or lookup."]
   return []

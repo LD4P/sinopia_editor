@@ -617,7 +617,8 @@ describe("validateTemplates()", () => {
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
-        error: "A suppressible template must have one property template.",
+        error:
+          "A suppressible template cannot contain more than one property template.",
       }
       expect(store.getActions()).toHaveAction("ADD_ERROR", payload)
     })
