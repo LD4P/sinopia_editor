@@ -20,7 +20,7 @@ const TemplateUsageCountMetric = () => {
     <React.Fragment>
       <div className="row py-3">
         <label htmlFor="template-choice" className="col-sm-3">
-          Selected template ID:
+          Selected template ID
         </label>
         <div className="col-sm-8">{params.templateId}</div>
       </div>
