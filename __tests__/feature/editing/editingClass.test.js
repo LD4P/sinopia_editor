@@ -34,62 +34,22 @@ describe("editing a class for a resource", () => {
         selector: "h3#resource-header",
       })
 
-      screen.getByTestId(
-        "Select classes for Literal with multiple optional classes",
-        {
-          selector: "select",
-        }
+      // Default class is displayed
+      screen.getByText(
+        "Literal (http://sinopia.io/testing/MultipleClassLiteral)",
+        { selector: "div" }
       )
-      const input = screen.getByTestId(
-        "Select classes for Multiple class inputs",
-        {
-          selector: "select",
-        }
-      )
-      expect(input).toHaveValue([
-        "http://sinopia.io/testing/MultipleClassInputs",
-      ])
-      const option1 = screen.getByText(
-        "Multiple Class Inputs subclass A (http://sinopia.io/testing/MultipleClassInputs-subclassA)",
-        { selector: "option" }
-      )
-      expect(input).toContainElement(option1)
-      const option2 = screen.getByText(
-        "Multiple Class Inputs subclass B (http://sinopia.io/testing/MultipleClassInputs-subclassB)",
-        { selector: "option" }
-      )
-      expect(input).toContainElement(option2)
 
-      // Add a class
-      fireEvent.change(input, {
-        target: {
-          value: "http://sinopia.io/testing/MultipleClassInputs-subclassA",
-        },
-      })
-      expect(input).toHaveValue([
-        "http://sinopia.io/testing/MultipleClassInputs",
-        "http://sinopia.io/testing/MultipleClassInputs-subclassA",
-      ])
+      const checkbox = screen.getByLabelText(
+        "Literal subclass A (http://sinopia.io/testing/MultipleClassLiteral-subclassA)"
+      )
+      expect(checkbox).not.toBeChecked()
+      fireEvent.click(checkbox)
+      expect(checkbox).toBeChecked()
 
-      // Remove a class
-      fireEvent.change(input, {
-        target: {
-          value: "http://sinopia.io/testing/MultipleClassInputs-subclassA",
-        },
-      })
-      expect(input).toHaveValue([
-        "http://sinopia.io/testing/MultipleClassInputs",
-      ])
-
-      // Can't remove default class
-      fireEvent.change(input, {
-        target: {
-          value: "http://sinopia.io/testing/MultipleClassInputs",
-        },
-      })
-      expect(input).toHaveValue([
-        "http://sinopia.io/testing/MultipleClassInputs",
-      ])
+      screen.getByLabelText(
+        "http://sinopia.io/testing/MultpleClassLiteral-subclassB"
+      )
     })
   })
 })
