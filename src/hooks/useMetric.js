@@ -4,7 +4,7 @@ import { metricsErrorKey } from "utilities/errorKeyFactory"
 import { addError } from "actions/errors"
 import * as sinopiaMetrics from "../sinopiaMetrics"
 
-const useMetric = (name, params = null) => {
+const useMetric = (name, params = null, runMetric = true) => {
   const dispatch = useDispatch()
   const [metric, setMetric] = useState(null)
   const isMountedRef = useRef(false)
@@ -17,6 +17,7 @@ const useMetric = (name, params = null) => {
   }, [])
 
   useEffect(() => {
+    if (!runMetric) return setMetric({ count: 0 })
     sinopiaMetrics[name](params || {})
       .then((results) => {
         if (isMountedRef.current) setMetric(results)
@@ -31,7 +32,7 @@ const useMetric = (name, params = null) => {
           )
         }
       })
-  }, [name, params, dispatch])
+  }, [name, params, dispatch, runMetric])
 
   return metric
 }

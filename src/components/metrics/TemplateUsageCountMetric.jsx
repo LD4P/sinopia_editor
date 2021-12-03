@@ -10,10 +10,20 @@ const TemplateUsageCountMetric = () => {
     templateId: defaultTemplateId,
   })
 
-  const templateUsageCountMetric = useMetric("getTemplateUsageCount", params)
+  const templateUsageCountMetric = useMetric(
+    "getTemplateUsageCount",
+    params,
+    !!params.templateId // this prevents the metric API call from firing if there is no templateId
+  )
 
   const footer = (
     <React.Fragment>
+      <div className="row py-3">
+        <label htmlFor="template-choice" className="col-sm-3">
+          Selected template ID:
+        </label>
+        <div className="col-sm-8">{params.templateId}</div>
+      </div>
       <TemplateFilter params={params} setParams={setParams} />
     </React.Fragment>
   )

@@ -72,7 +72,7 @@ describe("viewing template metrics", () => {
       screen.getByText("10", { selector: ".card-text" })
 
       await screen.findByText("Template usage")
-      screen.getByText("15", { selector: ".card-text" })
+      screen.getByText("0", { selector: ".card-text" }) // starts as 0 if no default specified
 
       // Change template usage filter
       fireEvent.change(screen.getByPlaceholderText(/Enter id, label/), {
