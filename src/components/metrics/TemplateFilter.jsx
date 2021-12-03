@@ -4,7 +4,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import InputTemplate from "../InputTemplate"
 
-export const defaultTemplateId = "pcc:bf2:Monograph:Instance"
+// if you want to have have the input field pre-filled with a value (template id, label, author, etc.), put it here
+export const defaultTemplateId = null
 
 const TemplateFilter = ({ params, setParams }) => {
   const setTemplateId = (templateId) => {
@@ -21,7 +22,7 @@ const TemplateFilter = ({ params, setParams }) => {
           htmlFor="template-choice"
           className="col-sm-3 col-form-label py-1"
         >
-          Template
+          Search for template
         </label>
         <div className="col-sm-8 my-0">
           <InputTemplate
