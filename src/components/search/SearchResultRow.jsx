@@ -114,7 +114,7 @@ const SearchResultRow = ({
         </td>
       </tr>
       {showRelationships && (
-        <tr className="search-no-top-border">
+        <tr className="search-no-top-border table-light">
           <td colSpan="5" className="px-0 search-no-top-border">
             <RelationshipResults uri={row.uri} />
           </td>
