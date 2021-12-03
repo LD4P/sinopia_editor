@@ -24,21 +24,7 @@
     ],
     "http://sinopia.io/vocabulary/hasPropertyType": [
       {
-        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasResourceAttributes": [
-      {
-        "@id": "_:b3"
-      }
-    ]
-  },
-  {
-    "@id": "_:b3",
-    "@type": ["http://sinopia.io/vocabulary/ResourcePropertyTemplate"],
-    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
-      {
-        "@id": "sinopia:template:uri"
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
       }
     ]
   },
