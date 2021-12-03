@@ -66,11 +66,11 @@ const ResourceClass = ({ resource, readOnly }) => {
   return (
     <React.Fragment>
       <div className="row mb-2">
-        <div className="col-sm-2">Class</div>
+        <div className="col-md-1">Class</div>
         <div className="col-auto">{classLabel(subjectTemplate.class)}</div>
       </div>
       <div className="row mb-2">
-        <div className="col-sm-2">Optional classes</div>
+        <div className="col-md-1">Optional classes</div>
         <div className="col-auto">{checkboxes}</div>
       </div>
     </React.Fragment>
