@@ -1,5 +1,5 @@
 import Config from "Config"
-import Honeybadger from "@honeybadger-io/js"
+import { Honeybadger } from "@honeybadger-io/react"
 
 const HoneybadgerNotifier = Honeybadger.configure({
   apiKey: Config.honeybadgerApiKey,
