@@ -152,6 +152,20 @@
       {
         "@id": "http://sinopia.io/vocabulary/propertyType/uri"
       }
+    ],
+    "http://sinopia.io/vocabulary/hasUriAttributes": [
+      {
+        "@id": "_:b18"
+      }
+    ]
+  },
+  {
+    "@id": "_:b18",
+    "@type": ["http://sinopia.io/vocabulary/UriPropertyTemplate"],
+    "http://sinopia.io/vocabulary/hasUriAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/uriAttribute/labelSuppressed"
+      }
     ]
   },
   {
@@ -180,6 +194,20 @@
     "http://sinopia.io/vocabulary/hasPropertyType": [
       {
         "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasUriAttributes": [
+      {
+        "@id": "_:b19"
+      }
+    ]
+  },
+  {
+    "@id": "_:b19",
+    "@type": ["http://sinopia.io/vocabulary/UriPropertyTemplate"],
+    "http://sinopia.io/vocabulary/hasUriAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/uriAttribute/labelSuppressed"
       }
     ]
   },

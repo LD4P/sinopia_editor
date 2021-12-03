@@ -201,6 +201,7 @@ _:b3_c14n1 <http://sinopia.io/vocabulary/hasUri> <http://sinopia.io/uri2> .
 _:b3_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/Uri> .
 _:b3_c14n2 <http://sinopia.io/vocabulary/hasDefault> _:b3_c14n0 .
 _:b3_c14n2 <http://sinopia.io/vocabulary/hasDefault> _:b3_c14n1 .
+_:b3_c14n2 <http://sinopia.io/vocabulary/hasUriAttribute> <http://sinopia.io/vocabulary/uriAttribute/labelSuppressed> .
 _:b3_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/UriPropertyTemplate> .
 _:b3_c14n3 <http://sinopia.io/vocabulary/hasPropertyType> <http://sinopia.io/vocabulary/propertyType/uri> .
 _:b3_c14n3 <http://sinopia.io/vocabulary/hasUriAttributes> _:b3_c14n2 .
@@ -223,6 +224,7 @@ _:b3_c14n3 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
         ],
         type: "uri",
         component: "InputURI",
+        labelSuppressed: true,
       })
     )
   })

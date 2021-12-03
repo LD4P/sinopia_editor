@@ -1,27 +1,5 @@
 [
   {
-    "@id": "_:b11",
-    "@type": [
-      "http://sinopia.io/vocabulary/PropertyTemplate"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "URI input",
-        "@language": "en"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasPropertyUri": [
-      {
-        "@id": "http://sinopia.io/testing/Uri/property1"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasPropertyType": [
-      {
-        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
-      }
-    ]
-  },
-  {
     "@id": "http://localhost:3000/resource/resourceTemplate:testing:uri",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
@@ -50,22 +28,80 @@
     ],
     "http://sinopia.io/vocabulary/hasRemark": [
       {
-        "@value": "A template that contains a single URI input.",
+        "@value": "A template that contains URI inputs.",
         "@language": "en"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasResourceAttribute": [
-      {
-        "@id": "http://sinopia.io/vocabulary/resourceAttribute/suppressible"
       }
     ],
     "http://sinopia.io/vocabulary/hasPropertyTemplate": [
       {
         "@list": [
           {
-            "@id": "_:b11"
+            "@id": "_:b8"
+          },
+          {
+            "@id": "_:b9"
           }
         ]
+      }
+    ]
+  },
+  {
+    "@id": "_:b10",
+    "@type": [
+      "http://sinopia.io/vocabulary/UriPropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasUriAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/uriAttribute/labelSuppressed"
+      }
+    ]
+  },
+  {
+    "@id": "_:b8",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "URI input",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Uri/property1"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ]
+  },
+  {
+    "@id": "_:b9",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "URI Input with suppressed label",
+        "@language": "en"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/testing/Uri/property2"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasUriAttributes": [
+      {
+        "@id": "_:b10"
       }
     ]
   },
@@ -92,6 +128,9 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "uri"
+      },
+      {
+        "@value": "uri or lookup"
       }
     ]
   },
@@ -100,6 +139,14 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "suppressible"
+      }
+    ]
+  },
+  {
+    "@id": "http://sinopia.io/vocabulary/uriAttribute/labelSuppressed",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "label suppressed"
       }
     ]
   }

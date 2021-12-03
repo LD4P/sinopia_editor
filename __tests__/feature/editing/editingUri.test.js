@@ -332,4 +332,20 @@ describe("editing a URI property", () => {
     // There is foo text.
     await waitFor(() => expect(saveBtn).not.toBeDisabled())
   }, 10000)
+
+  it("suppresses labels", async () => {
+    const history = createHistory(["/editor/resourceTemplate:testing:uri"])
+
+    renderApp(null, history)
+
+    await screen.findByText("URI", {
+      selector: "h3#resource-header",
+    })
+
+    expect(screen.getAllByText("Label", { selector: "label" })).toHaveLength(1)
+    screen.getByPlaceholderText("Label for URI input")
+    expect(
+      screen.queryByPlaceholderText("Label for URI input with suppressed label")
+    ).not.toBeInTheDocument()
+  }, 10000)
 })

@@ -76,7 +76,7 @@
     ],
     "http://sinopia.io/vocabulary/hasResourceTemplateId": [
       {
-        "@id": "resourceTemplate:testing:uri"
+        "@id": "resourceTemplate:testing:suppressedUri"
       }
     ]
   },
@@ -107,7 +107,7 @@
     ]
   },
   {
-    "@id": "resourceTemplate:testing:uri",
+    "@id": "resourceTemplate:testing:suppressedUri",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "URI",

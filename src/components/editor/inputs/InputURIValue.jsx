@@ -113,6 +113,9 @@ const InputURIValue = ({
   }
 
   const showLang = !propertyTemplate.languageSuppressed || value.lang
+  const showLabel =
+    !propertyTemplate.labelSuppressed ||
+    (value.label && value.label !== value.uri)
 
   const uriControlClasses = ["form-control"]
   const uriErrors = value.errors.filter((error) => error !== "Label required")
@@ -166,56 +169,59 @@ const InputURIValue = ({
               />
             </a>
           )}
-        </div>
-      </div>
-
-      <div className="row my-2">
-        <label htmlFor={labelId} className="col-sm-1 col-form-label">
-          Label
-        </label>
-        <div className="col-sm-9">
-          <TextareaAutosize
-            required={propertyTemplate.required}
-            className={labelControlClasses.join(" ")}
-            placeholder={`Label for ${propertyTemplate.label}`}
-            aria-label={`Label for ${propertyTemplate.label}`}
-            onChange={handleChangeDiacritics}
-            onKeyDown={handleLabelKeyDown}
-            onBlur={handleLabelBlur}
-            onClick={handleClickDiacritics}
-            value={currentLabelContent}
-            ref={inputLabelRef}
-            id={labelId}
-          />
-          <div
-            className="invalid-feedback"
-            data-testid={`Label errors for ${currentURIContent}`}
-          >
-            {labelErrors.join(", ")}
-          </div>
-        </div>
-        <div className="col-sm-2 d-flex align-items-end">
-          <DiacriticsButton
-            id={diacriticsBtnId}
-            content={currentLabelContent}
-            handleClick={toggleDiacritics}
-            handleBlur={handleLabelBlur}
-          />
-          {showLang && <LanguageButton value={value} />}
           <RemoveButton
             content={currentURIContent}
             handleClick={handleRemoveClick}
           />
         </div>
       </div>
-      <div className="row">
-        <DiacriticsSelection
-          id={diacriticsId}
-          handleAddCharacter={handleAddCharacter}
-          closeDiacritics={closeDiacritics}
-          showDiacritics={showDiacritics}
-        />
-      </div>
+      {showLabel && (
+        <React.Fragment>
+          <div className="row my-2">
+            <label htmlFor={labelId} className="col-sm-1 col-form-label">
+              Label
+            </label>
+            <div className="col-sm-9">
+              <TextareaAutosize
+                required={propertyTemplate.required}
+                className={labelControlClasses.join(" ")}
+                placeholder={`Label for ${propertyTemplate.label}`}
+                aria-label={`Label for ${propertyTemplate.label}`}
+                onChange={handleChangeDiacritics}
+                onKeyDown={handleLabelKeyDown}
+                onBlur={handleLabelBlur}
+                onClick={handleClickDiacritics}
+                value={currentLabelContent}
+                ref={inputLabelRef}
+                id={labelId}
+              />
+              <div
+                className="invalid-feedback"
+                data-testid={`Label errors for ${currentURIContent}`}
+              >
+                {labelErrors.join(", ")}
+              </div>
+            </div>
+            <div className="col-sm-2 d-flex align-items-end align-items-baseline">
+              <DiacriticsButton
+                id={diacriticsBtnId}
+                content={currentLabelContent}
+                handleClick={toggleDiacritics}
+                handleBlur={handleLabelBlur}
+              />
+              {showLang && <LanguageButton value={value} />}
+            </div>
+          </div>
+          <div className="row">
+            <DiacriticsSelection
+              id={diacriticsId}
+              handleAddCharacter={handleAddCharacter}
+              closeDiacritics={closeDiacritics}
+              showDiacritics={showDiacritics}
+            />
+          </div>
+        </React.Fragment>
+      )}
     </React.Fragment>
   )
 }

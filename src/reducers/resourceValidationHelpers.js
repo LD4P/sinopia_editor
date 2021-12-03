@@ -122,9 +122,11 @@ export const uriPropertiesAndValueErrors = (
   const errors = []
   if (value.key === property.valueKeys[0] && propertyTemplate.required) {
     if (!value.uri) errors.push("URI required")
-    if (!value.label) errors.push("Label required")
+    if (!value.label && !propertyTemplate.labelSuppressed)
+      errors.push("Label required")
   } else {
-    if (value.uri && !value.label) errors.push("Label required")
+    if (value.uri && !value.label && !propertyTemplate.labelSuppressed)
+      errors.push("Label required")
     if (!value.uri && value.label) errors.push("URI required")
   }
   if (value.uri && !isValidURI(value.uri)) errors.push("Invalid URI")

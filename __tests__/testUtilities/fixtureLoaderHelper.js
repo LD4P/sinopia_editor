@@ -42,6 +42,7 @@ const templateFilenames = {
   "resourceTemplate:bf2:Instance": "Instance.json",
   "resourceTemplate:testing:literal": "testing_literal.json",
   "resourceTemplate:testing:uri": "testing_uri.json",
+  "resourceTemplate:testing:suppressedUri": "testing_suppressed_uri.json",
   "resourceTemplate:testing:inputs": "testing_inputs.json",
   "resourceTemplate:testing:ordered": "testing_ordered.json",
   "resourceTemplate:testing:suppressible": "testing_suppressible.json",

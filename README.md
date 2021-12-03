@@ -310,6 +310,7 @@ The following are only in the resource subject (that is, the base subject).
   repeatable: <true | false>
   ordered: <true | false>
   languageSuppressed: <true | false>
+  labelSuppressed: <true | false>
   immutable: <true | false> (property cannot be changed after resource has been saved)
   defaults: [{literal: <literal>, lang: <lang>}, {uri: <uri>, label: <label>},...]
   remark: <remark>,
