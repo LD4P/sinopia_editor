@@ -186,6 +186,48 @@ _:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationRegex> "^\\\\d+$"@en .`
 
   it("builds URI property template", async () => {
     const rdf = `<> <http://sinopia.io/vocabulary/hasClass> <http://id.loc.gov/ontologies/bibframe/Uber1> .
+    <> <http://sinopia.io/vocabulary/hasPropertyTemplate> _:b1_c14n1 .
+    <> <http://sinopia.io/vocabulary/hasResourceId> <resourceTemplate:testing:uber1> .
+    <> <http://sinopia.io/vocabulary/hasResourceTemplate> "sinopia:template:resource" .
+    <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/ResourceTemplate> .
+    <> <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1"@en .
+    <http://sinopia.io/vocabulary/propertyType/uri> <http://www.w3.org/2000/01/rdf-schema#label> "uri" .
+    _:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:b3_c14n3 .
+    _:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+    _:b3_c14n2 <http://sinopia.io/vocabulary/hasDefault> <http://sinopia.io/uri1> .
+    <http://sinopia.io/uri1> <http://www.w3.org/2000/01/rdf-schema#label> "Test uri1"@en .
+    _:b3_c14n2 <http://sinopia.io/vocabulary/hasDefault> <http://sinopia.io/uri2> .
+    _:b3_c14n2 <http://sinopia.io/vocabulary/hasUriAttribute> <http://sinopia.io/vocabulary/uriAttribute/labelSuppressed> .
+    _:b3_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/UriPropertyTemplate> .
+    _:b3_c14n3 <http://sinopia.io/vocabulary/hasPropertyType> <http://sinopia.io/vocabulary/propertyType/uri> .
+    _:b3_c14n3 <http://sinopia.io/vocabulary/hasUriAttributes> _:b3_c14n2 .
+    _:b3_c14n3 <http://sinopia.io/vocabulary/hasPropertyUri> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> .
+    _:b3_c14n3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/PropertyTemplate> .
+    _:b3_c14n3 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, property2"@en .`
+    const dataset = await datasetFromN3(rdf)
+    const subjectTemplate = new TemplatesBuilder(dataset, "").build()
+    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
+      build.propertyTemplate({
+        subjectTemplateKey: "resourceTemplate:testing:uber1",
+        label: "Uber template1, property2",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
+            "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
+        },
+        defaults: [
+          { uri: "http://sinopia.io/uri1", label: "Test uri1", lang: "en" },
+          { uri: "http://sinopia.io/uri2", label: null, lang: null },
+        ],
+        type: "uri",
+        component: "InputURI",
+        labelSuppressed: true,
+      })
+    )
+  })
+
+  it("builds URI property template with legacy defaults", async () => {
+    // Legacy defaults used a nested resource to model URIs and labels.
+    const rdf = `<> <http://sinopia.io/vocabulary/hasClass> <http://id.loc.gov/ontologies/bibframe/Uber1> .
 <> <http://sinopia.io/vocabulary/hasPropertyTemplate> _:b1_c14n1 .
 <> <http://sinopia.io/vocabulary/hasResourceId> <resourceTemplate:testing:uber1> .
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "sinopia:template:resource" .
@@ -201,7 +243,6 @@ _:b3_c14n1 <http://sinopia.io/vocabulary/hasUri> <http://sinopia.io/uri2> .
 _:b3_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/Uri> .
 _:b3_c14n2 <http://sinopia.io/vocabulary/hasDefault> _:b3_c14n0 .
 _:b3_c14n2 <http://sinopia.io/vocabulary/hasDefault> _:b3_c14n1 .
-_:b3_c14n2 <http://sinopia.io/vocabulary/hasUriAttribute> <http://sinopia.io/vocabulary/uriAttribute/labelSuppressed> .
 _:b3_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/UriPropertyTemplate> .
 _:b3_c14n3 <http://sinopia.io/vocabulary/hasPropertyType> <http://sinopia.io/vocabulary/propertyType/uri> .
 _:b3_c14n3 <http://sinopia.io/vocabulary/hasUriAttributes> _:b3_c14n2 .
@@ -224,7 +265,6 @@ _:b3_c14n3 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
         ],
         type: "uri",
         component: "InputURI",
-        labelSuppressed: true,
       })
     )
   })

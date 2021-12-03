@@ -16,7 +16,6 @@ import rtLookupPropertyAttrs from "../static/templates/rt_lookup_property_attrs_
 import rtPropertyTemplate from "../static/templates/rt_property_template_doc.json"
 import rtResourcePropertyAttrs from "../static/templates/rt_resource_property_attrs_doc.json"
 import rtResourceRemplate from "../static/templates/rt_resource_template_doc.json"
-import rtUri from "../static/templates/rt_uri_doc.json"
 import rtUriPropertyAttrs from "../static/templates/rt_uri_property_attrs_doc.json"
 import {
   checkResp,
@@ -33,7 +32,6 @@ const baseTemplates = {
   "sinopia:template:property": rtPropertyTemplate,
   "sinopia:template:property:resource": rtResourcePropertyAttrs,
   "sinopia:template:resource": rtResourceRemplate,
-  "sinopia:template:uri": rtUri,
   "sinopia:template:property:uri": rtUriPropertyAttrs,
 }
 

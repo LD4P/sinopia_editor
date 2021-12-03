@@ -373,8 +373,12 @@ export default class TemplatesBuilder {
         defaultTerm,
         "http://www.w3.org/2000/01/rdf-schema#label"
       )
+      let uri = defaultTerm.value
+      // This is for legacy defaults.
+      if (defaultTerm.termType === "BlankNode")
+        uri = this.valueFor(defaultTerm, "http://sinopia.io/vocabulary/hasUri")
       return {
-        uri: this.valueFor(defaultTerm, "http://sinopia.io/vocabulary/hasUri"),
+        uri,
         label: defaultLabelTerm?.value || null,
         lang: _.isEmpty(defaultLabelTerm?.language)
           ? null
