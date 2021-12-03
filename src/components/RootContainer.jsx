@@ -9,7 +9,7 @@ import CanvasMenu from "./menu/CanvasMenu"
 import App from "./App"
 import store from "../store"
 import HoneybadgerNotifier from "Honeybadger"
-import ErrorBoundary from "@honeybadger-io/react"
+import { HoneybadgerErrorBoundary } from "@honeybadger-io/react"
 import Amplify from "@aws-amplify/core"
 import Config from "Config"
 
@@ -28,7 +28,7 @@ const RootContainer = () => {
   const offcanvasClass = isMenuOpened ? "closeMargin" : null
 
   return (
-    <ErrorBoundary honeybadger={HoneybadgerNotifier}>
+    <HoneybadgerErrorBoundary honeybadger={HoneybadgerNotifier}>
       <div id="home-page">
         <OffCanvas
           width={300}
@@ -52,7 +52,7 @@ const RootContainer = () => {
           </OffCanvasMenu>
         </OffCanvas>
       </div>
-    </ErrorBoundary>
+    </HoneybadgerErrorBoundary>
   )
 }
 
