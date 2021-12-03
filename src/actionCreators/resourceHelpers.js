@@ -504,7 +504,7 @@ const newUriFromObject = (obj, property, propertyUri, context) => {
   const labelQuads = context.dataset
     .match(obj, rdf.namedNode("http://www.w3.org/2000/01/rdf-schema#label"))
     .toArray()
-  let label = uri
+  let label = property.propertyTemplate.labelSuppressed ? null : uri
   let lang = null
   if (labelQuads.length > 0) {
     // First that doesn't start with http or first

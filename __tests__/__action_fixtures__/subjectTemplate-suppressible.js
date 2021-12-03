@@ -18,7 +18,7 @@ const subjectTemplate = build.subjectTemplate({
       uris: {
         "http://sinopia.io/testing/Suppressible/property1": "Property1",
       },
-      valueSubjectTemplateKeys: ["resourceTemplate:testing:uri"],
+      valueSubjectTemplateKeys: ["resourceTemplate:testing:suppressedUri"],
       type: "resource",
       component: "NestedResource",
     }),

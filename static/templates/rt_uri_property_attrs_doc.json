@@ -43,6 +43,49 @@
     ]
   },
   {
+    "@id": "_:b4",
+    "@type": ["http://sinopia.io/vocabulary/PropertyTemplate"],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "URI attributes"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Whether label is suppressible."
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://sinopia.io/vocabulary/hasUriAttribute"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/repeatable"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/uri"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasLookupAttributes": [
+      {
+        "@id": "_:b5"
+      }
+    ]
+  },
+  {
+    "@id": "_:b5",
+    "@type": ["http://sinopia.io/vocabulary/LookupPropertyTemplate"],
+    "http://sinopia.io/vocabulary/hasAuthority": [
+      {
+        "@id": "file:/uriAttribute.json"
+      }
+    ]
+  },
+  {
     "@id": "sinopia:template:property:uri",
     "http://sinopia.io/vocabulary/hasResourceTemplate": [
       {
@@ -75,6 +118,9 @@
         "@list": [
           {
             "@id": "_:b2"
+          },
+          {
+            "@id": "_:b4"
           }
         ]
       }

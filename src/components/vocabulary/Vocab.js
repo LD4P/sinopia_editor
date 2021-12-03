@@ -91,6 +91,10 @@ const vocabulary = {
     description: "Attributes for a URI",
     url: "http://sinopia.io/vocabulary/hasUriAttributes",
   },
+  hasUriAttribute: {
+    description: "Attributes specific to a URI (e.g., label suppressible)",
+    url: "http://sinopia.io/vocabulary/hasUriAttributes",
+  },
   hasValidationDataType: {
     description: "Data Type to validate the literal, e.g. integer or dateTime",
     url: "http://sinopia.io/vocabulary/hasValidationDataType",

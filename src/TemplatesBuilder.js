@@ -169,6 +169,16 @@ export default class TemplatesBuilder {
     )
     if (attributeTerm) {
       propertyTemplate.defaults = this.defaultsForUri(attributeTerm)
+      const uriAttrValues = this.valuesFor(
+        attributeTerm,
+        "http://sinopia.io/vocabulary/hasUriAttribute"
+      )
+      if (
+        uriAttrValues.includes(
+          "http://sinopia.io/vocabulary/uriAttribute/labelSuppressed"
+        )
+      )
+        propertyTemplate.labelSuppressed = true
     }
     return propertyTemplate
   }
@@ -230,6 +240,7 @@ export default class TemplatesBuilder {
       defaults: [],
       valueSubjectTemplateKeys: [],
       authorities: [],
+      labelSuppressed: false,
     }
   }
 

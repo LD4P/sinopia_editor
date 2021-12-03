@@ -1706,6 +1706,29 @@ describe("updateValue()", () => {
     })
   })
 
+  describe("update uri value missing label, but label suppressed", () => {
+    it("updates state", () => {
+      const oldState = createState({ hasResourceWithUri: true })
+      oldState.entities.propertyTemplates[
+        "resourceTemplate:testing:uber5 > http://id.loc.gov/ontologies/bibframe/uber/template5/property1"
+      ].labelSuppressed = true
+
+      const action = {
+        type: "UPDATE_VALUE",
+        payload: {
+          valueKey: "a_-Jp0pY6pH6ytCtfr-mx",
+          uri: "http://id.loc.gov/authorities/names/nr2003037533",
+          label: null,
+          lang: null,
+        },
+      }
+
+      const newState = reducer(oldState.entities, action)
+
+      expect(newState.values["a_-Jp0pY6pH6ytCtfr-mx"].errors).toEqual([])
+    })
+  })
+
   describe("update lookup value to uri", () => {
     it("updates state", () => {
       const oldState = createState({ hasResourceWithLookup: true })

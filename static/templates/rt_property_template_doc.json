@@ -267,6 +267,20 @@
       {
         "@id": "http://sinopia.io/vocabulary/propertyType/uri"
       }
+    ],
+    "http://sinopia.io/vocabulary/hasUriAttributes": [
+      {
+        "@id": "_:b27"
+      }
+    ]
+  },
+  {
+    "@id": "_:b27",
+    "@type": ["http://sinopia.io/vocabulary/UriPropertyTemplate"],
+    "http://sinopia.io/vocabulary/hasUriAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/uriAttribute/labelSuppressed"
+      }
     ]
   },
   {

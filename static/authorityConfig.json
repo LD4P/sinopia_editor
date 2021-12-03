@@ -2303,6 +2303,11 @@
     "component": "list"
   },
   {
+    "label": "uriAttribute",
+    "uri": "file:/uriAttribute.json",
+    "component": "list"
+  },
+  {
     "label": "property type",
     "uri": "file:/propertyType.json",
     "component": "list"
