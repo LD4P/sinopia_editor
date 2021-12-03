@@ -91,7 +91,7 @@ const PanelProperty = ({ propertyKey, readOnly, id, isTemplate }) => {
         </div>
         {!isAdd && (
           <React.Fragment>
-            <div className="prop-heading pt-2">
+            <div className="prop-heading py-2">
               <PropertyPropertyURI
                 propertyTemplate={propertyTemplate}
                 property={property}
