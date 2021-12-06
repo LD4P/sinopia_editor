@@ -21,7 +21,7 @@ describe("TemplatesBuilder", () => {
 <http://id.loc.gov/ontologies/bibframe/Uber3> <http://www.w3.org/2000/01/rdf-schema#label> "Uber3"@en .`
 
     const dataset = await datasetFromN3(rdf)
-    const subjectTemplate = new TemplatesBuilder(dataset, "", "stanford", [
+    const subjectTemplate = new TemplatesBuilder(dataset, "", "", "stanford", [
       "cornell",
     ]).build()
     expect(subjectTemplate).toStrictEqual(
@@ -99,7 +99,7 @@ _:b1_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
     )
   })
 
-  it("builds literal property template with validationDataType value", async () => {
+  it("builds literal property template", async () => {
     const rdf = `<> <http://sinopia.io/vocabulary/hasClass> <http://id.loc.gov/ontologies/bibframe/Uber1> .
 <> <http://sinopia.io/vocabulary/hasPropertyTemplate> _:b1_c14n1 .
 <> <http://sinopia.io/vocabulary/hasResourceId> <resourceTemplate:testing:uber1> .
@@ -118,9 +118,13 @@ _:b2_c14n1 <http://sinopia.io/vocabulary/hasDefault> "default1"@en .
 _:b2_c14n1 <http://sinopia.io/vocabulary/hasDefault> "default2" .
 _:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LiteralPropertyTemplate> .
 _:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationRegex> "^\\\\d+$"@en .
-_:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationDataType> <http://www.w3.org/2001/XMLSchema#integer>.`
+_:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationDataType> <http://www.w3.org/2001/XMLSchema#integer> .
+_:b2_c14n1 <http://sinopia.io/vocabulary/hasLiteralAttributes> _:b2_c14n2 .
+_:b2_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LiteralPropertyTemplate> .
+_:b2_c14n2 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault> .
+<http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault> <http://www.w3.org/2000/01/rdf-schema#label> "user ID default" .`
     const dataset = await datasetFromN3(rdf)
-    const subjectTemplate = new TemplatesBuilder(dataset, "").build()
+    const subjectTemplate = new TemplatesBuilder(dataset, "", "iasimov").build()
     expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
       build.propertyTemplate({
         subjectTemplateKey: "resourceTemplate:testing:uber1",
@@ -132,53 +136,12 @@ _:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationDataType> <http://www.w3.o
         defaults: [
           { literal: "default1", lang: "en" },
           { literal: "default2", lang: null },
+          { literal: "iasimov", lang: null },
         ],
         type: "literal",
         validationRegex: "^\\d+$",
         validationDataType: "http://www.w3.org/2001/XMLSchema#integer",
         languageSuppressed: true,
-        component: "InputLiteral",
-      })
-    )
-  })
-
-  it("builds literal property template without validationDataType value", async () => {
-    const rdf = `<> <http://sinopia.io/vocabulary/hasClass> <http://id.loc.gov/ontologies/bibframe/Uber1> .
-<> <http://sinopia.io/vocabulary/hasPropertyTemplate> _:b1_c14n1 .
-<> <http://sinopia.io/vocabulary/hasResourceId> <resourceTemplate:testing:uber1> .
-<> <http://sinopia.io/vocabulary/hasResourceTemplate> "sinopia:template:resource" .
-<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/ResourceTemplate> .
-<> <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1"@en .
-<http://sinopia.io/vocabulary/propertyType/literal> <http://www.w3.org/2000/01/rdf-schema#label> "literal" .
-_:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:b2_c14n0 .
-_:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
-_:b2_c14n0 <http://sinopia.io/vocabulary/hasLiteralAttributes> _:b2_c14n1 .
-_:b2_c14n0 <http://sinopia.io/vocabulary/hasPropertyType> <http://sinopia.io/vocabulary/propertyType/literal> .
-_:b2_c14n0 <http://sinopia.io/vocabulary/hasPropertyUri> <http://id.loc.gov/ontologies/bibframe/uber/template1/property1> .
-_:b2_c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/PropertyTemplate> .
-_:b2_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, property2"@en .
-_:b2_c14n1 <http://sinopia.io/vocabulary/hasDefault> "default1"@en .
-_:b2_c14n1 <http://sinopia.io/vocabulary/hasDefault> "default2" .
-_:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LiteralPropertyTemplate> .
-_:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationRegex> "^\\\\d+$"@en .`
-    const dataset = await datasetFromN3(rdf)
-    const subjectTemplate = new TemplatesBuilder(dataset, "").build()
-    expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
-      build.propertyTemplate({
-        subjectTemplateKey: "resourceTemplate:testing:uber1",
-        label: "Uber template1, property2",
-        uris: {
-          "http://id.loc.gov/ontologies/bibframe/uber/template1/property1":
-            "http://id.loc.gov/ontologies/bibframe/uber/template1/property1",
-        },
-        defaults: [
-          { literal: "default1", lang: "en" },
-          { literal: "default2", lang: null },
-        ],
-        type: "literal",
-        validationRegex: "^\\d+$",
-        validationDataType: null,
-        languageSuppressed: false,
         component: "InputLiteral",
       })
     )

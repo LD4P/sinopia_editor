@@ -141,6 +141,7 @@ describe("validateTemplates()", () => {
       ],
     })
     subjectTemplate.propertyTemplates[0].uris = undefined
+
     it("returns error", async () => {
       const store = mockStore(createState())
 
