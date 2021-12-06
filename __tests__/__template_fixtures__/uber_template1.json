@@ -188,37 +188,18 @@
     ],
     "http://sinopia.io/vocabulary/hasDefault": [
       {
-        "@id": "_:b22"
+        "@id": "http://sinopia.io/defaultURI1"
       },
       {
-        "@id": "_:b23"
+        "@id": "http://sinopia.io/defaultURI2"
       }
     ]
   },
   {
-    "@id": "_:b22",
-    "@type": [
-      "http://sinopia.io/vocabulary/Uri"
-    ],
+    "@id": "http://sinopia.io/defaultURI1",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Default URI1"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasUri": [
-      {
-        "@id": "http://sinopia.io/defaultURI1"
-      }
-    ]
-  },
-  {
-    "@id": "_:b23",
-    "@type": [
-      "http://sinopia.io/vocabulary/Uri"
-    ],
-    "http://sinopia.io/vocabulary/hasUri": [
-      {
-        "@id": "http://sinopia.io/defaultURI2"
       }
     ]
   },

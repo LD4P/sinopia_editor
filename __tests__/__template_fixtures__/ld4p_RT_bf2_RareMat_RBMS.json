@@ -63,7 +63,7 @@
     ],
     "http://sinopia.io/vocabulary/hasDefault": [
       {
-        "@id": "_:b6"
+        "@id": "http://id.loc.gov/vocabulary/genreFormSchemes/rbmscv"
       }
     ],
     "http://sinopia.io/vocabulary/hasAuthority": [
@@ -73,18 +73,10 @@
     ]
   },
   {
-    "@id": "_:b6",
-    "@type": [
-      "http://sinopia.io/vocabulary/Uri"
-    ],
+    "@id": "http://id.loc.gov/vocabulary/genreFormSchemes/rbmscv",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "RBMS"
-      }
-    ],
-    "http://sinopia.io/vocabulary/hasUri": [
-      {
-        "@id": "http://id.loc.gov/vocabulary/genreFormSchemes/rbmscv"
       }
     ]
   },
