@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { findAuthorityConfig } from "utilities/authorityConfig"
 import rdf from "rdf-ext"
-import { resourceToName } from "utilities/Utilities"
+import { resourceToName, formatISODate } from "utilities/Utilities"
 
 const rdfsLabel = "http://www.w3.org/2000/01/rdf-schema#label"
 
@@ -164,6 +164,16 @@ export default class TemplatesBuilder {
         )
       ) {
         propertyTemplate.defaults.push({ literal: this.userId, lang: null })
+      }
+      if (
+        literalAttrValues.includes(
+          "http://sinopia.io/vocabulary/literalPropertyAttribute/dateDefault"
+        )
+      ) {
+        propertyTemplate.defaults.push({
+          literal: formatISODate(new Date()),
+          lang: null,
+        })
       }
     }
     propertyTemplate.validationRegex =

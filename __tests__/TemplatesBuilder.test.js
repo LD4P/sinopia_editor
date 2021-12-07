@@ -3,6 +3,9 @@ import { datasetFromN3 } from "utilities/Utilities"
 import ResourceBuilder from "resourceBuilderUtils"
 
 describe("TemplatesBuilder", () => {
+  const mockDate = new Date("2019-05-14T11:01:58.135Z")
+  jest.spyOn(global, "Date").mockImplementation(() => mockDate)
+
   const build = new ResourceBuilder()
   it("builds subjectTemplate", async () => {
     const rdf = `<> <http://sinopia.io/vocabulary/hasAuthor> "Justin Littman"@en .
@@ -122,7 +125,9 @@ _:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationDataType> <http://www.w3.o
 _:b2_c14n1 <http://sinopia.io/vocabulary/hasLiteralAttributes> _:b2_c14n2 .
 _:b2_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LiteralPropertyTemplate> .
 _:b2_c14n2 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault> .
-<http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault> <http://www.w3.org/2000/01/rdf-schema#label> "user ID default" .`
+_:b2_c14n2 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://sinopia.io/vocabulary/literalPropertyAttribute/dateDefault> .
+<http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault> <http://www.w3.org/2000/01/rdf-schema#label> "user ID default" .
+<http://sinopia.io/vocabulary/literalPropertyAttribute/dateDefault> <http://www.w3.org/2000/01/rdf-schema#label> "date default" .`
     const dataset = await datasetFromN3(rdf)
     const subjectTemplate = new TemplatesBuilder(dataset, "", "iasimov").build()
     expect(subjectTemplate.propertyTemplates[0]).toStrictEqual(
@@ -137,6 +142,7 @@ _:b2_c14n2 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://s
           { literal: "default1", lang: "en" },
           { literal: "default2", lang: null },
           { literal: "iasimov", lang: null },
+          { literal: "2019-05-14", lang: null },
         ],
         type: "literal",
         validationRegex: "^\\d+$",

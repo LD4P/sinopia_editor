@@ -2,13 +2,14 @@
 
 import React from "react"
 import PropTypes from "prop-types"
+import { formatISODate } from "utilities/Utilities"
 
 // 30 days ago
-export const defaultStartDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-  .toISOString()
-  .slice(0, 10)
+export const defaultStartDate = formatISODate(
+  new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+)
 // Today
-export const defaultEndDate = new Date().toISOString().slice(0, 10)
+export const defaultEndDate = formatISODate(new Date())
 
 const DateRangeFilter = ({ params, setParams }) => {
   const handleStartDateChange = (event) => {

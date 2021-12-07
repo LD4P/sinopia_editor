@@ -3,6 +3,7 @@ import {
   isResourceWithValueTemplateRef,
   resourceToName,
   datasetFromN3,
+  formatISODate,
 } from "utilities/Utilities"
 
 describe("Utilities", () => {
@@ -128,5 +129,13 @@ describe("Utilities", () => {
 
   it("raises an error for invalid N3", async () => {
     await expect(datasetFromN3("foo")).rejects.toThrowError()
+  })
+
+  describe("formatISODate()", () => {
+    it("formats date", () => {
+      expect(formatISODate(new Date("2019-05-14T11:01:58.135Z"))).toEqual(
+        "2019-05-14"
+      )
+    })
   })
 })

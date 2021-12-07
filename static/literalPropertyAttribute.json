@@ -2,5 +2,10 @@
   {
     "uri": "http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault",
     "label": "user ID default"
+  },
+  {
+    "uri": "http://sinopia.io/vocabulary/literalPropertyAttribute/dateDefault",
+    "label": "date default"
   }
+
 ]
