@@ -251,3 +251,17 @@ const saveBodyForResource = (resource, user, group, editGroups) => {
     })
   )
 }
+
+export const detectLanguage = (text) =>
+  getJwt().then((jwt) =>
+    fetch(`${Config.sinopiaApiBase}/helpers/langDetection`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        "Content-Type": "text/plain",
+      },
+      body: text,
+    })
+      .then((resp) => checkResp(resp).then(() => resp.json()))
+      .then((json) => json.data)
+  )

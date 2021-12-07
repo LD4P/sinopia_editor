@@ -29,6 +29,8 @@ export const hasLanguages = (state) => {
 
 export const selectLanguages = (state) => state.entities.languageLookup
 
+export const selectLanguageLabels = (state) => state.entities.languages
+
 export const selectScripts = (state) => state.entities.scriptLookup
 
 export const selectTransliterations = (state) =>

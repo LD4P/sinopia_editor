@@ -12,6 +12,7 @@ import {
   postTransfer,
   fetchResourceRelationships,
   fetchResourceVersions,
+  detectLanguage,
 } from "sinopiaApi"
 import { selectFullSubject } from "selectors/resources"
 import { selectUser } from "selectors/authenticate"
@@ -591,5 +592,51 @@ describe("fetchResourceVersions", () => {
         "Not Found: not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/versions"
       )
     })
+  })
+})
+
+describe("detectLanguage", () => {
+  const languages = [{ language: "en", score: 0.8 }]
+
+  it("retrieves languages", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({
+        query: "Who am I and why am I here?",
+        data: languages,
+      }),
+      ok: true,
+    })
+
+    const result = await detectLanguage("Who am I and why am I here?")
+    expect(result).toStrictEqual(languages)
+    expect(global.fetch).toHaveBeenCalledWith(
+      "http://localhost:3000/helpers/langDetection",
+      {
+        body: "Who am I and why am I here?",
+        headers: {
+          Authorization: "Bearer Secret-Token",
+          "Content-Type": "text/plain",
+        },
+        method: "POST",
+      }
+    )
+  })
+
+  it("errors when API returns an error", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      status: 500,
+      ok: false,
+      json: jest.fn().mockResolvedValue([
+        {
+          title: "Server error",
+          details: "Something went wrong",
+          status: "500",
+        },
+      ]),
+    })
+
+    await expect(detectLanguage("Who am I and why am I here?")).rejects.toThrow(
+      "Server error: Something went wrong"
+    )
   })
 })
