@@ -184,3 +184,5 @@ export const stickyScrollIntoView = (
     stickyHeader.clientHeight
   window.scrollTo({ top: y, behavior: "smooth" })
 }
+
+export const formatISODate = (date) => date.toISOString().slice(0, 10)

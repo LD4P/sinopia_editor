@@ -119,7 +119,10 @@ const vocabulary = {
     description: "Default to the current user's ID",
     url: "http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault",
   },
-
+  "literalPropertyAttribute/dateDefault": {
+    description: "Default to the current date",
+    url: "http://sinopia.io/vocabulary/literalPropertyAttribute/dateDefault",
+  },
   "propertyAttribute/immutable": {
     description: "Value cannot be changed once assigned (for IDs)",
     url: "http://sinopia.io/vocabulary/propertyAttribute/immutable",
