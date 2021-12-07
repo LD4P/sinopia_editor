@@ -19,7 +19,11 @@ const HeaderSearch = () => {
   const [query, setQuery] = useState("")
   const popoverRef = useRef()
   const errorKey = useAlerts()
-  const { fetchNewSearchResults } = useSearch(errorKey)
+  const {
+    fetchNewSearchResults,
+    fetchTemplateGuessSearchResults,
+    clearTemplateGuessSearchResults,
+  } = useSearch(errorKey)
 
   const options = searchConfig.map((config) => (
     <option key={config.uri} value={config.uri}>
@@ -67,6 +71,11 @@ const HeaderSearch = () => {
       }
     }
     fetchNewSearchResults(query, searchUri, options)
+    if (uri === "urn:ld4p:sinopia" && query !== "*") {
+      fetchTemplateGuessSearchResults(query)
+    } else {
+      clearTemplateGuessSearchResults()
+    }
   }
 
   const handleKeyPress = (event) => {

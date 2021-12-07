@@ -1,6 +1,9 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import { setSearchResults } from "actions/search"
-import { getSearchResultsWithFacets } from "sinopiaSearch"
+import {
+  getSearchResultsWithFacets,
+  getTemplateSearchResults,
+} from "sinopiaSearch"
 import { createLookupPromise } from "utilities/QuestioningAuthority"
 import {
   findAuthorityConfig,
@@ -40,9 +43,10 @@ export const fetchSinopiaSearchResults =
         }
         if (response.error) {
           dispatch(
-            addError(errorKey, [
-              `An error occurred while searching: ${response.error.toString()}`,
-            ])
+            addError(
+              errorKey,
+              `An error occurred while searching: ${response.error.toString()}`
+            )
           )
           return false
         }
@@ -73,9 +77,10 @@ export const fetchQASearchResults =
           )
         )
         dispatch(
-          addError(errorKey, [
-            `An error occurred while searching: ${response.errorObject.message}`,
-          ])
+          addError(
+            errorKey,
+            `An error occurred while searching: ${response.errorObject.message}`
+          )
         )
         return false
       }
@@ -95,3 +100,27 @@ export const fetchQASearchResults =
       return true
     })
   }
+
+// These will be used as suggestions to the user when the user performs a Sinopia search.
+export const fetchTemplateGuessSearchResults =
+  (queryString, errorKey, options = {}) =>
+  (dispatch) =>
+    getTemplateSearchResults(queryString, options).then((response) => {
+      dispatch(
+        setSearchResults(
+          "templateguess",
+          null,
+          response.results,
+          response.totalHits,
+          {},
+          queryString,
+          options,
+          response.error
+        )
+      )
+      if (response.error) {
+        dispatch(
+          addError(errorKey, `Error searching for templates: ${response.error}`)
+        )
+      }
+    })
