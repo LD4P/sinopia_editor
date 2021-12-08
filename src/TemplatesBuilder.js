@@ -155,7 +155,7 @@ export default class TemplatesBuilder {
     if (attributeTerm) {
       propertyTemplate.defaults = this.defaultsForLiteral(attributeTerm)
       const literalAttrValues = this.valuesFor(
-        this.attributeTerm,
+        attributeTerm,
         "http://sinopia.io/vocabulary/hasLiteralPropertyAttributes"
       )
       if (
