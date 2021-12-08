@@ -2,6 +2,7 @@
 import {
   fetchSinopiaSearchResults,
   fetchQASearchResults,
+  fetchTemplateGuessSearchResults,
 } from "actionCreators/search"
 import * as server from "sinopiaSearch"
 import configureMockStore from "redux-mock-store"
@@ -226,7 +227,96 @@ describe("fetchQASearchResults", () => {
       })
       expect(actions).toHaveAction("ADD_ERROR", {
         errorKey: "testerrorkey",
-        error: ["An error occurred while searching: Ooops..."],
+        error: "An error occurred while searching: Ooops...",
+      })
+    })
+  })
+})
+
+describe("fetchTemplateGuessSearchResults", () => {
+  describe("when success", () => {
+    const query = "date"
+    const mockSearchResults = {
+      totalHits: 1,
+      results: [
+        {
+          id: "testing:defaultDate",
+          uri: "http://localhost:3000/resource/testing:defaultDate",
+          resourceLabel: "Default date",
+          resourceURI: "http://testing/defaultDate",
+          group: "other",
+          editGroups: [],
+          groupLabel: "Other",
+        },
+      ],
+    }
+
+    it("dispatches actions", async () => {
+      server.getTemplateSearchResults = jest
+        .fn()
+        .mockResolvedValue(mockSearchResults)
+      const store = mockStore(createState())
+      await store.dispatch(
+        fetchTemplateGuessSearchResults(query, "testerrorkey", {
+          startOfRange: 0,
+        })
+      )
+
+      const actions = store.getActions()
+
+      expect(actions).toHaveLength(1)
+      expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
+        searchType: "templateguess",
+        error: undefined,
+        uri: null,
+        query,
+        results: mockSearchResults.results,
+        totalResults: mockSearchResults.totalHits,
+        facetResults: {},
+        options: {
+          startOfRange: 0,
+        },
+      })
+    })
+  })
+  describe("when failure", () => {
+    const query = "date"
+
+    const mockSearchResults = {
+      totalHits: 0,
+      results: [],
+      error: "Ooops",
+    }
+
+    it("dispatches actions", async () => {
+      server.getTemplateSearchResults = jest
+        .fn()
+        .mockResolvedValue(mockSearchResults)
+      const store = mockStore(createState())
+      await store.dispatch(
+        fetchTemplateGuessSearchResults(query, "testerrorkey", {
+          startOfRange: 0,
+        })
+      )
+
+      const actions = store.getActions()
+
+      expect(actions).toHaveLength(2)
+      expect(actions).toHaveAction("SET_SEARCH_RESULTS", {
+        searchType: "templateguess",
+        error: "Ooops",
+        uri: null,
+        query,
+        results: [],
+        totalResults: 0,
+        facetResults: {},
+        options: {
+          startOfRange: 0,
+        },
+      })
+      expect(actions).toHaveAction("ADD_ERROR", {
+        errorKey: "testerrorkey",
+        error: "Error searching for templates: Ooops",
       })
     })
   })

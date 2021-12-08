@@ -2,6 +2,7 @@ import { findByText, fireEvent, screen } from "@testing-library/react"
 import { renderApp } from "testUtils"
 import Config from "Config"
 import { featureSetup } from "featureUtils"
+import * as sinopiaSearch from "sinopiaSearch"
 
 featureSetup()
 
@@ -157,6 +158,9 @@ describe("sinopia resource search", () => {
 
     await screen.findByText(/foo bar/)
 
+    // Does not display template guess results when search on *
+    expect(screen.queryByText("Template results")).not.toBeInTheDocument()
+
     // TODO: why don't filtering options show up in test UI? -- https://github.com/LD4P/sinopia_editor/issues/2499
     // screen.debug()
     // fireEvent.click(screen.getByText(/Filter by group/, { selector: 'button' }))
@@ -255,5 +259,39 @@ describe("sinopia resource search", () => {
     fireEvent.click(screen.getByTestId("Submit search"))
 
     await screen.findByText(/Displaying 0 Search Results/)
+  })
+
+  it("displays template guess search results", async () => {
+    global.fetch = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ json: () => noResult }))
+
+    jest.spyOn(sinopiaSearch, "getTemplateSearchResults").mockResolvedValue({
+      totalHits: 1,
+      results: [
+        {
+          id: "testing:defaultDate",
+          uri: "http://localhost:3000/resource/testing:defaultDate",
+          resourceLabel: "Default date",
+          resourceURI: "http://testing/defaultDate",
+          group: "other",
+          editGroups: [],
+          groupLabel: "Other",
+        },
+      ],
+    })
+
+    renderApp()
+
+    fireEvent.click(screen.getByText(/Linked Data Editor/, { selector: "a" }))
+
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: "asdfqwerty" },
+    })
+    fireEvent.click(screen.getByTestId("Submit search"))
+
+    // Open toggle
+    fireEvent.click(await screen.findByText(/Template results/))
+    screen.getByText(/testing:defaultDate/)
   })
 })

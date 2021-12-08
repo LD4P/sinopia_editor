@@ -19,6 +19,7 @@ import useSearch from "hooks/useSearch"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
 import { searchErrorKey } from "utilities/errorKeyFactory"
+import TemplateGuessSearchResults from "./TemplateGuessSearchResults"
 
 const Search = (props) => {
   const { fetchSearchResults } = useSearch()
@@ -43,6 +44,7 @@ const Search = (props) => {
       <div id="search">
         <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
         <ContextAlert />
+        <TemplateGuessSearchResults />
         {uri === sinopiaSearchUri ? (
           <SinopiaSearchResults />
         ) : (

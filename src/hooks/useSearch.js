@@ -2,7 +2,9 @@ import { useDispatch } from "react-redux"
 import {
   fetchSinopiaSearchResults as fetchSinopiaSearchResultsCreator,
   fetchQASearchResults as fetchQASearchResultsCreator,
+  fetchTemplateGuessSearchResults as fetchTemplateGuessSearchResultsCreator,
 } from "actionCreators/search"
+import { clearSearchResults } from "actions/search"
 import { sinopiaSearchUri } from "utilities/authorityConfig"
 import { useHistory } from "react-router-dom"
 
@@ -57,7 +59,28 @@ const useSearch = (errorKey) => {
     })
   }
 
-  return { fetchSearchResults, fetchNewSearchResults }
+  const fetchTemplateGuessSearchResults = (
+    queryString,
+    searchOptions = { startOfRange: 0 }
+  ) =>
+    dispatch(
+      fetchTemplateGuessSearchResultsCreator(
+        queryString,
+        errorKey,
+        searchOptions
+      )
+    )
+
+  const clearTemplateGuessSearchResults = () => {
+    dispatch(clearSearchResults("templateguess"))
+  }
+
+  return {
+    fetchSearchResults,
+    fetchNewSearchResults,
+    fetchTemplateGuessSearchResults,
+    clearTemplateGuessSearchResults,
+  }
 }
 
 export default useSearch
