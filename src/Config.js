@@ -144,6 +144,7 @@ class Config {
         // group: label
         stanford: "Catalog",
         cornell: "Catalog",
+        penn: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
