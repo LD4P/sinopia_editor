@@ -39,11 +39,11 @@ const SinopiaSearchResults = () => {
           >
             <thead>
               <tr>
-                <th style={{ width: "35%" }}>Label / ID</th>
+                <th>Label / ID</th>
                 <th style={{ width: "30%" }}>Class</th>
-                <th style={{ width: "20%" }}>Group</th>
+                <th style={{ width: "15%" }}>Group</th>
                 <th style={{ width: "10%" }}>Modified</th>
-                <th style={{ width: "5%" }}>
+                <th style={{ width: "10%" }}>
                   <SinopiaSort />
                 </th>
               </tr>

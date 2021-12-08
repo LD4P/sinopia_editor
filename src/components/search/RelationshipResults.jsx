@@ -77,11 +77,11 @@ const RelationshipResults = ({ uri }) => {
         <h5 className="ps-3">{label}</h5>
         <table className="table table-bordered mb-0">
           <colgroup>
-            <col span="1" style={{ width: "35%" }} />
+            <col span="1" />
             <col span="1" style={{ width: "30%" }} />
-            <col span="1" style={{ width: "20%" }} />
+            <col span="1" style={{ width: "15%" }} />
             <col span="1" style={{ width: "10%" }} />
-            <col span="1" style={{ width: "5%" }} />
+            <col span="1" style={{ width: "10%" }} />
           </colgroup>
           <tbody>{refRows}</tbody>
         </table>
