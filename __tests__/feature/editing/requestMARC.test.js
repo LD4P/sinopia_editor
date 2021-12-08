@@ -35,6 +35,7 @@ describe("requesting MARC", () => {
 
       // Modal opens.
       await screen.findByText(marc)
+      screen.getByText(/Copy MARC/, { selector: "button" })
     })
   })
 

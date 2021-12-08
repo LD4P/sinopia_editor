@@ -60,6 +60,7 @@ describe("saving a resource", () => {
       fireEvent.click(modalSave)
       // The resource is saved and is assigned a URI
       await screen.findAllByText(/URI for this resource/)
+      screen.getAllByText(/Copy URI/, { selector: "button" })
 
       // URL changes
       await waitFor(() =>
