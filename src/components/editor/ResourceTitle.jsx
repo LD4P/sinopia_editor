@@ -15,7 +15,7 @@ const ResourceTitle = ({ resource }) => {
 
   return (
     <React.Fragment>
-      {resource.label}
+      <span className="resource-label">{resource.label}</span>
       {badge && <span className="badge bg-secondary ms-2">{badge}</span>}
     </React.Fragment>
   )

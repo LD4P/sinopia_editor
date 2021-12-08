@@ -2,7 +2,7 @@ import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import * as sinopiaSearch from "sinopiaSearch"
 import * as sinopiaApi from "sinopiaApi"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -48,7 +48,7 @@ describe("relationships", () => {
     it("lists the relationships", async () => {
       renderApp(null, history)
 
-      await screen.findByText("Instance1", { selector: "h3#resource-header" })
+      await screen.findByText("Instance1", { selector: resourceHeaderSelector })
 
       // Has a badge
       expect(
@@ -82,7 +82,7 @@ describe("relationships", () => {
       const { container } = renderApp(null, history)
 
       await screen.findByText("Example Label", {
-        selector: "h3#resource-header",
+        selector: resourceHeaderSelector,
       })
 
       // No badge

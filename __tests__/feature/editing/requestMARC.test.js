@@ -1,7 +1,7 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import * as sinopiaApi from "sinopiaApi"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -23,7 +23,7 @@ describe("requesting MARC", () => {
     it("retrieves the MARC", async () => {
       renderApp(null, history)
 
-      await screen.findByText("Instance1", { selector: "h3#resource-header" })
+      await screen.findByText("Instance1", { selector: resourceHeaderSelector })
 
       fireEvent.click(screen.getByText("MARC"))
       fireEvent.click(screen.getByText("Request conversion to MARC"))
@@ -50,7 +50,7 @@ describe("requesting MARC", () => {
     it("displays the alert", async () => {
       renderApp(null, history)
 
-      await screen.findByText("Instance1", { selector: "h3#resource-header" })
+      await screen.findByText("Instance1", { selector: resourceHeaderSelector })
 
       fireEvent.click(screen.getByText("MARC"))
       fireEvent.click(screen.getByText("Request conversion to MARC"))

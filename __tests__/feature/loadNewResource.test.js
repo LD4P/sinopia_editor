@@ -1,6 +1,6 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react"
+import { fireEvent, screen } from "@testing-library/react"
 import { renderApp } from "testUtils"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -20,11 +20,9 @@ describe("loading new resource", () => {
 
     // Click the resource template
     fireEvent.click(screen.getByTestId("Create resource for Uber template1"))
-    await waitFor(() =>
-      expect(
-        screen.getAllByText("Uber template1", { selector: "h3" })
-      ).toHaveLength(2)
-    )
+    await screen.findByText("Uber template1", {
+      selector: resourceHeaderSelector,
+    })
 
     // Not duplicating testing of rendering of resource template from loadResource test.
 

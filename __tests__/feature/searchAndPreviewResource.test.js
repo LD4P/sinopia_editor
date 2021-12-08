@@ -2,7 +2,7 @@ import { fireEvent, screen } from "@testing-library/react"
 import { renderApp } from "testUtils"
 import * as sinopiaSearch from "sinopiaSearch"
 import { resourceSearchResults } from "fixtureLoaderHelper"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -119,7 +119,7 @@ describe("searching and preview a resource", () => {
         screen.getByTestId("Edit Example Label", { selector: "button" })
       )
       await screen.findByText("Example Label", {
-        selector: "h3#resource-header",
+        selector: resourceHeaderSelector,
       })
 
       // Make sure nav panel didn't disappear

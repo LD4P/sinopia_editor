@@ -1,7 +1,7 @@
 import { renderApp, createStore, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import { createState } from "stateUtils"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 import * as sinopiaApi from "sinopiaApi"
 import Config from "Config"
 
@@ -37,7 +37,7 @@ describe("transfer saved bf:Instance when user belongs to a transfer group", () 
     fireEvent.click(screen.getByRole("button", { name: `Edit ${bfUri}` }))
 
     await screen.findByText("The Practitioner's Guide to Graph Data", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const transferBtn = screen.getByText("Export to Catalog")
@@ -52,7 +52,7 @@ describe("transfer unsaved bf:Instance when user belongs to a transfer group", (
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
@@ -75,7 +75,9 @@ describe("transfer saved non-bf:Instance when user belongs to a transfer group",
     await screen.findByText(nonBfUri)
     fireEvent.click(screen.getByRole("button", { name: `Edit ${nonBfUri}` }))
 
-    await screen.findByText("Example Label", { selector: "h3#resource-header" })
+    await screen.findByText("Example Label", {
+      selector: resourceHeaderSelector,
+    })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
   }, 10000)
@@ -98,7 +100,7 @@ describe("transfer saved bf:Instance when user does not belong to a transfer gro
     fireEvent.click(screen.getByRole("button", { name: `Edit ${bfUri}` }))
 
     await screen.findByText("The Practitioner's Guide to Graph Data", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()

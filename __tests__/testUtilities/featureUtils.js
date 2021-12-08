@@ -19,4 +19,4 @@ export const featureSetup = (opts = {}) => {
       .mockResolvedValue({ results: [] })
 }
 
-export const noop = () => {}
+export const resourceHeaderSelector = "h3#resource-header span"

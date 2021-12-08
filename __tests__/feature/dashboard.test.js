@@ -1,6 +1,6 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react"
+import { fireEvent, screen } from "@testing-library/react"
 import { renderApp } from "testUtils"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 import { resourceSearchResults } from "fixtureLoaderHelper"
 import * as sinopiaSearch from "sinopiaSearch"
 
@@ -29,11 +29,9 @@ describe("viewing the dashboard", () => {
 
       // Click the resource template
       fireEvent.click(screen.getByTestId("Create resource for Uber template1"))
-      await waitFor(() =>
-        expect(
-          screen.getAllByText("Uber template1", { selector: "h3" })
-        ).toHaveLength(2)
-      )
+      await screen.findByText("Uber template1", {
+        selector: resourceHeaderSelector,
+      })
 
       fireEvent.click(screen.getByText("Dashboard", { selector: "a" }))
 
@@ -114,9 +112,9 @@ describe("viewing the dashboard", () => {
 
       // Click edit
       fireEvent.click(screen.getByTestId(`Edit ${uri}`))
-      expect(
-        await screen.findAllByText("Example Label", { selector: "h3" })
-      ).toHaveLength(2)
+      await screen.findByText("Example Label", {
+        selector: resourceHeaderSelector,
+      })
 
       fireEvent.click(screen.getByText("Dashboard", { selector: "a" }))
 

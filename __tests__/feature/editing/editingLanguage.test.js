@@ -1,6 +1,6 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen, within, waitFor } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 import * as sinopiaApi from "sinopiaApi"
 
 featureSetup()
@@ -13,7 +13,7 @@ describe("editing a language", () => {
     renderApp(null, history)
 
     await screen.findByText("Literal", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -93,7 +93,7 @@ describe("editing a language", () => {
     renderApp(null, history)
 
     await screen.findByText("Inputs", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -148,7 +148,7 @@ describe("editing a language", () => {
     renderApp(null, history)
 
     await screen.findByText("Literal", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value

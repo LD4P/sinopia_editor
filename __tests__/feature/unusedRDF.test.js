@@ -1,6 +1,6 @@
 import { renderApp } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -29,7 +29,7 @@ describe("loading RDF with unused triples", () => {
     fireEvent.click(screen.getByText("Submit"))
 
     await screen.findByText("Abbreviated Title", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     screen.getByText(/Unable to load the entire resource/)

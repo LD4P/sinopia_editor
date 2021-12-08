@@ -1,6 +1,6 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, waitFor, screen } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -15,7 +15,7 @@ describe("editing a literal property", () => {
     // for input.
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -53,7 +53,7 @@ describe("editing a literal property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add two values
@@ -90,7 +90,7 @@ describe("editing a literal property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -131,7 +131,7 @@ describe("editing a literal property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -175,7 +175,7 @@ describe("editing a literal property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -211,7 +211,7 @@ describe("editing a literal property", () => {
     renderApp(null, history)
 
     await screen.findByText("Literal", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const saveBtn = screen.getAllByLabelText("Save", {
@@ -239,7 +239,7 @@ describe("editing a literal property", () => {
       renderApp(null, history)
 
       await screen.findByText("Suppress language", {
-        selector: "h3#resource-header",
+        selector: resourceHeaderSelector,
       })
 
       expect(screen.queryAllByTestId(/Change language/)).toHaveLength(0)

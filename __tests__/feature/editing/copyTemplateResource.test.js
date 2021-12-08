@@ -1,7 +1,7 @@
 import { renderApp, createHistory, createStore } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import * as sinopiaSearch from "sinopiaSearch"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 jest.mock("sinopiaSearch")
@@ -43,7 +43,7 @@ describe("Copying a template resource", () => {
     fireEvent.click(await screen.findByTestId("Copy Note"))
 
     // Headers and labels appear
-    await screen.findByText("Note", { selector: "h3#resource-header" })
+    await screen.findByText("Note", { selector: resourceHeaderSelector })
     const labels = await screen.findAllByText("Note")
     expect(labels.length).toBe(4)
 

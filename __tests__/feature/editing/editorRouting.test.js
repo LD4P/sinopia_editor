@@ -1,6 +1,6 @@
 import { renderApp, createHistory, createStore } from "testUtils"
 import { screen, waitFor } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 import { createState } from "stateUtils"
 
 featureSetup()
@@ -29,7 +29,7 @@ describe("routing in editor", () => {
       )
 
       await screen.findByText("Uber template1", {
-        selector: "h3#resource-header",
+        selector: resourceHeaderSelector,
       })
     }, 10000)
   })
@@ -78,7 +78,7 @@ describe("routing in editor", () => {
       )
 
       await screen.findByText("Example Label", {
-        selector: "h3#resource-header",
+        selector: resourceHeaderSelector,
       })
     }, 10000)
   })
