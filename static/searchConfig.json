@@ -6,5 +6,17 @@
   {
     "label": "DISCOGS Releases",
     "uri": "urn:discogs:release"
+  },
+  {
+    "label": "SHAREVDE PCC Opus",
+    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:opus"
+  },
+  {
+    "label": "SHAREVDE PCC Work",
+    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:work"
+  },
+  {
+    "label": "SHAREVDE PCC Instance",
+    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:instance"
   }
 ]
