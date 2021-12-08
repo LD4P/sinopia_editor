@@ -1462,6 +1462,30 @@
     "component": "lookup"
   },
   {
+    "label": "SHAREVDE PCC Opus (QA) - cache",
+    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:opus",
+    "authority": "sharevde_pcc_ld4l_cache",
+    "subauthority": "opus",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE PCC Work (QA) - cache",
+    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:work",
+    "authority": "sharevde_pcc_ld4l_cache",
+    "subauthority": "work",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "SHAREVDE PCC Instance (QA) - cache",
+    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:instance",
+    "authority": "sharevde_pcc_ld4l_cache",
+    "subauthority": "instance",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "SHAREVDE ALBERTA (QA)",
     "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:all",
     "authority": "sharevde_alberta_ld4l_cache",
