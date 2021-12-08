@@ -75,7 +75,7 @@ const RelationshipResults = ({ uri }) => {
     return (
       <div className="search-relationship">
         <h5 className="ps-3">{label}</h5>
-        <table className="table table-bordered mb-0">
+        <table className="table table-bordered table-light mb-0">
           <colgroup>
             <col span="1" />
             <col span="1" style={{ width: "30%" }} />
