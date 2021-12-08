@@ -12,9 +12,11 @@ import {
   selectScripts,
   selectTransliterations,
   selectDefaultLang,
+  selectLanguageLabels,
 } from "selectors/languages"
 import { selectNormValue } from "selectors/resources"
 import { parseLangTag, stringifyLangTag } from "utilities/Language"
+import { detectLanguage } from "sinopiaApi"
 import _ from "lodash"
 
 const InputLang = () => {
@@ -26,6 +28,7 @@ const InputLang = () => {
   const transliterationOptions = useSelector((state) =>
     selectTransliterations(state)
   )
+  const langLabels = useSelector((state) => selectLanguageLabels(state))
   const resourceDefaultLang = useSelector((state) =>
     selectDefaultLang(state, value?.rootSubjectKey)
   )
@@ -35,14 +38,19 @@ const InputLang = () => {
   const [selectedTransliterationOptions, setSelectedTransliterationOptions] =
     useState([])
   const [isDefaultLang, setIsDefaultLang] = useState(false)
+  const [suggestedLangSubtag, setSuggestedLangSubtag] = useState(null)
+
+  const newLangSubtag = _.first(selectedLangOptions)?.id
 
   const newTag = stringifyLangTag(
-    _.first(selectedLangOptions)?.id,
+    newLangSubtag,
     _.first(selectedScriptOptions)?.id,
     _.first(selectedTransliterationOptions)?.id
   )
 
   const showDefaultLang = resourceDefaultLang !== newTag
+  const showSuggestedLangSubtag =
+    suggestedLangSubtag && newLangSubtag !== suggestedLangSubtag
 
   useEffect(() => {
     setIsDefaultLang(false)
@@ -65,6 +73,25 @@ const InputLang = () => {
     if (newTransliterationOptions)
       setSelectedTransliterationOptions(newTransliterationOptions)
   }, [value, langOptions, scriptOptions, transliterationOptions])
+
+  useEffect(() => {
+    if (_.isEmpty(textValue)) return
+
+    detectLanguage(textValue)
+      .then((resp) => {
+        if (!_.isEmpty(resp) && resp[0].score >= 0.75) {
+          // Strip optional region subtag
+          const newSuggestedLangSubtag = resp[0].language.split("-")[0]
+          setSuggestedLangSubtag(newSuggestedLangSubtag)
+          return
+        }
+        setSuggestedLangSubtag(null)
+      })
+      .catch((err) => {
+        // Not surfacing error to user.
+        console.error("Error detecting language", err)
+      })
+  }, [textValue])
 
   const findOptions = (id, options) => {
     if (!id) return []
@@ -102,6 +129,12 @@ const InputLang = () => {
 
   const handleDefaultLangClick = () => {
     setIsDefaultLang(!isDefaultLang)
+  }
+
+  const handleSuggestedLangClick = (event) => {
+    event.preventDefault()
+    const newLangOptions = findOptions(suggestedLangSubtag, langOptions)
+    setSelectedLanguageOptions(newLangOptions)
   }
 
   const header = (
@@ -164,6 +197,19 @@ const InputLang = () => {
               title="Clear language"
             ></button>
           </div>
+          {showSuggestedLangSubtag && (
+            <span>
+              Detected {langLabels[suggestedLangSubtag]} ({suggestedLangSubtag}
+              ).
+              <button
+                type="button"
+                className="btn btn-link ps-2"
+                onClick={handleSuggestedLangClick}
+              >
+                Click to use.
+              </button>
+            </span>
+          )}
         </div>
       </div>
       <div className="row mb-1">

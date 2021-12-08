@@ -1,8 +1,11 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen, within, waitFor } from "@testing-library/react"
 import { featureSetup } from "featureUtils"
+import * as sinopiaApi from "sinopiaApi"
 
 featureSetup()
+
+jest.spyOn(sinopiaApi, "detectLanguage").mockResolvedValue([])
 
 describe("editing a language", () => {
   it("allows selecting a language", async () => {
@@ -135,5 +138,50 @@ describe("editing a language", () => {
     fireEvent.click(screen.getByTestId("Add Literal input"))
     await screen.findByText(/http:\/\/sinopia.io\/testing\/Inputs\/property4/)
     expect(screen.getAllByText("taw", { selector: "button" })).toHaveLength(3)
+  }, 15000)
+
+  it("suggests a language", async () => {
+    jest
+      .spyOn(sinopiaApi, "detectLanguage")
+      .mockResolvedValue([{ language: "zh-TW", score: 0.8 }])
+    const history = createHistory(["/editor/resourceTemplate:testing:literal"])
+    renderApp(null, history)
+
+    await screen.findByText("Literal", {
+      selector: "h3#resource-header",
+    })
+
+    // Add a value
+    const input = screen.getByPlaceholderText("Literal input")
+    fireEvent.change(input, {
+      target: { value: "這是正確的事情，也是一種美味的方法。" },
+    })
+    fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
+
+    // There is language button.
+    const langBtn = screen.getByTestId(
+      "Change language for 這是正確的事情，也是一種美味的方法。"
+    )
+    expect(langBtn).toHaveTextContent("en")
+
+    fireEvent.click(langBtn)
+    // Using getByRole here and below because it limits to the visible modal.
+    screen.getByRole("heading", {
+      name: "Select language tag for 這是正確的事情，也是一種美味的方法。",
+    })
+
+    const newTagRow = screen.getByText(/New tag/).parentElement
+    within(newTagRow).getByText("en")
+
+    // Language selection
+    await screen.findByText(/Detected Chinese \(zh\)/)
+
+    fireEvent.click(screen.getByText("Click to use."))
+
+    await within(newTagRow).findByText("zh")
+
+    expect(
+      screen.queryByText(/Detected Chinese \(zh\)/)
+    ).not.toBeInTheDocument()
   }, 15000)
 })

@@ -84,11 +84,13 @@ const fetchFixtureLanguages = (dispatch) => {
   const languageLookup = [
     { id: "taw", label: "Tai (taw)" },
     { id: "en", label: "English (en)" },
+    { id: "zh", label: "Chinese (zh)" },
   ]
   const languages = {
     taw: "Tai",
     en: "English",
     eng: "English",
+    zh: "Chinese",
   }
   const scriptLookup = [
     { id: "Adlm", label: "Adlam (Adlm)" },
