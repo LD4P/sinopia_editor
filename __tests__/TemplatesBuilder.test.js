@@ -122,10 +122,8 @@ _:b2_c14n1 <http://sinopia.io/vocabulary/hasDefault> "default2" .
 _:b2_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LiteralPropertyTemplate> .
 _:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationRegex> "^\\\\d+$"@en .
 _:b2_c14n1 <http://sinopia.io/vocabulary/hasValidationDataType> <http://www.w3.org/2001/XMLSchema#integer> .
-_:b2_c14n1 <http://sinopia.io/vocabulary/hasLiteralAttributes> _:b2_c14n2 .
-_:b2_c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LiteralPropertyTemplate> .
-_:b2_c14n2 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault> .
-_:b2_c14n2 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://sinopia.io/vocabulary/literalPropertyAttribute/dateDefault> .
+_:b2_c14n1 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault> .
+_:b2_c14n1 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://sinopia.io/vocabulary/literalPropertyAttribute/dateDefault> .
 <http://sinopia.io/vocabulary/literalPropertyAttribute/userIdDefault> <http://www.w3.org/2000/01/rdf-schema#label> "user ID default" .
 <http://sinopia.io/vocabulary/literalPropertyAttribute/dateDefault> <http://www.w3.org/2000/01/rdf-schema#label> "date default" .`
     const dataset = await datasetFromN3(rdf)
