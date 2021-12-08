@@ -1,7 +1,7 @@
 import { renderApp, createHistory, createStore } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import { createState } from "stateUtils"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 import * as sinopiaSearch from "sinopiaSearch"
 
 featureSetup()
@@ -15,11 +15,11 @@ describe("switching between multiple resources", () => {
   sinopiaSearch.getTemplateSearchResults.mockResolvedValue({
     results: [
       {
-        id: "resourceTemplate:bf2:Title",
-        uri: "http://localhost:3000/resource/resourceTemplate:bf2:Title",
-        remark: "Title information relating to a resource",
-        resourceLabel: "Instance Title",
-        resourceURI: "http://id.loc.gov/ontologies/bibframe/Title",
+        id: "resourceTemplate:bf2:Instance",
+        uri: "http://localhost:3000/resource/resourceTemplate:bf2:Instance",
+        remark: "Fake Bibframe Instance",
+        resourceLabel: "BF Instance",
+        resourceURI: "http://id.loc.gov/ontologies/bibframe/Instance",
       },
       {
         id: "resourceTemplate:bf2:Title:Note",
@@ -46,7 +46,7 @@ describe("switching between multiple resources", () => {
 
     // open the template
     fireEvent.click(await screen.findByTestId("Create resource for Title note"))
-    await screen.findByText("Title note", { selector: "h3#resource-header" })
+    await screen.findByText("Title note", { selector: resourceHeaderSelector })
 
     // Open another template
     fireEvent.click(
@@ -56,20 +56,20 @@ describe("switching between multiple resources", () => {
     )
 
     fireEvent.click(
-      await screen.findByTestId("Create resource for Instance Title")
+      await screen.findByTestId("Create resource for BF Instance")
     )
-    await screen.findByText("Instance Title", {
-      selector: "h3#resource-header",
+    await screen.findByText("BF Instance", {
+      selector: resourceHeaderSelector,
     })
 
-    // Instance title tab is active
-    const instanceTitleTab = screen.getByText("Instance Title", {
-      selector: ".nav-item.active .tab-link",
+    // Instance tab is active
+    const instanceTab = screen.getByText("BF Instance", {
+      selector: ".nav-item.active .resource-label",
     })
 
     // Title note tab is inactive
     const titleNoteTab = screen.getByText("Title note", {
-      selector: ".nav-item:not(.active) .tab-link",
+      selector: ".nav-item:not(.active) .resource-label",
     })
 
     // It does not have the the 'template' class for header color
@@ -79,20 +79,20 @@ describe("switching between multiple resources", () => {
     // Click Title note tab
     fireEvent.click(titleNoteTab)
 
-    // Title note is now the active resource and Instance Title is now the inactive resource
-    await screen.findByText("Title note", { selector: "h3#resource-header" })
-    await screen.findByText("Instance Title", {
-      selector: ".nav-item:not(.active) .tab-link",
+    // Title note is now the active resource and Instance is now the inactive resource
+    await screen.findByText("Title note", { selector: resourceHeaderSelector })
+    await screen.findByText("BF Instance", {
+      selector: ".nav-item:not(.active) .resource-label",
     })
 
     // Closing the active tab will reveal the inactive resource as the one shown
     fireEvent.click(screen.getAllByText("Close", { selector: "button" })[0])
-    await screen.findByText("Instance Title", {
-      selector: "h3#resource-header",
+    await screen.findByText("BF Instance", {
+      selector: resourceHeaderSelector,
     })
 
     // No nav tabs displayed
-    expect(instanceTitleTab).not.toBeInTheDocument()
+    expect(instanceTab).not.toBeInTheDocument()
     expect(titleNoteTab).not.toBeInTheDocument()
 
     // Closing the only shown resource will direct to the resource templates page

@@ -1,7 +1,7 @@
 import { renderApp, createHistory, createStore } from "testUtils"
 import { act, fireEvent, screen } from "@testing-library/react"
 import * as sinopiaSearch from "sinopiaSearch"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 jest.mock("sinopiaSearch")
@@ -87,14 +87,14 @@ describe("searching and opening a resource", () => {
     const rtLinks = screen.getAllByTestId("Create resource for Title note")
     expect(rtLinks).toHaveLength(2)
     fireEvent.click(rtLinks[0])
-    await screen.findByText("Title note", { selector: "h3#resource-header" })
+    await screen.findByText("Title note", { selector: resourceHeaderSelector })
 
     // There are nav tabs and a duplicate resource
     await screen.findAllByText("Title note", {
-      selector: ".nav-item.active .tab-link",
+      selector: ".nav-item.active .tab-link span",
     })
     await screen.findAllByText("Title note", {
-      selector: ".nav-item:not(.active) .tab-link",
+      selector: ".nav-item:not(.active) .tab-link span",
     })
   })
 })

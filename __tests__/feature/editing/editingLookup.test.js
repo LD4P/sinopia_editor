@@ -1,6 +1,6 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, waitFor, screen } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 import * as lookup from "utilities/Lookup"
 import Config from "Config"
 
@@ -159,7 +159,7 @@ describe("selecting a value from lookup", () => {
     const { container } = renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const input = screen.getByPlaceholderText(
@@ -191,7 +191,7 @@ describe("selecting a value from lookup", () => {
     renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     fireEvent.click(screen.getByText("Enter your own URI and label"))
@@ -224,7 +224,7 @@ describe("selecting a value from lookup", () => {
     renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -317,7 +317,7 @@ describe("selecting a value from lookup", () => {
     const { container } = renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const input = screen.getByPlaceholderText(
@@ -347,7 +347,7 @@ describe("selecting a value from lookup", () => {
     const { container } = renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // List the authorities
@@ -416,7 +416,7 @@ describe("adding a template from Sinopia lookup", () => {
     renderApp(null, history)
 
     await screen.findByText("Testing sinopia lookup", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Click Create New button
@@ -431,7 +431,7 @@ describe("adding a template from Sinopia lookup", () => {
 
     // New tab with template is now present
     await screen.findByText("Testing wikidata lookup", {
-      selector: "a.tab-link",
+      selector: "a.tab-link span",
     })
   }, 10000)
 })

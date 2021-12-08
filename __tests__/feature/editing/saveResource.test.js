@@ -1,8 +1,7 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, waitFor, screen } from "@testing-library/react"
 import * as sinopiaApi from "sinopiaApi"
-
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -18,7 +17,9 @@ describe("saving a resource", () => {
     renderApp(null, history)
 
     it("edits and saves", async () => {
-      await screen.findAllByText("Title note", { selector: "h3" })
+      await screen.findAllByText("Title note", {
+        selector: resourceHeaderSelector,
+      })
 
       const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
 
@@ -34,7 +35,7 @@ describe("saving a resource", () => {
       )
 
       // Check that the title of the document is set the same as the rdfs:label
-      screen.getByText("foo", { selector: "h3#resource-header" })
+      screen.getByText("foo", { selector: resourceHeaderSelector })
 
       expect(screen.queryByText("Permissions")).not.toBeInTheDocument()
       expect(saveBtn).not.toBeDisabled()

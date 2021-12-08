@@ -1,7 +1,7 @@
 import { renderApp, createStore } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import { createState } from "stateUtils"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -24,7 +24,9 @@ describe("user that can edit, but not an owner, can view groups", () => {
     await screen.findByText(uri)
     fireEvent.click(screen.getByRole("button", { name: `Edit ${uri}` }))
 
-    await screen.findByText("Example Label", { selector: "h3#resource-header" })
+    await screen.findByText("Example Label", {
+      selector: resourceHeaderSelector,
+    })
 
     fireEvent.click(screen.getByText("Permissions"))
 

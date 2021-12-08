@@ -1,6 +1,6 @@
 import { renderApp } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -14,7 +14,7 @@ describe("creating new resource template ", () => {
     // Click the new resource template button
     fireEvent.click(screen.getByText("New template"))
     await screen.findByText("Resource template", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
   }, 15000)
 })

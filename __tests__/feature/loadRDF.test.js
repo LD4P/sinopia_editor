@@ -1,7 +1,7 @@
 import { renderApp } from "testUtils"
 import { fireEvent, waitFor, screen } from "@testing-library/react"
 import * as sinopiaSearch from "sinopiaSearch"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup({ noMockSinopiaApi: true })
 jest.mock("sinopiaSearch")
@@ -30,10 +30,9 @@ describe("loading from RDF", () => {
       )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
-      expect(
-        (await screen.findAllByText("Abbreviated Title", { selector: "h3" }))
-          .length
-      ).toBeTruthy()
+      await screen.findByText("Abbreviated Title", {
+        selector: resourceHeaderSelector,
+      })
 
       screen.getByText("foo")
     })
@@ -70,10 +69,9 @@ describe("loading from RDF", () => {
       )
       fireEvent.click(screen.getByText("Submit", { selector: "button" }))
 
-      expect(
-        (await screen.findAllByText("Abbreviated Title", { selector: "h3" }))
-          .length
-      ).toBeTruthy()
+      await screen.findByText("Abbreviated Title", {
+        selector: resourceHeaderSelector,
+      })
 
       screen.getByText("foo")
     })

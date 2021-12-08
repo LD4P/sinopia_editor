@@ -1,7 +1,8 @@
 .resources-nav-tabs {
-  $tab-width: 275px;
+  $tab-width: 345px;
   $tab-height: 35px;
   $button-width: 36px;
+  $badge-width: 70px;
 
   margin-bottom: 5px;
   margin-top: 10px;
@@ -14,16 +15,24 @@
     width: $tab-width;
 
     .tab-link {
+      display: inline-block;
       border: 0;
       border-radius: 0;
       color: $gray-600;
-      display: inline-block;
       text-decoration: none;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
       margin: 5px;
-      width: $tab-width - $button-width;
+
+      .resource-label {
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: $tab-width - $button-width - $badge-width;
+      }
+
+      .badge {
+        vertical-align: top;
+      }
     }
   }
 
@@ -34,6 +43,10 @@
     .tab-link {
       color: $white;
       font-weight: 600;
+
+      .resource-label {
+        width: $tab-width - $badge-width;
+      }
     }
   }
 }

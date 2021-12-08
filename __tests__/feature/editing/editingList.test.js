@@ -1,6 +1,6 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen, waitFor } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -11,7 +11,7 @@ describe("editing a list property", () => {
     const { container } = renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Authorities list
@@ -66,7 +66,7 @@ describe("editing a list property", () => {
     const { container } = renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const select = container.querySelector(
@@ -102,7 +102,7 @@ describe("editing a list property", () => {
     const { container } = renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     expect(

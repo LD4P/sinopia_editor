@@ -1,7 +1,7 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import * as sinopiaApi from "sinopiaApi"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -17,7 +17,7 @@ describe("editing an immutable property", () => {
 
   it("allows editing before save, but not after save", async () => {
     await screen.findByText("Immutable note", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first

@@ -1,6 +1,6 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, waitFor, screen } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -11,7 +11,7 @@ describe("adding and removing properties", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Remove panel property.
@@ -44,7 +44,7 @@ describe("adding and removing properties", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     expect(screen.queryAllByText("Uber template2")).toHaveLength(2)
@@ -84,7 +84,7 @@ describe("adding and removing properties", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Remove Uber template1, property1 to not confuse this test
@@ -106,7 +106,7 @@ describe("adding and removing properties", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a nested property (literal)
@@ -133,7 +133,7 @@ describe("adding and removing properties", () => {
     const literalText = "bogus in property 7"
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Verify defaults for propert7 are shown

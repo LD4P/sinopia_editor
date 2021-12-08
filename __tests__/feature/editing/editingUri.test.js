@@ -1,6 +1,6 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen, waitFor } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -11,7 +11,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a URI
@@ -57,7 +57,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a URI
@@ -75,7 +75,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add two values
@@ -117,7 +117,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a URI
@@ -167,7 +167,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a URI
@@ -219,7 +219,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -237,7 +237,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a value
@@ -261,7 +261,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     // Add a label
@@ -289,7 +289,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("URI", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const saveBtn = screen.getAllByLabelText("Save", {
@@ -314,7 +314,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("URI", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const saveBtn = screen.getAllByLabelText("Save", {
@@ -339,7 +339,7 @@ describe("editing a URI property", () => {
     renderApp(null, history)
 
     await screen.findByText("URI", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     expect(screen.getAllByText("Label", { selector: "label" })).toHaveLength(1)

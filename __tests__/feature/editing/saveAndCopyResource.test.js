@@ -1,8 +1,7 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import * as sinopiaApi from "sinopiaApi"
-
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -18,7 +17,9 @@ describe("saving a resource", () => {
     renderApp(null, history)
 
     it("edits, saves, and copies the resource template", async () => {
-      await screen.findByText("Title note", { selector: "h3#resource-header" })
+      await screen.findByText("Title note", {
+        selector: resourceHeaderSelector,
+      })
 
       const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
       const copyBtn = await screen.getAllByTestId(
@@ -57,10 +58,10 @@ describe("saving a resource", () => {
 
       // There are nav tabs and a duplicate resource with the same content
       await screen.findAllByText("foo", {
-        selector: ".nav-item.active .tab-link",
+        selector: ".nav-item.active .tab-link span",
       })
       await screen.findAllByText("foo", {
-        selector: ".nav-item:not(.active) .tab-link",
+        selector: ".nav-item:not(.active) .tab-link span",
       })
     })
   })

@@ -6,7 +6,7 @@ import {
   getByTestId,
   waitFor,
 } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -16,7 +16,7 @@ describe("reordering properties", () => {
     const { container } = renderApp(null, history)
 
     await screen.findByText("Uber template1", {
-      selector: "h3#resource-header",
+      selector: resourceHeaderSelector,
     })
 
     const nestedResource1 = container.querySelector(

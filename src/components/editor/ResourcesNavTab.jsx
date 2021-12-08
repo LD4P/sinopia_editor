@@ -4,13 +4,16 @@ import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 import PropTypes from "prop-types"
 import CloseButton from "./actions/CloseButton"
-import { selectResourceLabel } from "selectors/resources"
+import { selectPickSubject } from "selectors/resources"
 import { setCurrentResource } from "actions/resources"
+import ResourceTitle from "./ResourceTitle"
 
 const ResourcesNavTab = ({ resourceKey, active }) => {
   const dispatch = useDispatch()
 
-  const label = useSelector((state) => selectResourceLabel(state, resourceKey))
+  const resource = useSelector((state) =>
+    selectPickSubject(state, resourceKey, ["label", "classes"])
+  )
 
   const handleResourceNavClick = (event) => {
     event.preventDefault()
@@ -37,7 +40,7 @@ const ResourcesNavTab = ({ resourceKey, active }) => {
         href="#resourceTemplate"
         onClick={handleResourceNavClick}
       >
-        {label}
+        <ResourceTitle resource={resource} />
       </a>
 
       {closeButton}

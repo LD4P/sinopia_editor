@@ -1,7 +1,7 @@
 import { renderApp, createStore, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
 import { createState } from "stateUtils"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 import * as sinopiaApi from "sinopiaApi"
 
 featureSetup()
@@ -18,7 +18,7 @@ describe("user that can edit, but not an owner, can view groups", () => {
     const store = createStore(state)
     renderApp(store, history)
 
-    await screen.findByText("Inputs", { selector: "h3#resource-header" })
+    await screen.findByText("Inputs", { selector: resourceHeaderSelector })
     fireEvent.click(screen.getByText("Permissions"))
 
     // Change the owner

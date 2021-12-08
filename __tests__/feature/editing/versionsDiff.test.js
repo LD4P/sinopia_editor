@@ -1,6 +1,6 @@
 import { renderApp, createHistory } from "testUtils"
 import { fireEvent, screen } from "@testing-library/react"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 
@@ -14,7 +14,7 @@ describe("versions", () => {
       renderApp(null, history)
 
       await screen.findByText("Inputs", {
-        selector: "h3#resource-header",
+        selector: resourceHeaderSelector,
       })
 
       // Click versions pill
@@ -49,7 +49,7 @@ describe("versions", () => {
       renderApp(null, history)
 
       await screen.findByText("Inputs", {
-        selector: "h3#resource-header",
+        selector: resourceHeaderSelector,
       })
 
       // Click versions pill

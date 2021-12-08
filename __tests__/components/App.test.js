@@ -4,7 +4,7 @@ import { createStore, renderApp, createHistory } from "testUtils"
 import { createState } from "stateUtils"
 import Auth from "@aws-amplify/auth"
 import fetchMock from "fetch-mock-jest"
-import { featureSetup } from "featureUtils"
+import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 jest.mock("@aws-amplify/auth")
 
@@ -129,7 +129,7 @@ describe("<App />", () => {
       const history = createHistory(["/editor/resourceTemplate:bf2:Note"])
       renderApp(null, history)
 
-      await screen.findByText("Note", { selector: "h3#resource-header" })
+      await screen.findByText("Note", { selector: resourceHeaderSelector })
     })
 
     it("redirects to /templates for /editor/<rtId> when rtId not found", async () => {
@@ -189,7 +189,7 @@ describe("<App />", () => {
       history.push("/editor")
 
       await screen.findByText("Abbreviated Title", {
-        selector: "h3#resource-header",
+        selector: resourceHeaderSelector,
       })
       screen.getByText("foo")
     })
