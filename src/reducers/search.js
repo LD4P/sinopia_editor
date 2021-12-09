@@ -39,3 +39,8 @@ export const clearSearchResults = (state, action) => ({
   ...state,
   [action.payload]: null,
 })
+
+export const setHeaderSearch = (state, action) => ({
+  ...state,
+  currentHeaderSearch: action.payload,
+})

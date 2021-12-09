@@ -58,7 +58,7 @@ import {
   addResourceHistory,
   addResourceHistoryByResult,
 } from "./history"
-import { clearSearchResults, setSearchResults } from "./search"
+import { clearSearchResults, setSearchResults, setHeaderSearch } from "./search"
 import { lookupOptionsRetrieved } from "./lookups"
 import _ from "lodash"
 
@@ -105,6 +105,7 @@ const editorHandlers = {
   SET_CURRENT_DIFF_RESOURCES: setCurrentDiffResources,
   SET_CURRENT_EDIT_RESOURCE: setCurrentEditResource,
   SET_CURRENT_PREVIEW_RESOURCE: setCurrentPreviewResource,
+  SET_HEADER_SEARCH: setHeaderSearch,
   SET_UNUSED_RDF: setUnusedRDF,
   SHOW_COPY_NEW_MESSAGE: showCopyNewMessage,
   SHOW_LANG_MODAL: showLangModal,

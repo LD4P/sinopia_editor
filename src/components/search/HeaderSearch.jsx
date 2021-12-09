@@ -1,22 +1,22 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
 import React, { useRef, useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSearch, faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 import { Popover } from "bootstrap"
 import searchConfig from "../../../static/searchConfig.json"
 import { sinopiaSearchUri } from "utilities/authorityConfig"
 import useSearch from "hooks/useSearch"
-import { selectSearchQuery } from "selectors/search"
+import { selectHeaderSearch } from "selectors/search"
+import { setHeaderSearch } from "actions/search"
 import useAlerts from "hooks/useAlerts"
 
 const HeaderSearch = () => {
-  const [uri, setUri] = useState(sinopiaSearchUri)
-  const lastQueryString = useSelector((state) =>
-    selectSearchQuery(state, "resource")
-  )
-  const [query, setQuery] = useState("")
+  const dispatch = useDispatch()
+  const currentSearch = useSelector((state) => selectHeaderSearch(state))
+  const [uri, setUri] = useState(currentSearch.uri)
+  const [query, setQuery] = useState(currentSearch.query || "")
   const popoverRef = useRef()
   const errorKey = useAlerts()
   const {
@@ -30,10 +30,6 @@ const HeaderSearch = () => {
       {config.label}
     </option>
   ))
-
-  useEffect(() => {
-    if (lastQueryString) setQuery(lastQueryString)
-  }, [lastQueryString])
 
   useEffect(() => {
     const popover = new Popover(popoverRef.current, {
@@ -50,13 +46,20 @@ const HeaderSearch = () => {
     event.preventDefault()
   }
 
+  const handleQueryBlur = (event) => {
+    dispatch(setHeaderSearch(uri, event.target.value))
+  }
+
   const handleUriChange = (event) => {
     setUri(event.target.value)
+    dispatch(setHeaderSearch(event.target.value, query))
     event.preventDefault()
   }
 
   const runSearch = (event) => {
     event.preventDefault()
+
+    dispatch(setHeaderSearch(uri, query))
 
     if (query === "") return
 
@@ -106,6 +109,8 @@ const HeaderSearch = () => {
           value={uri}
           onChange={handleUriChange}
           onBlur={handleUriChange}
+          aria-label="Search type"
+          data-testid="Search type"
         >
           <option value={sinopiaSearchUri}>Sinopia</option>
           <option value={`${sinopiaSearchUri}/Work`}>
@@ -125,7 +130,7 @@ const HeaderSearch = () => {
           type="search"
           id="search"
           onChange={handleQueryChange}
-          onBlur={handleQueryChange}
+          onBlur={handleQueryBlur}
           onKeyPress={handleKeyPress}
           value={query}
         />

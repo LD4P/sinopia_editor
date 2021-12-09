@@ -1,12 +1,17 @@
 // Copyright 2020 Stanford University see LICENSE for license
 
-import { clearSearchResults, setSearchResults } from "reducers/search"
+import {
+  clearSearchResults,
+  setSearchResults,
+  setHeaderSearch,
+} from "reducers/search"
 
 import { createReducer } from "reducers/index"
 
 const reducers = {
   CLEAR_SEARCH_RESULTS: clearSearchResults,
   SET_SEARCH_RESULTS: setSearchResults,
+  SET_HEADER_SEARCH: setHeaderSearch,
 }
 
 const reducer = createReducer(reducers)
@@ -132,5 +137,28 @@ describe("setSearchResults()", () => {
     const newState = reducer(oldState, action)
     expect(newState.template.options.resultsPerPage).toEqual(250)
     expect(newState.template.options.startOfRange).toEqual(0)
+  })
+
+  describe("setHeaderSearch()", () => {
+    it("updates state", () => {
+      const oldState = {
+        currentHeaderSearch: {
+          uri: null,
+          query: null,
+        },
+      }
+      const action = {
+        type: "SET_HEADER_SEARCH",
+        payload: {
+          uri: "urn:ld4p:sinopia/Instance",
+          query: "foo",
+        },
+      }
+      const newState = reducer(oldState, action)
+      expect(newState.currentHeaderSearch).toStrictEqual({
+        uri: "urn:ld4p:sinopia/Instance",
+        query: "foo",
+      })
+    })
   })
 })

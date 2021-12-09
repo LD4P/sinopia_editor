@@ -23,3 +23,5 @@ export const selectSearchOptions = (state, searchType) =>
 
 export const selectSearchResults = (state, searchType) =>
   state.search[searchType]?.results
+
+export const selectHeaderSearch = (state) => state.editor.currentHeaderSearch
