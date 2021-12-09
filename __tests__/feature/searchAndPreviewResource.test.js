@@ -101,6 +101,7 @@ describe("searching and preview a resource", () => {
       await screen.findByText(
         /<http:\/\/sinopia.io\/vocabulary\/hasResourceTemplate> "resourceTemplate:testing:uber1";/
       )
+      screen.getByText(/Copy RDF/, { selector: "button" })
 
       // Modal has edit and copy buttons
       screen.getByTestId("Edit Example Label")
