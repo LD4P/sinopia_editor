@@ -4,7 +4,11 @@ import {
   resourceToName,
   datasetFromN3,
   formatISODate,
+  formatLocalDate,
 } from "utilities/Utilities"
+import timezoneMock from "timezone-mock"
+
+timezoneMock.register("US/Pacific")
 
 describe("Utilities", () => {
   describe("isResourceWithValueTemplateRef()", () => {
@@ -135,6 +139,17 @@ describe("Utilities", () => {
     it("formats date", () => {
       expect(formatISODate(new Date("2019-05-14T11:01:58.135Z"))).toEqual(
         "2019-05-14"
+      )
+    })
+  })
+
+  describe("formatLocalDate()", () => {
+    it("formats date", () => {
+      expect(formatLocalDate(new Date("2019-05-14T11:01:58.135Z"))).toEqual(
+        "2019-05-14"
+      )
+      expect(formatLocalDate(new Date("2019-05-14T01:01:58.135Z"))).toEqual(
+        "2019-05-13"
       )
     })
   })
