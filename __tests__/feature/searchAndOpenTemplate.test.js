@@ -5,10 +5,6 @@ import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
 jest.mock("sinopiaSearch")
-// Mock out document.elementFromPoint used by useNavigableComponent.
-global.document.elementFromPoint = jest.fn()
-// Mock out scrollIntoView used by useNavigableComponent. See https://github.com/jsdom/jsdom/issues/1695
-Element.prototype.scrollIntoView = jest.fn()
 
 describe("searching and opening a resource", () => {
   const history = createHistory(["/templates"])
@@ -51,9 +47,15 @@ describe("searching and opening a resource", () => {
     await fireEvent.change(input, { target: { value: queryString } })
     await screen.findByText("resourceTemplate:bf2:Title:Note")
 
+    // Has a create, view, and copy buttons
+    const createBtn = await screen.findByTestId(
+      "Create resource for Title note"
+    )
+    screen.getByTestId("View Title note")
+    screen.getByTestId("Copy Title note")
+
     // open the template
-    const link = await screen.findByTestId("Create resource for Title note")
-    fireEvent.click(link)
+    fireEvent.click(createBtn)
     await act(() => promise)
 
     // return to the RT list
