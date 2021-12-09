@@ -1,6 +1,9 @@
 import TemplatesBuilder from "TemplatesBuilder"
 import { datasetFromN3 } from "utilities/Utilities"
 import ResourceBuilder from "resourceBuilderUtils"
+import timezoneMock from "timezone-mock"
+
+timezoneMock.register("US/Pacific")
 
 describe("TemplatesBuilder", () => {
   const mockDate = new Date("2019-05-14T11:01:58.135Z")

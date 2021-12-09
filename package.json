@@ -71,6 +71,7 @@
     "cors": "^2.8.5",
     "crypto-browserify": "3.12.0",
     "crypto-js": "^4.1.1",
+    "date-and-time": "^2.0.1",
     "dotenv": "^8.6.0",
     "edtf": "^3.1.0",
     "event-stream": "^4.0.1",
@@ -153,6 +154,7 @@
     "sass": "^1.42.1",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.3.0",
+    "timezone-mock": "1.2.2",
     "webpack": "^5.52.0",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.1.1"

@@ -6,6 +6,7 @@ import _ from "lodash"
 import CryptoJS from "crypto-js"
 import { JsonLdParser } from "jsonld-streaming-parser"
 import { Writer as N3Writer } from "n3"
+import dateFormat from "date-and-time"
 
 const concatStream = require("concat-stream")
 const Readable = require("stream").Readable
@@ -185,4 +186,8 @@ export const stickyScrollIntoView = (
   window.scrollTo({ top: y, behavior: "smooth" })
 }
 
+// This is UTC.
 export const formatISODate = (date) => date.toISOString().slice(0, 10)
+
+// This is local timezone.
+export const formatLocalDate = (date) => dateFormat.format(date, "YYYY-MM-DD")
