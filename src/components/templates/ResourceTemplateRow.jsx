@@ -9,6 +9,7 @@ import { selectGroupMap } from "selectors/groups"
 import EditButton from "../buttons/EditButton"
 import CopyButton from "../buttons/CopyButton"
 import NewButton from "../buttons/NewButton"
+import ViewButton from "../buttons/ViewButton"
 import useResource from "hooks/useResource"
 import useAlerts from "hooks/useAlerts"
 
@@ -24,9 +25,11 @@ const ResourceTemplateRow = ({ row }) => {
     handleNew,
     handleCopy,
     handleEdit,
+    handleView,
     isLoadingNew,
     isLoadingCopy,
     isLoadingEdit,
+    isLoadingView,
   } = useResource(errorKey, {
     resourceURI: row.uri,
     resourceTemplateId: row.id,
@@ -57,6 +60,11 @@ const ResourceTemplateRow = ({ row }) => {
               isLoading={isLoadingNew}
             />
           )}
+          <ViewButton
+            label={row.resourceLabel}
+            handleClick={handleView}
+            isLoading={isLoadingView}
+          />
           {canEdit(row) && (
             <EditButton
               label={row.resourceLabel}

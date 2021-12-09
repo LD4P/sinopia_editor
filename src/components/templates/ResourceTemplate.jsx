@@ -7,12 +7,14 @@ import TemplateSearch from "./TemplateSearch"
 import AlertsContextProvider from "components/alerts/AlertsContextProvider"
 import ContextAlert from "components/alerts/ContextAlert"
 import { templateErrorKey } from "utilities/errorKeyFactory"
+import PreviewModal from "../editor/preview/PreviewModal"
 
 const ResourceTemplate = (props) => (
   <AlertsContextProvider value={templateErrorKey}>
     <section id="resourceTemplate">
       <Header triggerEditorMenu={props.triggerHandleOffsetMenu} />
       <ContextAlert />
+      <PreviewModal />
       <TemplateSearch history={props.history} />
     </section>
   </AlertsContextProvider>
