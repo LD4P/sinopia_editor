@@ -25,3 +25,11 @@ export const setSearchResults = (
     error,
   },
 })
+
+export const setHeaderSearch = (uri, query) => ({
+  type: "SET_HEADER_SEARCH",
+  payload: {
+    uri,
+    query,
+  },
+})

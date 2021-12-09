@@ -294,4 +294,31 @@ describe("sinopia resource search", () => {
     fireEvent.click(await screen.findByText(/Template results/))
     screen.getByText(/testing:defaultDate/)
   })
+
+  it("maintains uri and query when change pages", async () => {
+    renderApp()
+
+    fireEvent.click(screen.getByText(/Linked Data Editor/, { selector: "a" }))
+
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: "foo" },
+    })
+    fireEvent.change(screen.getByTestId("Search type"), {
+      target: { value: "urn:ld4p:sinopia/Instance" },
+    })
+
+    expect(screen.getByLabelText("Search")).toHaveValue("foo")
+    expect(screen.getByTestId("Search type")).toHaveValue(
+      "urn:ld4p:sinopia/Instance"
+    )
+
+    // Change the page
+    fireEvent.click(screen.getByText(/Resource Templates/, { selector: "a" }))
+    await screen.findByText(/Find a resource template/)
+
+    expect(screen.getByLabelText("Search")).toHaveValue("foo")
+    expect(screen.getByTestId("Search type")).toHaveValue(
+      "urn:ld4p:sinopia/Instance"
+    )
+  })
 })

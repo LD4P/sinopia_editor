@@ -3,6 +3,7 @@
 import { createStore, applyMiddleware, compose } from "redux"
 import thunk from "redux-thunk"
 import reducer from "./reducers/index"
+import { sinopiaSearchUri } from "utilities/authorityConfig"
 
 export const initialState = {
   authenticate: {
@@ -29,6 +30,10 @@ export const initialState = {
     resourceValidation: {}, // Show validation {<resourceKey>: boolean}
     unusedRDF: {}, // {<resourceKey>: rdf}
     marc: null, // marc record for display
+    currentHeaderSearch: {
+      query: null,
+      uri: sinopiaSearchUri,
+    },
   },
   entities: {
     languageLookup: [],
