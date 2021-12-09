@@ -17,15 +17,10 @@ const NewsItem = () => (
       </i>
     </p>
     <ul>
-      <li>
-        Language tagging improvements: use of IANA Registry, addition of script
-        and transliteration tags
-      </li>
-      <li>
-        Multiple nested resource fields permitted to use same property as long
-        as the nested resources are of different classes
-      </li>
-      <li>Fields can be configured to allow choice of property</li>
+      <li>Language detection and suggestion</li>
+      <li>Sinopia/Symphony integration for Stanford users</li>
+      <li>Templates are included in Sinopia search</li>
+      <li>Can set literal field to default to current date or userID</li>
     </ul>
   </div>
 )
