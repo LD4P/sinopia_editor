@@ -1,8 +1,8 @@
 .resources-nav-tabs {
   $tab-width: 345px;
   $tab-height: 35px;
-  $button-width: 36px;
-  $badge-width: 70px;
+  $button-width: 26px;
+  $badge-width: 78px;
 
   margin-bottom: 5px;
   margin-top: 10px;
@@ -27,7 +27,7 @@
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        width: $tab-width - $button-width - $badge-width;
+        width: $tab-width - $button-width - $badge-width - 10px;
       }
 
       .badge {
@@ -45,7 +45,7 @@
       font-weight: 600;
 
       .resource-label {
-        width: $tab-width - $badge-width;
+        width: $tab-width - $badge-width - 10px;
       }
     }
   }
