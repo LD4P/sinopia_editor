@@ -34,11 +34,11 @@ const GroupFilter = ({ params, setParams }) => {
 
   return (
     <React.Fragment>
-      <div className="row gy-1">
-        <label htmlFor="group" className="col-sm-3 col-form-label py-1">
+      <div className="row">
+        <label htmlFor="group" className="col-sm-3 col-form-label">
           Group
         </label>
-        <div className="col-sm-8 my-0">
+        <div className="col-sm-8">
           <select
             className="form-select"
             id="group"
