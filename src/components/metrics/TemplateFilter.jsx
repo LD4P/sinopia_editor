@@ -17,14 +17,11 @@ const TemplateFilter = ({ params, setParams }) => {
 
   return (
     <React.Fragment>
-      <div className="row gy-1">
-        <label
-          htmlFor="template-choice"
-          className="col-sm-3 col-form-label py-1"
-        >
+      <div className="row">
+        <label htmlFor="template-choice" className="col-sm-3 col-form-label">
           Search for template
         </label>
-        <div className="col-sm-8 my-0">
+        <div className="col-sm-8">
           <InputTemplate
             id="template-choice"
             setTemplateId={setTemplateId}

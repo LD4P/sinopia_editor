@@ -31,28 +31,28 @@ const DateRangeFilter = ({ params, setParams }) => {
 
   return (
     <React.Fragment>
-      <div className="row gy-1">
-        <label htmlFor="startDate" className="col-sm-3 col-form-label py-1">
+      <div className="row">
+        <label htmlFor="startDate" className="col-sm-3 col-form-label">
           Start
         </label>
-        <div className="col-sm-5 my-0">
+        <div className="col-sm-5">
           <input
             type="date"
-            className="form-control-plaintext py-0"
+            className="form-control-plaintext"
             id="startDate"
             value={params.startDate}
             onChange={handleStartDateChange}
           />
         </div>
       </div>
-      <div className="row gy-1">
-        <label htmlFor="endDate" className="col-sm-3 col-form-label py-1">
+      <div className="row">
+        <label htmlFor="endDate" className="col-sm-3 col-form-label">
           End
         </label>
-        <div className="col-sm-5 my-0">
+        <div className="col-sm-5">
           <input
             type="date"
-            className="form-control-plaintext py-0"
+            className="form-control-plaintext"
             id="endDate"
             value={params.endDate}
             onChange={handleEndDateChange}
