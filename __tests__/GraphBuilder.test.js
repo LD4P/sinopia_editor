@@ -130,6 +130,10 @@ describe("GraphBuilder", () => {
                     id: "resourceTemplate:testing:uber2",
                     clazz: "http://id.loc.gov/ontologies/bibframe/Uber2",
                   }),
+                  classes: [
+                    "http://id.loc.gov/ontologies/bibframe/Uber2",
+                    "http://id.loc.gov/ontologies/bibframe/Uber2a",
+                  ],
                   properties: [
                     build.literalProperty({
                       values: [
@@ -154,7 +158,8 @@ describe("GraphBuilder", () => {
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .
 _:c14n0 <http://id.loc.gov/ontologies/bibframe/uber/template2/property1> "literal3"@en .
-_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .`
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2a> .`
       expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
     })
 
@@ -387,6 +392,10 @@ _:c14n3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
                     clazz: "http://id.loc.gov/ontologies/bibframe/Uber2",
                     suppressible: true,
                   }),
+                  classes: [
+                    "http://id.loc.gov/ontologies/bibframe/Uber2",
+                    "http://id.loc.gov/ontologies/bibframe/Uber2a",
+                  ],
                   properties: [
                     build.uriProperty({
                       values: [
@@ -411,6 +420,7 @@ _:c14n3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ont
 <> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:testing:uber1" .
 <> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber1> .
 <http://sinopia.io/uri1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2> .
+<http://sinopia.io/uri1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Uber2a> .
 <http://sinopia.io/uri1> <http://www.w3.org/2000/01/rdf-schema#label> "URI1" .`
       expect(new GraphBuilder(resource).graph.toCanonical()).toMatch(rdf)
     })

@@ -28,15 +28,7 @@ export default class GraphBuilder {
   }
 
   buildSubject(subject, subjectTerm) {
-    subject.classes.forEach((clazz) => {
-      this.dataset.add(
-        rdf.quad(
-          subjectTerm,
-          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
-          rdf.namedNode(clazz)
-        )
-      )
-    })
+    this.addType(subjectTerm, subject.classes)
     subject.properties.forEach((property) =>
       this.buildProperty(property, subjectTerm)
     )
@@ -152,13 +144,7 @@ export default class GraphBuilder {
     )
     uriValues.forEach((uriValue) => {
       this.buildUriValue(uriValue, subjectTerm, propertyTerm)
-      this.dataset.add(
-        rdf.quad(
-          rdf.namedNode(uriValue.uri),
-          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
-          rdf.namedNode(value.valueSubject.subjectTemplate.class)
-        )
-      )
+      this.addType(rdf.namedNode(uriValue.uri), value.valueSubject.classes)
     })
     const literalValues = value.valueSubject.properties[0].values.filter(
       (value) => value.literal
@@ -166,13 +152,7 @@ export default class GraphBuilder {
     if (!_.isEmpty(literalValues)) {
       const bnode = rdf.blankNode()
       this.dataset.add(rdf.quad(subjectTerm, propertyTerm, bnode))
-      this.dataset.add(
-        rdf.quad(
-          bnode,
-          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
-          rdf.namedNode(value.valueSubject.subjectTemplate.class)
-        )
-      )
+      this.addType(bnode, value.valueSubject.classes)
       literalValues.forEach((literalValue) => {
         this.buildLiteralValue(
           literalValue,
@@ -222,5 +202,17 @@ export default class GraphBuilder {
         rdf.literal(resourceTemplateId)
       )
     )
+  }
+
+  addType(subjectTerm, classes) {
+    classes.forEach((clazz) => {
+      this.dataset.add(
+        rdf.quad(
+          subjectTerm,
+          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+          rdf.namedNode(clazz)
+        )
+      )
+    })
   }
 }
