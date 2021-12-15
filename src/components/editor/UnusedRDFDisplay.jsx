@@ -12,16 +12,20 @@ import _ from "lodash"
 const UnusedRDFDisplay = () => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const unusedRDF = useSelector((state) => selectUnusedRDF(state, resourceKey))
+
   const [error, setError] = useState(false)
   const [format, setFormat] = useState("table")
   const [dataset, setDataset] = useState(null)
 
   useEffect(() => {
     setError(false)
-    if (_.isEmpty(unusedRDF)) return
-    datasetFromN3(unusedRDF)
-      .then((dataset) => setDataset(dataset))
-      .catch((err) => setError(err.message || err))
+    if (_.isEmpty(unusedRDF)) {
+      setDataset(null)
+    } else {
+      datasetFromN3(unusedRDF)
+        .then((dataset) => setDataset(dataset))
+        .catch((err) => setError(err.message || err))
+    }
   }, [unusedRDF])
 
   const onChangeFormat = (event) => {
