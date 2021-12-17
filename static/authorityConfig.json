@@ -870,6 +870,14 @@
     "component": "lookup"
   },
   {
+    "label": "LOC cultural heritage organizations (QA)",
+    "uri": "urn:ld4p:qa:locculturalorgs",
+    "authority": "loccultural_organizations_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "LOC demographics (QA)",
     "uri": "urn:ld4p:qa:demographics",
     "authority": "locdemographics_ld4l_cache",
