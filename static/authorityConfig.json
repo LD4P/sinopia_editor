@@ -2205,11 +2205,6 @@
     "component": "list"
   },
   {
-    "label": "Cultural Heritage Organizations (LOC)",
-    "uri": "https://id.loc.gov/vocabulary/organizations",
-    "component": "list"
-  },
-  {
     "label": "file type",
     "uri": "https://id.loc.gov/vocabulary/mfiletype",
     "component": "list"
