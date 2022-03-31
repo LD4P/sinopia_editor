@@ -35,11 +35,117 @@
     "component": "local-lookup"
   },
   {
+    "label": "Sinopia RDA monograph manifestation",
+    "uri": "urn:ld4p:sinopia:rda:manifestation",
+    "type": "http://rdaregistry.info/Elements/c/C10007",
+    "component": "local-lookup"
+  },
+  {
+    "label": "Sinopia RDA monograph expression",
+    "uri": "urn:ld4p:sinopia:rda:expression",
+    "type": "http://rdaregistry.info/Elements/c/C10006",
+    "component": "local-lookup"
+  },
+  {
+    "label": "Sinopia RDA monograph work",
+    "uri": "urn:ld4p:sinopia:rda:work",
+    "type": "http://rdaregistry.info/Elements/c/C10001",
+    "component": "local-lookup"
+  },
+  {
     "label": "AGROVOC (QA)",
     "uri": "urn:ld4p:qa:agrovoc",
     "authority": "agrovoc_ld4l_cache",
     "subauthority": "",
     "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities",
+    "uri": "urn:ld4p:qa:bibbi_direct",
+    "authority": "bibbi_direct",
+    "subauthority": "",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Topic",
+    "uri": "urn:ld4p:qa:bibbi_direct:topic",
+    "authority": "bibbi_direct",
+    "subauthority": "topic",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Geographic",
+    "uri": "urn:ld4p:qa:bibbi_direct:geographic",
+    "authority": "bibbi_direct",
+    "subauthority": "geographic",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Event Name",
+    "uri": "urn:ld4p:qa:bibbi_direct:event_name",
+    "authority": "bibbi_direct",
+    "subauthority": "event_name",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Person",
+    "uri": "urn:ld4p:qa:bibbi_direct:person",
+    "authority": "bibbi_direct",
+    "subauthority": "person",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Person-Subject",
+    "uri": "urn:ld4p:qa:bibbi_direct:person_subject",
+    "authority": "bibbi_direct",
+    "subauthority": "person_subject",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Corporation",
+    "uri": "urn:ld4p:qa:bibbi_direct:corporation",
+    "authority": "bibbi_direct",
+    "subauthority": "corporation",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Corporation-Subject",
+    "uri": "urn:ld4p:qa:bibbi_direct:corporation_subject",
+    "authority": "bibbi_direct",
+    "subauthority": "corporation_subject",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Uniform Title",
+    "uri": "urn:ld4p:qa:bibbi_direct:uniform_title",
+    "authority": "bibbi_direct",
+    "subauthority": "uniform_title",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Work",
+    "uri": "urn:ld4p:qa:bibbi_direct:work",
+    "authority": "bibbi_direct",
+    "subauthority": "work",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Bibbi authorities Form",
+    "uri": "urn:ld4p:qa:bibbi_direct:form",
+    "authority": "bibbi_direct",
+    "subauthority": "form",
+    "language": "no",
     "component": "lookup"
   },
   {
@@ -474,6 +580,14 @@
     "uri": "urn:ld4p:qa:gettyulan:organization",
     "authority": "getty_ulan_ld4l_cache",
     "subauthority": "organization",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "Homosaurus",
+    "uri": "urn:ld4p:qa:homosaurus_ld4l_cache",
+    "authority": "homosaurus_ld4l_cache",
+    "subauthority": "",
     "language": "en",
     "component": "lookup"
   },
@@ -995,6 +1109,94 @@
     "authority": "nalt_ld4l_cache",
     "subauthority": "",
     "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus",
+    "uri": "urn:ld4p:qa:ntsf_direct",
+    "authority": "ntsf_direct",
+    "subauthority": "",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus topic",
+    "uri": "urn:ld4p:qa:ntsf_direct:topic",
+    "authority": "ntsf_direct",
+    "subauthority": "topic",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus geographic",
+    "uri": "urn:ld4p:qa:ntsf_direct:geographic",
+    "authority": "ntsf_direct",
+    "subauthority": "geographic",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus event name",
+    "uri": "urn:ld4p:qa:ntsf_direct:event_name",
+    "authority": "ntsf_direct",
+    "subauthority": "event_name",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus event person",
+    "uri": "urn:ld4p:qa:ntsf_direct:person",
+    "authority": "ntsf_direct",
+    "subauthority": "person",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus event person subject",
+    "uri": "urn:ld4p:qa:ntsf_direct:person_subject",
+    "authority": "ntsf_direct",
+    "subauthority": "person_subject",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus event corporation",
+    "uri": "urn:ld4p:qa:ntsf_direct:corporation",
+    "authority": "ntsf_direct",
+    "subauthority": "corporation",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus event corporation subject",
+    "uri": "urn:ld4p:qa:ntsf_direct:corporation_subject",
+    "authority": "ntsf_direct",
+    "subauthority": "corporation_subject",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus event uniform title",
+    "uri": "urn:ld4p:qa:ntsf_direct:uniform_title",
+    "authority": "ntsf_direct",
+    "subauthority": "uniform_title",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus event work",
+    "uri": "urn:ld4p:qa:ntsf_direct:work",
+    "authority": "ntsf_direct",
+    "subauthority": "work",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
+    "label": "Norwegian thesaurus event form",
+    "uri": "urn:ld4p:qa:ntsf_direct:form",
+    "authority": "ntsf_direct",
+    "subauthority": "form",
+    "language": "no",
     "component": "lookup"
   },
   {
