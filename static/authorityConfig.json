@@ -592,6 +592,14 @@
     "component": "lookup"
   },
   {
+    "label": "Humord",
+    "uri": "urn:ld4p:qa:humord_direct",
+    "authority": "humord_direct",
+    "subauthority": "",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
     "label": "ISNI (QA)",
     "uri": "urn:ld4p:qa:isni",
     "authority": "isni_ld4l_cache",
@@ -1112,90 +1120,10 @@
     "component": "lookup"
   },
   {
-    "label": "Norwegian thesaurus",
+    "label": "Norwegian thesaurus on Genre and Form",
     "uri": "urn:ld4p:qa:ntsf_direct",
     "authority": "ntsf_direct",
     "subauthority": "",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus topic",
-    "uri": "urn:ld4p:qa:ntsf_direct:topic",
-    "authority": "ntsf_direct",
-    "subauthority": "topic",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus geographic",
-    "uri": "urn:ld4p:qa:ntsf_direct:geographic",
-    "authority": "ntsf_direct",
-    "subauthority": "geographic",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus event name",
-    "uri": "urn:ld4p:qa:ntsf_direct:event_name",
-    "authority": "ntsf_direct",
-    "subauthority": "event_name",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus event person",
-    "uri": "urn:ld4p:qa:ntsf_direct:person",
-    "authority": "ntsf_direct",
-    "subauthority": "person",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus event person subject",
-    "uri": "urn:ld4p:qa:ntsf_direct:person_subject",
-    "authority": "ntsf_direct",
-    "subauthority": "person_subject",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus event corporation",
-    "uri": "urn:ld4p:qa:ntsf_direct:corporation",
-    "authority": "ntsf_direct",
-    "subauthority": "corporation",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus event corporation subject",
-    "uri": "urn:ld4p:qa:ntsf_direct:corporation_subject",
-    "authority": "ntsf_direct",
-    "subauthority": "corporation_subject",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus event uniform title",
-    "uri": "urn:ld4p:qa:ntsf_direct:uniform_title",
-    "authority": "ntsf_direct",
-    "subauthority": "uniform_title",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus event work",
-    "uri": "urn:ld4p:qa:ntsf_direct:work",
-    "authority": "ntsf_direct",
-    "subauthority": "work",
-    "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "Norwegian thesaurus event form",
-    "uri": "urn:ld4p:qa:ntsf_direct:form",
-    "authority": "ntsf_direct",
-    "subauthority": "form",
     "language": "no",
     "component": "lookup"
   },
