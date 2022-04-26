@@ -13,7 +13,6 @@ These instructions apply for major releases and dependency updates.
   - [ ] Check out a branch.
   - [ ] Update the version in *package.json*
   - [ ] `npm i` to regenerate *package-lock.json* (see note below)
-  - [ ] `npm publish` to publish the version to [npm registry](https://npmjs.com).
   - [ ] Commit changes to branch, push to github and create PR for this version bump.  (You can't push directly to main, since it's a protected branch).
   - [ ] _Once PR is merged:_ Publish a [new release](https://github.com/LD4P/sinopia_editor/releases/new) with a version like `v1.0.2` (release number matching what you put in package.json).
 3. _If changes since last release:_ Create [Sinopia Indexing Pipeline](https://github.com/LD4P/sinopia_indexing_pipeline) release.
