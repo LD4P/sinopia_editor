@@ -26,6 +26,7 @@ You can use the ["n"](https://www.npmjs.com/package/n) node package management t
 3.  Run `npm install`. This installs everything needed for the build to run successfully.
 4.  Run `docker-compose pull` to pull down all images.
 5.  Add these to your local `.env` file:
+6.  Run `npm run build`. This will copy some files to `dist/` that are necessary to run locally.
 
 ```
 COGNITO_TEST_USER_NAME='sinopia-devs+client-tester@lists.stanford.edu' # a test user we have on dev and stage
