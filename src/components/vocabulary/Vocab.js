@@ -8,6 +8,11 @@ import ContextAlert from "components/alerts/ContextAlert"
 import _ from "lodash"
 
 const vocabulary = {
+  "bf/nonfiling": {
+    description:
+      "Number of character positions associated with a definite or indefinite article (e.g., Le, An) at the beginning of a title that are disregarded in sorting and filing processes.",
+    url: "http://sinopia.io/vocabulary/bf/nonfiling",
+  },
   hasAuthor: {
     description: "Contact information associated with the template",
     url: "http://sinopia.io/vocabulary/hasAuthor",
