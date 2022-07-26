@@ -71,7 +71,7 @@ const RDFDisplay = ({ format, dataset }) => {
         <ClipboardButton text={formattedRDF} label="RDF" />
       </div>
       <pre style={{ padding: "5px" }} data-testid="rdf-display">
-        {formattedRDF}
+        <bdi>{formattedRDF}</bdi>
       </pre>
     </React.Fragment>
   )
