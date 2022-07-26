@@ -132,7 +132,7 @@ describe("searching and preview a resource", () => {
 
       // Confirm search query is still in place (stored in state and not cleared)
       expect(await screen.getByLabelText("Search").value).toEqual(uri)
-    }, 15000)
+    }, 25000)
   })
 
   describe("for a resource that does not have every value set", () => {
