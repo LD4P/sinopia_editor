@@ -8,7 +8,7 @@ module.exports = {
     'react',
     'react-hooks',
     'security',
-    'cypress',
+    'cypress'
   ],
   extends: [
     'eslint:recommended',
@@ -153,62 +153,11 @@ module.exports = {
       },
     },
     {
-      // Allow integration tests to use `page` global variable defined by puppeteer
-      files: ['__tests__/integration/**'],
-      rules: {
-        'no-undef': 'off',
-      },
-    },
-    {
-      // There is a known issue with exporting async default functions
-      // Link: https://github.com/babel/babel/issues/6262
-      files: ['__tests__/integration/previewRDFHelper.js'],
-      rules: {
-        'import/prefer-default-export': 'off',
-      },
-    },
-    {
-      // Allow ImportFileZone test to require `isomorphic-fetch`
-      files: ['__tests__/components/editor/ImportFileZone.test.js'],
-      rules: {
-        'node/no-extraneous-require': 'warn',
-      },
-    },
-    {
-      // Allow unicode whitespace in OutlineHeader test (bc apparently actually used in OutlineHeader component)
-      files: ['__tests__/components/editor/OutlineHeader.test.js'],
-      rules: {
-        'no-irregular-whitespace': 'off',
-      },
-    },
-    {
-      // Allow react-router-dom mock to do things counter to React's linter preferences
-      files: ['__mocks__/react-router-dom.js'],
-      rules: {
-        'react/display-name': 'warn',
-        'react/prop-types': 'warn',
-      },
-    },
-    {
-      // Allow a continue guard clause here as an if will increase the depth
-      files: ['src/GraphBuilder.js'],
-      rules: {
-        'no-continue': 'off',
-      },
-    },
-    {
-      files: ['src/components/editor/property/ResourceProperty.jsx'],
-      rules: {
-        'max-len': 'off',
-      },
-    },
-    {
       // Bootstrap styles require that navbar's use <a> instead of <btn>, so ignoring.
       // Might be able to fix this with BS4.
       files: [
         'src/components/Header.jsx',
-        'src/components/home/Header.jsx',
-        'src/components/editor/property/PropertyLabelInfoTooltip.jsx',
+        'src/components/home/Header.jsx'
       ],
       rules: {
         'jsx-a11y/anchor-is-valid': 'off',
@@ -216,8 +165,7 @@ module.exports = {
     },
     {
       files: [
-        'react-testing-library.setup.js',
-        'setupEnzyme.js',
+        'react-testing-library.setup.js'
       ],
       rules: {
         'node/no-unpublished-import': 'off',
