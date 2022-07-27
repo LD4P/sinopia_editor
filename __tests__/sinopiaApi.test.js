@@ -596,47 +596,70 @@ describe("fetchResourceVersions", () => {
 })
 
 describe("detectLanguage", () => {
-  const languages = [{ language: "en", score: 0.8 }]
-
-  it("retrieves languages", async () => {
-    global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue({
-        query: "Who am I and why am I here?",
-        data: languages,
-      }),
-      ok: true,
+  describe("when using fixtures", () => {
+    beforeEach(() => {
+      jest
+        .spyOn(Config, "useResourceTemplateFixtures", "get")
+        .mockReturnValue(true)
     })
 
-    const result = await detectLanguage("Who am I and why am I here?")
-    expect(result).toStrictEqual(languages)
-    expect(global.fetch).toHaveBeenCalledWith(
-      "http://localhost:3000/helpers/langDetection",
-      {
-        body: "Who am I and why am I here?",
-        headers: {
-          Authorization: "Bearer Secret-Token",
-          "Content-Type": "text/plain",
-        },
-        method: "POST",
-      }
-    )
+    it("retrieves languages", async () => {
+      const result = await detectLanguage("Who am I and why am I here?")
+      expect(result).toStrictEqual([
+        { language: "en", score: 0.9719234108924866 },
+      ])
+    })
   })
 
-  it("errors when API returns an error", async () => {
-    global.fetch = jest.fn().mockResolvedValue({
-      status: 500,
-      ok: false,
-      json: jest.fn().mockResolvedValue([
-        {
-          title: "Server error",
-          details: "Something went wrong",
-          status: "500",
-        },
-      ]),
+  describe("when using the api", () => {
+    const languages = [{ language: "en", score: 0.8 }]
+
+    beforeEach(() => {
+      jest
+        .spyOn(Config, "useResourceTemplateFixtures", "get")
+        .mockReturnValue(false)
     })
 
-    await expect(detectLanguage("Who am I and why am I here?")).rejects.toThrow(
-      "Server error: Something went wrong"
-    )
+    it("retrieves languages", async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue({
+          query: "Who am I and why am I here?",
+          data: languages,
+        }),
+        ok: true,
+      })
+
+      const result = await detectLanguage("Who am I and why am I here?")
+      expect(result).toStrictEqual(languages)
+      expect(global.fetch).toHaveBeenCalledWith(
+        "http://localhost:3000/helpers/langDetection",
+        {
+          body: "Who am I and why am I here?",
+          headers: {
+            Authorization: "Bearer Secret-Token",
+            "Content-Type": "text/plain",
+          },
+          method: "POST",
+        }
+      )
+    })
+
+    it("errors when API returns an error", async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        status: 500,
+        ok: false,
+        json: jest.fn().mockResolvedValue([
+          {
+            title: "Server error",
+            details: "Something went wrong",
+            status: "500",
+          },
+        ]),
+      })
+
+      await expect(
+        detectLanguage("Who am I and why am I here?")
+      ).rejects.toThrow("Server error: Something went wrong")
+    })
   })
 })

@@ -47,7 +47,7 @@ describe("editing a literal property", () => {
     fireEvent.click(removeBtn)
 
     expect(screen.queryAllByText("foobar")).toHaveLength(0)
-  }, 15000)
+  }, 25000)
 
   it("allows entering a repeatable literal", async () => {
     renderApp(null, history)
@@ -84,7 +84,7 @@ describe("editing a literal property", () => {
     screen.getByTestId("Add another Uber template1, property2")
 
     // Input is not disabled and empty
-  }, 15000)
+  }, 25000)
 
   it("allows entering diacritics", async () => {
     renderApp(null, history)
@@ -169,7 +169,7 @@ describe("editing a literal property", () => {
       ).toBeFalsy()
     )
     expect(langBtn).toHaveTextContent("taw")
-  }, 25000)
+  }, 30000)
 
   it("allows selecting no language", async () => {
     renderApp(null, history)
@@ -203,7 +203,7 @@ describe("editing a literal property", () => {
       ).toHaveLength(0)
     )
     expect(langBtn).toHaveTextContent("No language specified")
-  }, 15000)
+  }, 25000)
 
   it("enables save button on keydown", async () => {
     const history = createHistory(["/editor/resourceTemplate:testing:literal"])
@@ -228,7 +228,7 @@ describe("editing a literal property", () => {
 
     // There is foo text.
     await waitFor(() => expect(saveBtn).not.toBeDisabled())
-  }, 10000)
+  }, 15000)
 
   describe("editing a literal with suppressed language", () => {
     const history = createHistory([

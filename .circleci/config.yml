@@ -7,7 +7,7 @@ orbs:
 parameters:
   node-version:
     type: string
-    default: "16.8.0"
+    default: "16.10.0"
 references:
   publish_params: &publish_params
     docker-password: DOCKER_PASS
@@ -91,7 +91,7 @@ jobs:
   test:
     executor: default
     environment:
-      NODE_OPTIONS: --max_old_space_size=4096
+      NODE_OPTIONS: --max-old-space-size=4096
     steps:
       - checkout
       - node/install-packages

@@ -13,28 +13,24 @@ import configureMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { createState } from "stateUtils"
 import { nanoid } from "nanoid"
-import FakeTimers from "@sinonjs/fake-timers"
 import { safeAction } from "actionUtils"
 import expectedExpandPropertyAddValueAction from "../__action_fixtures__/expandProperty-ADD_VALUE"
 import expectedExpandPropertyAddPropertyAction from "../__action_fixtures__/expandProperty-ADD_PROPERTY"
 import expectedAddSiblingAddValueAction from "../__action_fixtures__/addSiblingValueSubject-ADD_VALUE"
 
-// This won't be required after Jest 27
-jest.useFakeTimers("modern")
+jest.useFakeTimers({ now: new Date("2020-08-20T11:34:40.887Z") })
 jest.mock("nanoid")
 
-let clock
 // Support mocking/restoring the `console` object
 let restoreConsole = null
 beforeEach(() => {
   nanoid.mockImplementation(() => "abc123")
-  clock = FakeTimers.install({ now: new Date("2020-08-20T11:34:40.887Z") })
   // Capture and not display console output
   restoreConsole = mockConsole(["error", "debug"])
 })
 
 afterAll(() => {
-  clock.uninstall()
+  jest.useRealTimers()
   restoreConsole()
 })
 

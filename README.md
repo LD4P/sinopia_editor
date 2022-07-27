@@ -12,12 +12,19 @@ Technical documentation specific to the Sinopia Linked Data Editor may also be f
 
 ### Prerequisites
 
-* [node.js](https://nodejs.org/en/download/) JavaScript runtime (>=14 is recommended)
+* [node.js](https://nodejs.org/en/download/) JavaScript runtime (See node version section below)
 * [npm](https://www.npmjs.com/) JavaScript package manager
 * [Docker](https://www.docker.com/)
 * A development cognito account: Go to https://development.sinopia.io/ and click "Request Account". This account can be used to authenticate when running locally as described below.
 
-You can use the ["n"](https://www.npmjs.com/package/n) node package management to manage multiple version of node.
+#### Node version
+>= 14 is recommended and <= 16.10 is required.
+
+Newer versions cause Jest memory leaks. See:
+* https://github.com/facebook/jest/issues/7874
+* https://github.com/facebook/jest/issues/11956
+
+You can use the ["nvm"](https://github.com/nvm-sh/nvm) or ["n"](https://www.npmjs.com/package/n) node package management to manage multiple version of node.
 
 ### Installation instructions
 
@@ -108,6 +115,12 @@ If there is a resource template you would like to copy, you can go to the direct
 (e.g.  `https://api.development.sinopia.io/resource/ld4p:RT:bf2:Monograph:Work:Un-nested`) and copy everything returned
 for the data list. Make sure you change (e.g.) `"@id": "https://api.development.sinopia.io/resource/ld4p:RT:bf2:Monograph:Work:Un-nested"` to
 `"@id": "http://localhost:3000/resource/ld4p:RT:bf2:Monograph:Work:Un-nested"`
+
+#### Troubleshooting `TypeError: Cannot read properties of null (reading 'createEvent')`
+When this error occurs, there is no indication as to which test is failing. To determine which test is failing, remove the "reporters"
+section from `package.json`.
+
+While there are a large number of possible causes for this error (see Google), it is most likely a timeout that needs to be increased.
 
 #### End-to-end tests
 
