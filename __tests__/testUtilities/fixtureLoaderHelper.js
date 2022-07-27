@@ -101,12 +101,12 @@ export const getFixtureResource = (uri) => {
 }
 
 // Cache of search results
-const fixtureTemplateSearchResults = []
+const fixtureTemplateSearchResults = {}
 
 // These are used as fake template search results
 export const getFixtureTemplateSearchResults = () => {
   if (!_.isEmpty(fixtureTemplateSearchResults))
-    return fixtureTemplateSearchResults
+    return Object.values(fixtureTemplateSearchResults)
 
   return Promise.all(
     Object.keys(templateFilenames).map((id) => {
@@ -125,7 +125,7 @@ export const getFixtureTemplateSearchResults = () => {
           editGroups: ["cornell"],
           uri,
         }
-        fixtureTemplateSearchResults.push(result)
+        fixtureTemplateSearchResults[result.id] = result
         return result
       })
     })

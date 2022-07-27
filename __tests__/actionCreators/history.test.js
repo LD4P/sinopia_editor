@@ -9,21 +9,14 @@ import configureMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { createState } from "stateUtils"
 import * as sinopiaSearch from "sinopiaSearch"
-import FakeTimers from "@sinonjs/fake-timers"
 
 // This forces Sinopia server to use fixtures
 jest.spyOn(Config, "useResourceTemplateFixtures", "get").mockReturnValue(true)
 
-// This won't be required after Jest 27
-jest.useFakeTimers("modern")
-
-let clock
-beforeAll(() => {
-  clock = FakeTimers.install({ now: new Date("2020-08-20T11:34:40.887Z") })
-})
+jest.useFakeTimers({ now: new Date("2020-08-20T11:34:40.887Z") })
 
 afterAll(() => {
-  clock.uninstall()
+  jest.useRealTimers()
 })
 
 const mockStore = configureMockStore([thunk])

@@ -15,7 +15,7 @@ describe("viewing the dashboard", () => {
 
       screen.getByText(/Welcome to Sinopia/)
     })
-  })
+  }, 10000)
 
   describe("when user uses a source template", () => {
     it("lists the resource template", async () => {
@@ -46,7 +46,7 @@ describe("viewing the dashboard", () => {
       screen.getAllByText("Justin Littman")
       screen.getByText("Jul 27, 2020")
     })
-  })
+  }, 10000)
 
   describe("when user performs a search", () => {
     it("lists the search and allows performing search", async () => {
@@ -88,7 +88,7 @@ describe("viewing the dashboard", () => {
       screen.getByText("Sinopia resources")
       screen.getByText("asdfqwerty")
     })
-  })
+  }, 10000)
 
   describe("when user uses a resource", () => {
     it("lists the resource", async () => {
@@ -126,5 +126,5 @@ describe("viewing the dashboard", () => {
         { selector: "table.resource-list td" }
       )
     })
-  })
+  }, 10000)
 })

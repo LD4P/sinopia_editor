@@ -252,8 +252,16 @@ const saveBodyForResource = (resource, user, group, editGroups) => {
   )
 }
 
-export const detectLanguage = (text) =>
-  getJwt().then((jwt) =>
+export const detectLanguage = (text) => {
+  if (Config.useResourceTemplateFixtures) {
+    return Promise.resolve([
+      {
+        language: "en",
+        score: 0.9719234108924866,
+      },
+    ])
+  }
+  return getJwt().then((jwt) =>
     fetch(`${Config.sinopiaApiBase}/helpers/langDetection`, {
       method: "POST",
       headers: {
@@ -265,3 +273,4 @@ export const detectLanguage = (text) =>
       .then((resp) => checkResp(resp).then(() => resp.json()))
       .then((json) => json.data)
   )
+}
