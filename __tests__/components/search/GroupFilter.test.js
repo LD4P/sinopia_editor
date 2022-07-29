@@ -6,6 +6,7 @@ import { fireEvent, waitFor, screen } from "@testing-library/react"
 import * as server from "sinopiaSearch"
 import * as sinopiaApi from "sinopiaApi"
 
+/* eslint-disable testing-library/no-node-access */
 describe("<GroupFilter />", () => {
   const facetResults = {
     groups: [
@@ -53,14 +54,14 @@ describe("<GroupFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<GroupFilter />, store)
+    renderComponent(<GroupFilter />, store)
 
     expect(screen.getByText("Filter by group")).toBeInTheDocument()
     expect(screen.getByText("Stanford University (5)")).toBeInTheDocument()
     expect(screen.getByText("Princeton University (1)")).toBeInTheDocument()
 
     // Everything checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(5)
   })
 
   it("allows changing filters by unselecting", async () => {
@@ -71,21 +72,21 @@ describe("<GroupFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<GroupFilter />, store)
+    renderComponent(<GroupFilter />, store)
 
-    expect(container.querySelector(".show")).not.toBeInTheDocument()
+    expect(document.querySelector(".show")).not.toBeInTheDocument()
     fireEvent.click(screen.getByText("Filter by group"))
-    expect(container.querySelector(".show")).toBeInTheDocument()
+    expect(document.querySelector(".show")).toBeInTheDocument()
     fireEvent.click(screen.getByText("Stanford University (5)"))
 
     // 3 checked with unselect (also clears Select/Deselect All)
-    expect(container.querySelectorAll("input:checked").length).toBe(3)
+    expect(document.querySelectorAll("input:checked").length).toBe(3)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(container.querySelector(".show")).not.toBeInTheDocument()
+      expect(document.querySelector(".show")).not.toBeInTheDocument()
     )
 
     expect(mockGetSearchResults).toHaveBeenCalledWith("twain", {
@@ -105,20 +106,20 @@ describe("<GroupFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<GroupFilter />, store)
+    renderComponent(<GroupFilter />, store)
 
     fireEvent.click(screen.getByText("Filter by group"))
     // Deselect all
     fireEvent.click(screen.getByText("Select/Deselect all"))
 
     // none checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(0)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(0)
 
     // Select all
     fireEvent.click(screen.getByText("Select/Deselect all"))
 
     // all checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(5)
   })
 
   it("allows clearing filters", async () => {
@@ -129,18 +130,18 @@ describe("<GroupFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<GroupFilter />, store)
+    renderComponent(<GroupFilter />, store)
     fireEvent.click(screen.getByText("Filter by group"))
     fireEvent.click(screen.getByText("Stanford University (5)"))
 
     // 3 checked with deselect (also clears Select/Deselect All)
-    expect(container.querySelectorAll("input:checked").length).toBe(3)
+    expect(document.querySelectorAll("input:checked").length).toBe(3)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(container.querySelector(".show")).not.toBeInTheDocument()
+      expect(document.querySelector(".show")).not.toBeInTheDocument()
     )
 
     fireEvent.click(screen.getByText("Filter by group"))
@@ -163,22 +164,22 @@ describe("<GroupFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<GroupFilter />, store)
+    renderComponent(<GroupFilter />, store)
 
     fireEvent.click(screen.getByText("Filter by group"))
     // all checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(5)
 
     // Deselect individual filter
     fireEvent.click(screen.getByText("Stanford University (5)"))
 
     // 3 checked with deselect (also clears Select/Deselect All)
-    expect(container.querySelectorAll("input:checked")).toHaveLength(3)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(3)
 
     // Reselect individual filter
     fireEvent.click(screen.getByText("Stanford University (5)"))
 
     // all checked (includes Select/Deselect All)
-    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(5)
   })
 })

@@ -34,7 +34,7 @@ describe("user authentication", () => {
 
     // likely that things will have already re-rendered, but if not, wait for it
     if (screen.queryByText(/Foo McBar/)) {
-      await waitForElementToBeRemoved(() => screen.getByText(/Foo McBar/))
+      await waitForElementToBeRemoved(() => screen.queryByText(/Foo McBar/))
     }
     // check for elements indicating we were sent back to the login page
     expect(screen.queryByText("Logout")).not.toBeInTheDocument()

@@ -2,6 +2,7 @@
 
 import React from "react"
 import { createStore, renderComponent } from "testUtils"
+import { screen } from "@testing-library/react"
 import { createState } from "stateUtils"
 import PropertyLabelInfo from "components/editor/property/PropertyLabelInfo"
 
@@ -13,14 +14,14 @@ describe("<PropertyLabelInfo />", () => {
       state.entities.propertyTemplates[
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1"
       ]
-    const label = renderComponent(
+    renderComponent(
       <PropertyLabelInfo propertyTemplate={propertyTemplate} />,
       store
     )
-    expect(label.getByRole("link").getAttribute("data-bs-content")).toBe(
+    expect(screen.getByRole("link").getAttribute("data-bs-content")).toBe(
       "Nested, repeatable resource template."
     )
-    expect(label.getAllByRole("link").length).toBe(1) // only one link present, the remark
+    expect(screen.getAllByRole("link").length).toBe(1) // only one link present, the remark
   })
 
   it("displays remark URL only when no remark is present", () => {
@@ -31,14 +32,14 @@ describe("<PropertyLabelInfo />", () => {
         "resourceTemplate:testing:uber1 > http://id.loc.gov/ontologies/bibframe/uber/template1/property1"
       ]
 
-    const label = renderComponent(
+    renderComponent(
       <PropertyLabelInfo propertyTemplate={propertyTemplate} />,
       store
     )
-    expect(label.getByRole("link").getAttribute("title")).toBe(
+    expect(screen.getByRole("link").getAttribute("title")).toBe(
       "https://www.stanford.edu"
     )
-    expect(label.getAllByRole("link").length).toBe(1) //  only one link present, the remark URL
+    expect(screen.getAllByRole("link").length).toBe(1) //  only one link present, the remark URL
   })
 
   it("displays both remark and remark URL when both are present", () => {
@@ -49,11 +50,11 @@ describe("<PropertyLabelInfo />", () => {
         "resourceTemplate:testing:uber2 > http://id.loc.gov/ontologies/bibframe/uber/template2/property1"
       ]
 
-    const label = renderComponent(
+    renderComponent(
       <PropertyLabelInfo propertyTemplate={propertyTemplate} />,
       store
     )
-    expect(label.getAllByRole("link").length).toBe(2) //  two links present, the remark and the remark URL
+    expect(screen.getAllByRole("link").length).toBe(2) //  two links present, the remark and the remark URL
   })
 
   it("displays no links when neither the remark nor the remark URL are present", () => {
@@ -64,10 +65,10 @@ describe("<PropertyLabelInfo />", () => {
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
       ]
 
-    const label = renderComponent(
+    renderComponent(
       <PropertyLabelInfo propertyTemplate={propertyTemplate} />,
       store
     )
-    expect(label.queryAllByRole("link")).toBeFalsy //  no links present
+    expect(screen.queryAllByRole("link")).toBeFalsy //  no links present
   })
 })

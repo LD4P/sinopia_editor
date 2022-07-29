@@ -143,11 +143,11 @@ const InputLang = () => {
 
   const body = (
     <React.Fragment>
-      <div className="row">
+      <div className="row" data-testid="current tag row">
         <div className="col-sm-3">Current tag:</div>
         <div className="col-sm-9">{value?.lang || "None specified"}</div>
       </div>
-      <div className="row">
+      <div className="row" data-testid="new tag row">
         <div className="col-sm-3">New tag:</div>
         <div className="col-sm-9">{newTag || "None specified"}</div>
       </div>

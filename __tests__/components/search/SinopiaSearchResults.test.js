@@ -8,11 +8,11 @@ import { createState } from "stateUtils"
 
 describe("<SinopiaSearchResults />", () => {
   describe("when there are no search results", () => {
-    const { container } = renderComponent(<SinopiaSearchResults />)
+    renderComponent(<SinopiaSearchResults />)
 
     it("does not contain the main div", () => {
       expect(
-        container.querySelector("div#search-results")
+        screen.queryByTestId("sinopia-search-results")
       ).not.toBeInTheDocument()
       expect(screen.queryByText("Filter by class")).not.toBeInTheDocument()
     })
@@ -49,12 +49,10 @@ describe("<SinopiaSearchResults />", () => {
       }
 
       const store = createStore(state)
-      const { container } = renderComponent(<SinopiaSearchResults />, store)
+      renderComponent(<SinopiaSearchResults />, store)
 
-      expect(container.querySelector("div#search-results")).toBeInTheDocument()
-      expect(
-        container.querySelector("table#search-results-list")
-      ).toBeInTheDocument()
+      screen.getByTestId("sinopia-search-results")
+      screen.getByTestId("sinopia-search-results-list")
 
       // Search table headers
       screen.queryByText("Label / ID")

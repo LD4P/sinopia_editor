@@ -52,6 +52,7 @@ const RDFDisplay = ({ format, dataset }) => {
     return (
       <table
         className="table table-striped table-sm"
+        data-testid="rdf-display-table"
         style={{ backgroundColor: "white" }}
       >
         <thead>

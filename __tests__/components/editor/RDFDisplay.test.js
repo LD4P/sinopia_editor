@@ -21,12 +21,10 @@ describe("<RDFDisplay />", () => {
   ).graph
 
   it("renders as a table", async () => {
-    const { container } = render(
-      <RDFDisplay dataset={dataset} format="table" />
-    )
+    render(<RDFDisplay dataset={dataset} format="table" />)
 
     // There is a table
-    expect(container.querySelector("table")).toBeInTheDocument()
+    screen.getByTestId("rdf-display-table")
     // With table headers
     screen.getByText("Subject", "th")
     screen.getByText("Predicate", "th")

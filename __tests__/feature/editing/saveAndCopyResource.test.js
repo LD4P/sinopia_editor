@@ -52,9 +52,7 @@ describe("saving a resource", () => {
       // The copy resource button is active
       expect(copyBtn).not.toBeDisabled()
       fireEvent.click(copyBtn)
-      screen.findByText(
-        /Copied http:\/\/localhost\/something\/or\/other to new resource./
-      )
+      await screen.findAllByText(/Copied .+ to new resource./)
 
       // There are nav tabs and a duplicate resource with the same content
       await screen.findAllByText("foo", {

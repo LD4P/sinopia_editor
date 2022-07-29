@@ -77,10 +77,7 @@ describe("<QASearchResults />", () => {
     }
 
     const store = createStore(state)
-    const { container } = renderComponent(
-      <QASearchResults history={{}} />,
-      store
-    )
+    renderComponent(<QASearchResults history={{}} />, store)
 
     // Headers
     screen.getByText("Label / ID")
@@ -101,6 +98,5 @@ describe("<QASearchResults />", () => {
     ).toHaveLength(2)
     screen.getByText(/Bennett, Arnold,1867-1931./)
     expect(screen.getAllByTitle("Copy")).toHaveLength(2)
-    expect(container.querySelector("img")).toBeInTheDocument()
   })
 })

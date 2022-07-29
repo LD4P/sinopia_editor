@@ -151,6 +151,7 @@ module.exports = {
         'max-lines': 'off',
         'max-len': 'off',
       },
+      extends: ['plugin:testing-library/react']
     },
     {
       // Allow integration tests to use `page` global variable defined by puppeteer

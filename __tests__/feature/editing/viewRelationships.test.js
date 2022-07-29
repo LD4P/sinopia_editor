@@ -79,14 +79,14 @@ describe("relationships", () => {
     })
 
     it("lists versions, previews versions, and displays diffs", async () => {
-      const { container } = renderApp(null, history)
+      renderApp(null, history)
 
       await screen.findByText("Example Label", {
         selector: resourceHeaderSelector,
       })
 
       // No badge
-      expect(container.querySelector(".badge")).not.toBeInTheDocument()
+      expect(document.querySelector(".badge")).not.toBeInTheDocument() // eslint-disable-line testing-library/no-node-access
 
       // No relationships pill
       expect(screen.queryByText("Relationships")).not.toBeInTheDocument()

@@ -7,7 +7,7 @@ featureSetup()
 describe("getting property related info from a resource", () => {
   it("has tooltip text info or a link based on the content of a top-level property remark", async () => {
     const history = createHistory(["/editor/resourceTemplate:testing:uber3"])
-    const { container } = renderApp(null, history)
+    renderApp(null, history)
 
     // if the tooltip remark is text
     const infoIcon3 = await screen.findByRole("link", {
@@ -15,10 +15,9 @@ describe("getting property related info from a resource", () => {
     })
     expect(infoIcon3).toHaveAttribute("data-bs-content", "A literal")
 
-    // if the remark is a Url
-    const infoLink = container.querySelector(
-      'a[href="http://access.rdatoolkit.org/1.0.html"]'
-    )
+    const infoLink = await screen.findByRole("link", {
+      name: "http://access.rdatoolkit.org/1.0.html",
+    })
 
     expect(infoLink).toHaveClass("prop-remark")
   })

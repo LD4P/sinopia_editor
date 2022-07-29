@@ -61,23 +61,17 @@ describe("loading new resource", () => {
     fireEvent.click(
       screen.getByTestId("Show navigation for Uber template1, property3")
     )
-    expect(
-      screen.queryByText("Uber template2", { selector: ".left-nav-header" })
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByText("Uber template3", { selector: ".left-nav-header" })
-    ).toBeInTheDocument()
+    screen.getByText("Uber template2", { selector: ".left-nav-header" })
+    screen.getByText("Uber template3", { selector: ".left-nav-header" })
     expect(
       screen.queryByText("Uber template4", { selector: ".left-nav-header" })
     ).not.toBeInTheDocument()
 
     // Expand next level of nav
     fireEvent.click(screen.getByTestId("Show navigation for Uber template2"))
-    expect(
-      screen.queryByText("Uber template2, property1", {
-        selector: ".left-nav-header",
-      })
-    ).toBeInTheDocument()
+    screen.getByText("Uber template2, property1", {
+      selector: ".left-nav-header",
+    })
 
     // Contract the property in the menu
     fireEvent.click(screen.getByTestId("Hide navigation for Uber template2"))

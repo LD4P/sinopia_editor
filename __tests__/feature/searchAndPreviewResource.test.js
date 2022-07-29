@@ -184,7 +184,7 @@ describe("searching and preview a resource", () => {
 
       // Empty value is suppressed
       expect(
-        await screen.queryByText("Uber template1, property2")
+        screen.queryByText("Uber template1, property2")
       ).not.toBeInTheDocument()
     }, 10000)
   })

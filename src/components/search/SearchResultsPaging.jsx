@@ -66,7 +66,7 @@ const SearchResultsPaging = (props) => {
     <div id="search-results-pages" className="row">
       <div className="col">
         <nav aria-label="search results navigation">
-          <ul className="pagination">
+          <ul className="pagination" data-testid="pagination">
             {pageButton("first", "«", 1, false)}
             {pageButton("previous", "‹", currentPage - 1, false)}
             {pageButton(1, 1, 1, currentPage === 1)}

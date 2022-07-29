@@ -2,6 +2,7 @@
 
 import React from "react"
 import { createStore, renderComponent } from "testUtils"
+import { screen } from "@testing-library/react"
 import { createState } from "stateUtils"
 import LiteralTypeLabel from "components/editor/property/LiteralTypeLabel"
 
@@ -14,11 +15,11 @@ describe("<LiteralTypeLabel />", () => {
       state.entities.propertyTemplates[
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
       ]
-    const label = renderComponent(
+    renderComponent(
       <LiteralTypeLabel propertyTemplate={propertyTemplate} />,
       store
     )
-    label.getByText("Enter a literal")
+    screen.getByText("Enter a literal")
   })
 
   it("displays the correct text for a type (i.e. integer) validated literal", () => {
@@ -31,11 +32,11 @@ describe("<LiteralTypeLabel />", () => {
       state.entities.propertyTemplates[
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
       ]
-    const label = renderComponent(
+    renderComponent(
       <LiteralTypeLabel propertyTemplate={propertyTemplate} />,
       store
     )
-    label.getByText("Enter an integer")
+    screen.getByText("Enter an integer")
   })
 
   it("displays the correct text for a regex validated literal", () => {
@@ -48,11 +49,11 @@ describe("<LiteralTypeLabel />", () => {
       state.entities.propertyTemplates[
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
       ]
-    const label = renderComponent(
+    renderComponent(
       <LiteralTypeLabel propertyTemplate={propertyTemplate} />,
       store
     )
-    label.getByText('Enter a literal in the form "^Vinsky$"')
+    screen.getByText('Enter a literal in the form "^Vinsky$"')
   })
 
   it("displays the correct text for a regex validated literal that is also typed", () => {
@@ -66,10 +67,10 @@ describe("<LiteralTypeLabel />", () => {
       state.entities.propertyTemplates[
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
       ]
-    const label = renderComponent(
+    renderComponent(
       <LiteralTypeLabel propertyTemplate={propertyTemplate} />,
       store
     )
-    label.getByText('Enter a date time in the form "^Vinsky$"')
+    screen.getByText('Enter a date time in the form "^Vinsky$"')
   })
 })

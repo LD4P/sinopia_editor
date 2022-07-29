@@ -1,5 +1,5 @@
 import { renderApp, createHistory } from "testUtils"
-import { fireEvent, screen, waitFor } from "@testing-library/react"
+import { fireEvent, screen, waitFor, within } from "@testing-library/react"
 import { featureSetup, resourceHeaderSelector } from "featureUtils"
 
 featureSetup()
@@ -8,7 +8,7 @@ describe("editing a list property", () => {
   const history = createHistory(["/editor/resourceTemplate:testing:uber1"])
 
   it("allows selecting and removing a non-repeatable list item", async () => {
-    const { container } = renderApp(null, history)
+    renderApp(null, history)
 
     await screen.findByText("Uber template1", {
       selector: resourceHeaderSelector,
@@ -24,10 +24,7 @@ describe("editing a list property", () => {
       screen.queryByTestId("Add another Uber template1, property10")
     ).not.toBeInTheDocument()
 
-    const select = container.querySelector(
-      'select[aria-label="Select Uber template1, property10"]'
-    )
-    expect(select).toBeInTheDocument()
+    const select = screen.getByTestId("Select Uber template1, property10")
     fireEvent.change(select, {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/analog" },
     })
@@ -55,24 +52,19 @@ describe("editing a list property", () => {
     )
 
     // Blank lookup
-    expect(
-      container.querySelector(
-        'select[aria-label="Select Uber template1, property10"]'
-      )
-    ).toHaveValue("default")
+    expect(screen.getByTestId("Select Uber template1, property10")).toHaveValue(
+      "default"
+    )
   }, 15000)
 
   it("allows entering a repeatable list", async () => {
-    const { container } = renderApp(null, history)
+    renderApp(null, history)
 
     await screen.findByText("Uber template1", {
       selector: resourceHeaderSelector,
     })
 
-    const select = container.querySelector(
-      'select[aria-label="Select Uber template1, property11"]'
-    )
-    expect(select).toBeInTheDocument()
+    const select = screen.getByTestId("Select Uber template1, property11")
     fireEvent.change(select, {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/analog" },
     })
@@ -85,10 +77,7 @@ describe("editing a list property", () => {
       screen.getByTestId("Add another Uber template1, property11")
     )
 
-    const select2 = container.querySelector(
-      'select[aria-label="Select Uber template1, property11"]'
-    )
-    expect(select2).toBeInTheDocument()
+    const select2 = screen.getByTestId("Select Uber template1, property11")
     fireEvent.change(select2, {
       target: { value: "http://id.loc.gov/vocabulary/mrectype/digital" },
     })
@@ -99,21 +88,14 @@ describe("editing a list property", () => {
   }, 10000)
 
   it("displays items from multiple authorities", async () => {
-    const { container } = renderApp(null, history)
+    renderApp(null, history)
 
     await screen.findByText("Uber template1", {
       selector: resourceHeaderSelector,
     })
 
-    expect(
-      container.querySelector(
-        'div[data-label="Uber template1, property12"] option[value="http://id.loc.gov/vocabulary/mrectype/analog"]'
-      )
-    ).toBeInTheDocument()
-    expect(
-      container.querySelector(
-        'div[data-label="Uber template1, property12"] option[value="http://id.loc.gov/vocabulary/mrecmedium/mag"]'
-      )
-    ).toBeInTheDocument()
+    const select = screen.getByTestId("Select Uber template1, property12")
+    within(select).getByText("analog")
+    within(select).getByText("magnetic")
   }, 10000)
 })

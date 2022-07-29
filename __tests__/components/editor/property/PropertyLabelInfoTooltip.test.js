@@ -2,6 +2,7 @@
 
 import React from "react"
 import { createStore, renderComponent } from "testUtils"
+import { screen } from "@testing-library/react"
 import { createState } from "stateUtils"
 import { selectSubjectAndPropertyTemplates } from "selectors/templates"
 import PropertyLabelInfoTooltip from "components/editor/property/PropertyLabelInfoTooltip"
@@ -14,11 +15,11 @@ describe("<PropertyLabelInfoTooltip />", () => {
       state,
       "resourceTemplate:testing:uber1"
     )
-    const tooltip = renderComponent(
+    renderComponent(
       <PropertyLabelInfoTooltip propertyTemplate={propertyTemplate} />,
       store
     )
-    expect(tooltip.getByRole("link").getAttribute("data-bs-content")).toBe(
+    expect(screen.getByRole("link").getAttribute("data-bs-content")).toBe(
       "Template for testing purposes."
     )
   })
@@ -30,11 +31,11 @@ describe("<PropertyLabelInfoTooltip />", () => {
       state,
       "resourceTemplate:testing:uber2"
     )
-    const tooltip = renderComponent(
+    renderComponent(
       <PropertyLabelInfoTooltip propertyTemplate={propertyTemplate} />,
       store
     )
-    expect(tooltip.getByRole("link").getAttribute("data-bs-content")).toBe(
+    expect(screen.getByRole("link").getAttribute("data-bs-content")).toBe(
       'Template for testing purposes with single repeatable literal with a link to Stanford at <a target="_blank" href="https://www.stanford.edu">https://www.stanford.edu</a>'
     )
   })
