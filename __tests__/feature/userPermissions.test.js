@@ -51,7 +51,7 @@ describe("user permissions", () => {
     expect(screen.queryByTestId(`Copy ${uri}`)).not.toBeInTheDocument()
     // Cannot edit a resource
     expect(screen.queryByTestId(`Edit ${uri}`)).not.toBeInTheDocument()
-  }, 10000)
+  }, 15000)
 
   it("allows a user with groups to create or edit", async () => {
     renderApp()
@@ -65,7 +65,7 @@ describe("user permissions", () => {
     await screen.findByText("New template")
 
     // Can create a new resource
-    screen.getByTestId("Create resource for Uber template1")
+    await screen.findByTestId("Create resource for Uber template1")
 
     // Can copy a template
     screen.getByTestId("Copy Uber template1")
@@ -106,7 +106,7 @@ describe("user permissions", () => {
     await screen.findByText("New template")
 
     // Can create a new resource
-    screen.getByTestId("Create resource for Uber template1")
+    await screen.findByTestId("Create resource for Uber template1")
 
     // Can copy a template
     screen.getByTestId("Copy Uber template1")

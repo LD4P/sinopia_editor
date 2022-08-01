@@ -39,6 +39,7 @@ const NestedResource = ({ valueKey, readOnly }) => {
   return (
     <div
       className="nested-resource"
+      data-testid={`${subjectTemplate.label} nestedResource`}
       onClick={handleNavTargetClick}
       id={navTargetId}
     >

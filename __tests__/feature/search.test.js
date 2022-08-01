@@ -1,4 +1,4 @@
-import { findByText, fireEvent, screen } from "@testing-library/react"
+import { fireEvent, screen, within } from "@testing-library/react"
 import { renderApp } from "testUtils"
 import Config from "Config"
 import { featureSetup } from "featureUtils"
@@ -185,9 +185,9 @@ describe("sinopia resource search", () => {
 
     const resources = screen.getAllByText(/http:\/\/platform:8080\/resource\//)
     expect(resources).toHaveLength(3)
-    await findByText(resources[0], /foo bar/)
-    await findByText(resources[1], /foo/)
-    await findByText(resources[2], /baz/)
+    within(resources[0]).getByText(/foo bar/)
+    within(resources[1]).getByText(/foo/)
+    within(resources[2]).getByText(/baz/)
 
     global.fetch = jest
       .fn()
@@ -204,9 +204,9 @@ describe("sinopia resource search", () => {
       /http:\/\/platform:8080\/resource\//
     )
     expect(resourcesResorted).toHaveLength(3)
-    await findByText(resourcesResorted[0], /baz/)
-    await findByText(resourcesResorted[1], /foo bar/)
-    await findByText(resourcesResorted[2], /foo/)
+    within(resourcesResorted[0]).getByText(/baz/)
+    within(resourcesResorted[1]).getByText(/foo bar/)
+    within(resourcesResorted[2]).getByText(/foo/)
   })
 
   it("pages results when the total number exceeds searchResultsPerPage", async () => {

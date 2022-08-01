@@ -73,8 +73,7 @@ describe("switching between multiple resources", () => {
     })
 
     // It does not have the the 'template' class for header color
-    const templateClass = screen.queryAllByTestId("template")
-    expect(templateClass.length).toEqual(0)
+    expect(screen.queryAllByTestId("template")).toHaveLength(0)
 
     // Click Title note tab
     fireEvent.click(titleNoteTab)

@@ -48,7 +48,7 @@ const PanelProperty = ({ propertyKey, readOnly, id, isTemplate }) => {
     <div onClick={handleNavTargetClick} id={navTargetId}>
       <div
         className={cardClassName.join(" ")}
-        data-testid={cardClassName[1]}
+        data-testid={`${propertyTemplate.label} panelProperty`}
         data-label={propertyTemplate.label}
         style={{ marginBottom: "1em" }}
       >

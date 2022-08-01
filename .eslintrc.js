@@ -151,6 +151,7 @@ module.exports = {
         'max-lines': 'off',
         'max-len': 'off',
       },
+      extends: ['plugin:testing-library/react']
     },
     {
       // Bootstrap styles require that navbar's use <a> instead of <btn>, so ignoring.

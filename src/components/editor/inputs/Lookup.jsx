@@ -21,7 +21,7 @@ const Lookup = ({
   if (!show || _.isEmpty(query)) return null
 
   return (
-    <div className="container lookup">
+    <div className="container lookup" data-testid={`${query} lookup`}>
       <div className="row">
         <div className="col">
           <button onClick={handleLiteralClick} className="btn btn-link p-0">

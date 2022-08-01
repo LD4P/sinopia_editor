@@ -19,7 +19,7 @@ describe("adding and removing properties", () => {
 
     // Input box removed.
     expect(
-      await screen.queryAllByPlaceholderText("Uber template1, property2")
+      screen.queryAllByPlaceholderText("Uber template1, property2")
     ).toHaveLength(0)
     // Add button displayed.
     screen.getByTestId("Add Uber template1, property2")
@@ -119,7 +119,7 @@ describe("adding and removing properties", () => {
 
     // Input box removed.
     expect(
-      await screen.queryAllByPlaceholderText("Uber template2, property1")
+      screen.queryAllByPlaceholderText("Uber template2, property1")
     ).toHaveLength(0)
     // Delete button removed
     expect(

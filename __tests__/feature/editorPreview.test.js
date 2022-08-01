@@ -16,7 +16,7 @@ const rdf = `<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemp
 
 describe("preview within editor", () => {
   it("adds properties and then displays preview RDF model", async () => {
-    const { container } = renderApp()
+    renderApp()
 
     // Open the editor and then the templates tab
     fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
@@ -28,9 +28,7 @@ describe("preview within editor", () => {
 
     // Click on the Preview RDF Button
     await screen.findByText(/Uber template1/)
-    fireEvent.click(
-      container.querySelector('button[aria-label="Preview resource"]')
-    )
+    fireEvent.click(screen.getAllByTitle("Preview resource")[0])
 
     // Wait for RDF Preview Modal and selects turtle Format
     await screen.findByText(/Preview/)

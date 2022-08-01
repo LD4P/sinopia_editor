@@ -156,7 +156,7 @@ describe("selecting a value from lookup", () => {
       .fn()
       .mockResolvedValue({ results: [], totalHits: 0 })
 
-    const { container } = renderApp(null, history)
+    renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", {
       selector: resourceHeaderSelector,
@@ -171,7 +171,7 @@ describe("selecting a value from lookup", () => {
     fireEvent.click(screen.getByTestId("Submit lookup"))
 
     // Lookup opens
-    expect(container.querySelector(".lookup")).toBeInTheDocument()
+    screen.getByTestId("test lookup", { selector: "div.lookup" })
 
     // Click Add Literal button
     fireEvent.click(await screen.findByText(/Add "test" as literal/))
@@ -180,7 +180,7 @@ describe("selecting a value from lookup", () => {
     await screen.findByText("test", { selector: ".form-control" })
 
     // Lookup closes
-    expect(container.querySelector(".lookup")).not.toBeInTheDocument()
+    expect(screen.queryByTestId("test lookup")).not.toBeInTheDocument()
   })
 
   it("allows manually entering a uri", async () => {
@@ -314,7 +314,7 @@ describe("selecting a value from lookup", () => {
       .mockResolvedValueOnce(result3)
       .mockResolvedValueOnce(nextPageResult)
 
-    const { container } = renderApp(null, history)
+    renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", {
       selector: resourceHeaderSelector,
@@ -329,11 +329,12 @@ describe("selecting a value from lookup", () => {
     fireEvent.click(screen.getByTestId("Submit lookup"))
 
     // Lookup opens
-    expect(container.querySelector(".lookup")).toBeInTheDocument()
+    // expect(container.querySelector(".lookup")).toBeInTheDocument()
+    screen.getByTestId("twain lookup", { selector: "div.lookup" })
 
     // Pagination only appears for 1 tab.
     await waitFor(() =>
-      expect(container.querySelectorAll(".pagination")).toHaveLength(1)
+      expect(screen.queryAllByTestId("pagination")).toHaveLength(1)
     )
 
     // Click next page
@@ -344,7 +345,7 @@ describe("selecting a value from lookup", () => {
   })
 
   it("allows selecting a lookup", async () => {
-    const { container } = renderApp(null, history)
+    renderApp(null, history)
 
     await screen.findByText("Testing discogs lookup", {
       selector: resourceHeaderSelector,
@@ -362,7 +363,7 @@ describe("selecting a value from lookup", () => {
     fireEvent.click(screen.getByTestId("Submit lookup"))
 
     // Lookup opens
-    expect(container.querySelector(".lookup")).toBeInTheDocument()
+    screen.getByTestId("twain lookup", { selector: "div.lookup" })
 
     // Tabs appear
     await screen.findByText("Discogs Masters (0)")
@@ -375,7 +376,7 @@ describe("selecting a value from lookup", () => {
     )
 
     // Lookup closes
-    expect(container.querySelector(".lookup")).not.toBeInTheDocument()
+    expect(screen.queryByTestId("twain lookup")).not.toBeInTheDocument()
 
     // There is uri text.
     expect(

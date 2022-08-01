@@ -6,6 +6,7 @@ import { createState } from "stateUtils"
 import * as server from "sinopiaSearch"
 import * as sinopiaApi from "sinopiaApi"
 
+/* eslint-disable testing-library/no-node-access */
 describe("<TypeFilter />", () => {
   const facetResults = {
     types: [
@@ -53,14 +54,14 @@ describe("<TypeFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<TypeFilter />, store)
+    renderComponent(<TypeFilter />, store)
 
     screen.getByText("Filter by class")
     screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
     screen.getByText("http://id.loc.gov/ontologies/bibframe/Chronology (1)")
 
     // Everything checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(5)
   })
 
   it("allows changing filters by unselecting", async () => {
@@ -71,23 +72,23 @@ describe("<TypeFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<TypeFilter />, store)
+    renderComponent(<TypeFilter />, store)
 
-    expect(container.querySelector(".show")).not.toBeInTheDocument()
+    expect(document.querySelector(".show")).not.toBeInTheDocument()
     fireEvent.click(screen.getByText("Filter by class"))
-    expect(container.querySelector(".show")).toBeInTheDocument()
+    expect(document.querySelector(".show")).toBeInTheDocument()
     fireEvent.click(
       screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
     )
 
     // 3 checked with unselect (also clears Select/Deselect All)
-    expect(container.querySelectorAll("input:checked")).toHaveLength(3)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(3)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(container.querySelector(".show")).not.toBeInTheDocument()
+      expect(document.querySelector(".show")).not.toBeInTheDocument()
     )
 
     expect(mockGetSearchResults).toHaveBeenCalledWith("twain", {
@@ -111,20 +112,20 @@ describe("<TypeFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<TypeFilter />, store)
+    renderComponent(<TypeFilter />, store)
 
     fireEvent.click(screen.getByText("Filter by class"))
     // Deselect all
     fireEvent.click(screen.getByText("Select/Deselect all"))
 
     // none checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(0)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(0)
 
     // Select all
     fireEvent.click(screen.getByText("Select/Deselect all"))
 
     // all checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(5)
   })
 
   it("allows clearing filters", async () => {
@@ -135,7 +136,7 @@ describe("<TypeFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<TypeFilter />, store)
+    renderComponent(<TypeFilter />, store)
 
     fireEvent.click(screen.getByText("Filter by class"))
     fireEvent.click(
@@ -143,13 +144,13 @@ describe("<TypeFilter />", () => {
     )
 
     // 3 checked with clear (also clears Select/Deselect All)
-    expect(container.querySelectorAll("input:checked")).toHaveLength(3)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(3)
 
     // Apply filter
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(container.querySelector(".show")).not.toBeInTheDocument()
+      expect(document.querySelector(".show")).not.toBeInTheDocument()
     )
 
     fireEvent.click(screen.getByText("Filter by class"))
@@ -172,11 +173,11 @@ describe("<TypeFilter />", () => {
     ])
 
     const store = createStore(createInitialState())
-    const { container } = renderComponent(<TypeFilter />, store)
+    renderComponent(<TypeFilter />, store)
 
     fireEvent.click(screen.getByText("Filter by class"))
     // all checked
-    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(5)
 
     // Deselect individual filter
     fireEvent.click(
@@ -184,7 +185,7 @@ describe("<TypeFilter />", () => {
     )
 
     // 3 checked with deselect (also clears Select/Deselect All)
-    expect(container.querySelectorAll("input:checked")).toHaveLength(3)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(3)
 
     // Reselect individual filter
     fireEvent.click(
@@ -192,6 +193,6 @@ describe("<TypeFilter />", () => {
     )
 
     // all checked (includes Select/Deselect All)
-    expect(container.querySelectorAll("input:checked")).toHaveLength(5)
+    expect(document.querySelectorAll("input:checked")).toHaveLength(5)
   })
 })

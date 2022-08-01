@@ -4,6 +4,7 @@ import React from "react"
 import { render } from "@testing-library/react"
 import RenderLookupContext from "components/editor/inputs/RenderLookupContext"
 
+/* eslint-disable testing-library/no-node-access */
 const contextPersonResult = {
   uri: "http://id.loc.gov/rwo/agents/n79021164",
   id: "n 79021164",
@@ -113,9 +114,9 @@ const p4Props = {
 
 describe("<RenderLookupContext />", () => {
   it("displays label and additional context with order specified", () => {
-    const { container } = render(<RenderLookupContext {...plProps} />)
+    render(<RenderLookupContext {...plProps} />)
 
-    const detailsContainer = container.querySelectorAll(".details-container")
+    const detailsContainer = document.querySelectorAll(".details-container")
     expect(detailsContainer.length).toEqual(3)
     const label = detailsContainer[0]
     expect(label).toHaveTextContent("Twain, Mark, 1835-1910")
@@ -132,9 +133,9 @@ describe("<RenderLookupContext />", () => {
   })
 
   it("displays label additional context when no order specified for context values for that authority", () => {
-    const { container } = render(<RenderLookupContext {...p2Props} />)
+    render(<RenderLookupContext {...p2Props} />)
 
-    const genericContainer = container.querySelectorAll(".details-container")
+    const genericContainer = document.querySelectorAll(".details-container")
     expect(genericContainer.length).toEqual(2)
     const genericLabel = genericContainer[0]
     expect(genericLabel).toHaveTextContent("Biology")
@@ -146,14 +147,14 @@ describe("<RenderLookupContext />", () => {
   })
 
   it("displays discogs label and context", () => {
-    const { container } = render(<RenderLookupContext {...p3Props} />)
+    render(<RenderLookupContext {...p3Props} />)
 
-    expect(container.querySelector("img")).toHaveAttribute(
+    expect(document.querySelector("img")).toHaveAttribute(
       "src",
       "https://imageurl.jpg"
     )
     const discogsDetailsContainers =
-      container.querySelectorAll(".details-container")
+      document.querySelectorAll(".details-container")
     expect(discogsDetailsContainers[0]).toHaveTextContent("Frank Sinatra")
     expect(discogsDetailsContainers[0]).toHaveTextContent("(1963)")
     expect(discogsDetailsContainers[2]).toHaveTextContent("Reprise Records")
@@ -162,8 +163,8 @@ describe("<RenderLookupContext />", () => {
   })
 
   it("displays nested object label", () => {
-    const { container } = render(<RenderLookupContext {...p4Props} />)
-    const genreContainer = container.querySelectorAll(".details-container")
+    render(<RenderLookupContext {...p4Props} />)
+    const genreContainer = document.querySelectorAll(".details-container")
     const genreDetails = genreContainer[1]
     expect(genreDetails.querySelector(".context-field")).toHaveTextContent(
       "Broader"

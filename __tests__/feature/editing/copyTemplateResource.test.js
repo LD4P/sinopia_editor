@@ -54,9 +54,8 @@ describe("Copying a template resource", () => {
     expect(saveBtn[0]).not.toBeDisabled()
 
     // It has the 'template' class for header color
-    const templateClasses = screen.getAllByTestId("container", {
-      selector: ".template",
-    })
-    expect(templateClasses.length).toEqual(9)
+    expect(screen.getByTestId("Template ID panelProperty")).toHaveClass(
+      "template"
+    )
   }, 10000)
 })

@@ -3,6 +3,7 @@ import SearchResultsPaging from "components/search/SearchResultsPaging"
 import { fireEvent, screen } from "@testing-library/react"
 import { renderComponent } from "testUtils"
 
+/* eslint-disable testing-library/no-node-access */
 describe("<SearchResultsPaging />", () => {
   const mockChangePage = jest.fn()
 
@@ -35,7 +36,7 @@ describe("<SearchResultsPaging />", () => {
   })
 
   it("renders pages and selects first", () => {
-    const { container } = renderComponent(
+    renderComponent(
       <SearchResultsPaging
         changePage={jest.fn()}
         searchType="resource"
@@ -54,10 +55,10 @@ describe("<SearchResultsPaging />", () => {
     screen.getByLabelText("next", { selector: "li:nth-child(8) > button" })
     screen.getByLabelText("last", { selector: "li:nth-child(9) > button" })
 
-    expect(container.querySelector("li:nth-child(3)")).toHaveClass("active")
+    expect(document.querySelector("li:nth-child(3)")).toHaveClass("active")
   })
   it("correct page is active", () => {
-    const { container } = renderComponent(
+    renderComponent(
       <SearchResultsPaging
         changePage={jest.fn()}
         searchType="resource"
@@ -67,10 +68,10 @@ describe("<SearchResultsPaging />", () => {
       />
     )
     // 3rd page
-    expect(container.querySelector("li:nth-child(5)")).toHaveClass("active")
+    expect(document.querySelector("li:nth-child(5)")).toHaveClass("active")
   })
   it("add elipsis at the end of long lists", () => {
-    const { container } = renderComponent(
+    renderComponent(
       <SearchResultsPaging
         changePage={jest.fn()}
         searchType="resource"
@@ -92,10 +93,10 @@ describe("<SearchResultsPaging />", () => {
     screen.getByLabelText("next", { selector: "li:nth-child(11) > button" })
     screen.getByLabelText("last", { selector: "li:nth-child(12) > button" })
 
-    expect(container.querySelector("li:nth-child(3)")).toHaveClass("active")
+    expect(document.querySelector("li:nth-child(3)")).toHaveClass("active")
   })
   it("add elipsis at the beginning of long lists", () => {
-    const { container } = renderComponent(
+    renderComponent(
       <SearchResultsPaging
         changePage={jest.fn()}
         searchType="resource"
@@ -117,7 +118,7 @@ describe("<SearchResultsPaging />", () => {
     screen.getByLabelText("next", { selector: "li:nth-child(11) > button" })
     screen.getByLabelText("last", { selector: "li:nth-child(12) > button" })
 
-    expect(container.querySelector("li:nth-child(10)")).toHaveClass("active")
+    expect(document.querySelector("li:nth-child(10)")).toHaveClass("active")
   })
   it("clicking a page goes to page", () => {
     renderComponent(

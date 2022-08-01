@@ -29,11 +29,16 @@ const SinopiaSearchResults = () => {
           <GroupFilter />
         </div>
       </div>
-      <div id="search-results" className="row">
+      <div
+        id="search-results"
+        className="row"
+        data-testid="sinopia-search-results"
+      >
         <div className="col">
           <table
             className="table table-bordered search-results-list"
             id="search-results-list"
+            data-testid="sinopia-search-results-list"
           >
             <thead>
               <tr>

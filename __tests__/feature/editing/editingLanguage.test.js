@@ -29,10 +29,10 @@ describe("editing a language", () => {
     // Using getByRole here and below because it limits to the visible modal.
     screen.getByRole("heading", { name: "Select language tag for foo" })
 
-    const currentTagRow = screen.getByText(/Current tag/).parentElement
+    const currentTagRow = screen.getByTestId("current tag row")
     within(currentTagRow).getByText("en")
 
-    const newTagRow = screen.getByText(/New tag/).parentElement
+    const newTagRow = screen.getByTestId("new tag row")
     within(newTagRow).getByText("en")
 
     const scriptInput = screen.getByTestId("scriptComponent-foo")
@@ -170,7 +170,7 @@ describe("editing a language", () => {
       name: "Select language tag for 這是正確的事情，也是一種美味的方法。",
     })
 
-    const newTagRow = screen.getByText(/New tag/).parentElement
+    const newTagRow = screen.getByTestId("new tag row")
     within(newTagRow).getByText("en")
 
     // Language selection
