@@ -6,7 +6,7 @@ import { fetchResourceRelationships } from "sinopiaApi"
 
 /**
  * A thunk that loads inferred relationships from the Sinopia API and adds to state.
- * @return true if successful
+ * @return relationships if successful or false if not
  */
 export const loadRelationships = (resourceKey, uri, errorKey) => (dispatch) => {
   dispatch(clearErrors(errorKey))
@@ -15,12 +15,14 @@ export const loadRelationships = (resourceKey, uri, errorKey) => (dispatch) => {
       dispatch(
         setRelationships(resourceKey, {
           bfAdminMetadataRefs: relationships.bfAdminMetadataInferredRefs,
+          sinopiaLocalAdminMetadataRefs:
+            relationships.sinopiaHasLocalAdminMetadataInferredRefs,
           bfItemRefs: relationships.bfItemInferredRefs,
           bfInstanceRefs: relationships.bfInstanceInferredRefs,
           bfWorkRefs: relationships.bfWorkInferredRefs,
         })
       )
-      return true
+      return relationships
     })
     .catch((err) => {
       console.error(err)

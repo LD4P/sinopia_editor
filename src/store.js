@@ -43,6 +43,7 @@ export const initialState = {
     transliterations: {},
     transliterationLookup: [],
     groupMap: {},
+    localIds: {}, // {<resourceKey>: {target: {group: localId}}}
     lookups: {},
     exports: [],
     properties: {},

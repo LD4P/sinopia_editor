@@ -20,6 +20,7 @@ describe("relationships", () => {
         ],
         bfInstanceInferredRefs: [],
         bfWorkInferredRefs: [],
+        sinopiaHasLocalAdminMetadataInferredRefs: [],
       })
 
       jest.spyOn(sinopiaSearch, "getSearchResultsByUris").mockResolvedValue({
@@ -75,6 +76,7 @@ describe("relationships", () => {
         bfItemInferredRefs: [],
         bfInstanceInferredRefs: [],
         bfWorkInferredRefs: [],
+        sinopiaHasLocalAdminMetadataInferredRefs: [],
       })
     })
 

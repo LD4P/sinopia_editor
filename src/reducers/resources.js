@@ -28,6 +28,7 @@ import {
 import { clearRelationships } from "./relationships"
 import { resourceEditErrorKey } from "utilities/errorKeyFactory"
 import Config from "Config"
+import { clearLocalIds } from "./transfer"
 
 export const setBaseURL = (state, action) =>
   mergeSubjectPropsToNewState(state, action.payload.resourceKey, {
@@ -474,6 +475,7 @@ export const clearResourceFromEditor = (state, action) => {
 export const clearResource = (state, action) => {
   let newState = clearSubjectFromNewState(state, action.payload)
   newState = clearVersions(newState, action)
+  newState = clearLocalIds(newState, action)
   return clearRelationships(newState, action)
 }
 

@@ -20,7 +20,7 @@ jest.spyOn(Config, "transferConfig", "get").mockReturnValue({
   },
 })
 
-describe("transfer saved bf:Instance when user belongs to a transfer group", () => {
+describe("transfer saved bf:Instance when user belongs to a transfer group and no local ID", () => {
   it("allows transfer", async () => {
     const state = createState()
     const store = createStore(state)
@@ -42,6 +42,37 @@ describe("transfer saved bf:Instance when user belongs to a transfer group", () 
 
     const transferBtn = screen.getByText("Export to Catalog")
     fireEvent.click(transferBtn)
+    fireEvent.click(await screen.findByText("Create a new record in catalog."))
+    await screen.findByText("Requesting")
+  }, 15000)
+})
+
+describe("transfer saved bf:Instance when user belongs to a transfer group and provided local ID", () => {
+  it("allows transfer", async () => {
+    const state = createState()
+    const store = createStore(state)
+    renderApp(store)
+
+    fireEvent.click(screen.getByText("Linked Data Editor", { selector: "a" }))
+
+    fireEvent.change(screen.getByLabelText("Search"), {
+      target: { value: bfUri },
+    })
+    fireEvent.click(screen.getByTestId("Submit search"))
+
+    await screen.findByText(bfUri)
+    fireEvent.click(screen.getByRole("button", { name: `Edit ${bfUri}` }))
+
+    await screen.findByText("The Practitioner's Guide to Graph Data", {
+      selector: resourceHeaderSelector,
+    })
+
+    const transferBtn = screen.getByText("Export to Catalog")
+    fireEvent.click(transferBtn)
+    fireEvent.change(await screen.findByLabelText("Enter local system id"), {
+      target: { value: "abc123" },
+    })
+    fireEvent.click(await screen.findByText("Go"))
     await screen.findByText("Requesting")
   }, 15000)
 })

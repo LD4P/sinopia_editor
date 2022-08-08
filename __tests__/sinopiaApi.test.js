@@ -431,16 +431,35 @@ describe("putUserHistory", () => {
 })
 
 describe("postTransfer", () => {
-  describe("success", () => {
+  describe("success without localId", () => {
     it("returns", async () => {
       global.fetch = jest.fn().mockResolvedValue({
         ok: true,
       })
 
-      await postTransfer(resourceUri, "stanford", "ils")
+      await postTransfer(resourceUri, "stanford", "ils", null)
 
       expect(global.fetch).toHaveBeenCalledWith(
         "https://api.development.sinopia.io/transfer/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c/stanford/ils",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer Secret-Token",
+          },
+        }
+      )
+    })
+  })
+  describe("success with localId", () => {
+    it("returns", async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+      })
+
+      await postTransfer(resourceUri, "stanford", "ils", "abc123")
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        "https://api.development.sinopia.io/transfer/7b4c275d-b0c7-40a4-80b3-e95a0d9d987c/stanford/ils/abc123",
         {
           method: "POST",
           headers: {
@@ -467,6 +486,9 @@ describe("fetchResourceRelationships", () => {
         bfItemInferredRefs: [],
         bfInstanceInferredRefs: [],
         bfWorkInferredRefs: [],
+        sinopiaHasLocalAdminMetadataInferredRefs: [
+          "http://localhost:3000/resource/ae93cff4-d272-43b2-a4ee-fb8651907e51",
+        ],
       })
     })
   })

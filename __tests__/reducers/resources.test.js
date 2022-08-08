@@ -940,6 +940,11 @@ describe("clearResource()", () => {
       bfInstanceRefs: [],
       bfWorkRefs: [],
     }
+    oldState.entities.localIds.t9zVwg2zO = {
+      FOLIO: {
+        stanford: "123456",
+      },
+    }
 
     const action = {
       type: "CLEAR_RESOURCE",
@@ -952,6 +957,7 @@ describe("clearResource()", () => {
     expect(Object.keys(newState.values)).toHaveLength(0)
     expect(Object.keys(newState.versions)).toHaveLength(0)
     expect(Object.keys(newState.relationships)).toHaveLength(0)
+    expect(Object.keys(newState.localIds)).toHaveLength(0)
   })
 })
 

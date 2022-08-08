@@ -47,7 +47,6 @@ describe("loadResource", () => {
     sinopiaSearch.getSearchResultsByUris = jest
       .fn()
       .mockResolvedValue({ results: [] })
-    jest.spyOn(relationshipActionCreators, "loadRelationships")
 
     it("dispatches actions", async () => {
       const result = await store.dispatch(
@@ -75,19 +74,25 @@ describe("loadResource", () => {
         group: "stanford",
         modified: "2020-08-20T11:34:40.887Z",
       })
+      expect(actions).toHaveAction("SET_RELATIONSHIPS", {
+        resourceKey: "abc123",
+        relationships: {
+          bfAdminMetadataRefs: [],
+          sinopiaLocalAdminMetadataRefs: [
+            "http://localhost:3000/resource/ae93cff4-d272-43b2-a4ee-fb8651907e51",
+          ],
+          bfItemRefs: [],
+          bfInstanceRefs: [],
+          bfWorkRefs: [],
+        },
+      })
+      expect(actions).toHaveAction("CLEAR_LOCAL_IDS", "abc123")
 
       expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith(
         "Foo McBar",
         "resource",
         "87d27b05d48874c9f80cd4b7e8fc0dcc",
         uri
-      )
-
-      // loadRelationships is invoked async and do not wait for results
-      expect(relationshipActionCreators.loadRelationships).toHaveBeenCalledWith(
-        "abc123",
-        uri,
-        "testerrorkey"
       )
     })
   })

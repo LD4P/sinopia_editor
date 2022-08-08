@@ -212,11 +212,11 @@ export const putUserHistory = (
   )
 }
 
-export const postTransfer = (resourceUri, group, target) => {
-  const url = `${resourceUri.replace(
-    "resource",
-    "transfer"
-  )}/${group}/${target}`
+export const postTransfer = (resourceUri, group, target, localId) => {
+  let url = `${resourceUri.replace("resource", "transfer")}/${group}/${target}`
+  if (localId) {
+    url += `/${localId}`
+  }
   return getJwt()
     .then((jwt) =>
       fetch(url, {

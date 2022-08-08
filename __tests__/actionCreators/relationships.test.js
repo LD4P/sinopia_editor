@@ -71,6 +71,7 @@ describe("loadRelationships()", () => {
         bfAdminMetadataRefs: [
           "http://localhost:3000/resource/72f2f457-31f5-432c-8acf-b4037f7754g",
         ],
+        sinopiaLocalAdminMetadataRefs: [],
         bfItemRefs: [],
         bfInstanceRefs: [],
         bfWorkRefs: [
