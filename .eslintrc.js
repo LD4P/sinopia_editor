@@ -133,6 +133,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-indent': 'off', // Off for prettier
     'react/jsx-indent-props': 'off', // Off for prettier
+    'react/no-unknown-property': ['error', { ignore: ['placement', 'trigger']}],
     'require-await': 'off',
     'require-jsdoc': 'off',
     'require-unicode-regexp': 'off',
