@@ -16,5 +16,5 @@ describe("creating new resource template ", () => {
     await screen.findByText("Resource template", {
       selector: resourceHeaderSelector,
     })
-  }, 15000)
+  }, 25000)
 })
