@@ -1000,6 +1000,14 @@
     "component": "lookup"
   },
   {
+    "label": "LOC MARC countries (QA)",
+    "uri": "urn:ld4p:qa:locmarccountries",
+    "authority": "loccountries_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "LOC demographics (QA)",
     "uri": "urn:ld4p:qa:demographics",
     "authority": "locdemographics_ld4l_cache",
