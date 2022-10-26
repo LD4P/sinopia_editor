@@ -90,7 +90,7 @@ describe("user permissions", () => {
     screen.getByTestId(`Copy ${uri}`)
     // Can edit a resource
     screen.getByTestId(`Edit ${uri}`)
-  }, 10000)
+  }, 15000)
 
   it("does not allow a user without edit permissions to edit", async () => {
     const state = createState({ otherGroups: true })
