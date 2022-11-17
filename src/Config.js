@@ -145,6 +145,7 @@ class Config {
         stanford: "Catalog",
         cornell: "Catalog",
         penn: "Catalog",
+        ucdavis: "Catalog"
       },
       // Can add additional transfer targets, e.g., discovery
     }
