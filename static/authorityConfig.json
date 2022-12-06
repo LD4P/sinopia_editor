@@ -1120,6 +1120,14 @@
     "component": "lookup"
   },
   {
+    "label": "MESH geographic (QA)",
+    "uri": "urn:ld4p:qa:mesh:geographic",
+    "authority": "mesh_nlm_ld4l_cache",
+    "subauthority": "geographic",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "NALT (QA)",
     "uri": "urn:ld4p:qa:nalt",
     "authority": "nalt_ld4l_cache",
