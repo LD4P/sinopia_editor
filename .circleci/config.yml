@@ -169,6 +169,7 @@ workflows:
           filters:
             <<: *branch_only_filter
       - integration:
+          context: ld4p
           filters:
             <<: *branch_only_filter
       - docker/publish:
