@@ -15,17 +15,22 @@ describe("End-to-end test", () => {
   it("Logs in", () => {
     // Requires that COGNITO_TEST_USER_NAME and COGNITO_TEST_USER_PASS be available as env variables.
     // See https://docs.cypress.io/guides/guides/environment-variables.html
-    cy.get("#username")
-      .type(Cypress.env("COGNITO_TEST_USER_NAME"))
-      .should("have.value", Cypress.env("COGNITO_TEST_USER_NAME"))
-    cy.get("#password")
-      .type(Cypress.env("COGNITO_TEST_USER_PASS"))
-      .should("have.value", Cypress.env("COGNITO_TEST_USER_PASS"))
+    cy.get("#username").type(Cypress.env("COGNITO_TEST_USER_NAME"))
+    cy.get("#username").should(
+      "have.value",
+      Cypress.env("COGNITO_TEST_USER_NAME")
+    )
+    cy.get("#password").type(Cypress.env("COGNITO_TEST_USER_PASS"))
+    cy.get("#password").should(
+      "have.value",
+      Cypress.env("COGNITO_TEST_USER_PASS")
+    )
     cy.get('button[type="submit"]').contains("Login").click()
   })
 
   it("Opens Linked Data Editor", () => {
-    cy.contains("a", "Linked Data Editor").scrollIntoView().click()
+    cy.contains("a", "Linked Data Editor").scrollIntoView()
+    cy.contains("a", "Linked Data Editor").click()
     cy.url().should("include", "/dashboard")
 
     cy.contains("a", "Resource Templates").click()
@@ -33,9 +38,11 @@ describe("End-to-end test", () => {
   })
 
   it("Uploads a resource template", () => {
-    cy.get("#searchInput")
-      .type("resourceTemplate:bf2:WorkTitle")
-      .should("have.value", "resourceTemplate:bf2:WorkTitle")
+    cy.get("#searchInput").type("resourceTemplate:bf2:WorkTitle")
+    cy.get("#searchInput").should(
+      "have.value",
+      "resourceTemplate:bf2:WorkTitle"
+    )
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
 
@@ -55,13 +62,16 @@ describe("End-to-end test", () => {
           cy.get('button[type="submit"]:not(:disabled)')
             .contains("Submit")
             .scrollIntoView()
+          cy.get('button[type="submit"]:not(:disabled)')
+            .contains("Submit")
             .click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(500)
 
           // Now on editor
           cy.url().should("include", "/editor")
-          cy.get("button.editor-save").contains("Save").scrollIntoView().click()
+          cy.get("button.editor-save").contains("Save").scrollIntoView()
+          cy.get("button.editor-save").contains("Save").click()
 
           // Group choice modal
           cy.contains("Who owns this?")
@@ -104,7 +114,9 @@ describe("End-to-end test", () => {
   })
 
   it("Previews the resource", () => {
-    cy.get('button[title="Preview resource"]').first().scrollIntoView().click()
+    cy.get('button[title="Preview resource"]').first().scrollIntoView()
+    cy.get('button[title="Preview resource"]').first().click()
+
     cy.get("select#format").select("n-triples")
     cy.contains(
       `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@en .`
@@ -118,7 +130,8 @@ describe("End-to-end test", () => {
   })
 
   it("Saves", () => {
-    cy.get("button.modal-save").scrollIntoView().click({ force: true })
+    cy.get("button.modal-save").scrollIntoView()
+    cy.get("button.modal-save").click({ force: true })
 
     cy.contains("Who owns this?")
     cy.get("div[data-testid='group-choice-modal'] button")
@@ -155,12 +168,16 @@ describe("End-to-end test", () => {
   })
 
   it("Logs in again", () => {
-    cy.get("#username")
-      .type(Cypress.env("COGNITO_TEST_USER_NAME"))
-      .should("have.value", Cypress.env("COGNITO_TEST_USER_NAME"))
-    cy.get("#password")
-      .type(Cypress.env("COGNITO_TEST_USER_PASS"))
-      .should("have.value", Cypress.env("COGNITO_TEST_USER_PASS"))
+    cy.get("#username").type(Cypress.env("COGNITO_TEST_USER_NAME"))
+    cy.get("#username").should(
+      "have.value",
+      Cypress.env("COGNITO_TEST_USER_NAME")
+    )
+    cy.get("#password").type(Cypress.env("COGNITO_TEST_USER_PASS"))
+    cy.get("#password").should(
+      "have.value",
+      Cypress.env("COGNITO_TEST_USER_PASS")
+    )
     cy.get('button[type="submit"]').contains("Login").click()
   })
 
