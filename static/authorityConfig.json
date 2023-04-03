@@ -35,19 +35,19 @@
     "component": "local-lookup"
   },
   {
-    "label": "Sinopia RDA monograph manifestation",
+    "label": "Sinopia RDA manifestation",
     "uri": "urn:ld4p:sinopia:rda:manifestation",
     "type": "http://rdaregistry.info/Elements/c/C10007",
     "component": "local-lookup"
   },
   {
-    "label": "Sinopia RDA monograph expression",
+    "label": "Sinopia RDA expression",
     "uri": "urn:ld4p:sinopia:rda:expression",
     "type": "http://rdaregistry.info/Elements/c/C10006",
     "component": "local-lookup"
   },
   {
-    "label": "Sinopia RDA monograph work",
+    "label": "Sinopia RDA work",
     "uri": "urn:ld4p:sinopia:rda:work",
     "type": "http://rdaregistry.info/Elements/c/C10001",
     "component": "local-lookup"
