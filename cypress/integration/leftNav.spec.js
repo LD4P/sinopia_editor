@@ -13,17 +13,22 @@ describe("Left-nav test", () => {
   it("Logs in", () => {
     // Requires that COGNITO_TEST_USER_NAME and COGNITO_TEST_USER_PASS be available as env variables.
     // See https://docs.cypress.io/guides/guides/environment-variables.html
-    cy.get("#username")
-      .type(Cypress.env("COGNITO_TEST_USER_NAME"))
-      .should("have.value", Cypress.env("COGNITO_TEST_USER_NAME"))
-    cy.get("#password")
-      .type(Cypress.env("COGNITO_TEST_USER_PASS"))
-      .should("have.value", Cypress.env("COGNITO_TEST_USER_PASS"))
+    cy.get("#username").type(Cypress.env("COGNITO_TEST_USER_NAME"))
+    cy.get("#username").should(
+      "have.value",
+      Cypress.env("COGNITO_TEST_USER_NAME")
+    )
+    cy.get("#password").type(Cypress.env("COGNITO_TEST_USER_PASS"))
+    cy.get("#password").should(
+      "have.value",
+      Cypress.env("COGNITO_TEST_USER_PASS")
+    )
     cy.get('button[type="submit"]').contains("Login").click()
   })
 
   it("Opens Linked Data Editor", () => {
-    cy.contains("a", "Linked Data Editor").scrollIntoView().click()
+    cy.contains("a", "Linked Data Editor").scrollIntoView()
+    cy.contains("a", "Linked Data Editor").click()
     cy.url().should("include", "/dashboard")
 
     cy.contains("a", "Resource Templates").click()
@@ -78,6 +83,8 @@ describe("Left-nav test", () => {
     cy.get('button[aria-label="Create resource for Uber template1"]')
       .first()
       .scrollIntoView()
+    cy.get('button[aria-label="Create resource for Uber template1"]')
+      .first()
       .click({ force: true })
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
@@ -142,18 +149,18 @@ describe("Left-nav test", () => {
       // Verifies that tooltip pops up when clicked and hides when something else is clicked
       const tooltipText = "Multiple nested, repeatable resource templates."
       cy.get("body").should("not.contain", tooltipText)
-      cy.get('a[data-testid="Uber template1, property1"]')
-        .scrollIntoView()
-        .click({ force: true })
+      cy.get('a[data-testid="Uber template1, property1"]').scrollIntoView()
+      cy.get('a[data-testid="Uber template1, property1"]').click({
+        force: true,
+      })
       // Tooltip appears when clicked
       cy.get("body").should("contain", tooltipText)
       // And disappears when anything else is clicked
       cy.get('button[aria-label="Go to Uber template1, property1"]').click()
       cy.get("body").should("not.contain", tooltipText)
       // Clicks tooltip for property at the bottom of the page
-      cy.get('a[data-testid="Uber template1, property20"]')
-        .scrollIntoView()
-        .click()
+      cy.get('a[data-testid="Uber template1, property20"]').scrollIntoView()
+      cy.get('a[data-testid="Uber template1, property20"]').click()
       // Ensure the viewport didn't shift to the top of the package
       cy.get('a[data-testid="Uber template1, property20"]').should("be.visible")
     }
@@ -161,7 +168,8 @@ describe("Left-nav test", () => {
 
   it("Marks properties with errors", { scrollBehavior: "center" }, () => {
     cy.get(".left-nav-header.text-danger").should("not.exist")
-    cy.get("button.editor-save").first().scrollIntoView().click({ force: true })
+    cy.get("button.editor-save").first().scrollIntoView()
+    cy.get("button.editor-save").first().click({ force: true })
     cy.get(".left-nav-header.text-danger").should(
       "contain",
       "Uber template1, property4"
@@ -213,7 +221,8 @@ describe("Left-nav test", () => {
 })
 
 const addResourceTemplate = (fixture, fixtureUri) => {
-  cy.get("a").contains("Load RDF").scrollIntoView().click({ force: true })
+  cy.get("a").contains("Load RDF").scrollIntoView()
+  cy.get("a").contains("Load RDF").click({ force: true })
   cy.url().should("include", "/load")
   cy.contains("Load RDF into Editor")
   cy.fixture(fixture).then((json) => {
@@ -224,16 +233,14 @@ const addResourceTemplate = (fixture, fixtureUri) => {
     cy.get('button[type="submit"]:not(:disabled)')
       .contains("Submit")
       .scrollIntoView()
-      .click()
+    cy.get('button[type="submit"]:not(:disabled)').contains("Submit").click()
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(500)
 
     // Now on editor
     cy.url().should("include", "/editor")
-    cy.get("button.editor-save")
-      .contains("Save")
-      .scrollIntoView()
-      .click({ force: true })
+    cy.get("button.editor-save").contains("Save").scrollIntoView()
+    cy.get("button.editor-save").contains("Save").click({ force: true })
 
     // Group choice modal
     cy.contains("Who owns this?")

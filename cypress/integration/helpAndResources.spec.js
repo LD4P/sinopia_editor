@@ -21,12 +21,16 @@ describe("Looking at the Help gutter", () => {
   it("Logs in", () => {
     // Requires that COGNITO_TEST_USER_NAME and COGNITO_TEST_USER_PASS be available as env variables.
     // See https://docs.cypress.io/guides/guides/environment-variables.html
-    cy.get("#username")
-      .type(Cypress.env("COGNITO_TEST_USER_NAME"))
-      .should("have.value", Cypress.env("COGNITO_TEST_USER_NAME"))
-    cy.get("#password")
-      .type(Cypress.env("COGNITO_TEST_USER_PASS"))
-      .should("have.value", Cypress.env("COGNITO_TEST_USER_PASS"))
+    cy.get("#username").type(Cypress.env("COGNITO_TEST_USER_NAME"))
+    cy.get("#username").should(
+      "have.value",
+      Cypress.env("COGNITO_TEST_USER_NAME")
+    )
+    cy.get("#password").type(Cypress.env("COGNITO_TEST_USER_PASS"))
+    cy.get("#password").should(
+      "have.value",
+      Cypress.env("COGNITO_TEST_USER_PASS")
+    )
     cy.get('button[type="submit"]').contains("Login").click()
   })
 
