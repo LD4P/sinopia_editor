@@ -53,6 +53,18 @@
     "component": "local-lookup"
   },
   {
+    "label": "Sinopia RDA item",
+    "uri": "urn:ld4p:sinopia:rda:item",
+    "type": "http://rdaregistry.info/Elements/c/C10003",
+    "component": "local-lookup"
+  },
+  {
+    "label": "Sinopia RDA nomen",
+    "uri": "urn:ld4p:sinopia:rda:nomen",
+    "type": "http://rdaregistry.info/Elements/c/C10012",
+    "component": "local-lookup"
+  },
+  {
     "label": "AGROVOC (QA)",
     "uri": "urn:ld4p:qa:agrovoc",
     "authority": "agrovoc_ld4l_cache",
