@@ -228,6 +228,14 @@
     "nonldLookup": true
   },
   {
+  "label": "Geonames - direct",
+  "uri": "urn:ld4p:qa:geonames_direct",
+  "authority": "geonames_direct",
+  "subauthority": "",
+  "language": "no",
+  "component": "lookup"
+ },
+  {
     "label": "GEONAMES all (QA)",
     "uri": "urn:ld4p:qa:geonames",
     "authority": "geonames_ld4l_cache",
