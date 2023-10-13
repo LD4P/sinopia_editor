@@ -145,6 +145,16 @@ class Config {
         stanford: "Catalog",
         cornell: "Catalog",
         penn: "Catalog",
+        ucdavis: "Catalog",
+        princeton: "Catalog",
+        northwestern: "Catalog",
+        dnal: "Catalog",
+        miami: "Catalog",
+        harvard: "Catalog",
+        emory: "Catalog",
+        newcastle: "Catalog",
+        leeds: "Catalog",
+        memorial: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
