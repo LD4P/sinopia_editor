@@ -604,9 +604,41 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) GETTY AAT",
+    "uri": "urn:ld4p:qa:getty_aat",
+    "authority": "getty_direct",
+    "subauthority": "aat",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) GETTY TGN",
+    "uri": "urn:ld4p:qa:getty_tgn",
+    "authority": "getty_direct",
+    "subauthority": "tgn",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) GETTY ULAN",
+    "uri": "urn:ld4p:qa:getty_ulan",
+    "authority": "getty_direct",
+    "subauthority": "organization",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "Homosaurus",
     "uri": "urn:ld4p:qa:homosaurus_ld4l_cache",
     "authority": "homosaurus_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) Homosaurus",
+    "uri": "urn:ld4p:qa:homosaurus_direct",
+    "authority": "homosaurus_direct",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
