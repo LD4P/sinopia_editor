@@ -2488,6 +2488,11 @@
     "component": "list"
   },
   {
+    "label": "relationship",
+    "uri": "https://id.loc.gov/vocabulary/relationship",
+    "component": "list"
+  },
+  {
     "label": "relief",
     "uri": "https://id.loc.gov/vocabulary/mrelief",
     "component": "list"
