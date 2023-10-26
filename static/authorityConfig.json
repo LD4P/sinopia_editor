@@ -623,7 +623,7 @@
     "label": "TEST (DO NOT USE YET) GETTY ULAN",
     "uri": "urn:ld4p:qa:getty_ulan",
     "authority": "getty_direct",
-    "subauthority": "organization",
+    "subauthority": "ulan",
     "language": "en",
     "component": "lookup"
   },
