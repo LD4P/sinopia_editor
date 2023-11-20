@@ -1148,6 +1148,14 @@
     "component": "lookup"
   },
   {
+    "label": "LOC All Subjects (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:subjects",
+    "authority": "loc",
+    "subauthority": "subjects",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "LOC all subjects (QA)",
     "uri": "urn:ld4p:qa:subjects",
     "authority": "locsubjects_ld4l_cache",
