@@ -201,6 +201,14 @@
     "component": "lookup"
   },
   {
+    "label": "DBPEDIA_(QA) - direct (Warning: may be slow)",
+    "uri": "urn:ld4p:qa:dbpedia_direct",
+    "authority": "dbpedia_direct",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "Discogs",
     "uri": "urn:discogs",
     "authority": "discogs",
