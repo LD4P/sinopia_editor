@@ -1100,52 +1100,58 @@
     "component": "lookup"
   },
   {
-    "label": "LOC All Names (QA) - direct",
+    "label": "TEST (DO NOT USE YET) LOC All Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names",
     "authority": "loc",
     "subauthority": "names",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "LOC Conference Names(QA) - direct",
+    "label": "TEST (DO NOT USE YET) LOC Conference Names(QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_ConferenceName",
     "authority": "loc",
     "subauthority": "names_ConferenceName",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "LOC Corporate Names (QA) - direct",
+    "label": "TEST (DO NOT USE YET) LOC Corporate Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_CorporateName",
     "authority": "loc",
     "subauthority": "names_CorporateName",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "LOC Family Names (QA) - direct",
+    "label": "TEST (DO NOT USE YET) LOC Family Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_FamilyName",
     "authority": "loc",
     "subauthority": "names_FamilyName",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "LOC Geographic Names (QA) - direct",
+    "label": "TEST (DO NOT USE YET) LOC Geographic Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_Geographic",
     "authority": "loc",
     "subauthority": "names_Geographic",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "LOC Personal Names (QA) - direct",
+    "label": "TEST (DO NOT USE YET) LOC Personal Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_PersonalName",
     "authority": "loc",
     "subauthority": "names_PersonalName",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC all names (QA)",
@@ -1196,12 +1202,13 @@
     "component": "lookup"
   },
   {
-    "label": "LOC All Subjects (QA) - direct",
+    "label": "TEST (DO NOT USE YET) LOC All Subjects (QA) - direct",
     "uri": "urn:ld4p:qa:loc:subjects",
     "authority": "loc",
     "subauthority": "subjects",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC all subjects (QA)",
