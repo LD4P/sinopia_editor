@@ -1419,6 +1419,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry aspect ratio designation (QA)",
+    "uri": "urn:qa:rda_aspect_ratio_desgination",
+    "authority": "local",
+    "subauthority": "rda_aspect_ratio_desgination",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry bibliographic format (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:bibliographic_format",
     "authority": "rda_registry_ld4l_cache",
