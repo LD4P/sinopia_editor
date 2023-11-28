@@ -1060,6 +1060,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Demographic Terms (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:demographicTerms",
+    "authority": "loc",
+    "subauthority": "demographicTerms",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC demographics (QA)",
     "uri": "urn:ld4p:qa:demographics",
     "authority": "locdemographics_ld4l_cache",
