@@ -1052,6 +1052,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC MARC Countries (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:countries",
+    "authority": "loc",
+    "subauthority": "countries",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC MARC countries (QA)",
     "uri": "urn:ld4p:qa:locmarccountries",
     "authority": "loccountries_ld4l_cache",
