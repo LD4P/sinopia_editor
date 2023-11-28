@@ -1044,6 +1044,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Cultural Heritage Organizations (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:organizations",
+    "authority": "loc",
+    "subauthority": "organizations",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC cultural heritage organizations (QA)",
     "uri": "urn:ld4p:qa:locculturalorgs",
     "authority": "loccultural_organizations_ld4l_cache",
