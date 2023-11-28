@@ -1186,6 +1186,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Genre Form (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:genreForm",
+    "authority": "loc",
+    "subauthority": "genreForm",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC geographic [names] (QA)",
     "uri": "urn:ld4p:qa:names:geographic",
     "authority": "locnames_ld4l_cache",
