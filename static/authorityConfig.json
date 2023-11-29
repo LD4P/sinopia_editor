@@ -1695,6 +1695,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Thesaurus for Graphic Materials (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:graphicMaterials",
+    "authority": "loc",
+    "subauthority": "graphicMaterials",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "MESH subjects (QA)",
     "uri": "urn:ld4p:qa:mesh:subject",
     "authority": "mesh_nlm_ld4l_cache",
