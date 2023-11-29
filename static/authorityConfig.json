@@ -1535,6 +1535,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Medium of Performance (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:performanceMediums",
+    "authority": "loc",
+    "subauthority": "performanceMediums",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC performance (QA)",
     "uri": "urn:ld4p:qa:performance",
     "authority": "locperformance_ld4l_cache",
