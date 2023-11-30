@@ -1723,6 +1723,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC RBMS Controlled Vocabulary (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:rbmscv",
+    "authority": "loc",
+    "subauthority": "rbmscv",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "TEST (DO NOT USE YET) LOC All Subjects (QA) - direct",
     "uri": "urn:ld4p:qa:loc:subjects",
     "authority": "loc",
