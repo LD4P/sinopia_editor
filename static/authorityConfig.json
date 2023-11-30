@@ -778,6 +778,15 @@
     "nonldLookup": true
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Aspect Ration (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:maspect",
+    "authority": "loc",
+    "subauthority": "maspect",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC aspect ratio [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:maspect",
     "authority": "locvocabs_ld4l_cache",
@@ -1931,10 +1940,10 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Aspect Ration (QA) - direct",
-    "uri": "urn:ld4p:qa:loc:maspect",
-    "authority": "loc",
-    "subauthority": "maspect",
+    "label": "TEST (DO NOT USE YET) RDA Registry aspect ratio designation (QA)",
+    "uri": "urn:qa:rda_aspect_ratio_desgination",
+    "authority": "local",
+    "subauthority": "rda_aspect_ratio_desgination",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
