@@ -693,6 +693,15 @@
     "nonldLookup": true
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Classification Schemes (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:classSchemes",
+    "authority": "loc",
+    "subauthority": "classSchemes",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC content types [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:content_types",
     "authority": "locvocabs_ld4l_cache",
