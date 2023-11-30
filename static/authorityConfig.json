@@ -1554,6 +1554,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC MARC Countries (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:countries",
+    "authority": "loc",
+    "subauthority": "countries",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "TEST (DO NOT USE YET) LOC Demographic Terms (QA) - direct",
     "uri": "urn:ld4p:qa:loc:demographicTerms",
     "authority": "loc",
