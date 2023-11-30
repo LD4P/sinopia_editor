@@ -36,8 +36,16 @@ const Footer = () => (
           >
             Creative Commons CC0 1.0 Universal Public Domain Dedication
           </a>
-          . Published <a href="/vocabulary">Vocabulary</a>. &nbsp; Sinopia v
-          {Package.version}
+          . Published <a href="/vocabulary">Vocabulary</a>. &nbsp; If you cannot
+          access content or use features on this website due to a disability,
+          please&nbsp;
+          <a
+            rel="noopener noreferrer"
+            href="mailto:library-accessibility-contact@lists.stanford.edu"
+          >
+            report your accessibility issue
+          </a>
+          . &nbsp;Sinopia v{Package.version}
         </small>
       </p>
     </div>
