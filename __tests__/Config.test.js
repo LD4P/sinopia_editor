@@ -46,7 +46,7 @@ describe("Config", () => {
     })
 
     it("max records for lookups/QA has static value", () => {
-      expect(Config.maxRecordsForQALookups).toEqual(10)
+      expect(Config.maxRecordsForQALookups).toEqual(20)
     })
 
     describe("interpolated links from default values", () => {

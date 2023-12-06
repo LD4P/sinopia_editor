@@ -5,7 +5,7 @@ import { findAuthorityConfig } from "utilities/authorityConfig"
 describe("createLookupPromise()", () => {
   const response = {
     ok: true,
-    url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=10&lang=en&context=true&response_header=true&startRecord=1",
+    url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1",
     status: 200,
     statusText: "OK",
     json: () => {
@@ -81,7 +81,7 @@ describe("createLookupPromise()", () => {
       const authorityConfig = findAuthorityConfig("urn:ld4p:qa:geonames:water")
       await createLookupPromise("Artic Sea", authorityConfig)
       expect(global.fetch).toHaveBeenCalledWith(
-        "https://lookup.ld4l.org/authorities/search/linked_data/geonames_ld4l_cache/water?q=Artic+Sea&maxRecords=10&lang=en&context=true&response_header=true&startRecord=1"
+        "https://lookup.ld4l.org/authorities/search/linked_data/geonames_ld4l_cache/water?q=Artic+Sea&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1"
       )
     })
   })
@@ -91,7 +91,7 @@ describe("createLookupPromise()", () => {
       const authorityConfig = findAuthorityConfig("urn:discogs:release")
       await createLookupPromise("twain", authorityConfig)
       expect(global.fetch).toHaveBeenCalledWith(
-        "https://lookup.ld4l.org/authorities/search/discogs/release?q=twain&maxRecords=10&lang=en&context=true&response_header=true&startRecord=1"
+        "https://lookup.ld4l.org/authorities/search/discogs/release?q=twain&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1"
       )
     })
   })
