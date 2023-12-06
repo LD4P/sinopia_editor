@@ -1984,12 +1984,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry bibliographic format (QA)",
+    "uri": "urn:qa:rda_bibliographic_format",
+    "authority": "local",
+    "subauthority": "rda_bibliographic_format",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry broadcast standard (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:broadcast_standard",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "broadcast_standard",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry broadcast standard (QA)",
+    "uri": "urn:qa:rda_broadcast_standard",
+    "authority": "local",
+    "subauthority": "rda_broadcast_standard",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry carrier type (QA)",
@@ -2000,12 +2018,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry carrier type (QA)",
+    "uri": "urn:qa:rda_carrier_type",
+    "authority": "local",
+    "subauthority": "rda_carrier_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry carrier extent unit (QA)",
+    "uri": "urn:qa:rda_carrier_extent_unit",
+    "authority": "local",
+    "subauthority": "rda_carrier_extent_unit",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry cartographic data type (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:cartographic_data_type",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "cartographic_data_type",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry cartographic data type (QA)",
+    "uri": "urn:qa:rda_cartographic_data_type",
+    "authority": "local",
+    "subauthority": "rda_cartographic_data_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry colour content (QA)",
@@ -2016,12 +2061,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry colour content (QA)",
+    "uri": "urn:qa:rda_colour_content",
+    "authority": "local",
+    "subauthority": "rda_colour_content",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry configuration of playback channels (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:config_playback_channels",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "config_playback_channels",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry configuration of playback channels (QA)",
+    "uri": "urn:qa:rda_configuration_of_playback_channels",
+    "authority": "local",
+    "subauthority": "rda_configuration_of_playback_channels",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry content type (QA)",
@@ -2032,12 +2095,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry content type (QA)",
+    "uri": "urn:qa:rda_content_type",
+    "authority": "local",
+    "subauthority": "rda_content_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry extension plan (QA)",
+    "uri": "urn:qa:rda_extension_plan",
+    "authority": "local",
+    "subauthority": "rda_extension_plan",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry file type (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:file_type",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "file_type",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry file type (QA)",
+    "uri": "urn:qa:rda_file_type",
+    "authority": "local",
+    "subauthority": "rda_file_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry font size (QA)",
@@ -2048,12 +2138,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry font size (QA)",
+    "uri": "urn:qa:rda_font_size",
+    "authority": "local",
+    "subauthority": "rda_font_size",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry form of musical notation (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_musical_notation",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "form_of_musical_notation",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry form of musical notation (QA)",
+    "uri": "urn:qa:rda_form_of_musical_notation",
+    "authority": "local",
+    "subauthority": "rda_form_of_musical_notation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry form of notated movement (QA)",
@@ -2064,12 +2172,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry form of notated movement (QA)",
+    "uri": "urn:qa:rda_form_of_notated_movement",
+    "authority": "local",
+    "subauthority": "rda_form_of_notated_movement",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry form of tactile notation (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_tactile_notation",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "form_of_tactile_notation",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry form of tactile notation (QA)",
+    "uri": "urn:qa:rda_form_of_tactile_notation",
+    "authority": "local",
+    "subauthority": "rda_form_of_tactile_notation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry format of notated music (QA)",
@@ -2080,12 +2206,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry format of notated music (QA)",
+    "uri": "urn:qa:rda_format_of_notated_music",
+    "authority": "local",
+    "subauthority": "rda_format_of_notated_music",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry frequency (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:frequency",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "frequency",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry frequency (QA)",
+    "uri": "urn:qa:rda_frequency",
+    "authority": "local",
+    "subauthority": "rda_frequency",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry gender (QA)",
@@ -2104,12 +2248,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry generation (QA)",
+    "uri": "urn:qa:rda_generation",
+    "authority": "local",
+    "subauthority": "rda_generation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry groove pitch of an analog cylinder (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:groove_pitch",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "groove_pitch",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry groove pitch of an analog cylinder (QA)",
+    "uri": "urn:qa:rda_groove_pitch_of_an_analog_cylinder",
+    "authority": "local",
+    "subauthority": "rda_groove_pitch_of_an_analog_cylinder",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry groove width of an analog disc (QA)",
@@ -2120,12 +2282,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry groove width of an analog disc (QA)",
+    "uri": "urn:qa:rda_groove_width_of_an_analog_disc",
+    "authority": "local",
+    "subauthority": "rda_groove_width_of_an_analog_disc",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry illustrative content (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:illustrative_content",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "illustrative_content",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry illustrative content (QA)",
+    "uri": "urn:qa:rda_illustrative_content",
+    "authority": "local",
+    "subauthority": "rda_illustrative_content",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry layout (QA)",
@@ -2136,12 +2316,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry layout (QA)",
+    "uri": "urn:qa:rda_layout",
+    "authority": "local",
+    "subauthority": "rda_layout",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry material (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:material",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "material",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry material (QA)",
+    "uri": "urn:qa:rda_material",
+    "authority": "local",
+    "subauthority": "rda_material",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry media type (QA)",
@@ -2152,12 +2350,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry media type (QA)",
+    "uri": "urn:qa:rda_media_type",
+    "authority": "local",
+    "subauthority": "rda_media_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry mode of issuance (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:mode_of_issuance",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "mode_of_issuance",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry mode of issuance (QA)",
+    "uri": "urn:qa:rda_mode_of_issuance",
+    "authority": "local",
+    "subauthority": "rda_mode_of_issuance",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry polarity (QA)",
@@ -2168,12 +2384,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry polarity (QA)",
+    "uri": "urn:qa:rda_polarity",
+    "authority": "local",
+    "subauthority": "rda_polarity",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry presentation format (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:presentation_format",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "presentation_format",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry presentation format (QA)",
+    "uri": "urn:qa:rda_presentation_format",
+    "authority": "local",
+    "subauthority": "rda_presentation_format",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry production method (QA)",
@@ -2184,12 +2418,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry production method (QA)",
+    "uri": "urn:qa:rda_production_method",
+    "authority": "local",
+    "subauthority": "rda_production_method",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry recording medium (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:recording_medium",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "recording_medium",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry recording medium (QA)",
+    "uri": "urn:qa:rda_recording_medium",
+    "authority": "local",
+    "subauthority": "rda_recording_medium",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry recording sources (QA)",
@@ -2200,12 +2452,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry recording sources (QA)",
+    "uri": "urn:qa:rda_recording_source",
+    "authority": "local",
+    "subauthority": "rda_recording_source",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry reduction ratio designation (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:reduction_ratio",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "reduction_ratio",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry reduction ratio designation (QA)",
+    "uri": "urn:qa:rda_reduction_ratio_designation",
+    "authority": "local",
+    "subauthority": "rda_reduction_ratio_designation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry regional encoding (QA)",
@@ -2216,12 +2486,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry regional encoding (QA)",
+    "uri": "urn:qa:rda_regional_encoding",
+    "authority": "local",
+    "subauthority": "rda_regional_encoding",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry scale designation (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:scale_designation",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "scale_designation",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry scale designation (QA)",
+    "uri": "urn:qa:rda_scale_designation",
+    "authority": "local",
+    "subauthority": "rda_scale_designation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry sound content (QA)",
@@ -2232,12 +2520,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry sound content (QA)",
+    "uri": "urn:qa:rda_sound_content",
+    "authority": "local",
+    "subauthority": "rda_sound_content",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry special playback characteristics (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:special_playback",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "special_playback",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry special playback characteristics (QA)",
+    "uri": "urn:qa:rda_special_playback_characteristics",
+    "authority": "local",
+    "subauthority": "rda_special_playback_characteristics",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry status of identification (QA)",
@@ -2248,12 +2554,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry status of identification (QA)",
+    "uri": "urn:qa:rda_status_of_identification",
+    "authority": "local",
+    "subauthority": "rda_status_of_identification",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry terms (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:terms",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "terms",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry terms (QA)",
+    "uri": "urn:qa:rda_terms",
+    "authority": "local",
+    "subauthority": "rda_terms",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry track configuration (QA)",
@@ -2264,12 +2588,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry track configuration (QA)",
+    "uri": "urn:qa:rda_track_configuration",
+    "authority": "local",
+    "subauthority": "rda_track_configuration",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry type of binding (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:type_of_binding",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "type_of_binding",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry type of binding (QA)",
+    "uri": "urn:qa:rda_type_of_binding",
+    "authority": "local",
+    "subauthority": "rda_type_of_binding",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry type of recording (QA)",
@@ -2280,12 +2622,48 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry type of recording (QA)",
+    "uri": "urn:qa:rda_type_of_recording",
+    "authority": "local",
+    "subauthority": "rda_type_of_recording",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry unit of time (QA)",
+    "uri": "urn:qa:rda_unit_of_time",
+    "authority": "local",
+    "subauthority": "rda_unit_of_time",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry user task (QA)",
+    "uri": "urn:qa:rda_user_tasks",
+    "authority": "local",
+    "subauthority": "rda_user_tasks",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry video format (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:video_format",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "video_format",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry video format (QA)",
+    "uri": "urn:qa:rda_video_format",
+    "authority": "local",
+    "subauthority": "rda_video_format",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "SHAREVDE PCC Opus (QA) - cache",
