@@ -730,7 +730,7 @@
     "label": "TEST (DO NOT USE YET) LOC Description Conventions (QA) - direct",
     "uri": "urn:ld4p:qa:loc:descriptionConventions",
     "authority": "loc",
-    "subauthority": "descriptiveConventions",
+    "subauthority": "descriptionConventions",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
@@ -787,7 +787,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Aspect Ration (QA) - direct",
+    "label": "TEST (DO NOT USE YET) LOC Aspect Ratio (QA) - direct",
     "uri": "urn:ld4p:qa:loc:maspect",
     "authority": "loc",
     "subauthority": "maspect",
@@ -1401,9 +1401,9 @@
   },
   {
     "label": "TEST (DO NOT USE YET) LOC Supplementatal Content (QA) - direct",
-    "uri": "urn:ld4p:qa:loc:msupplcontent",
+    "uri": "urn:ld4p:qa:loc:msupplcont",
     "authority": "loc",
-    "subauthority": "msupplcontent",
+    "subauthority": "msupplcont",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
@@ -1708,9 +1708,9 @@
   },
   {
     "label": "TEST (DO NOT USE YET) LOC Genre Form (QA) - direct",
-    "uri": "urn:ld4p:qa:loc:genreForm",
+    "uri": "urn:ld4p:qa:loc:genreForms",
     "authority": "loc",
-    "subauthority": "genreForm",
+    "subauthority": "genreForms",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
@@ -1968,9 +1968,9 @@
   },
   {
     "label": "TEST (DO NOT USE YET) RDA Registry aspect ratio designation (QA)",
-    "uri": "urn:qa:rda_aspect_ratio_desgination",
+    "uri": "urn:qa:rda_aspect_ratio_designation",
     "authority": "local",
-    "subauthority": "rda_aspect_ratio_desgination",
+    "subauthority": "rda_aspect_ratio_designation",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
