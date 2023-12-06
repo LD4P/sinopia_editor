@@ -24,6 +24,7 @@ references:
       branches:
         only:
           - main
+          - t3555-export
       tags:
         ignore:
           - /.*/

@@ -60,6 +60,7 @@ import {
 } from "./history"
 import { clearSearchResults, setSearchResults, setHeaderSearch } from "./search"
 import { lookupOptionsRetrieved } from "./lookups"
+import { clearLocalIds, setLocalId } from "./transfer"
 import _ from "lodash"
 
 export const setCurrentComponent = (state, action) => {
@@ -119,6 +120,7 @@ const entityHandlers = {
   ADD_SUBJECT: addSubject,
   ADD_TEMPLATES: addTemplates,
   ADD_VALUE: addValue,
+  CLEAR_LOCAL_IDS: clearLocalIds,
   CLEAR_RELATIONSHIPS: clearRelationships,
   CLEAR_RESOURCE: clearResource,
   CLEAR_VERSIONS: clearVersions,
@@ -137,6 +139,7 @@ const entityHandlers = {
   SET_BASE_URL: setBaseURL,
   SET_CLASSES: setClasses,
   SET_DEFAULT_LANG: setDefaultLang,
+  SET_LOCAL_ID: setLocalId,
   SET_VALUE_PROPERTY_URI: setValuePropertyURI,
   SET_PROPERTY_PROPERTY_URI: setPropertyPropertyURI,
   SET_RELATIONSHIPS: setRelationships,

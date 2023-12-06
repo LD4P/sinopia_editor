@@ -246,7 +246,8 @@ describe("searching and preview a resource", () => {
       ).toHaveLength(1)
 
       screen.getByText("MARC", { selector: "button" })
-      screen.getByText(/Export to/, { selector: "button" })
+      screen.getByText("Export to Symphony", { selector: "button" })
+      screen.getByText("Export to Folio", { selector: "button" })
 
       // Switch to relationships
       fireEvent.change(screen.getByLabelText(/Format/), {

@@ -13,11 +13,17 @@ export const selectRelationships = (state, resourceKey) => {
     return _.uniq([...resourceRelationships, ...inferredRelationships])
   }
 
+  const adminMetadataRefs = _.uniq([
+    ...(resource?.sinopiaLocalAdminMetadataRefs || []),
+    ...(relationships?.sinopiaHasLocalAdminMetadataInferredRefs || []),
+  ])
+
   return {
     bfAdminMetadataRefs: mergeRelationship("bfAdminMetadataRefs"),
     bfItemRefs: mergeRelationship("bfItemRefs"),
     bfInstanceRefs: mergeRelationship("bfInstanceRefs"),
     bfWorkRefs: mergeRelationship("bfWorkRefs"),
+    sinopiaLocalAdminMetadataRefs: adminMetadataRefs,
   }
 }
 

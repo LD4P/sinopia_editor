@@ -140,13 +140,19 @@ class Config {
 
   static get transferConfig() {
     return {
-      ils: {
+      SIRSI: {
         // group: label
-        stanford: "Catalog",
+        stanford: "Symphony",
         cornell: "Catalog",
+      },
+      FOLIO: {
+        stanford: "Folio",
+        cornell: "Catalog",
+      },
+      ALMA: {
         penn: "Catalog",
       },
-      // Can add additional transfer targets, e.g., discovery
+      // Can add additional transfer targets.
     }
   }
 

@@ -35,16 +35,18 @@ const TransferButtons = ({ resourceKey }) => {
   // Must be targets
   if (_.isEmpty(transferTargets)) return null
 
-  const handleClick = (event, group, target) => {
-    dispatch(transfer(resource.uri, group, target, errorKey))
-    event.preventDefault()
+  const handleTransfer = (group, target, localId) => {
+    dispatch(transfer(resource.uri, group, target, localId, errorKey))
   }
 
   const buttons = transferTargets.map(([target, group, label]) => (
     <TransferButton
       key={`${group}-${target}`}
+      group={group}
+      target={target}
+      resourceKey={resourceKey}
       label={`Export to ${label}`}
-      handleClick={(event) => handleClick(event, group, target)}
+      handleTransfer={(localId) => handleTransfer(group, target, localId)}
     />
   ))
 

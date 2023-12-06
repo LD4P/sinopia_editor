@@ -15,6 +15,7 @@ const resourceFilenames = {
   "a5c5f4c0-e7cd-4ca5-a20f-2a37fe1080d5": "instance_with_refs.json",
   "b6c5f4c0-e7cd-4ca5-a20f-2a37fe1080d6": "test-inputs.json",
   "c7c5f4c0-e7cd-4ca5-a20f-2a37fe1080d7": "test-multiple_property_uris.json",
+  "ae93cff4-d272-43b2-a4ee-fb8651907e51": "local_admin_metadata.json",
 }
 
 const templateFilenames = {
@@ -201,5 +202,8 @@ export const getFixtureResourceRelationships = () => {
     bfItemInferredRefs: [],
     bfInstanceInferredRefs: [],
     bfWorkInferredRefs: [],
+    sinopiaHasLocalAdminMetadataInferredRefs: [
+      "http://localhost:3000/resource/ae93cff4-d272-43b2-a4ee-fb8651907e51",
+    ],
   }
 }

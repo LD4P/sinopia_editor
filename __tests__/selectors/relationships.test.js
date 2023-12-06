@@ -29,6 +29,9 @@ describe("selectRelationships()", () => {
         "http://localhost:3000/resource/252b24cb-0b5f-4df6-88d2-cb9efdf3f376",
       ],
       bfWorkRefs: [],
+      sinopiaHasLocalAdminMetadataInferredRefs: [
+        "http://localhost:3000/resource/362b24cb-0b5f-4df6-88d2-cb9efdf3f377",
+      ],
     }
 
     expect(selectRelationships(state, "8VrbxGPeF")).toStrictEqual({
@@ -43,6 +46,9 @@ describe("selectRelationships()", () => {
         "http://localhost:3000/resource/252b24cb-0b5f-4df6-88d2-cb9efdf3f376",
       ],
       bfWorkRefs: [],
+      sinopiaLocalAdminMetadataRefs: [
+        "http://localhost:3000/resource/362b24cb-0b5f-4df6-88d2-cb9efdf3f377",
+      ],
     })
   })
 })

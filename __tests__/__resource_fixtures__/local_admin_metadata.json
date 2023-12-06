@@ -1,0 +1,55 @@
+[
+    {
+      "@id": "http://localhost:3000/resource/ae93cff4-d272-43b2-a4ee-fb8651907e51",
+      "@type": [
+        "http://sinopia.io/vocabulary/LocalAdminMetadata"
+      ],
+      "http://id.loc.gov/ontologies/bibframe/identifier": [
+        {
+          "@id": "_:Nfe4b29df32004cc1b097a218f69df09f"
+        }
+      ],
+      "http://sinopia.io/vocabulary/exportDate": [
+        {
+          "@value": "2022-08-01T15:49:44.558203"
+        }
+      ],
+      "http://sinopia.io/vocabulary/hasResourceTemplate": [
+        {
+          "@value": "pcc:sinopia:localAdminMetadata"
+        }
+      ],
+      "http://sinopia.io/vocabulary/localAdminMetadataFor": [
+        {
+          "@id": "http://localhost:3000/resource/a5c5f4c0-e7cd-4ca5-a20f-2a37fe1080d5"
+        }
+      ]
+    },
+    {
+      "@id": "_:Nfe4b29df32004cc1b097a218f69df09f",
+      "@type": [
+        "http://id.loc.gov/ontologies/bibframe/Local"
+      ],
+      "http://id.loc.gov/ontologies/bibframe/source": [
+        {
+          "@id": "_:Nf65f353d6fb64adeb6aa6040d21fb88c"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+        {
+          "@value": "13714202"
+        }
+      ]
+    },
+    {
+      "@id": "_:Nf65f353d6fb64adeb6aa6040d21fb88c",
+      "@type": [
+        "http://id.loc.gov/ontologies/bibframe/Source"
+      ],
+      "http://www.w3.org/2000/01/rdf-schema#label": [
+        {
+          "@value": "SIRSI"
+        }
+      ]
+    }
+  ]

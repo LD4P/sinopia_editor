@@ -41,6 +41,7 @@ import { addResourceHistory } from "actionCreators/history"
 import _ from "lodash"
 import { setCurrentComponent } from "actions/index"
 import { loadRelationships } from "./relationships"
+import { loadLocalIds } from "./transfer"
 
 /**
  * A thunk that loads an existing resource from Sinopia API and adds to state.
@@ -72,7 +73,23 @@ export const loadResource =
                 unusedDataset.size > 0 ? unusedDataset.toCanonical() : null
               )
             )
-            dispatch(loadRelationships(resource.key, uri, errorKey))
+            dispatch(loadRelationships(resource.key, uri, errorKey)).then(
+              (relationships) => {
+                if (
+                  !_.isEmpty(
+                    relationships.sinopiaHasLocalAdminMetadataInferredRefs
+                  )
+                ) {
+                  dispatch(
+                    loadLocalIds(
+                      resource.key,
+                      relationships.sinopiaHasLocalAdminMetadataInferredRefs,
+                      errorKey
+                    )
+                  )
+                }
+              }
+            )
             return [response, resource, unusedDataset]
           })
           .catch((err) => {
