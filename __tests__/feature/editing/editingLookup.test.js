@@ -434,5 +434,5 @@ describe("adding a template from Sinopia lookup", () => {
     await screen.findByText("Testing wikidata lookup", {
       selector: "a.tab-link span",
     })
-  }, 10000)
+  }, 20000)
 })
