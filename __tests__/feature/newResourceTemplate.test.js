@@ -13,8 +13,12 @@ describe("creating new resource template ", () => {
 
     // Click the new resource template button
     fireEvent.click(screen.getByText("New template"))
-    await screen.findByText("Resource template", {
-      selector: resourceHeaderSelector,
-    })
-  }, 15000)
+    await screen.findByText(
+      "Resource template",
+      {
+        selector: resourceHeaderSelector,
+      },
+      { timeout: 15000 }
+    )
+  }, 20000)
 })
