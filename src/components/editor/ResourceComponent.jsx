@@ -18,6 +18,7 @@ import SaveAndPublishButton from "./actions/SaveAndPublishButton"
 import CopyToNewButton from "./actions/CopyToNewButton"
 import PreviewButton from "./actions/PreviewButton"
 import ResourceTitle from "./ResourceTitle"
+import TopButton from "./actions/TopButton"
 
 /**
  * This is the root component of the editor on the resource edit page
@@ -70,12 +71,15 @@ const ResourceComponent = () => {
       <div id="sticky-beacon" />
       <section className={stickyClasses.join(" ")} id="sticky-resource-header">
         <div className="row">
-          <div className="col-md-10">
+          <div className="col-md-9">
             <h3>
               <ResourceTitle resource={resource} />
               <CopyToNewButton />
               <PreviewButton />
             </h3>
+          </div>
+          <div className="col-md-1">
+            <TopButton />
           </div>
           <div className="col-md-2">
             <div className="d-flex justify-content-end">
