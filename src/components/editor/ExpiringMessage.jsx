@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react"
 import PropTypes from "prop-types"
 
-const ExpiringMessage = (props) => {
-  const [prevLastSave, setPrevLastSave] = useState(props.timestamp)
+const ExpiringMessage = ({ timestamp, children, scroll = true }) => {
+  const [prevLastSave, setPrevLastSave] = useState(timestamp)
   const inputRef = useRef(null)
 
   useEffect(
@@ -16,22 +16,23 @@ const ExpiringMessage = (props) => {
       }
   )
 
-  useLayoutEffect(() =>
+  useLayoutEffect(() => {
+    if (!scroll || !timestamp) return
     inputRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "end",
     })
-  )
+  }, [scroll, timestamp])
 
-  if (!props.timestamp || prevLastSave === props.timestamp) {
+  if (!timestamp || prevLastSave === timestamp) {
     return null
   }
 
-  const timer = setInterval(() => setPrevLastSave(props.timestamp), 3000)
+  const timer = setInterval(() => setPrevLastSave(timestamp), 3000)
 
   return (
     <div className="alert alert-success" ref={inputRef}>
-      {props.children}
+      {children}
     </div>
   )
 }
@@ -39,6 +40,7 @@ const ExpiringMessage = (props) => {
 ExpiringMessage.propTypes = {
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
   timestamp: PropTypes.number,
+  scroll: PropTypes.bool,
 }
 
 export default ExpiringMessage

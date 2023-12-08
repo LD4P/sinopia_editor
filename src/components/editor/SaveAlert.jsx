@@ -9,7 +9,11 @@ const SaveAlert = () => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   const lastSave = useSelector((state) => selectLastSave(state, resourceKey))
 
-  return <ExpiringMessage timestamp={lastSave}>Saved</ExpiringMessage>
+  return (
+    <ExpiringMessage timestamp={lastSave} scroll={false}>
+      Saved
+    </ExpiringMessage>
+  )
 }
 
 export default SaveAlert
