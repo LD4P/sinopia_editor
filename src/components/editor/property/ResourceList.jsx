@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux"
 import PropTypes from "prop-types"
 import { getTemplateSearchResults } from "sinopiaSearch"
 import { nanoid } from "nanoid"
-import { newResource } from "actionCreators/resources"
+import { newResource, addMainTitle } from "actionCreators/resources"
 import {
   selectPropertyTemplate,
   selectSubjectTemplate,
 } from "selectors/templates"
-import { selectNormSubject } from "selectors/resources"
+import { selectNormSubject, selectMainTitleValue } from "selectors/resources"
+import { setCurrentResource } from "actions/resources"
+
 import useAlerts from "hooks/useAlerts"
 import _ from "lodash"
 
@@ -30,13 +32,26 @@ const ResourceList = (props) => {
     selectSubjectTemplate(state, subject?.subjectTemplateKey)
   )
 
+  const mainTitleValue = useSelector((state) =>
+    selectMainTitleValue(state, props.property?.rootSubjectKey)
+  )
+
   useEffect(() => {
     let isMounted = true
     const handleChange = (resourceTemplateId, event) => {
       event.preventDefault()
-      dispatch(newResource(resourceTemplateId, errorKey)).then((result) => {
-        if (!result) window.scrollTo(0, topRef.current?.offsetTop)
-      })
+      dispatch(newResource(resourceTemplateId, errorKey, false)).then(
+        (resourceKey) => {
+          if (resourceKey && mainTitleValue) {
+            dispatch(addMainTitle(resourceKey, mainTitleValue))
+          }
+          if (resourceKey) {
+            dispatch(setCurrentResource(resourceKey))
+          } else {
+            window.scrollTo(0, topRef.current?.offsetTop)
+          }
+        }
+      )
     }
     const getNewResourceList = async () => {
       const listItems = []
@@ -73,7 +88,13 @@ const ResourceList = (props) => {
     return () => {
       isMounted = false
     }
-  }, [dispatch, propertyTemplate.authorities, subjectTemplate.class, errorKey])
+  }, [
+    dispatch,
+    propertyTemplate.authorities,
+    subjectTemplate.class,
+    errorKey,
+    mainTitleValue,
+  ])
 
   const dropdown = (items) => (
     <div className="dropdown">

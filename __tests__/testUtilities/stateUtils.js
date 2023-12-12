@@ -20,6 +20,7 @@ export const createState = (options = {}) => {
   buildResourceWithTwoNestedResources(state, options)
   buildResourceWithContractedNestedResource(state, options)
   buildResourceWithError(state, options)
+  buildResourceWithMainTitle(state, options)
   buildTemplateWithLiteral(state, options)
   buildExports(state, options)
   buildLookups(state, options)
@@ -845,6 +846,126 @@ const buildResourceWithContractedNestedResource = (state, options) => {
     }),
   }
   state.entities.values = {}
+}
+
+const buildResourceWithMainTitle = (state, options) => {
+  if (!options.hasResourceWithMainTitle) return
+
+  state.editor.currentResource = "cqxLskA9kjAfMFDeuvzGq"
+  state.editor.resources = ["cqxLskA9kjAfMFDeuvzGq"]
+  state.entities.subjectTemplates = {
+    "resourceTemplate:bf2:Instance": build.subjectTemplate({
+      id: "resourceTemplate:bf2:Instance",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Instance",
+      label: "BF Instance",
+      propertyTemplateKeys: [
+        "resourceTemplate:bf2:Instance > http://id.loc.gov/ontologies/bibframe/title > resourceTemplate:bf2:Title",
+      ],
+    }),
+    "resourceTemplate:bf2:Title": build.subjectTemplate({
+      id: "resourceTemplate:bf2:Title",
+      clazz: "http://id.loc.gov/ontologies/bibframe/Title",
+      label: "Instance Title",
+      propertyTemplateKeys: [
+        "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/mainTitle",
+      ],
+    }),
+  }
+  state.entities.propertyTemplates = {
+    "resourceTemplate:bf2:Instance > http://id.loc.gov/ontologies/bibframe/title > resourceTemplate:bf2:Title":
+      build.propertyTemplate({
+        subjectTemplateKey: "resourceTemplate:bf2:Instance",
+        label: "Instance Title",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/title":
+            "http://id.loc.gov/ontologies/bibframe/title",
+        },
+        required: true,
+        repeatable: false,
+        type: "resource",
+        component: "NestedResource",
+        valueSubjectTemplateKeys: ["resourceTemplate:bf2:Title"],
+      }),
+    "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/mainTitle":
+      build.propertyTemplate({
+        subjectTemplateKey: "resourceTemplate:bf2:Title",
+        label: "Title Proper (RDA 2.3.2) (BIBFRAME: Main title)",
+        uris: {
+          "http://id.loc.gov/ontologies/bibframe/mainTitle":
+            "http://id.loc.gov/ontologies/bibframe/mainTitle",
+        },
+        required: false,
+        repeatable: true,
+        type: "literal",
+        component: "InputLiteral",
+      }),
+  }
+  state.entities.subjects = {
+    cqxLskA9kjAfMFDeuvzGq: build.resource({
+      key: "cqxLskA9kjAfMFDeuvzGq",
+      rootSubjectKey: "cqxLskA9kjAfMFDeuvzGq",
+      subjectTemplateKey: "resourceTemplate:bf2:Instance",
+      propertyKeys: ["Cqal8V5U_FVZwwlsM_as"],
+      classes: ["http://id.loc.gov/ontologies/bibframe/Instance"],
+      labels: ["BF Instance"],
+    }),
+    wqwkAJ0xdoaeOWRqO: build.resource({
+      key: "wqwkAJ0xdoaeOWRqO",
+      rootSubjectKey: "cqxLskA9kjAfMFDeuvzGq",
+      rootPropertyKey: "Cqal8V5U_FVZwwlsM_as",
+      subjectTemplateKey: "resourceTemplate:bf2:Title",
+      propertyKeys: ["PZg9YbCZyx4AoJs2eL2zm"],
+      classes: ["http://id.loc.gov/ontologies/bibframe/Title"],
+      labels: ["BF Instance", "Instance Title", "Instance Title"],
+      valueSubjectOfKey: "LUKrn71E36Go3-rQ2zcRD",
+    }),
+  }
+  state.entities.properties = {
+    Cqal8V5U_FVZwwlsM_as: build.property({
+      key: "Cqal8V5U_FVZwwlsM_as",
+      subjectKey: "cqxLskA9kjAfMFDeuvzGq",
+      rootSubjectKey: "cqxLskA9kjAfMFDeuvzGq",
+      propertyTemplateKey:
+        "resourceTemplate:bf2:Instance > http://id.loc.gov/ontologies/bibframe/title > resourceTemplate:bf2:Title",
+      labels: ["BF Instance", "Instance Title"],
+      valueKeys: ["LUKrn71E36Go3-rQ2zcRD"],
+    }),
+    PZg9YbCZyx4AoJs2eL2zm: build.property({
+      key: "PZg9YbCZyx4AoJs2eL2zm",
+      subjectKey: "wqwkAJ0xd-oaeOWRqO",
+      rootSubjectKey: "cqxLskA9kjAfMFDeuvzGq",
+      propertyTemplateKey:
+        "resourceTemplate:bf2:Title > http://id.loc.gov/ontologies/bibframe/mainTitle",
+      labels: [
+        "BF Instance",
+        "Instance Title",
+        "Instance Title",
+        "Title Proper (RDA 2.3.2) (BIBFRAME: Main title)",
+      ],
+      valueKeys: ["JjUhYxaBo9nuIh8GKd9k5"],
+    }),
+  }
+  state.entities.values = {
+    "LUKrn71E36Go3-rQ2zcRD": build.value({
+      key: "LUKrn71E36Go3-rQ2zcRD",
+      propertyKey: "Cqal8V5U_FVZwwlsM_as",
+      rootSubjectKey: "cqxLskA9kjAfMFDeuvzGq",
+      rootPropertyKey: "Cqal8V5U_FVZwwlsM_as",
+      valueSubjectKey: "wqwkAJ0xdoaeOWRqO",
+      component: null,
+      propertyUri: "http://id.loc.gov/ontologies/bibframe/title",
+    }),
+    JjUhYxaBo9nuIh8GKd9k5: build.value({
+      key: "JjUhYxaBo9nuIh8GKd9k5",
+      propertyKey: "PZg9YbCZyx4AoJs2eL2zm",
+      rootSubjectKey: "cqxLskA9kjAfMFDeuvzGq",
+      rootPropertyKey: "Cqal8V5U_FVZwwlsM_as",
+      literal: "Wu",
+      lang: "en",
+      component: "InputLiteralValue",
+      propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
+    }),
+  }
 }
 
 const buildLookups = (state, options) => {

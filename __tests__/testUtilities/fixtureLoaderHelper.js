@@ -40,6 +40,7 @@ const templateFilenames = {
   "resourceTemplate:testing:uber4": "uber_template4.json",
   "resourceTemplate:testing:uber5": "uber_template5.json",
   "resourceTemplate:bf2:Instance": "Instance.json",
+  "resourceTemplate:bf2:Work": "Work.json",
   "resourceTemplate:testing:literal": "testing_literal.json",
   "resourceTemplate:testing:uri": "testing_uri.json",
   "resourceTemplate:testing:suppressedUri": "testing_suppressed_uri.json",

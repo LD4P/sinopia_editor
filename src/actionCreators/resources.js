@@ -15,10 +15,12 @@ import {
   selectProperty,
   selectValue,
   selectFullSubject,
+  selectMainTitleProperty,
 } from "selectors/resources"
 import {
   addProperty as addPropertyAction,
   addValue as addValueAction,
+  updateLiteralValue,
   addSubject as addSubjectAction,
   showProperty,
   setBaseURL,
@@ -31,7 +33,7 @@ import {
   setCurrentDiff,
   clearVersions,
 } from "actions/resources"
-import { newValueSubject } from "utilities/valueFactory"
+import { newLiteralValue, newValueSubject } from "utilities/valueFactory"
 import { selectUser } from "selectors/authenticate"
 import {
   addTemplateHistory as addUserTemplateHistory,
@@ -162,39 +164,41 @@ export const loadResourceForDiff =
  * A thunk that creates a new resource from a resource template and adds to state.
  * @return {boolean} true if successful
  */
-export const newResource = (resourceTemplateId, errorKey) => (dispatch) => {
-  dispatch(clearErrors(errorKey))
-  return dispatch(addEmptyResource(resourceTemplateId, errorKey))
-    .then((resource) => {
-      dispatch(
-        setCurrentComponent(
-          resource.key,
-          resource.properties[0].key,
-          resource.properties[0].key
-        )
-      )
-      dispatch(setCurrentResource(resource.key))
-      dispatch(setUnusedRDF(resource.key, null))
-      dispatch(addTemplateHistory(resource.subjectTemplate))
-      dispatch(addUserTemplateHistory(resourceTemplateId))
-      // This will mark the resource has unchanged.
-      dispatch(loadResourceFinished(resource.key))
-      return true
-    })
-    .catch((err) => {
-      // ResourceTemplateErrors have already been dispatched.
-      if (err.name !== "ResourceTemplateError") {
-        console.error(err)
+export const newResource =
+  (resourceTemplateId, errorKey, setCurrent = true) =>
+  (dispatch) => {
+    dispatch(clearErrors(errorKey))
+    return dispatch(addEmptyResource(resourceTemplateId, errorKey))
+      .then((resource) => {
         dispatch(
-          addError(
-            errorKey,
-            `Error creating new resource: ${err.message || err}`
+          setCurrentComponent(
+            resource.key,
+            resource.properties[0].key,
+            resource.properties[0].key
           )
         )
-      }
-      return false
-    })
-}
+        if (setCurrent) dispatch(setCurrentResource(resource.key))
+        dispatch(setUnusedRDF(resource.key, null))
+        dispatch(addTemplateHistory(resource.subjectTemplate))
+        dispatch(addUserTemplateHistory(resourceTemplateId))
+        // This will mark the resource has unchanged.
+        dispatch(loadResourceFinished(resource.key))
+        return resource.key
+      })
+      .catch((err) => {
+        // ResourceTemplateErrors have already been dispatched.
+        if (err.name !== "ResourceTemplateError") {
+          console.error(err)
+          dispatch(
+            addError(
+              errorKey,
+              `Error creating new resource: ${err.message || err}`
+            )
+          )
+        }
+        return false
+      })
+  }
 
 /**
  * A thunk that creates a new resource from an existing in-state resource and adds to state.
@@ -401,6 +405,30 @@ export const addSiblingValueSubject =
           )
           return dispatch(addValueAction(newValue, valueKey))
         }
+      )
+    )
+  }
+
+export const addMainTitle =
+  (resourceKey, mainTitle) => (dispatch, getState) => {
+    const property = selectMainTitleProperty(getState(), resourceKey)
+    if (!property) return
+
+    if (_.isEmpty(property.valueKeys)) {
+      const value = newLiteralValue(
+        property,
+        mainTitle.propertyUri,
+        mainTitle.literal,
+        mainTitle.lang
+      )
+      return dispatch(addValueAction(value))
+    }
+
+    return dispatch(
+      updateLiteralValue(
+        property.valueKeys[0],
+        mainTitle.literal,
+        mainTitle.lang
       )
     )
   }
