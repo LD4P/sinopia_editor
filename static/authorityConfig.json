@@ -2053,6 +2053,24 @@
     "nonldLookup": true
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry collection accrual method (QA)",
+    "uri": "urn:qa:rda_collection_accrual_method",
+    "authority": "local",
+    "subauthority": "rda_collection_accrual_method",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+   {
+    "label": "TEST (DO NOT USE YET) RDA Registry collection accrual policy (QA)",
+    "uri": "urn:qa:rda_collection_accrual_policy",
+    "authority": "local",
+    "subauthority": "rda_collection_accrual_policy",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry colour content (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:colour_content",
     "authority": "rda_registry_ld4l_cache",
@@ -2307,6 +2325,15 @@
     "component": "lookup",
     "nonldLookup": true
   },
+    {
+    "label": "TEST (DO NOT USE YET) RDA Registry interactivity mode (QA)",
+    "uri": "urn:qa:rda_interactivity_mode",
+    "authority": "local",
+    "subauthority": "rda_interactivity_mode",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
   {
     "label": "RDA Registry layout (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:layout",
@@ -2320,6 +2347,15 @@
     "uri": "urn:qa:rda_layout",
     "authority": "local",
     "subauthority": "rda_layout",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry linked data work (QA)",
+    "uri": "urn:qa:rda_linked_data_work",
+    "authority": "local",
+    "subauthority": "rda_linked_data_work",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
