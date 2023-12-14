@@ -1,0 +1,89 @@
+[
+  {
+    "@id": "_:b140",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Work Title"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/title"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/required"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemarkUrl": [
+      {
+        "@id": "https://original.rdatoolkit.org/2.3.html"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttributes": [
+      {
+        "@id": "_:b141"
+      }
+    ]
+  },
+  {
+    "@id": "_:b141",
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
+      {
+        "@id": "resourceTemplate:bf2:WorkTitle"
+      }
+    ]
+  },
+  {
+    "@id": "http://localhost:3000/resource/resourceTemplate:bf2:Work",
+    "http://sinopia.io/vocabulary/hasResourceTemplate": [
+      {
+        "@value": "sinopia:template:resource"
+      }
+    ],
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourceTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceId": [
+      {
+        "@value": "resourceTemplate:bf2:Work"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasClass": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/Work"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "BF Work"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemark": [
+      {
+        "@value": "Fake Bibframe Work"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyTemplate": [
+      {
+        "@list": [
+          {
+            "@id": "_:b140"
+          }
+        ]
+      }
+    ]
+  }
+]

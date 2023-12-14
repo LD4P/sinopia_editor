@@ -411,14 +411,31 @@ describe("selecting a value from lookup", () => {
 })
 
 describe("adding a template from Sinopia lookup", () => {
-  const history = createHistory(["/editor/test:resource:SinopiaLookup"])
+  const history = createHistory(["/editor/resourceTemplate:bf2:Instance"])
 
   it("clicking on button creates new editor tab with template", async () => {
     renderApp(null, history)
 
-    await screen.findByText("Testing sinopia lookup", {
+    await screen.findByText("BF Instance", {
       selector: resourceHeaderSelector,
     })
+
+    // Add title
+    fireEvent.click(
+      await screen.findByTestId(
+        "Add Title Proper (RDA 2.3.2) (BIBFRAME: Main title)"
+      )
+    )
+    const input = await screen.findByPlaceholderText(
+      "Title Proper (RDA 2.3.2) (BIBFRAME: Main title)"
+    )
+    fireEvent.change(input, { target: { value: "twain" } })
+    fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
+
+    // There is twain text.
+    await waitFor(() =>
+      expect(screen.getByText("twain")).toHaveClass("form-control")
+    )
 
     // Click Create New button
     fireEvent.click(await screen.findByText(/Create New/))
@@ -426,13 +443,18 @@ describe("adding a template from Sinopia lookup", () => {
     // Click on available template button
     fireEvent.click(
       await screen.getAllByRole("button", {
-        name: /testing wikidata lookup \(test:resource:wikidatalookup\)/i,
+        name: /BF Work \(resourceTemplate:bf2:Work\)/i,
       })[0]
     )
 
     // New tab with template is now present
-    await screen.findByText("Testing wikidata lookup", {
-      selector: "a.tab-link span",
+    await screen.findByText("BF Work", {
+      selector: resourceHeaderSelector,
     })
-  }, 20000)
+
+    const input2 = await screen.findByPlaceholderText(
+      "Preferred Title for Work (RDA 6.2.2, RDA 6.14.2) (BIBFRAME: Main title)"
+    )
+    await waitFor(() => expect(input2).toHaveValue("twain"))
+  }, 25000)
 })
