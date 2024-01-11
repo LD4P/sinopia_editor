@@ -12,7 +12,7 @@
     "label": "Date and time with required timezone (xsd:dateTimeStamp)"
   },
   {
-    "uri": "http://id.loc.gov/datatypes/edtf/",
+    "uri": "http://id.loc.gov/datatypes/edtf",
     "label": "Extended Date/Time Format (EDTF)"
   }
 ]
