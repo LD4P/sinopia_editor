@@ -105,11 +105,11 @@ export const literalEdtfValidationError = (value, propertyTemplate) => {
 
   if (
     propertyTemplate.validationDataType ===
-      "http://id.loc.gov/datatypes/edtf/" &&
+      "http://id.loc.gov/datatypes/edtf" &&
     !isValidEdtf(value.literal)
   )
     errors.push(
-      `Expected datatype is 'http://id.loc.gov/datatypes/edtf/' but '${value.literal}' is not a valid EDTF format. See https://www.loc.gov/standards/datetime/.`
+      `Expected datatype is 'http://id.loc.gov/datatypes/edtf' but '${value.literal}' is not a valid EDTF format. See https://www.loc.gov/standards/datetime/.`
     )
   return errors
 }

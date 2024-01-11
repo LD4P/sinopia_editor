@@ -271,7 +271,7 @@
     ],
     "http://sinopia.io/vocabulary/hasValidationDataType": [
       {
-        "@id": "http://id.loc.gov/datatypes/edtf/"
+        "@id": "http://id.loc.gov/datatypes/edtf"
       }
     ]
   },
@@ -379,7 +379,7 @@
     ]
   },
   {
-    "@id": "http://id.loc.gov/datatypes/edtf/",
+    "@id": "http://id.loc.gov/datatypes/edtf",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@value": "Extended Date/Time Format (EDTF)"

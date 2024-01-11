@@ -210,7 +210,7 @@ const buildResourceWithLiteral = (state, options) => {
   if (options.hasDateTimeStampValidation)
     validationDataType = "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
   if (options.hasEdtfValidation)
-    validationDataType = "http://id.loc.gov/datatypes/edtf/"
+    validationDataType = "http://id.loc.gov/datatypes/edtf"
 
   state.entities.propertyTemplates = {
     "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle":
