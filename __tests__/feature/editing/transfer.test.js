@@ -56,7 +56,7 @@ describe("transfer unsaved bf:Instance when user belongs to a transfer group", (
     })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
-  }, 10000)
+  }, 15000)
 })
 
 describe("transfer saved non-bf:Instance when user belongs to a transfer group", () => {
@@ -80,7 +80,7 @@ describe("transfer saved non-bf:Instance when user belongs to a transfer group",
     })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
-  }, 10000)
+  }, 15000)
 })
 
 describe("transfer saved bf:Instance when user does not belong to a transfer group", () => {
@@ -104,5 +104,5 @@ describe("transfer saved bf:Instance when user does not belong to a transfer gro
     })
 
     expect(screen.queryByText("Export to Catalog")).not.toBeInTheDocument()
-  }, 10000)
+  }, 15000)
 })

@@ -201,6 +201,14 @@
     "component": "lookup"
   },
   {
+    "label": "DBPEDIA_(QA) - direct (Warning: may be slow)",
+    "uri": "urn:ld4p:qa:dbpedia_direct",
+    "authority": "dbpedia_direct",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "Discogs",
     "uri": "urn:discogs",
     "authority": "discogs",
@@ -604,9 +612,41 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) GETTY AAT",
+    "uri": "urn:ld4p:qa:getty_aat",
+    "authority": "getty_direct",
+    "subauthority": "aat",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) GETTY TGN",
+    "uri": "urn:ld4p:qa:getty_tgn",
+    "authority": "getty_direct",
+    "subauthority": "tgn",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) GETTY ULAN",
+    "uri": "urn:ld4p:qa:getty_ulan",
+    "authority": "getty_direct",
+    "subauthority": "ulan",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
     "label": "Homosaurus",
     "uri": "urn:ld4p:qa:homosaurus_ld4l_cache",
     "authority": "homosaurus_ld4l_cache",
+    "subauthority": "",
+    "language": "en",
+    "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) Homosaurus",
+    "uri": "urn:ld4p:qa:homosaurus_direct",
+    "authority": "homosaurus_direct",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
@@ -644,12 +684,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Carriers (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:carriers",
+    "authority": "loc",
+    "subauthority": "carriers",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Classification Schemes (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:classSchemes",
+    "authority": "loc",
+    "subauthority": "classSchemes",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC content types [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:content_types",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "content_types",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Content Types (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:contentTypes",
+    "authority": "loc",
+    "subauthority": "contentTypes",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC description conventions [vocabularies] (QA)",
@@ -660,12 +727,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Description Conventions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:descriptionConventions",
+    "authority": "loc",
+    "subauthority": "descriptionConventions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC frequencies [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:frequencies",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "frequencies",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Publication Frequencies (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:frequencies",
+    "authority": "loc",
+    "subauthority": "frequencies",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC issuance [vocabularies] (QA)",
@@ -676,12 +761,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Issuance (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:issuance",
+    "authority": "loc",
+    "subauthority": "issuance",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC authentication action [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:marcauthen",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "marcauthen",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Authentication Action (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:marcauthen",
+    "authority": "loc",
+    "subauthority": "marcauthen",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Aspect Ratio (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:maspect",
+    "authority": "loc",
+    "subauthority": "maspect",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC aspect ratio [vocabularies] (QA)",
@@ -692,12 +804,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Book Format (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:bookformat",
+    "authority": "loc",
+    "subauthority": "bookformat",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC intended audience [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:maudience",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "maudience",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Intended Audience (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:maudience",
+    "authority": "loc",
+    "subauthority": "maudience",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC broadcast standard [vocabularies] (QA)",
@@ -708,12 +838,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Broadcast Standard (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mbroadstd",
+    "authority": "loc",
+    "subauthority": "mbroadstd",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC sound and capture storage [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mcapturestorage",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mcapturestorage",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Sound Capture and Storage (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mcapturestorage",
+    "authority": "loc",
+    "subauthority": "mcapturestorage",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC color content [vocabularies] (QA)",
@@ -724,12 +872,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Color Content (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mcolor",
+    "authority": "loc",
+    "subauthority": "mcolor",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC media types [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:media_types",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "media_types",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Media Types (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mediaTypes",
+    "authority": "loc",
+    "subauthority": "mediaTypes",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC encoding format [vocabularies] (QA)",
@@ -740,12 +906,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Encoding Format (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mencformat",
+    "authority": "loc",
+    "subauthority": "mencformat",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC encoding level [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:menclvl",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "menclvl",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Encoding Level (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:menclvl",
+    "authority": "loc",
+    "subauthority": "menclvl",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC file type [vocabularies] (QA)",
@@ -756,12 +940,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC File Type (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mfiletype",
+    "authority": "loc",
+    "subauthority": "mfiletype",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC font size [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mfont",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mfont",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Font Size (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mfont",
+    "authority": "loc",
+    "subauthority": "mfont",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC generation list [vocabularies] (QA)",
@@ -772,12 +974,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Generation (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mgeneration",
+    "authority": "loc",
+    "subauthority": "mgeneration",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC government publication type [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mgovtpubtype",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mgovtpubtype",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Government Publication Type (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mgovtpubtype",
+    "authority": "loc",
+    "subauthority": "mgovtpubtype",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC groove width, pitch, cutting [vocabularies] (QA)",
@@ -788,12 +1008,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Groove Width, Pitch, Cutting (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mgroove",
+    "authority": "loc",
+    "subauthority": "mgroove",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC illustrative content [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:millus",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "millus",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Illustrative Content (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:millus",
+    "authority": "loc",
+    "subauthority": "millus",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC layout [vocabularies] (QA)",
@@ -804,12 +1042,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Layout (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mlayout",
+    "authority": "loc",
+    "subauthority": "mlayout",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC notated music form [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mmusicformat",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mmusicformat",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Notated Music Form (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mmusicformat",
+    "authority": "loc",
+    "subauthority": "mmusicformat",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC music notation [vocabularies] (QA)",
@@ -820,12 +1076,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Music Notation (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mmusnotation",
+    "authority": "loc",
+    "subauthority": "mmusnotation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Note Type (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mnotetype",
+    "authority": "loc",
+    "subauthority": "mnotetype",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC playback [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mplayback",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mplayback",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Playback (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mplayback",
+    "authority": "loc",
+    "subauthority": "mplayback",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC playing speed [vocabularies] (QA)",
@@ -836,12 +1119,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Playing Speed (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mplayspeed",
+    "authority": "loc",
+    "subauthority": "mplayspeed",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC polarity [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mpolarity",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mpolarity",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Polarity (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mpolarity",
+    "authority": "loc",
+    "subauthority": "mpolarity",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC presentation format [vocabularies] (QA)",
@@ -852,6 +1153,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Presentation Format (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mpresformat",
+    "authority": "loc",
+    "subauthority": "mpresformat",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC production method [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mproduction",
     "authority": "locvocabs_ld4l_cache",
@@ -860,12 +1170,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Production Method (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mproduction",
+    "authority": "loc",
+    "subauthority": "mproduction",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC projection [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mprojection",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mprojection",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Projection (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mprojection",
+    "authority": "loc",
+    "subauthority": "mprojection",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC punctuation conventions [vocabularies] (QA)",
@@ -884,12 +1212,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Recording Medium (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mrecmedium",
+    "authority": "loc",
+    "subauthority": "mrecmedium",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC recording type [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mrectype",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mrectype",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Recording Type (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mrectype",
+    "authority": "loc",
+    "subauthority": "mrectype",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC reduction ratio [vocabularies] (QA)",
@@ -900,12 +1246,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Reduction Ratio (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mreductionratio",
+    "authority": "loc",
+    "subauthority": "mreductionratio",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC regional encoding [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mregencoding",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mregencoding",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Regional Encoding (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mregencoding",
+    "authority": "loc",
+    "subauthority": "mregencoding",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC RBMS Relationship Designators (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:rbmsrel",
+    "authority": "loc",
+    "subauthority": "rbmsrel",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC relief [vocabularies] (QA)",
@@ -916,12 +1289,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Relief (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mrelief",
+    "authority": "loc",
+    "subauthority": "mrelief",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC scale [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mscale",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mmscale",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Scale (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mscale",
+    "authority": "loc",
+    "subauthority": "mscale",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC script [vocabularies] (QA)",
@@ -932,12 +1323,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Script (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mscript",
+    "authority": "loc",
+    "subauthority": "mscript",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Serial Publication Type (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mserialpubtype",
+    "authority": "loc",
+    "subauthority": "mserialpubtype",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC sound content [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:msoundcontent",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "msoundcontent",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Sound Content (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:msoundcontent",
+    "authority": "loc",
+    "subauthority": "msoundcontent",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC special playback characteristics [vocabularies] (QA)",
@@ -948,12 +1366,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Special Playback Characteristics (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mspecplayback",
+    "authority": "loc",
+    "subauthority": "mspecplayback",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC status [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mstatus",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mstatus",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Status Codes (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mstatus",
+    "authority": "loc",
+    "subauthority": "mstatus",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC supplemental content [vocabularies] (QA)",
@@ -964,12 +1400,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Supplementatal Content (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:msupplcont",
+    "authority": "loc",
+    "subauthority": "msupplcont",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Support Material (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mmaterial",
+    "authority": "loc",
+    "subauthority": "mmaterial",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC tactile [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mtactile",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mtactile",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Tactile Notation (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mtactile",
+    "authority": "loc",
+    "subauthority": "mtactile",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC tape configuration [vocabularies] (QA)",
@@ -980,12 +1443,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Tape Configuration (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mtapeconfig",
+    "authority": "loc",
+    "subauthority": "mtapeconfig",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC technique [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:mtechnique",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "mtechnique",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Technique (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mtechnique",
+    "authority": "loc",
+    "subauthority": "mtechnique",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC video format [vocabularies] (QA)",
@@ -996,12 +1477,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Video Format (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:mvidformat",
+    "authority": "loc",
+    "subauthority": "mvidformat",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC relators [vocabularies] (QA)",
     "uri": "urn:ld4p:qa:locvocabs:relators",
     "authority": "locvocabs_ld4l_cache",
     "subauthority": "relators",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Relators (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:relators",
+    "authority": "loc",
+    "subauthority": "relators",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Work Expression Relationships (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:relationship",
+    "authority": "loc",
+    "subauthority": "relationship",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC resource components [vocabularies] (QA)",
@@ -1012,12 +1520,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Resource Compontents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:resourceComponents",
+    "authority": "loc",
+    "subauthority": "resourceComponents",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC cultural heritage organizations (QA)",
     "uri": "urn:ld4p:qa:locculturalorgs",
     "authority": "loccultural_organizations_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Cultural Heritage Organizations (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:organizations",
+    "authority": "loc",
+    "subauthority": "organizations",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC MARC countries (QA)",
@@ -1028,12 +1554,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC MARC Countries (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:countries",
+    "authority": "loc",
+    "subauthority": "countries",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Demographic Terms (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:demographicTerms",
+    "authority": "loc",
+    "subauthority": "demographicTerms",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC demographics (QA)",
     "uri": "urn:ld4p:qa:demographics",
     "authority": "locdemographics_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Medium of Performance (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:performanceMediums",
+    "authority": "loc",
+    "subauthority": "performanceMediums",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "LOC performance (QA)",
@@ -1068,6 +1621,60 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC All Names (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:names",
+    "authority": "loc",
+    "subauthority": "names",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Conference Names(QA) - direct",
+    "uri": "urn:ld4p:qa:loc:names_ConferenceName",
+    "authority": "loc",
+    "subauthority": "names_ConferenceName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Corporate Names (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:names_CorporateName",
+    "authority": "loc",
+    "subauthority": "names_CorporateName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Family Names (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:names_FamilyName",
+    "authority": "loc",
+    "subauthority": "names_FamilyName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Geographic Names (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:names_Geographic",
+    "authority": "loc",
+    "subauthority": "names_Geographic",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Personal Names (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:names_PersonalName",
+    "authority": "loc",
+    "subauthority": "names_PersonalName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC all names (QA)",
     "uri": "urn:ld4p:qa:names",
     "authority": "locnames_ld4l_cache",
@@ -1100,6 +1707,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC Genre Form (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:genreForms",
+    "authority": "loc",
+    "subauthority": "genreForms",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC geographic [names] (QA)",
     "uri": "urn:ld4p:qa:names:geographic",
     "authority": "locnames_ld4l_cache",
@@ -1116,12 +1732,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) LOC RBMS Controlled Vocabulary (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:rbmscv",
+    "authority": "loc",
+    "subauthority": "rbmscv",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC All Subjects (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:subjects",
+    "authority": "loc",
+    "subauthority": "subjects",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC all subjects (QA)",
     "uri": "urn:ld4p:qa:subjects",
     "authority": "locsubjects_ld4l_cache",
     "subauthority": "",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) LOC Thesaurus for Graphic Materials (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:graphicMaterials",
+    "authority": "loc",
+    "subauthority": "graphicMaterials",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "MESH subjects (QA)",
@@ -1324,12 +1967,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry aspect ratio designation (QA)",
+    "uri": "urn:qa:rda_aspect_ratio_designation",
+    "authority": "local",
+    "subauthority": "rda_aspect_ratio_designation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry bibliographic format (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:bibliographic_format",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "bibliographic_format",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry bibliographic format (QA)",
+    "uri": "urn:qa:rda_bibliographic_format",
+    "authority": "local",
+    "subauthority": "rda_bibliographic_format",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry broadcast standard (QA)",
@@ -1340,12 +2001,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry broadcast standard (QA)",
+    "uri": "urn:qa:rda_broadcast_standard",
+    "authority": "local",
+    "subauthority": "rda_broadcast_standard",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry carrier type (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:carrier_type",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "carrier_type",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry carrier type (QA)",
+    "uri": "urn:qa:rda_carrier_type",
+    "authority": "local",
+    "subauthority": "rda_carrier_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry carrier extent unit (QA)",
+    "uri": "urn:qa:rda_carrier_extent_unit",
+    "authority": "local",
+    "subauthority": "rda_carrier_extent_unit",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry cartographic data type (QA)",
@@ -1356,12 +2044,48 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry cartographic data type (QA)",
+    "uri": "urn:qa:rda_cartographic_data_type",
+    "authority": "local",
+    "subauthority": "rda_cartographic_data_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry collection accrual method (QA)",
+    "uri": "urn:qa:rda_collection_accrual_method",
+    "authority": "local",
+    "subauthority": "rda_collection_accrual_method",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+   {
+    "label": "TEST (DO NOT USE YET) RDA Registry collection accrual policy (QA)",
+    "uri": "urn:qa:rda_collection_accrual_policy",
+    "authority": "local",
+    "subauthority": "rda_collection_accrual_policy",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry colour content (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:colour_content",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "colour_content",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry colour content (QA)",
+    "uri": "urn:qa:rda_colour_content",
+    "authority": "local",
+    "subauthority": "rda_colour_content",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry configuration of playback channels (QA)",
@@ -1372,12 +2096,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry configuration of playback channels (QA)",
+    "uri": "urn:qa:rda_configuration_of_playback_channels",
+    "authority": "local",
+    "subauthority": "rda_configuration_of_playback_channels",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry content type (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:content_type",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "content_type",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry content type (QA)",
+    "uri": "urn:qa:rda_content_type",
+    "authority": "local",
+    "subauthority": "rda_content_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry extension plan (QA)",
+    "uri": "urn:qa:rda_extension_plan",
+    "authority": "local",
+    "subauthority": "rda_extension_plan",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry file type (QA)",
@@ -1388,12 +2139,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry file type (QA)",
+    "uri": "urn:qa:rda_file_type",
+    "authority": "local",
+    "subauthority": "rda_file_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry font size (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:font_size",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "font_size",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry font size (QA)",
+    "uri": "urn:qa:rda_font_size",
+    "authority": "local",
+    "subauthority": "rda_font_size",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry form of musical notation (QA)",
@@ -1404,12 +2173,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry form of musical notation (QA)",
+    "uri": "urn:qa:rda_form_of_musical_notation",
+    "authority": "local",
+    "subauthority": "rda_form_of_musical_notation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry form of notated movement (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_notated_movement",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "form_of_notated_movement",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry form of notated movement (QA)",
+    "uri": "urn:qa:rda_form_of_notated_movement",
+    "authority": "local",
+    "subauthority": "rda_form_of_notated_movement",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry form of tactile notation (QA)",
@@ -1420,6 +2207,15 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry form of tactile notation (QA)",
+    "uri": "urn:qa:rda_form_of_tactile_notation",
+    "authority": "local",
+    "subauthority": "rda_form_of_tactile_notation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry format of notated music (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:format_of_notated_music",
     "authority": "rda_registry_ld4l_cache",
@@ -1428,12 +2224,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry format of notated music (QA)",
+    "uri": "urn:qa:rda_format_of_notated_music",
+    "authority": "local",
+    "subauthority": "rda_format_of_notated_music",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry frequency (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:frequency",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "frequency",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry frequency (QA)",
+    "uri": "urn:qa:rda_frequency",
+    "authority": "local",
+    "subauthority": "rda_frequency",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry gender (QA)",
@@ -1452,12 +2266,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry generation (QA)",
+    "uri": "urn:qa:rda_generation",
+    "authority": "local",
+    "subauthority": "rda_generation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry groove pitch of an analog cylinder (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:groove_pitch",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "groove_pitch",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry groove pitch of an analog cylinder (QA)",
+    "uri": "urn:qa:rda_groove_pitch_of_an_analog_cylinder",
+    "authority": "local",
+    "subauthority": "rda_groove_pitch_of_an_analog_cylinder",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry groove width of an analog disc (QA)",
@@ -1468,12 +2300,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry groove width of an analog disc (QA)",
+    "uri": "urn:qa:rda_groove_width_of_an_analog_disc",
+    "authority": "local",
+    "subauthority": "rda_groove_width_of_an_analog_disc",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry illustrative content (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:illustrative_content",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "illustrative_content",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry illustrative content (QA)",
+    "uri": "urn:qa:rda_illustrative_content",
+    "authority": "local",
+    "subauthority": "rda_illustrative_content",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+    {
+    "label": "TEST (DO NOT USE YET) RDA Registry interactivity mode (QA)",
+    "uri": "urn:qa:rda_interactivity_mode",
+    "authority": "local",
+    "subauthority": "rda_interactivity_mode",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry layout (QA)",
@@ -1484,12 +2343,39 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry layout (QA)",
+    "uri": "urn:qa:rda_layout",
+    "authority": "local",
+    "subauthority": "rda_layout",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry linked data work (QA)",
+    "uri": "urn:qa:rda_linked_data_work",
+    "authority": "local",
+    "subauthority": "rda_linked_data_work",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry material (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:material",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "material",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry material (QA)",
+    "uri": "urn:qa:rda_material",
+    "authority": "local",
+    "subauthority": "rda_material",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry media type (QA)",
@@ -1500,12 +2386,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry media type (QA)",
+    "uri": "urn:qa:rda_media_type",
+    "authority": "local",
+    "subauthority": "rda_media_type",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry mode of issuance (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:mode_of_issuance",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "mode_of_issuance",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry mode of issuance (QA)",
+    "uri": "urn:qa:rda_mode_of_issuance",
+    "authority": "local",
+    "subauthority": "rda_mode_of_issuance",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry polarity (QA)",
@@ -1516,12 +2420,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry polarity (QA)",
+    "uri": "urn:qa:rda_polarity",
+    "authority": "local",
+    "subauthority": "rda_polarity",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry presentation format (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:presentation_format",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "presentation_format",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry presentation format (QA)",
+    "uri": "urn:qa:rda_presentation_format",
+    "authority": "local",
+    "subauthority": "rda_presentation_format",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry production method (QA)",
@@ -1532,12 +2454,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry production method (QA)",
+    "uri": "urn:qa:rda_production_method",
+    "authority": "local",
+    "subauthority": "rda_production_method",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry recording medium (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:recording_medium",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "recording_medium",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry recording medium (QA)",
+    "uri": "urn:qa:rda_recording_medium",
+    "authority": "local",
+    "subauthority": "rda_recording_medium",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry recording sources (QA)",
@@ -1548,12 +2488,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry recording sources (QA)",
+    "uri": "urn:qa:rda_recording_source",
+    "authority": "local",
+    "subauthority": "rda_recording_source",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry reduction ratio designation (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:reduction_ratio",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "reduction_ratio",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry reduction ratio designation (QA)",
+    "uri": "urn:qa:rda_reduction_ratio_designation",
+    "authority": "local",
+    "subauthority": "rda_reduction_ratio_designation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry regional encoding (QA)",
@@ -1564,12 +2522,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry regional encoding (QA)",
+    "uri": "urn:qa:rda_regional_encoding",
+    "authority": "local",
+    "subauthority": "rda_regional_encoding",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry scale designation (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:scale_designation",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "scale_designation",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry scale designation (QA)",
+    "uri": "urn:qa:rda_scale_designation",
+    "authority": "local",
+    "subauthority": "rda_scale_designation",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry sound content (QA)",
@@ -1580,12 +2556,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry sound content (QA)",
+    "uri": "urn:qa:rda_sound_content",
+    "authority": "local",
+    "subauthority": "rda_sound_content",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry special playback characteristics (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:special_playback",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "special_playback",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry special playback characteristics (QA)",
+    "uri": "urn:qa:rda_special_playback_characteristics",
+    "authority": "local",
+    "subauthority": "rda_special_playback_characteristics",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry status of identification (QA)",
@@ -1596,12 +2590,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry status of identification (QA)",
+    "uri": "urn:qa:rda_status_of_identification",
+    "authority": "local",
+    "subauthority": "rda_status_of_identification",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry terms (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:terms",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "terms",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry terms (QA)",
+    "uri": "urn:qa:rda_terms",
+    "authority": "local",
+    "subauthority": "rda_terms",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry track configuration (QA)",
@@ -1612,12 +2624,30 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry track configuration (QA)",
+    "uri": "urn:qa:rda_track_configuration",
+    "authority": "local",
+    "subauthority": "rda_track_configuration",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry type of binding (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:type_of_binding",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "type_of_binding",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry type of binding (QA)",
+    "uri": "urn:qa:rda_type_of_binding",
+    "authority": "local",
+    "subauthority": "rda_type_of_binding",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "RDA Registry type of recording (QA)",
@@ -1628,12 +2658,48 @@
     "component": "lookup"
   },
   {
+    "label": "TEST (DO NOT USE YET) RDA Registry type of recording (QA)",
+    "uri": "urn:qa:rda_type_of_recording",
+    "authority": "local",
+    "subauthority": "rda_type_of_recording",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry unit of time (QA)",
+    "uri": "urn:qa:rda_unit_of_time",
+    "authority": "local",
+    "subauthority": "rda_unit_of_time",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry user task (QA)",
+    "uri": "urn:qa:rda_user_tasks",
+    "authority": "local",
+    "subauthority": "rda_user_tasks",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "RDA Registry video format (QA)",
     "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:video_format",
     "authority": "rda_registry_ld4l_cache",
     "subauthority": "video_format",
     "language": "en",
     "component": "lookup"
+  },
+  {
+    "label": "TEST (DO NOT USE YET) RDA Registry video format (QA)",
+    "uri": "urn:qa:rda_video_format",
+    "authority": "local",
+    "subauthority": "rda_video_format",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
     "label": "SHAREVDE PCC Opus (QA) - cache",
@@ -2411,6 +3477,11 @@
     "component": "list"
   },
   {
+    "label": "note type",
+    "uri": "https://id.loc.gov/vocabulary/mnotetype",
+    "component": "list"
+  },
+  {
     "label": "playback channels",
     "uri": "https://id.loc.gov/vocabulary/mplayback",
     "component": "list"
@@ -2451,8 +3522,18 @@
     "component": "list"
   },
   {
+    "label": "relationship",
+    "uri": "https://id.loc.gov/vocabulary/relationship",
+    "component": "list"
+  },
+  {
     "label": "relief",
     "uri": "https://id.loc.gov/vocabulary/mrelief",
+    "component": "list"
+  },
+  {
+    "label": "serial publication type",
+    "uri": "https://id.loc.gov/vocabulary/mserialpubtype",
     "component": "list"
   },
   {

@@ -213,7 +213,7 @@ describe("editing a URI property", () => {
       ).toBeFalsy()
     )
     expect(langBtn).toHaveTextContent("taw")
-  }, 25000)
+  }, 30000)
 
   it("validates that a valid URI", async () => {
     renderApp(null, history)

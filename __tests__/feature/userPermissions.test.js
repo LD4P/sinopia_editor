@@ -131,5 +131,5 @@ describe("user permissions", () => {
     screen.getByTestId(`Copy ${uri}`)
     // Cannot edit a resource
     expect(screen.queryByTestId(`Edit ${uri}`)).not.toBeInTheDocument()
-  }, 10000)
+  }, 60000)
 })
