@@ -106,8 +106,7 @@
     "redux-thunk": "^2.3.0",
     "stream-browserify": "^3.0.0",
     "uuid": "^8.3.1",
-    "weak-napi": "^2.0.2",
-    "cypress": "^9.0.0"
+    "weak-napi": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.19.0",
