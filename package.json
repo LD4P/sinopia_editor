@@ -10,7 +10,7 @@
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LD4P/sinopia_editor.git"
+    "url": "git+https://github.com/LD4P/sinopia_editor.git"
   },
   "engines": {
     "node": ">= 14.11.0 <=16.10.0"
@@ -213,5 +213,7 @@
   },
   "optionalDependencies": {
     "cypress": "^9.0.0"
-  }
+  },
+  "main": ".eslintrc.js",
+  "author": ""
 }
