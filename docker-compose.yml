@@ -38,6 +38,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data:rw
   # Uncomment to use Dejavu to monitor Elasticsearch. Do not commit docker-compose.yml.
   # elasticsearch-ui:
   #   image: appbaseio/dejavu:latest
@@ -53,6 +55,12 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: sekret
+    volumes:
+      - type: volume
+        source: mongo-data
+        target: /data/db
+        volume:
+          nocopy: true
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
   mongo-setup:
     image: ld4p/sinopia_dev_setup:latest
@@ -85,3 +93,8 @@ services:
       AWS_SECRET_ACCESS_KEY: ${DOCKER_AWS_SECRET_ACCESS_KEY}
     depends_on:
       - mongo
+volumes:
+  mongo-data:
+    driver: local
+  esdata1:
+    driver: local
