@@ -55,7 +55,7 @@ describe("loadSearchHistory()", () => {
     await store.dispatch(
       loadSearchHistory([
         {
-          authorityUri: "urn:ld4p:qa:sharevde_stanford_ld4l_cache:all",
+          authorityUri: "urn:ld4p:qa:oclc_fast:topic",
           query: "leland",
         },
       ])
@@ -65,8 +65,8 @@ describe("loadSearchHistory()", () => {
       {
         type: "ADD_SEARCH_HISTORY",
         payload: {
-          authorityLabel: "SHAREVDE STANFORD (QA)",
-          authorityUri: "urn:ld4p:qa:sharevde_stanford_ld4l_cache:all",
+          authorityLabel: "OCLCFAST Topic (QA) - direct",
+          authorityUri: "urn:ld4p:qa:oclc_fast:topic",
           query: "leland",
         },
       },

@@ -286,11 +286,11 @@ _:b4_c14n1 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
 <> <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1"@en .
 <http://sinopia.io/vocabulary/propertyType/lookup> <http://www.w3.org/2000/01/rdf-schema#label> "lookup" .
 <urn:discogs> <http://www.w3.org/2000/01/rdf-schema#label> "Discogs" .
-<urn:ld4p:qa:agrovoc> <http://www.w3.org/2000/01/rdf-schema#label> "AGROVOC (QA)" .
+<urn:ld4p:qa:oclc_fast:topic> <http://www.w3.org/2000/01/rdf-schema#label> "AGROVOC (QA)" .
 _:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:b5_c14n1 .
 _:b1_c14n1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
 _:b5_c14n0 <http://sinopia.io/vocabulary/hasAuthority> <urn:discogs> .
-_:b5_c14n0 <http://sinopia.io/vocabulary/hasAuthority> <urn:ld4p:qa:agrovoc> .
+_:b5_c14n0 <http://sinopia.io/vocabulary/hasAuthority> <urn:ld4p:qa:oclc_fast:topic> .
 _:b5_c14n0 <http://sinopia.io/vocabulary/hasAuthority> <urn:ld4p:sinopia:bibframe:instance> .
 _:b5_c14n0 <http://sinopia.io/vocabulary/hasDefault> _:b5_c14n2 .
 _:b5_c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/vocabulary/LookupPropertyTemplate> .
@@ -325,10 +325,10 @@ _:b5_c14n2 <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@en .`
             nonldLookup: true,
           },
           {
-            uri: "urn:ld4p:qa:agrovoc",
-            label: "AGROVOC (QA)",
-            authority: "agrovoc_ld4l_cache",
-            subauthority: "",
+            uri: "urn:ld4p:qa:oclc_fast:topic",
+            label: "OCLCFAST Topic (QA) - direct",
+            authority: "oclcfast_direct",
+            subauthority: "topic",
             nonldLookup: false,
           },
           {
