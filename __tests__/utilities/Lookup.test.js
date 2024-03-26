@@ -143,23 +143,23 @@ describe("getLookupResult()", () => {
         },
         results: [
           {
-            uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-            id: "http://aims.fao.org/aos/agrovoc/c_331388",
-            label: "corn sheller",
+            uri: "http://data.ub.uio.no/humord/c60751",
+            id: "http://data.ub.uio.no/humord/c60751",
+            label: "Cornelia (Litterær karakter)",
           },
         ],
       })
     })
     it("returns result", async () => {
-      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:agrovoc")
+      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:humord_direct")
       const result = await getLookupResult("corn", authorityConfig, 5)
       expect(result).toEqual({
         totalHits: 1,
         results: [
           {
-            uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-            id: "http://aims.fao.org/aos/agrovoc/c_331388",
-            label: "corn sheller",
+            uri: "http://data.ub.uio.no/humord/c60751",
+            id: "http://data.ub.uio.no/humord/c60751",
+            label: "Cornelia (Litterær karakter)",
           },
         ],
         error: undefined,
@@ -182,22 +182,22 @@ describe("getLookupResult()", () => {
       },
       results: [
         {
-          uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-          id: "http://aims.fao.org/aos/agrovoc/c_331388",
-          label: "corn sheller",
+          uri: "http://data.ub.uio.no/humord/c60751",
+          id: "http://data.ub.uio.no/humord/c60751",
+          label: "Cornelia (Litterær karakter)",
         },
       ],
     })
     it("returns result", async () => {
-      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:agrovoc")
+      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:humord_direct")
       const result = await getLookupResult("corn", authorityConfig, 5)
       expect(result).toEqual({
         totalHits: 1,
         results: [
           {
-            uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-            id: "http://aims.fao.org/aos/agrovoc/c_331388",
-            label: "corn sheller",
+            uri: "http://data.ub.uio.no/humord/c60751",
+            id: "http://data.ub.uio.no/humord/c60751",
+            label: "Cornelia (Litterær karakter)",
           },
         ],
         error: undefined,
