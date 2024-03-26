@@ -17,9 +17,12 @@ const NewsItem = () => (
       </i>
     </p>
     <ul>
-      <li>Cached-lookups replaced with provider APIs for Questioning Authority Service</li>
+      <li>Cached-lookups replaced with provider APIs for QA</li>
       <li>New autofill for Work title when creating a Work from an Instance</li>
-      <li>New vocabularies added for relationship, note type, and serial publication type</li>
+      <li>
+        New vocabularies added for relationship, note type, and serial
+        publication type
+      </li>
       <li>Updates to BF2MARC conversion</li>
       <li>UI/UX updates</li>
     </ul>
