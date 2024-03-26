@@ -65,6 +65,14 @@
     "component": "local-lookup"
   },
   {
+    "label": "Agrovoc authorities",
+    "uri": "urn:ld4p:qa:agrovoc_direct",
+    "authority": "agrovoc_direct",
+    "subauthority": "",
+    "language": "no",
+    "component": "lookup"
+  },
+  {
     "label": "Bibbi authorities",
     "uri": "urn:ld4p:qa:bibbi_direct",
     "authority": "bibbi_direct",
