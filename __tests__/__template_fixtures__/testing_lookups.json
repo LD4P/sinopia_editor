@@ -85,7 +85,7 @@
     ],
     "http://sinopia.io/vocabulary/hasAuthority": [
       {
-        "@id": "urn:ld4p:qa:agrovoc"
+        "@id": "urn:ld4p:qa:oclc_fast:topic"
       }
     ]
   },
@@ -123,10 +123,10 @@
     ],
     "http://sinopia.io/vocabulary/hasAuthority": [
       {
-        "@id": "urn:ld4p:qa:agrovoc"
+        "@id": "urn:ld4p:qa:oclc_fast:topic"
       },
       {
-        "@id": "urn:ld4p:qa:geonames"
+        "@id": "urn:ld4p:qa:geonames_direct"
       }
     ]
   },
@@ -266,10 +266,10 @@
     ]
   },
   {
-    "@id": "urn:ld4p:qa:agrovoc",
+    "@id": "urn:ld4p:qa:oclc_fast:topic",
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
-        "@value": "AGROVOC (QA)"
+        "@value": "OCLCFAST Topic (QA) - direct"
       }
     ]
   },

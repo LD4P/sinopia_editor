@@ -43,7 +43,7 @@ const subjectTemplate = build.subjectTemplate({
         "http://sinopia.io/testing/MultiplePropertyUris/property3b":
           "Property3b",
       },
-      authorities: [build.authority("urn:ld4p:qa:agrovoc")],
+      authorities: [build.authority("urn:ld4p:qa:oclc_fast:topic")],
       type: "uri",
       component: "InputLookup",
     }),

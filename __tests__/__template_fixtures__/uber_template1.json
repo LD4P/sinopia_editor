@@ -460,10 +460,10 @@
     ],
     "http://sinopia.io/vocabulary/hasAuthority": [
       {
-        "@id": "urn:ld4p:qa:agrovoc"
+        "@id": "urn:ld4p:qa:oclc_fast:topic"
       },
       {
-        "@id": "urn:ld4p:qa:gettyaat"
+        "@id": "urn:ld4p:qa:getty_aat"
       }
     ]
   },
@@ -527,7 +527,7 @@
     ],
     "http://sinopia.io/vocabulary/hasAuthority": [
       {
-        "@id": "urn:ld4p:qa:agrovoc"
+        "@id": "urn:ld4p:qa:oclc_fast:topic"
       }
     ]
   },
@@ -574,10 +574,10 @@
     ],
     "http://sinopia.io/vocabulary/hasAuthority": [
       {
-        "@id": "urn:ld4p:qa:agrovoc"
+        "@id": "urn:ld4p:qa:oclc_fast:topic"
       },
       {
-        "@id": "urn:ld4p:qa:geonames:spot"
+        "@id": "urn:ld4p:qa:geonames_direct"
       }
     ]
   },

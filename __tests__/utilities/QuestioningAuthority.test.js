@@ -5,57 +5,32 @@ import { findAuthorityConfig } from "utilities/authorityConfig"
 describe("createLookupPromise()", () => {
   const response = {
     ok: true,
-    url: "https://lookup.ld4l.org/authorities/search/linked_data/agrovoc_ld4l_cache?q=Corn&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1",
+    url: "https://lookup.ld4l.org/authorities/search/linked_data/humord_direct?q=Corn&maxRecords=20&lang=no&context=true&response_header=true&startRecord=1",
     status: 200,
     statusText: "OK",
     json: () => {
       return {
         response_header: {
           start_record: 1,
-          requested_records: 8,
-          retrieved_records: 8,
-          total_records: 23,
+          requested_records: "DEFAULT",
+          retrieved_records: 3,
+          total_records: "NOT REPORTED",
         },
         results: [
           {
-            uri: "http://aims.fao.org/aos/agrovoc/c_331388",
-            id: "http://aims.fao.org/aos/agrovoc/c_331388",
-            label: "corn sheller",
+            uri: "http://data.ub.uio.no/humord/c60751",
+            id: "http://data.ub.uio.no/humord/c60751",
+            label: "Cornelia (Litterær karakter)",
           },
           {
-            uri: "http://aims.fao.org/aos/agrovoc/c_33224",
-            id: "http://aims.fao.org/aos/agrovoc/c_33224",
-            label: "Corn Belt (USA)",
+            uri: "http://data.ub.uio.no/humord/c18770",
+            id: "http://data.ub.uio.no/humord/c18770",
+            label: "Cornouaillais-dialekt",
           },
           {
-            uri: "http://aims.fao.org/aos/agrovoc/c_16171",
-            id: "http://aims.fao.org/aos/agrovoc/c_16171",
-            label: "corn cob mix",
-          },
-          {
-            uri: "http://aims.fao.org/aos/agrovoc/c_14385",
-            id: "http://aims.fao.org/aos/agrovoc/c_14385",
-            label: "soft corn",
-          },
-          {
-            uri: "http://aims.fao.org/aos/agrovoc/c_fd817c5d",
-            id: "http://aims.fao.org/aos/agrovoc/c_fd817c5d",
-            label: "southern leaf blight of maize",
-          },
-          {
-            uri: "http://aims.fao.org/aos/agrovoc/c_34f087cf",
-            id: "http://aims.fao.org/aos/agrovoc/c_34f087cf",
-            label: "maize gluten",
-          },
-          {
-            uri: "http://aims.fao.org/aos/agrovoc/c_d859f064",
-            id: "http://aims.fao.org/aos/agrovoc/c_d859f064",
-            label: "maize bran",
-          },
-          {
-            uri: "http://aims.fao.org/aos/agrovoc/c_7552",
-            id: "http://aims.fao.org/aos/agrovoc/c_7552",
-            label: "sweet corn",
+            uri: "http://data.ub.uio.no/humord/c12612",
+            id: "http://data.ub.uio.no/humord/c12612",
+            label: "Cornwall",
           },
         ],
       }
@@ -68,20 +43,20 @@ describe("createLookupPromise()", () => {
 
   describe("when authority with no subauthority", () => {
     it("returns a promise from a search", async () => {
-      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:agrovoc")
+      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:humord_direct")
       const result = await createLookupPromise("Corn", authorityConfig)
       expect(global.fetch).toHaveBeenCalledTimes(1)
       expect(global.fetch).toHaveBeenCalledWith(response.url)
-      expect(result.results).toHaveLength(8)
+      expect(result.results).toHaveLength(3)
     })
   })
 
   describe("when authority with subauthority", () => {
     it("returns a promise from a search", async () => {
-      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:geonames:water")
+      const authorityConfig = findAuthorityConfig("urn:ld4p:qa:oclc_fast:topic")
       await createLookupPromise("Artic Sea", authorityConfig)
       expect(global.fetch).toHaveBeenCalledWith(
-        "https://lookup.ld4l.org/authorities/search/linked_data/geonames_ld4l_cache/water?q=Artic+Sea&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1"
+        "https://lookup.ld4l.org/authorities/search/linked_data/oclcfast_direct/topic?q=Artic+Sea&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1"
       )
     })
   })
@@ -171,15 +146,15 @@ describe("getTerm", () => {
 
   it("fetches N3 from QA with uri", async () => {
     const term = await getTerm(
-      "http://share-vde.org/sharevde/rdfBibframe/Work/4840195",
+      "https://sws.geonames.org/3023622/",
       undefined,
-      "urn:ld4p:qa:sharevde_chicago_ld4l_cache:all"
+      "urn:ld4p:qa:geonames_direct"
     )
     expect(term).toBe("n3")
 
     expect(global.fetch).toHaveBeenCalledTimes(1)
     const url =
-      "https://lookup.ld4l.org/authorities/fetch/linked_data/sharevde_chicago_ld4l_cache?format=n3&uri=http://share-vde.org/sharevde/rdfBibframe/Work/4840195"
+      "https://lookup.ld4l.org/authorities/fetch/linked_data/geonames_direct?format=n3&uri=https://sws.geonames.org/3023622/"
     expect(global.fetch).toHaveBeenCalledWith(url)
   })
   it("fetches N3 from QA with id", async () => {
