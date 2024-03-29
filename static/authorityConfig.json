@@ -204,7 +204,7 @@
   "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) GETTY AAT",
+    "label": "GETTY AAT",
     "uri": "urn:ld4p:qa:getty_aat",
     "authority": "getty_direct",
     "subauthority": "aat",
@@ -212,7 +212,7 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) GETTY TGN",
+    "label": "GETTY TGN",
     "uri": "urn:ld4p:qa:getty_tgn",
     "authority": "getty_direct",
     "subauthority": "tgn",
@@ -220,7 +220,7 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) GETTY ULAN",
+    "label": "GETTY ULAN",
     "uri": "urn:ld4p:qa:getty_ulan",
     "authority": "getty_direct",
     "subauthority": "ulan",
@@ -228,7 +228,7 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) Homosaurus",
+    "label": "Homosaurus",
     "uri": "urn:ld4p:qa:homosaurus_direct",
     "authority": "homosaurus_direct",
     "subauthority": "",
@@ -252,7 +252,7 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Carriers (QA) - direct",
+    "label": "LOC Carriers (QA) - direct",
     "uri": "urn:ld4p:qa:loc:carriers",
     "authority": "loc",
     "subauthority": "carriers",
@@ -261,7 +261,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Classification Schemes (QA) - direct",
+    "label": "LOC Classification Schemes (QA) - direct",
     "uri": "urn:ld4p:qa:loc:classSchemes",
     "authority": "loc",
     "subauthority": "classSchemes",
@@ -270,7 +270,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Content Types (QA) - direct",
+    "label": "LOC Content Types (QA) - direct",
     "uri": "urn:ld4p:qa:loc:contentTypes",
     "authority": "loc",
     "subauthority": "contentTypes",
@@ -279,7 +279,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Description Conventions (QA) - direct",
+    "label": "LOC Description Conventions (QA) - direct",
     "uri": "urn:ld4p:qa:loc:descriptionConventions",
     "authority": "loc",
     "subauthority": "descriptionConventions",
@@ -288,7 +288,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Publication Frequencies (QA) - direct",
+    "label": "LOC Publication Frequencies (QA) - direct",
     "uri": "urn:ld4p:qa:loc:frequencies",
     "authority": "loc",
     "subauthority": "frequencies",
@@ -297,7 +297,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Issuance (QA) - direct",
+    "label": "LOC Issuance (QA) - direct",
     "uri": "urn:ld4p:qa:loc:issuance",
     "authority": "loc",
     "subauthority": "issuance",
@@ -306,7 +306,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Authentication Action (QA) - direct",
+    "label": "LOC Authentication Action (QA) - direct",
     "uri": "urn:ld4p:qa:loc:marcauthen",
     "authority": "loc",
     "subauthority": "marcauthen",
@@ -315,7 +315,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Aspect Ratio (QA) - direct",
+    "label": "LOC Aspect Ratio (QA) - direct",
     "uri": "urn:ld4p:qa:loc:maspect",
     "authority": "loc",
     "subauthority": "maspect",
@@ -324,7 +324,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Book Format (QA) - direct",
+    "label": "LOC Book Format (QA) - direct",
     "uri": "urn:ld4p:qa:loc:bookformat",
     "authority": "loc",
     "subauthority": "bookformat",
@@ -333,7 +333,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Intended Audience (QA) - direct",
+    "label": "LOC Intended Audience (QA) - direct",
     "uri": "urn:ld4p:qa:loc:maudience",
     "authority": "loc",
     "subauthority": "maudience",
@@ -342,7 +342,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Broadcast Standard (QA) - direct",
+    "label": "LOC Broadcast Standard (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mbroadstd",
     "authority": "loc",
     "subauthority": "mbroadstd",
@@ -351,7 +351,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Sound Capture and Storage (QA) - direct",
+    "label": "LOC Sound Capture and Storage (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mcapturestorage",
     "authority": "loc",
     "subauthority": "mcapturestorage",
@@ -360,7 +360,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Color Content (QA) - direct",
+    "label": "LOC Color Content (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mcolor",
     "authority": "loc",
     "subauthority": "mcolor",
@@ -369,7 +369,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Media Types (QA) - direct",
+    "label": "LOC Media Types (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mediaTypes",
     "authority": "loc",
     "subauthority": "mediaTypes",
@@ -378,7 +378,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Encoding Format (QA) - direct",
+    "label": "LOC Encoding Format (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mencformat",
     "authority": "loc",
     "subauthority": "mencformat",
@@ -387,7 +387,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Encoding Level (QA) - direct",
+    "label": "LOC Encoding Level (QA) - direct",
     "uri": "urn:ld4p:qa:loc:menclvl",
     "authority": "loc",
     "subauthority": "menclvl",
@@ -396,7 +396,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC File Type (QA) - direct",
+    "label": "LOC File Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mfiletype",
     "authority": "loc",
     "subauthority": "mfiletype",
@@ -405,7 +405,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Font Size (QA) - direct",
+    "label": "LOC Font Size (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mfont",
     "authority": "loc",
     "subauthority": "mfont",
@@ -414,7 +414,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Generation (QA) - direct",
+    "label": "LOC Generation (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mgeneration",
     "authority": "loc",
     "subauthority": "mgeneration",
@@ -423,7 +423,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Government Publication Type (QA) - direct",
+    "label": "LOC Government Publication Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mgovtpubtype",
     "authority": "loc",
     "subauthority": "mgovtpubtype",
@@ -432,7 +432,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Groove Width, Pitch, Cutting (QA) - direct",
+    "label": "LOC Groove Width, Pitch, Cutting (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mgroove",
     "authority": "loc",
     "subauthority": "mgroove",
@@ -441,7 +441,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Illustrative Content (QA) - direct",
+    "label": "LOC Illustrative Content (QA) - direct",
     "uri": "urn:ld4p:qa:loc:millus",
     "authority": "loc",
     "subauthority": "millus",
@@ -450,7 +450,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Layout (QA) - direct",
+    "label": "LOC Layout (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mlayout",
     "authority": "loc",
     "subauthority": "mlayout",
@@ -459,7 +459,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Notated Music Form (QA) - direct",
+    "label": "LOC Notated Music Form (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mmusicformat",
     "authority": "loc",
     "subauthority": "mmusicformat",
@@ -468,7 +468,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Music Notation (QA) - direct",
+    "label": "LOC Music Notation (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mmusnotation",
     "authority": "loc",
     "subauthority": "mmusnotation",
@@ -477,7 +477,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Note Type (QA) - direct",
+    "label": "LOC Note Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mnotetype",
     "authority": "loc",
     "subauthority": "mnotetype",
@@ -486,7 +486,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Playback (QA) - direct",
+    "label": "LOC Playback (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mplayback",
     "authority": "loc",
     "subauthority": "mplayback",
@@ -495,7 +495,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Playing Speed (QA) - direct",
+    "label": "LOC Playing Speed (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mplayspeed",
     "authority": "loc",
     "subauthority": "mplayspeed",
@@ -504,7 +504,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Polarity (QA) - direct",
+    "label": "LOC Polarity (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mpolarity",
     "authority": "loc",
     "subauthority": "mpolarity",
@@ -513,7 +513,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Presentation Format (QA) - direct",
+    "label": "LOC Presentation Format (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mpresformat",
     "authority": "loc",
     "subauthority": "mpresformat",
@@ -522,7 +522,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Production Method (QA) - direct",
+    "label": "LOC Production Method (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mproduction",
     "authority": "loc",
     "subauthority": "mproduction",
@@ -531,7 +531,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Projection (QA) - direct",
+    "label": "LOC Projection (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mprojection",
     "authority": "loc",
     "subauthority": "mprojection",
@@ -548,7 +548,7 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Recording Medium (QA) - direct",
+    "label": "LOC Recording Medium (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mrecmedium",
     "authority": "loc",
     "subauthority": "mrecmedium",
@@ -557,7 +557,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Recording Type (QA) - direct",
+    "label": "LOC Recording Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mrectype",
     "authority": "loc",
     "subauthority": "mrectype",
@@ -566,7 +566,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Reduction Ratio (QA) - direct",
+    "label": "LOC Reduction Ratio (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mreductionratio",
     "authority": "loc",
     "subauthority": "mreductionratio",
@@ -575,7 +575,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Regional Encoding (QA) - direct",
+    "label": "LOC Regional Encoding (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mregencoding",
     "authority": "loc",
     "subauthority": "mregencoding",
@@ -584,7 +584,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC RBMS Relationship Designators (QA) - direct",
+    "label": "LOC RBMS Relationship Designators (QA) - direct",
     "uri": "urn:ld4p:qa:loc:rbmsrel",
     "authority": "loc",
     "subauthority": "rbmsrel",
@@ -593,7 +593,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Relief (QA) - direct",
+    "label": "LOC Relief (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mrelief",
     "authority": "loc",
     "subauthority": "mrelief",
@@ -602,7 +602,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Scale (QA) - direct",
+    "label": "LOC Scale (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mscale",
     "authority": "loc",
     "subauthority": "mscale",
@@ -611,7 +611,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Script (QA) - direct",
+    "label": "LOC Script (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mscript",
     "authority": "loc",
     "subauthority": "mscript",
@@ -620,7 +620,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Serial Publication Type (QA) - direct",
+    "label": "LOC Serial Publication Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mserialpubtype",
     "authority": "loc",
     "subauthority": "mserialpubtype",
@@ -629,7 +629,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Sound Content (QA) - direct",
+    "label": "LOC Sound Content (QA) - direct",
     "uri": "urn:ld4p:qa:loc:msoundcontent",
     "authority": "loc",
     "subauthority": "msoundcontent",
@@ -638,7 +638,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Special Playback Characteristics (QA) - direct",
+    "label": "LOC Special Playback Characteristics (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mspecplayback",
     "authority": "loc",
     "subauthority": "mspecplayback",
@@ -647,7 +647,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Status Codes (QA) - direct",
+    "label": "LOC Status Codes (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mstatus",
     "authority": "loc",
     "subauthority": "mstatus",
@@ -656,7 +656,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Supplementatal Content (QA) - direct",
+    "label": "LOC Supplementatal Content (QA) - direct",
     "uri": "urn:ld4p:qa:loc:msupplcont",
     "authority": "loc",
     "subauthority": "msupplcont",
@@ -665,7 +665,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Support Material (QA) - direct",
+    "label": "LOC Support Material (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mmaterial",
     "authority": "loc",
     "subauthority": "mmaterial",
@@ -674,7 +674,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Tactile Notation (QA) - direct",
+    "label": "LOC Tactile Notation (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mtactile",
     "authority": "loc",
     "subauthority": "mtactile",
@@ -683,7 +683,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Tape Configuration (QA) - direct",
+    "label": "LOC Tape Configuration (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mtapeconfig",
     "authority": "loc",
     "subauthority": "mtapeconfig",
@@ -692,7 +692,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Technique (QA) - direct",
+    "label": "LOC Technique (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mtechnique",
     "authority": "loc",
     "subauthority": "mtechnique",
@@ -701,7 +701,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Video Format (QA) - direct",
+    "label": "LOC Video Format (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mvidformat",
     "authority": "loc",
     "subauthority": "mvidformat",
@@ -710,7 +710,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Relators (QA) - direct",
+    "label": "LOC Relators (QA) - direct",
     "uri": "urn:ld4p:qa:loc:relators",
     "authority": "loc",
     "subauthority": "relators",
@@ -719,7 +719,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Work Expression Relationships (QA) - direct",
+    "label": "LOC Work Expression Relationships (QA) - direct",
     "uri": "urn:ld4p:qa:loc:relationship",
     "authority": "loc",
     "subauthority": "relationship",
@@ -728,7 +728,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Resource Compontents (QA) - direct",
+    "label": "LOC Resource Compontents (QA) - direct",
     "uri": "urn:ld4p:qa:loc:resourceComponents",
     "authority": "loc",
     "subauthority": "resourceComponents",
@@ -737,7 +737,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Cultural Heritage Organizations (QA) - direct",
+    "label": "LOC Cultural Heritage Organizations (QA) - direct",
     "uri": "urn:ld4p:qa:loc:organizations",
     "authority": "loc",
     "subauthority": "organizations",
@@ -746,7 +746,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC MARC Countries (QA) - direct",
+    "label": "LOC MARC Countries (QA) - direct",
     "uri": "urn:ld4p:qa:loc:countries",
     "authority": "loc",
     "subauthority": "countries",
@@ -755,7 +755,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Demographic Terms (QA) - direct",
+    "label": "LOC Demographic Terms (QA) - direct",
     "uri": "urn:ld4p:qa:loc:demographicTerms",
     "authority": "loc",
     "subauthority": "demographicTerms",
@@ -764,7 +764,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Medium of Performance (QA) - direct",
+    "label": "LOC Medium of Performance (QA) - direct",
     "uri": "urn:ld4p:qa:loc:performanceMediums",
     "authority": "loc",
     "subauthority": "performanceMediums",
@@ -773,7 +773,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC All Names (QA) - direct",
+    "label": "LOC All Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names",
     "authority": "loc",
     "subauthority": "names",
@@ -782,7 +782,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Conference Names(QA) - direct",
+    "label": "LOC Conference Names(QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_ConferenceName",
     "authority": "loc",
     "subauthority": "names_ConferenceName",
@@ -791,7 +791,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Corporate Names (QA) - direct",
+    "label": "LOC Corporate Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_CorporateName",
     "authority": "loc",
     "subauthority": "names_CorporateName",
@@ -800,7 +800,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Family Names (QA) - direct",
+    "label": "LOC Family Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_FamilyName",
     "authority": "loc",
     "subauthority": "names_FamilyName",
@@ -809,7 +809,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Geographic Names (QA) - direct",
+    "label": "LOC Geographic Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_Geographic",
     "authority": "loc",
     "subauthority": "names_Geographic",
@@ -818,7 +818,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Personal Names (QA) - direct",
+    "label": "LOC Personal Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_PersonalName",
     "authority": "loc",
     "subauthority": "names_PersonalName",
@@ -827,7 +827,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Genre Form (QA) - direct",
+    "label": "LOC Genre Form (QA) - direct",
     "uri": "urn:ld4p:qa:loc:genreForms",
     "authority": "loc",
     "subauthority": "genreForms",
@@ -836,7 +836,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC RBMS Controlled Vocabulary (QA) - direct",
+    "label": "LOC RBMS Controlled Vocabulary (QA) - direct",
     "uri": "urn:ld4p:qa:loc:rbmscv",
     "authority": "loc",
     "subauthority": "rbmscv",
@@ -845,7 +845,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC All Subjects (QA) - direct",
+    "label": "LOC All Subjects (QA) - direct",
     "uri": "urn:ld4p:qa:loc:subjects",
     "authority": "loc",
     "subauthority": "subjects",
@@ -854,7 +854,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Thesaurus for Graphic Materials (QA) - direct",
+    "label": "LOC Thesaurus for Graphic Materials (QA) - direct",
     "uri": "urn:ld4p:qa:loc:graphicMaterials",
     "authority": "loc",
     "subauthority": "graphicMaterials",
@@ -967,7 +967,7 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry aspect ratio designation (QA)",
+    "label": "RDA Registry aspect ratio designation (QA)",
     "uri": "urn:qa:rda_aspect_ratio_designation",
     "authority": "local",
     "subauthority": "rda_aspect_ratio_designation",
@@ -976,7 +976,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry bibliographic format (QA)",
+    "label": "RDA Registry bibliographic format (QA)",
     "uri": "urn:qa:rda_bibliographic_format",
     "authority": "local",
     "subauthority": "rda_bibliographic_format",
@@ -985,7 +985,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry broadcast standard (QA)",
+    "label": "RDA Registry broadcast standard (QA)",
     "uri": "urn:qa:rda_broadcast_standard",
     "authority": "local",
     "subauthority": "rda_broadcast_standard",
@@ -994,7 +994,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry carrier type (QA)",
+    "label": "RDA Registry carrier type (QA)",
     "uri": "urn:qa:rda_carrier_type",
     "authority": "local",
     "subauthority": "rda_carrier_type",
@@ -1003,7 +1003,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry carrier extent unit (QA)",
+    "label": "RDA Registry carrier extent unit (QA)",
     "uri": "urn:qa:rda_carrier_extent_unit",
     "authority": "local",
     "subauthority": "rda_carrier_extent_unit",
@@ -1012,7 +1012,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry cartographic data type (QA)",
+    "label": "RDA Registry cartographic data type (QA)",
     "uri": "urn:qa:rda_cartographic_data_type",
     "authority": "local",
     "subauthority": "rda_cartographic_data_type",
@@ -1021,7 +1021,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry collection accrual method (QA)",
+    "label": "RDA Registry collection accrual method (QA)",
     "uri": "urn:qa:rda_collection_accrual_method",
     "authority": "local",
     "subauthority": "rda_collection_accrual_method",
@@ -1030,7 +1030,7 @@
     "nonldLookup": true
   },
    {
-    "label": "TEST (DO NOT USE YET) RDA Registry collection accrual policy (QA)",
+    "label": "RDA Registry collection accrual policy (QA)",
     "uri": "urn:qa:rda_collection_accrual_policy",
     "authority": "local",
     "subauthority": "rda_collection_accrual_policy",
@@ -1039,7 +1039,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry colour content (QA)",
+    "label": "RDA Registry colour content (QA)",
     "uri": "urn:qa:rda_colour_content",
     "authority": "local",
     "subauthority": "rda_colour_content",
@@ -1048,7 +1048,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry configuration of playback channels (QA)",
+    "label": "RDA Registry configuration of playback channels (QA)",
     "uri": "urn:qa:rda_configuration_of_playback_channels",
     "authority": "local",
     "subauthority": "rda_configuration_of_playback_channels",
@@ -1057,7 +1057,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry content type (QA)",
+    "label": "RDA Registry content type (QA)",
     "uri": "urn:qa:rda_content_type",
     "authority": "local",
     "subauthority": "rda_content_type",
@@ -1066,7 +1066,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry extension plan (QA)",
+    "label": "RDA Registry extension plan (QA)",
     "uri": "urn:qa:rda_extension_plan",
     "authority": "local",
     "subauthority": "rda_extension_plan",
@@ -1075,7 +1075,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry file type (QA)",
+    "label": "RDA Registry file type (QA)",
     "uri": "urn:qa:rda_file_type",
     "authority": "local",
     "subauthority": "rda_file_type",
@@ -1084,7 +1084,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry font size (QA)",
+    "label": "RDA Registry font size (QA)",
     "uri": "urn:qa:rda_font_size",
     "authority": "local",
     "subauthority": "rda_font_size",
@@ -1093,7 +1093,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry form of musical notation (QA)",
+    "label": "RDA Registry form of musical notation (QA)",
     "uri": "urn:qa:rda_form_of_musical_notation",
     "authority": "local",
     "subauthority": "rda_form_of_musical_notation",
@@ -1102,7 +1102,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry form of notated movement (QA)",
+    "label": "RDA Registry form of notated movement (QA)",
     "uri": "urn:qa:rda_form_of_notated_movement",
     "authority": "local",
     "subauthority": "rda_form_of_notated_movement",
@@ -1111,7 +1111,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry form of tactile notation (QA)",
+    "label": "RDA Registry form of tactile notation (QA)",
     "uri": "urn:qa:rda_form_of_tactile_notation",
     "authority": "local",
     "subauthority": "rda_form_of_tactile_notation",
@@ -1120,7 +1120,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry format of notated music (QA)",
+    "label": "RDA Registry format of notated music (QA)",
     "uri": "urn:qa:rda_format_of_notated_music",
     "authority": "local",
     "subauthority": "rda_format_of_notated_music",
@@ -1129,7 +1129,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry frequency (QA)",
+    "label": "RDA Registry frequency (QA)",
     "uri": "urn:qa:rda_frequency",
     "authority": "local",
     "subauthority": "rda_frequency",
@@ -1138,7 +1138,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry generation (QA)",
+    "label": "RDA Registry generation (QA)",
     "uri": "urn:qa:rda_generation",
     "authority": "local",
     "subauthority": "rda_generation",
@@ -1147,7 +1147,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry groove pitch of an analog cylinder (QA)",
+    "label": "RDA Registry groove pitch of an analog cylinder (QA)",
     "uri": "urn:qa:rda_groove_pitch_of_an_analog_cylinder",
     "authority": "local",
     "subauthority": "rda_groove_pitch_of_an_analog_cylinder",
@@ -1156,7 +1156,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry groove width of an analog disc (QA)",
+    "label": "RDA Registry groove width of an analog disc (QA)",
     "uri": "urn:qa:rda_groove_width_of_an_analog_disc",
     "authority": "local",
     "subauthority": "rda_groove_width_of_an_analog_disc",
@@ -1165,7 +1165,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry illustrative content (QA)",
+    "label": "RDA Registry illustrative content (QA)",
     "uri": "urn:qa:rda_illustrative_content",
     "authority": "local",
     "subauthority": "rda_illustrative_content",
@@ -1174,7 +1174,7 @@
     "nonldLookup": true
   },
     {
-    "label": "TEST (DO NOT USE YET) RDA Registry interactivity mode (QA)",
+    "label": "RDA Registry interactivity mode (QA)",
     "uri": "urn:qa:rda_interactivity_mode",
     "authority": "local",
     "subauthority": "rda_interactivity_mode",
@@ -1183,7 +1183,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry layout (QA)",
+    "label": "RDA Registry layout (QA)",
     "uri": "urn:qa:rda_layout",
     "authority": "local",
     "subauthority": "rda_layout",
@@ -1192,7 +1192,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry linked data work (QA)",
+    "label": "RDA Registry linked data work (QA)",
     "uri": "urn:qa:rda_linked_data_work",
     "authority": "local",
     "subauthority": "rda_linked_data_work",
@@ -1201,7 +1201,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry material (QA)",
+    "label": "RDA Registry material (QA)",
     "uri": "urn:qa:rda_material",
     "authority": "local",
     "subauthority": "rda_material",
@@ -1210,7 +1210,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry media type (QA)",
+    "label": "RDA Registry media type (QA)",
     "uri": "urn:qa:rda_media_type",
     "authority": "local",
     "subauthority": "rda_media_type",
@@ -1219,7 +1219,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry mode of issuance (QA)",
+    "label": "RDA Registry mode of issuance (QA)",
     "uri": "urn:qa:rda_mode_of_issuance",
     "authority": "local",
     "subauthority": "rda_mode_of_issuance",
@@ -1228,7 +1228,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry polarity (QA)",
+    "label": "RDA Registry polarity (QA)",
     "uri": "urn:qa:rda_polarity",
     "authority": "local",
     "subauthority": "rda_polarity",
@@ -1237,7 +1237,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry presentation format (QA)",
+    "label": "RDA Registry presentation format (QA)",
     "uri": "urn:qa:rda_presentation_format",
     "authority": "local",
     "subauthority": "rda_presentation_format",
@@ -1246,7 +1246,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry production method (QA)",
+    "label": "RDA Registry production method (QA)",
     "uri": "urn:qa:rda_production_method",
     "authority": "local",
     "subauthority": "rda_production_method",
@@ -1255,7 +1255,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry recording medium (QA)",
+    "label": "RDA Registry recording medium (QA)",
     "uri": "urn:qa:rda_recording_medium",
     "authority": "local",
     "subauthority": "rda_recording_medium",
@@ -1264,7 +1264,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry recording sources (QA)",
+    "label": "RDA Registry recording sources (QA)",
     "uri": "urn:qa:rda_recording_source",
     "authority": "local",
     "subauthority": "rda_recording_source",
@@ -1273,7 +1273,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry reduction ratio designation (QA)",
+    "label": "RDA Registry reduction ratio designation (QA)",
     "uri": "urn:qa:rda_reduction_ratio_designation",
     "authority": "local",
     "subauthority": "rda_reduction_ratio_designation",
@@ -1282,7 +1282,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry regional encoding (QA)",
+    "label": "RDA Registry regional encoding (QA)",
     "uri": "urn:qa:rda_regional_encoding",
     "authority": "local",
     "subauthority": "rda_regional_encoding",
@@ -1291,7 +1291,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry scale designation (QA)",
+    "label": "RDA Registry scale designation (QA)",
     "uri": "urn:qa:rda_scale_designation",
     "authority": "local",
     "subauthority": "rda_scale_designation",
@@ -1300,7 +1300,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry sound content (QA)",
+    "label": "RDA Registry sound content (QA)",
     "uri": "urn:qa:rda_sound_content",
     "authority": "local",
     "subauthority": "rda_sound_content",
@@ -1309,7 +1309,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry special playback characteristics (QA)",
+    "label": "RDA Registry special playback characteristics (QA)",
     "uri": "urn:qa:rda_special_playback_characteristics",
     "authority": "local",
     "subauthority": "rda_special_playback_characteristics",
@@ -1318,7 +1318,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry status of identification (QA)",
+    "label": "RDA Registry status of identification (QA)",
     "uri": "urn:qa:rda_status_of_identification",
     "authority": "local",
     "subauthority": "rda_status_of_identification",
@@ -1327,7 +1327,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry terms (QA)",
+    "label": "RDA Registry terms (QA)",
     "uri": "urn:qa:rda_terms",
     "authority": "local",
     "subauthority": "rda_terms",
@@ -1336,7 +1336,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry track configuration (QA)",
+    "label": "RDA Registry track configuration (QA)",
     "uri": "urn:qa:rda_track_configuration",
     "authority": "local",
     "subauthority": "rda_track_configuration",
@@ -1345,7 +1345,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry type of binding (QA)",
+    "label": "RDA Registry type of binding (QA)",
     "uri": "urn:qa:rda_type_of_binding",
     "authority": "local",
     "subauthority": "rda_type_of_binding",
@@ -1354,7 +1354,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry type of recording (QA)",
+    "label": "RDA Registry type of recording (QA)",
     "uri": "urn:qa:rda_type_of_recording",
     "authority": "local",
     "subauthority": "rda_type_of_recording",
@@ -1363,7 +1363,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry unit of time (QA)",
+    "label": "RDA Registry unit of time (QA)",
     "uri": "urn:qa:rda_unit_of_time",
     "authority": "local",
     "subauthority": "rda_unit_of_time",
@@ -1372,7 +1372,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry user task (QA)",
+    "label": "RDA Registry user task (QA)",
     "uri": "urn:qa:rda_user_tasks",
     "authority": "local",
     "subauthority": "rda_user_tasks",
@@ -1381,7 +1381,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry video format (QA)",
+    "label": "RDA Registry video format (QA)",
     "uri": "urn:qa:rda_video_format",
     "authority": "local",
     "subauthority": "rda_video_format",
