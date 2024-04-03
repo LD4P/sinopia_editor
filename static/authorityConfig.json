@@ -468,6 +468,15 @@
     "nonldLookup": true
   },
   {
+    "label": "LOC MARC Geographic Areas (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:geographicAreas",
+    "authority": "loc",
+    "subauthority": "geographicAreas",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC Music Notation (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mmusnotation",
     "authority": "loc",
@@ -642,6 +651,15 @@
     "uri": "urn:ld4p:qa:loc:mspecplayback",
     "authority": "loc",
     "subauthority": "mspecplayback",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Standard Identifier Schemes (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:identifiers",
+    "authority": "loc",
+    "subauthority": "identifiers",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
@@ -827,6 +845,78 @@
     "nonldLookup": true
   },
   {
+    "label": "LOC RWO Conference Agents(QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_ConferenceName",
+    "authority": "loc",
+    "subauthority": "agents_ConferenceName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC RWO Corporate Agents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_CorporateName",
+    "authority": "loc",
+    "subauthority": "agents_CorporateName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC RWO Family Agents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_FamilyName",
+    "authority": "loc",
+    "subauthority": "agents_FamilyName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC RWO Geographic Agents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_GeographicName",
+    "authority": "loc",
+    "subauthority": "agents_GeographicName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC RWO Person Agents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_PersonalName",
+    "authority": "loc",
+    "subauthority": "agents_PersonalName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC BF Hubs (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:hubs",
+    "authority": "loc",
+    "subauthority": "hubs",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC BF Instances (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:instances",
+    "authority": "loc",
+    "subauthority": "instances",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC BF Works (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:works",
+    "authority": "loc",
+    "subauthority": "works",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
     "label": "LOC Genre Form (QA) - direct",
     "uri": "urn:ld4p:qa:loc:genreForms",
     "authority": "loc",
@@ -849,6 +939,60 @@
     "uri": "urn:ld4p:qa:loc:subjects",
     "authority": "loc",
     "subauthority": "subjects",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Authorized Subjects (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_LCSHAuthorizedHeadings?",
+    "authority": "loc",
+    "subauthority": "collection_LCSHAuthorizedHeadings",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC All Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_Subdivisions",
+    "authority": "loc",
+    "subauthority": "collection_Subdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Topic Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_TopicSubdivisions",
+    "authority": "loc",
+    "subauthority": "collection_TopicSubdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Genre Form Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_GenreFormSubdivisions",
+    "authority": "loc",
+    "subauthority": "collection_GenreFormSubdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Temporal Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_TemporalSubdivisions",
+    "authority": "loc",
+    "subauthority": "collection_TemporalSubdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Geographic Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_GeographicSubdivisions",
+    "authority": "loc",
+    "subauthority": "collection_GeographicSubdivisions",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
