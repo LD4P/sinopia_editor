@@ -873,9 +873,9 @@
   },
   {
     "label": "LOC RWO Geographic Agents (QA) - direct",
-    "uri": "urn:ld4p:qa:loc:agents_GeographicName",
+    "uri": "urn:ld4p:qa:loc:agents_Geographic",
     "authority": "loc",
-    "subauthority": "agents_GeographicName",
+    "subauthority": "agents_Geographic",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
