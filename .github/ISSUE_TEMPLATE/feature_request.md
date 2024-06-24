@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest a new feature or enhancement for any part of Sinopia (Editor, Profile
   Editor)
 title: ''
-labels: BFF, enhancement
+labels: enhancement
 assignees: ''
 
 ---

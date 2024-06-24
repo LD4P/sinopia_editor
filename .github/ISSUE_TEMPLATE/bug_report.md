@@ -2,7 +2,7 @@
 name: Bug report
 about: Report a problem with any part of Sinopia (Editor, Profile Editor)
 title: ''
-labels: BFF, bug
+labels: bug
 assignees: ''
 
 ---
