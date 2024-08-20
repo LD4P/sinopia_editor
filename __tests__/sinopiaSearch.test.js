@@ -119,7 +119,7 @@ describe("getSearchResults", () => {
       sort: ["_score"],
     }
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
+      "/api/search/sinopia_resources/_search",
       {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
@@ -159,7 +159,7 @@ describe("getSearchResults", () => {
       ],
     }
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
+      "/api/search/sinopia_resources/_search",
       {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
@@ -348,7 +348,7 @@ describe("getSearchResultsWithFacets", () => {
       },
     }
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
+      "/api/search/sinopia_resources/_search",
       {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
@@ -398,7 +398,7 @@ describe("getSearchResultsWithFacets", () => {
       sort: ["_score"],
     }
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
+      "/api/search/sinopia_resources/_search",
       {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
@@ -590,7 +590,7 @@ describe("getTemplateSearchResults", () => {
     })
 
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_templates/sinopia/_search",
+      "/api/search/sinopia_templates/_search",
       {
         body: '{"query":{"bool":{"should":[{"wildcard":{"id":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceLabel":{"value":"*Cartographic:Item*"}}},{"wildcard":{"resourceURI":{"value":"*Cartographic:Item*"}}},{"wildcard":{"remark":{"value":"*Cartographic:Item*"}}},{"wildcard":{"author":{"value":"*Cartographic:Item*"}}},{"wildcard":{"groupLabel":{"value":"*Cartographic:Item*"}}}]}},"sort":[{"resourceLabel":"asc"}],"size":250,"from":0}',
         headers: {
@@ -648,7 +648,7 @@ describe("getTemplateSearchResultsByIds", () => {
     })
 
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_templates/sinopia/_search",
+      "/api/search/sinopia_templates/_search",
       {
         body: '{"query":{"terms":{"id":["ld4p:RT:bf2:Cartographic:Item"]}},"size":1}',
         headers: {
@@ -712,7 +712,7 @@ describe("getSearchResultsByUris", () => {
       ],
     })
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/search/sinopia_resources/sinopia/_search",
+      "/api/search/sinopia_resources/_search",
       {
         body: '{"query":{"terms":{"uri":["http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762"]}},"size":1}',
         headers: { "Content-Type": "application/json" },
