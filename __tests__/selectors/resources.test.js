@@ -7,6 +7,8 @@ import {
   resourceHasChangesSinceLastSave,
   selectResourceUriMap,
   selectResourceGroup,
+  selectMainTitleProperty,
+  selectMainTitleValue,
 } from "selectors/resources"
 
 describe("selectSubject()", () => {
@@ -109,5 +111,23 @@ describe("selectResourceGroup", () => {
       group: "stanford",
       editGroups: ["cornell"],
     })
+  })
+})
+
+describe("selectMainTitleProperty", () => {
+  it("returns property", () => {
+    const state = createState({ hasResourceWithMainTitle: true })
+    expect(selectMainTitleProperty(state, "cqxLskA9kjAfMFDeuvzGq").key).toEqual(
+      "PZg9YbCZyx4AoJs2eL2zm"
+    )
+  })
+})
+
+describe("selectMainTitleValue", () => {
+  it("returns property", () => {
+    const state = createState({ hasResourceWithMainTitle: true })
+    expect(selectMainTitleValue(state, "cqxLskA9kjAfMFDeuvzGq").key).toEqual(
+      "JjUhYxaBo9nuIh8GKd9k5"
+    )
   })
 })

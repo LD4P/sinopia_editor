@@ -91,7 +91,7 @@ describe("fetchSinopiaSearchResults", () => {
 
 describe("fetchQASearchResults", () => {
   const query = "*"
-  const uri = "urn:ld4p:qa:sharevde_stanford_ld4l_cache:all"
+  const uri = "urn:ld4p:qa:oclc_fast:topic"
 
   describe("when happy path", () => {
     const mockSearchResults = [
@@ -185,14 +185,14 @@ describe("fetchQASearchResults", () => {
       })
       expect(actions).toHaveAction("ADD_SEARCH_HISTORY", {
         authorityUri: uri,
-        authorityLabel: "SHAREVDE STANFORD (QA)",
+        authorityLabel: "OCLCFAST Topic (QA) - direct",
         query,
       })
       expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith(
         "Foo McBar",
         "search",
-        "4682c287952df68172c6c4a63bdc2887",
-        '{"authorityUri":"urn:ld4p:qa:sharevde_stanford_ld4l_cache:all","query":"*"}'
+        "7c944f41fb8b8bba92311b4f4f48ceb3",
+        '{"authorityUri":"urn:ld4p:qa:oclc_fast:topic","query":"*"}'
       )
     })
   })

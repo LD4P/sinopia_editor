@@ -1032,17 +1032,17 @@
         "valueSubjectTemplateKeys": [],
         "authorities": [
           {
-            "uri": "urn:ld4p:qa:agrovoc",
-            "label": "AGROVOC (QA)",
-            "authority": "agrovoc_ld4l_cache",
-            "subauthority": "",
+            "uri": "urn:ld4p:qa:oclc_fast:topic",
+            "label": "OCLCFAST Topic (QA) - direct",
+            "authority": "oclcfast_direct",
+            "subauthority": "topic",
             "nonldLookup": false
           },
           {
-            "uri": "urn:ld4p:qa:gettyaat",
+            "uri": "urn:ld4p:qa:getty_aat",
             "label": "GETTY_AAT  (QA)",
             "authority": "getty_aat_ld4l_cache",
-            "subauthority": "",
+            "subauthority": "aat",
             "nonldLookup": false
           }
         ],
@@ -1093,10 +1093,10 @@
         "valueSubjectTemplateKeys": [],
         "authorities": [
           {
-            "uri": "urn:ld4p:qa:agrovoc",
-            "label": "AGROVOC (QA)",
-            "authority": "agrovoc_ld4l_cache",
-            "subauthority": "",
+            "uri": "urn:ld4p:qa:oclc_fast:topic",
+            "label": "OCLCFAST Topic (QA) - direct",
+            "authority": "oclcfast_direct",
+            "subauthority": "topic",
             "nonldLookup": false
           }
         ],
@@ -1147,17 +1147,17 @@
         "valueSubjectTemplateKeys": [],
         "authorities": [
           {
-            "uri": "urn:ld4p:qa:agrovoc",
-            "label": "AGROVOC (QA)",
-            "authority": "agrovoc_ld4l_cache",
-            "subauthority": "",
+            "uri": "urn:ld4p:qa:oclc_fast:topic",
+            "label": "OCLCFAST Topic (QA) - direct",
+            "authority": "oclcfast_direct",
+            "subauthority": "topic",
             "nonldLookup": false
           },
           {
-            "uri": "urn:ld4p:qa:geonames:spot",
+            "uri": "urn:ld4p:qa:geonames_direct",
             "label": "GEONAMES spot (QA)",
-            "authority": "geonames_ld4l_cache",
-            "subauthority": "spot",
+            "authority": "geonames_direct",
+            "subauthority": "",
             "nonldLookup": false
           }
         ],

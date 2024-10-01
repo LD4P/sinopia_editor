@@ -10,17 +10,21 @@ const NewsItem = () => (
     <p>
       <i>
         For complete release notes see the{" "}
-        <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release,-What's-Next">
+        <a href="https://github.com/LD4P/sinopia/wiki/Latest-Release">
           Sinopia help site
         </a>
         .
       </i>
     </p>
     <ul>
-      <li>Language detection and suggestion</li>
-      <li>Sinopia/Symphony integration for Stanford users</li>
-      <li>Templates are included in Sinopia search</li>
-      <li>Can set literal field to default to current date or userID</li>
+      <li>Cached-lookups replaced with provider APIs for QA</li>
+      <li>New autofill for Work title when creating a Work from an Instance</li>
+      <li>
+        New vocabularies added for relationship, note type, and serial
+        publication type
+      </li>
+      <li>Updates to BF2MARC conversion</li>
+      <li>UI/UX updates</li>
     </ul>
   </div>
 )

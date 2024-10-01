@@ -1,5 +1,52 @@
 [
   {
+    "@id": "_:b140",
+    "@type": [
+      "http://sinopia.io/vocabulary/PropertyTemplate"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Instance Title"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyUri": [
+      {
+        "@id": "http://id.loc.gov/ontologies/bibframe/title"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyAttribute": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyAttribute/required"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasPropertyType": [
+      {
+        "@id": "http://sinopia.io/vocabulary/propertyType/resource"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasRemarkUrl": [
+      {
+        "@id": "https://original.rdatoolkit.org/2.3.html"
+      }
+    ],
+    "http://sinopia.io/vocabulary/hasResourceAttributes": [
+      {
+        "@id": "_:b141"
+      }
+    ]
+  },
+  {
+    "@id": "_:b141",
+    "@type": [
+      "http://sinopia.io/vocabulary/ResourcePropertyTemplate"
+    ],
+    "http://sinopia.io/vocabulary/hasResourceTemplateId": [
+      {
+        "@id": "resourceTemplate:bf2:Title"
+      }
+    ]
+  },
+  {
     "@id": "_:b2",
     "@type": [
       "http://sinopia.io/vocabulary/PropertyTemplate"
@@ -96,6 +143,9 @@
     "http://sinopia.io/vocabulary/hasPropertyTemplate": [
       {
         "@list": [
+          {
+            "@id": "_:b140"
+          },
           {
             "@id": "_:b2"
           },

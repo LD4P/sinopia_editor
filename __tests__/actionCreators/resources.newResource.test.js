@@ -42,7 +42,7 @@ describe("newResource", () => {
       const result = await store.dispatch(
         newResource(resourceTemplateId, "testerrorkey")
       )
-      expect(result).toBe(true)
+      expect(result).toBe("abc123")
 
       const actions = store.getActions()
       // ADD_TEMPLATES is dispatched numerous times since mock store doesn't update state.

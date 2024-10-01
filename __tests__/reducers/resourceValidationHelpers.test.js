@@ -382,7 +382,7 @@ describe("new literal value with validationDataType of EDTF", () => {
       const newState = reducer(oldState.entities, action)
 
       expect(newState.values.DxGx7WMh3.errors).toEqual([
-        "Expected datatype is 'http://id.loc.gov/datatypes/edtf/' but 'not EDTF' is not a valid EDTF format. See https://www.loc.gov/standards/datetime/.",
+        "Expected datatype is 'http://id.loc.gov/datatypes/edtf' but 'not EDTF' is not a valid EDTF format. See https://www.loc.gov/standards/datetime/.",
       ])
     })
   })

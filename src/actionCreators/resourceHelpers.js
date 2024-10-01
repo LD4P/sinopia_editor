@@ -130,11 +130,12 @@ export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) =>
         const promises = properties.map((property) =>
           dispatch(expandProperty(property, errorKey))
         )
-        return Promise.all(promises).then((expandedProperties) => {
-          subject.properties = expandedProperties
-          dispatch(addSubjectAction(subject))
-          return subject
-        })
+        return Promise.all(promises)
+          .then((expandedProperties) => {
+            subject.properties = expandedProperties
+            return dispatch(addSubjectAction(subject))
+          })
+          .then(() => subject)
       }
     )
   )

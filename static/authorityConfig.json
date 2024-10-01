@@ -65,11 +65,11 @@
     "component": "local-lookup"
   },
   {
-    "label": "AGROVOC (QA)",
-    "uri": "urn:ld4p:qa:agrovoc",
-    "authority": "agrovoc_ld4l_cache",
+    "label": "Agrovoc authorities",
+    "uri": "urn:ld4p:qa:agrovoc_direct",
+    "authority": "agrovoc_direct",
     "subauthority": "",
-    "language": "en",
+    "language": "no",
     "component": "lookup"
   },
   {
@@ -161,46 +161,6 @@
     "component": "lookup"
   },
   {
-    "label": "CERL (QA)",
-    "uri": "urn:ld4p:qa:cerl",
-    "authority": "cerl_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "CERL person (QA)",
-    "uri": "urn:ld4p:qa:cerl:person",
-    "authority": "cerl_ld4l_cache",
-    "subauthority": "person",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "CERL corporate_body (QA)",
-    "uri": "urn:ld4p:qa:cerl:corporate",
-    "authority": "cerl_ld4l_cache",
-    "subauthority": "corporate",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "CERL imprint (QA)",
-    "uri": "urn:ld4p:qa:cerl:imprint",
-    "authority": "cerl_ld4l_cache",
-    "subauthority": "imprint",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "DBPEDIA_(QA)",
-    "uri": "urn:ld4p:qa:dbpedia",
-    "authority": "dbpedia_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
     "label": "DBPEDIA_(QA) - direct (Warning: may be slow)",
     "uri": "urn:ld4p:qa:dbpedia_direct",
     "authority": "dbpedia_direct",
@@ -242,377 +202,9 @@
   "subauthority": "",
   "language": "no",
   "component": "lookup"
- },
-  {
-    "label": "GEONAMES all (QA)",
-    "uri": "urn:ld4p:qa:geonames",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
   },
   {
-    "label": "GEONAMES area (QA)",
-    "uri": "urn:ld4p:qa:geonames:area",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "area",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES place (QA)",
-    "uri": "urn:ld4p:qa:geonames:place",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "place",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES area_and_place (QA)",
-    "uri": "urn:ld4p:qa:geonames:area_and_place",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "area_and_place",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES water (QA)",
-    "uri": "urn:ld4p:qa:geonames:water",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "water",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES park (QA)",
-    "uri": "urn:ld4p:qa:geonames:park",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "park",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES road (QA)",
-    "uri": "urn:ld4p:qa:geonames:road",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "road",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES spot (QA)",
-    "uri": "urn:ld4p:qa:geonames:spot",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "spot",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES terrain (QA)",
-    "uri": "urn:ld4p:qa:geonames:terrain",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "terrain",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES undersea (QA)",
-    "uri": "urn:ld4p:qa:geonames:undersea",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "undersea",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GEONAMES vegetation (QA)",
-    "uri": "urn:ld4p:qa:geonames:vegetation",
-    "authority": "geonames_ld4l_cache",
-    "subauthority": "vegetation",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT all terms (QA)",
-    "uri": "urn:ld4p:qa:gettyaat",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Activities (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Activities",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Activities",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Activities__Disciplines (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Activities__Disciplines",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Activities__Disciplines",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Activities__Events (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Activities__Events",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Activities__Events",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Activities__Functions (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Activities__Functions",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Activities__Functions",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Activities__Physical_and_Mental (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Activities__Physical_and_Mental",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Activities__Physical_and_Mental",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Activities__Processes_and_Techniques (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Activities__Processes_and_Techniques",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Activities__Processes_and_Techniques",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Agents (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Agents",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Agents",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Agents__Living_Organisms (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Agents__Living_Organisms",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Agents__Living_Organisms",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Agents__Organizations (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Agents__Organizations",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Agents__Organizations",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Agents__People (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Agents__People",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Agents__People",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Associated_Concepts (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Associated_Concepts",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Associated_Concepts",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Associated_Concepts__Associated_Concepts (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Associated_Concepts__Associated_Concepts",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Associated_Concepts__Associated_Concepts",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Brand_Names (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Brand_Names",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Brand_Names",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Brand_Names__Brand_Names (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Brand_Names__Brand_Names",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Brand_Names__Brand_Names",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Materials (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Materials",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Materials",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Materials__Materials (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Materials__Materials",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Materials__Materials",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Objects (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Objects",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Objects",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Objects__Built_Environment (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Objects__Built_Environment",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Objects__Built_Environment",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Objects__Components (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Objects__Components",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Objects__Components",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Objects__Furnishings_and_Equipment (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Objects__Furnishings_and_Equipment",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Objects__Furnishings_and_Equipment",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Objects__Object_Genres (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Objects__Object_Genres",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Objects__Object_Genres",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Objects__Object_Groupings and Systems (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Objects__Object_Groupings and Systems",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Objects__Object_Groupings and Systems",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Objects__Visual_and_Verbal_Communication (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Objects__Visual_and_Verbal_Communication",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Objects__Visual_and_Verbal_Communication",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Physical_Attributes (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Physical_Attributes",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Physical_Attributes__Attributes_and_Properties (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Attributes_and_Properties",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Physical_Attributes__Attributes_and_Properties",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Physical_Attributes__Color (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Color",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Physical_Attributes__Color",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Physical_Attributes__Conditions_and_Effects (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Conditions_and_Effects",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Physical_Attributes__Conditions_and_Effects",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Physical_Attributes__Design_Elements (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Physical_Attributes__Design_Elements",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Physical_Attributes__Design_Elements",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Styles_and_Periods (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Styles_and_Periods",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Styles_and_Periods",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_AAT Styles_and_Periods__Styles_and_Periods (QA)",
-    "uri": "urn:ld4p:qa:gettyaat:Styles_and_Periods__Styles_and_Periods",
-    "authority": "getty_aat_ld4l_cache",
-    "subauthority": "Styles_and_Periods__Styles_and_Periods",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_TGN (QA)",
-    "uri": "urn:ld4p:qa:gettytgn",
-    "authority": "getty_tgn_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_ULAN (QA)",
-    "uri": "urn:ld4p:qa:gettyulan",
-    "authority": "getty_ulan_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_ULAN person (QA)",
-    "uri": "urn:ld4p:qa:gettyulan:person",
-    "authority": "getty_ulan_ld4l_cache",
-    "subauthority": "person",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "GETTY_ULAN organization (QA)",
-    "uri": "urn:ld4p:qa:gettyulan:organization",
-    "authority": "getty_ulan_ld4l_cache",
-    "subauthority": "organization",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) GETTY AAT",
+    "label": "GETTY AAT",
     "uri": "urn:ld4p:qa:getty_aat",
     "authority": "getty_direct",
     "subauthority": "aat",
@@ -620,7 +212,7 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) GETTY TGN",
+    "label": "GETTY TGN",
     "uri": "urn:ld4p:qa:getty_tgn",
     "authority": "getty_direct",
     "subauthority": "tgn",
@@ -628,7 +220,7 @@
     "component": "lookup"
   },
   {
-    "label": "TEST (DO NOT USE YET) GETTY ULAN",
+    "label": "GETTY ULAN",
     "uri": "urn:ld4p:qa:getty_ulan",
     "authority": "getty_direct",
     "subauthority": "ulan",
@@ -637,14 +229,6 @@
   },
   {
     "label": "Homosaurus",
-    "uri": "urn:ld4p:qa:homosaurus_ld4l_cache",
-    "authority": "homosaurus_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) Homosaurus",
     "uri": "urn:ld4p:qa:homosaurus_direct",
     "authority": "homosaurus_direct",
     "subauthority": "",
@@ -668,23 +252,7 @@
     "component": "lookup"
   },
   {
-    "label": "Ligatus (QA)",
-    "uri": "urn:ld4p:qa:ligatus",
-    "authority": "ligatus_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC carriers [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:carriers",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "carriers",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Carriers (QA) - direct",
+    "label": "LOC Carriers (QA) - direct",
     "uri": "urn:ld4p:qa:loc:carriers",
     "authority": "loc",
     "subauthority": "carriers",
@@ -693,7 +261,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Classification Schemes (QA) - direct",
+    "label": "LOC Classification Schemes (QA) - direct",
     "uri": "urn:ld4p:qa:loc:classSchemes",
     "authority": "loc",
     "subauthority": "classSchemes",
@@ -702,15 +270,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC content types [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:content_types",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "content_types",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Content Types (QA) - direct",
+    "label": "LOC Content Types (QA) - direct",
     "uri": "urn:ld4p:qa:loc:contentTypes",
     "authority": "loc",
     "subauthority": "contentTypes",
@@ -719,15 +279,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC description conventions [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:description_conventions",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "description_conventions",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Description Conventions (QA) - direct",
+    "label": "LOC Description Conventions (QA) - direct",
     "uri": "urn:ld4p:qa:loc:descriptionConventions",
     "authority": "loc",
     "subauthority": "descriptionConventions",
@@ -736,15 +288,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC frequencies [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:frequencies",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "frequencies",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Publication Frequencies (QA) - direct",
+    "label": "LOC Publication Frequencies (QA) - direct",
     "uri": "urn:ld4p:qa:loc:frequencies",
     "authority": "loc",
     "subauthority": "frequencies",
@@ -753,15 +297,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC issuance [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:issuance",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "issuance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Issuance (QA) - direct",
+    "label": "LOC Issuance (QA) - direct",
     "uri": "urn:ld4p:qa:loc:issuance",
     "authority": "loc",
     "subauthority": "issuance",
@@ -770,15 +306,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC authentication action [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:marcauthen",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "marcauthen",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Authentication Action (QA) - direct",
+    "label": "LOC Authentication Action (QA) - direct",
     "uri": "urn:ld4p:qa:loc:marcauthen",
     "authority": "loc",
     "subauthority": "marcauthen",
@@ -787,7 +315,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Aspect Ratio (QA) - direct",
+    "label": "LOC Aspect Ratio (QA) - direct",
     "uri": "urn:ld4p:qa:loc:maspect",
     "authority": "loc",
     "subauthority": "maspect",
@@ -796,15 +324,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC aspect ratio [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:maspect",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "maspect",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Book Format (QA) - direct",
+    "label": "LOC Book Format (QA) - direct",
     "uri": "urn:ld4p:qa:loc:bookformat",
     "authority": "loc",
     "subauthority": "bookformat",
@@ -813,15 +333,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC intended audience [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:maudience",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "maudience",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Intended Audience (QA) - direct",
+    "label": "LOC Intended Audience (QA) - direct",
     "uri": "urn:ld4p:qa:loc:maudience",
     "authority": "loc",
     "subauthority": "maudience",
@@ -830,15 +342,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC broadcast standard [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mbroadstd",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mbroadstd",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Broadcast Standard (QA) - direct",
+    "label": "LOC Broadcast Standard (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mbroadstd",
     "authority": "loc",
     "subauthority": "mbroadstd",
@@ -847,15 +351,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC sound and capture storage [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mcapturestorage",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mcapturestorage",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Sound Capture and Storage (QA) - direct",
+    "label": "LOC Sound Capture and Storage (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mcapturestorage",
     "authority": "loc",
     "subauthority": "mcapturestorage",
@@ -864,15 +360,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC color content [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mcolor",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mcolor",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Color Content (QA) - direct",
+    "label": "LOC Color Content (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mcolor",
     "authority": "loc",
     "subauthority": "mcolor",
@@ -881,15 +369,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC media types [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:media_types",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "media_types",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Media Types (QA) - direct",
+    "label": "LOC Media Types (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mediaTypes",
     "authority": "loc",
     "subauthority": "mediaTypes",
@@ -898,15 +378,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC encoding format [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mencformat",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mencformat",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Encoding Format (QA) - direct",
+    "label": "LOC Encoding Format (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mencformat",
     "authority": "loc",
     "subauthority": "mencformat",
@@ -915,15 +387,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC encoding level [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:menclvl",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "menclvl",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Encoding Level (QA) - direct",
+    "label": "LOC Encoding Level (QA) - direct",
     "uri": "urn:ld4p:qa:loc:menclvl",
     "authority": "loc",
     "subauthority": "menclvl",
@@ -932,15 +396,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC file type [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mfiletype",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mfiletype",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC File Type (QA) - direct",
+    "label": "LOC File Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mfiletype",
     "authority": "loc",
     "subauthority": "mfiletype",
@@ -949,15 +405,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC font size [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mfont",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mfont",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Font Size (QA) - direct",
+    "label": "LOC Font Size (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mfont",
     "authority": "loc",
     "subauthority": "mfont",
@@ -966,15 +414,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC generation list [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mgeneration",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mgeneration",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Generation (QA) - direct",
+    "label": "LOC Generation (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mgeneration",
     "authority": "loc",
     "subauthority": "mgeneration",
@@ -983,15 +423,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC government publication type [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mgovtpubtype",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mgovtpubtype",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Government Publication Type (QA) - direct",
+    "label": "LOC Government Publication Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mgovtpubtype",
     "authority": "loc",
     "subauthority": "mgovtpubtype",
@@ -1000,15 +432,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC groove width, pitch, cutting [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mgroove",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mgroove",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Groove Width, Pitch, Cutting (QA) - direct",
+    "label": "LOC Groove Width, Pitch, Cutting (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mgroove",
     "authority": "loc",
     "subauthority": "mgroove",
@@ -1017,15 +441,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC illustrative content [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:millus",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "millus",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Illustrative Content (QA) - direct",
+    "label": "LOC Illustrative Content (QA) - direct",
     "uri": "urn:ld4p:qa:loc:millus",
     "authority": "loc",
     "subauthority": "millus",
@@ -1034,15 +450,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC layout [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mlayout",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mlayout",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Layout (QA) - direct",
+    "label": "LOC Layout (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mlayout",
     "authority": "loc",
     "subauthority": "mlayout",
@@ -1051,15 +459,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC notated music form [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mmusicformat",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mmusicformat",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Notated Music Form (QA) - direct",
+    "label": "LOC Notated Music Form (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mmusicformat",
     "authority": "loc",
     "subauthority": "mmusicformat",
@@ -1068,15 +468,16 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC music notation [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mmusnotation",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mmusnotation",
+    "label": "LOC MARC Geographic Areas (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:geographicAreas",
+    "authority": "loc",
+    "subauthority": "geographicAreas",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Music Notation (QA) - direct",
+    "label": "LOC Music Notation (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mmusnotation",
     "authority": "loc",
     "subauthority": "mmusnotation",
@@ -1085,7 +486,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Note Type (QA) - direct",
+    "label": "LOC Note Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mnotetype",
     "authority": "loc",
     "subauthority": "mnotetype",
@@ -1094,15 +495,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC playback [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mplayback",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mplayback",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Playback (QA) - direct",
+    "label": "LOC Playback (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mplayback",
     "authority": "loc",
     "subauthority": "mplayback",
@@ -1111,15 +504,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC playing speed [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mplayspeed",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mplayspeed",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Playing Speed (QA) - direct",
+    "label": "LOC Playing Speed (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mplayspeed",
     "authority": "loc",
     "subauthority": "mplayspeed",
@@ -1128,15 +513,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC polarity [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mpolarity",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mpolarity",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Polarity (QA) - direct",
+    "label": "LOC Polarity (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mpolarity",
     "authority": "loc",
     "subauthority": "mpolarity",
@@ -1145,15 +522,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC presentation format [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mpresformat",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mpresformat",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Presentation Format (QA) - direct",
+    "label": "LOC Presentation Format (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mpresformat",
     "authority": "loc",
     "subauthority": "mpresformat",
@@ -1162,15 +531,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC production method [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mproduction",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mproduction",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Production Method (QA) - direct",
+    "label": "LOC Production Method (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mproduction",
     "authority": "loc",
     "subauthority": "mproduction",
@@ -1179,15 +540,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC projection [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mprojection",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mprojection",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Projection (QA) - direct",
+    "label": "LOC Projection (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mprojection",
     "authority": "loc",
     "subauthority": "mprojection",
@@ -1204,15 +557,7 @@
     "component": "lookup"
   },
   {
-    "label": "LOC recording medium [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mrecmedium",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mrecmedium",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Recording Medium (QA) - direct",
+    "label": "LOC Recording Medium (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mrecmedium",
     "authority": "loc",
     "subauthority": "mrecmedium",
@@ -1221,15 +566,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC recording type [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mrectype",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mrectype",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Recording Type (QA) - direct",
+    "label": "LOC Recording Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mrectype",
     "authority": "loc",
     "subauthority": "mrectype",
@@ -1238,15 +575,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC reduction ratio [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mreductionratio",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mreductionratio",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Reduction Ratio (QA) - direct",
+    "label": "LOC Reduction Ratio (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mreductionratio",
     "authority": "loc",
     "subauthority": "mreductionratio",
@@ -1255,15 +584,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC regional encoding [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mregencoding",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mregencoding",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Regional Encoding (QA) - direct",
+    "label": "LOC Regional Encoding (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mregencoding",
     "authority": "loc",
     "subauthority": "mregencoding",
@@ -1272,7 +593,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC RBMS Relationship Designators (QA) - direct",
+    "label": "LOC RBMS Relationship Designators (QA) - direct",
     "uri": "urn:ld4p:qa:loc:rbmsrel",
     "authority": "loc",
     "subauthority": "rbmsrel",
@@ -1281,15 +602,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC relief [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mrelief",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mrelief",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Relief (QA) - direct",
+    "label": "LOC Relief (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mrelief",
     "authority": "loc",
     "subauthority": "mrelief",
@@ -1298,15 +611,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC scale [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mscale",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mmscale",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Scale (QA) - direct",
+    "label": "LOC Scale (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mscale",
     "authority": "loc",
     "subauthority": "mscale",
@@ -1315,15 +620,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC script [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mscript",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mscript",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Script (QA) - direct",
+    "label": "LOC Script (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mscript",
     "authority": "loc",
     "subauthority": "mscript",
@@ -1332,7 +629,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Serial Publication Type (QA) - direct",
+    "label": "LOC Serial Publication Type (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mserialpubtype",
     "authority": "loc",
     "subauthority": "mserialpubtype",
@@ -1341,15 +638,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC sound content [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:msoundcontent",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "msoundcontent",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Sound Content (QA) - direct",
+    "label": "LOC Sound Content (QA) - direct",
     "uri": "urn:ld4p:qa:loc:msoundcontent",
     "authority": "loc",
     "subauthority": "msoundcontent",
@@ -1358,15 +647,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC special playback characteristics [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mspecplayback",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mspecplayback",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Special Playback Characteristics (QA) - direct",
+    "label": "LOC Special Playback Characteristics (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mspecplayback",
     "authority": "loc",
     "subauthority": "mspecplayback",
@@ -1375,15 +656,16 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC status [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mstatus",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mstatus",
+    "label": "LOC Standard Identifier Schemes (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:identifiers",
+    "authority": "loc",
+    "subauthority": "identifiers",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Status Codes (QA) - direct",
+    "label": "LOC Status Codes (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mstatus",
     "authority": "loc",
     "subauthority": "mstatus",
@@ -1392,15 +674,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC supplemental content [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:msupplcont",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "msupplcont",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Supplementatal Content (QA) - direct",
+    "label": "LOC Supplementatal Content (QA) - direct",
     "uri": "urn:ld4p:qa:loc:msupplcont",
     "authority": "loc",
     "subauthority": "msupplcont",
@@ -1409,7 +683,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Support Material (QA) - direct",
+    "label": "LOC Support Material (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mmaterial",
     "authority": "loc",
     "subauthority": "mmaterial",
@@ -1418,15 +692,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC tactile [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mtactile",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mtactile",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Tactile Notation (QA) - direct",
+    "label": "LOC Tactile Notation (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mtactile",
     "authority": "loc",
     "subauthority": "mtactile",
@@ -1435,15 +701,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC tape configuration [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mtapeconfig",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mtapeconfig",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Tape Configuration (QA) - direct",
+    "label": "LOC Tape Configuration (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mtapeconfig",
     "authority": "loc",
     "subauthority": "mtapeconfig",
@@ -1452,15 +710,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC technique [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mtechnique",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mtechnique",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Technique (QA) - direct",
+    "label": "LOC Technique (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mtechnique",
     "authority": "loc",
     "subauthority": "mtechnique",
@@ -1469,15 +719,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC video format [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:mvidformat",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "mvidformat",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Video Format (QA) - direct",
+    "label": "LOC Video Format (QA) - direct",
     "uri": "urn:ld4p:qa:loc:mvidformat",
     "authority": "loc",
     "subauthority": "mvidformat",
@@ -1486,15 +728,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC relators [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:relators",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "relators",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Relators (QA) - direct",
+    "label": "LOC Relators (QA) - direct",
     "uri": "urn:ld4p:qa:loc:relators",
     "authority": "loc",
     "subauthority": "relators",
@@ -1503,7 +737,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Work Expression Relationships (QA) - direct",
+    "label": "LOC Work Expression Relationships (QA) - direct",
     "uri": "urn:ld4p:qa:loc:relationship",
     "authority": "loc",
     "subauthority": "relationship",
@@ -1512,15 +746,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC resource components [vocabularies] (QA)",
-    "uri": "urn:ld4p:qa:locvocabs:resource_components",
-    "authority": "locvocabs_ld4l_cache",
-    "subauthority": "resource_components",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Resource Compontents (QA) - direct",
+    "label": "LOC Resource Compontents (QA) - direct",
     "uri": "urn:ld4p:qa:loc:resourceComponents",
     "authority": "loc",
     "subauthority": "resourceComponents",
@@ -1529,15 +755,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC cultural heritage organizations (QA)",
-    "uri": "urn:ld4p:qa:locculturalorgs",
-    "authority": "loccultural_organizations_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Cultural Heritage Organizations (QA) - direct",
+    "label": "LOC Cultural Heritage Organizations (QA) - direct",
     "uri": "urn:ld4p:qa:loc:organizations",
     "authority": "loc",
     "subauthority": "organizations",
@@ -1546,15 +764,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC MARC countries (QA)",
-    "uri": "urn:ld4p:qa:locmarccountries",
-    "authority": "loccountries_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC MARC Countries (QA) - direct",
+    "label": "LOC MARC Countries (QA) - direct",
     "uri": "urn:ld4p:qa:loc:countries",
     "authority": "loc",
     "subauthority": "countries",
@@ -1563,7 +773,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Demographic Terms (QA) - direct",
+    "label": "LOC Demographic Terms (QA) - direct",
     "uri": "urn:ld4p:qa:loc:demographicTerms",
     "authority": "loc",
     "subauthority": "demographicTerms",
@@ -1572,15 +782,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC demographics (QA)",
-    "uri": "urn:ld4p:qa:demographics",
-    "authority": "locdemographics_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC Medium of Performance (QA) - direct",
+    "label": "LOC Medium of Performance (QA) - direct",
     "uri": "urn:ld4p:qa:loc:performanceMediums",
     "authority": "loc",
     "subauthority": "performanceMediums",
@@ -1589,39 +791,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC performance (QA)",
-    "uri": "urn:ld4p:qa:performance",
-    "authority": "locperformance_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC all genres (QA)",
-    "uri": "urn:ld4p:qa:genres",
-    "authority": "locgenres_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC active [genres] (QA)",
-    "uri": "urn:ld4p:qa:genres:active",
-    "authority": "locgenres_ld4l_cache",
-    "subauthority": "active",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC deprecated [genres] (QA)",
-    "uri": "urn:ld4p:qa:genres:deprecated",
-    "authority": "locgenres_ld4l_cache",
-    "subauthority": "deprecated",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC All Names (QA) - direct",
+    "label": "LOC All Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names",
     "authority": "loc",
     "subauthority": "names",
@@ -1630,7 +800,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Conference Names(QA) - direct",
+    "label": "LOC Conference Names(QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_ConferenceName",
     "authority": "loc",
     "subauthority": "names_ConferenceName",
@@ -1639,7 +809,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Corporate Names (QA) - direct",
+    "label": "LOC Corporate Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_CorporateName",
     "authority": "loc",
     "subauthority": "names_CorporateName",
@@ -1648,7 +818,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Family Names (QA) - direct",
+    "label": "LOC Family Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_FamilyName",
     "authority": "loc",
     "subauthority": "names_FamilyName",
@@ -1657,7 +827,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Geographic Names (QA) - direct",
+    "label": "LOC Geographic Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_Geographic",
     "authority": "loc",
     "subauthority": "names_Geographic",
@@ -1666,7 +836,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Personal Names (QA) - direct",
+    "label": "LOC Personal Names (QA) - direct",
     "uri": "urn:ld4p:qa:loc:names_PersonalName",
     "authority": "loc",
     "subauthority": "names_PersonalName",
@@ -1675,39 +845,79 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC all names (QA)",
-    "uri": "urn:ld4p:qa:names",
-    "authority": "locnames_ld4l_cache",
-    "subauthority": "",
+    "label": "LOC RWO Conference Agents(QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_ConferenceName",
+    "authority": "loc",
+    "subauthority": "agents_ConferenceName",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "LOC person [names (rwo)] (QA)",
-    "uri": "urn:ld4p:qa:names:person",
-    "authority": "locnames_rwo_ld4l_cache",
-    "subauthority": "person",
+    "label": "LOC RWO Corporate Agents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_CorporateName",
+    "authority": "loc",
+    "subauthority": "agents_CorporateName",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "LOC organization [names (rwo)] (QA)",
-    "uri": "urn:ld4p:qa:names:organization",
-    "authority": "locnames_rwo_ld4l_cache",
-    "subauthority": "organization",
+    "label": "LOC RWO Family Agents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_FamilyName",
+    "authority": "loc",
+    "subauthority": "agents_FamilyName",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "LOC family [names (rwo)] (QA)",
-    "uri": "urn:ld4p:qa:names:family",
-    "authority": "locnames_rwo_ld4l_cache",
-    "subauthority": "family",
+    "label": "LOC RWO Geographic Agents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_Geographic",
+    "authority": "loc",
+    "subauthority": "agents_Geographic",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Genre Form (QA) - direct",
+    "label": "LOC RWO Person Agents (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:agents_PersonalName",
+    "authority": "loc",
+    "subauthority": "agents_PersonalName",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC BF Hubs (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:hubs",
+    "authority": "loc",
+    "subauthority": "hubs",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC BF Instances (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:instances",
+    "authority": "loc",
+    "subauthority": "instances",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC BF Works (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:works",
+    "authority": "loc",
+    "subauthority": "works",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Genre Form (QA) - direct",
     "uri": "urn:ld4p:qa:loc:genreForms",
     "authority": "loc",
     "subauthority": "genreForms",
@@ -1716,23 +926,7 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC geographic [names] (QA)",
-    "uri": "urn:ld4p:qa:names:geographic",
-    "authority": "locnames_ld4l_cache",
-    "subauthority": "geographic",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "LOC conference [names] (QA)",
-    "uri": "urn:ld4p:qa:names:conference",
-    "authority": "locnames_ld4l_cache",
-    "subauthority": "conference",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) LOC RBMS Controlled Vocabulary (QA) - direct",
+    "label": "LOC RBMS Controlled Vocabulary (QA) - direct",
     "uri": "urn:ld4p:qa:loc:rbmscv",
     "authority": "loc",
     "subauthority": "rbmscv",
@@ -1741,7 +935,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC All Subjects (QA) - direct",
+    "label": "LOC All Subjects (QA) - direct",
     "uri": "urn:ld4p:qa:loc:subjects",
     "authority": "loc",
     "subauthority": "subjects",
@@ -1750,15 +944,61 @@
     "nonldLookup": true
   },
   {
-    "label": "LOC all subjects (QA)",
-    "uri": "urn:ld4p:qa:subjects",
-    "authority": "locsubjects_ld4l_cache",
-    "subauthority": "",
+    "label": "LOC Authorized Subjects (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_LCSHAuthorizedHeadings?",
+    "authority": "loc",
+    "subauthority": "collection_LCSHAuthorizedHeadings",
     "language": "en",
-    "component": "lookup"
+    "component": "lookup",
+    "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) LOC Thesaurus for Graphic Materials (QA) - direct",
+    "label": "LOC All Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_Subdivisions",
+    "authority": "loc",
+    "subauthority": "collection_Subdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Topic Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_TopicSubdivisions",
+    "authority": "loc",
+    "subauthority": "collection_TopicSubdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Genre Form Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_GenreFormSubdivisions",
+    "authority": "loc",
+    "subauthority": "collection_GenreFormSubdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Temporal Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_TemporalSubdivisions",
+    "authority": "loc",
+    "subauthority": "collection_TemporalSubdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Geographic Subject Subdivisions (QA) - direct",
+    "uri": "urn:ld4p:qa:loc:collection_GeographicSubdivisions",
+    "authority": "loc",
+    "subauthority": "collection_GeographicSubdivisions",
+    "language": "en",
+    "component": "lookup",
+    "nonldLookup": true
+  },
+  {
+    "label": "LOC Thesaurus for Graphic Materials (QA) - direct",
     "uri": "urn:ld4p:qa:loc:graphicMaterials",
     "authority": "loc",
     "subauthority": "graphicMaterials",
@@ -1791,99 +1031,11 @@
     "component": "lookup"
   },
   {
-    "label": "NALT (QA)",
-    "uri": "urn:ld4p:qa:nalt",
-    "authority": "nalt_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
     "label": "Norwegian thesaurus on Genre and Form",
     "uri": "urn:ld4p:qa:ntsf_direct",
     "authority": "ntsf_direct",
     "subauthority": "",
     "language": "no",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST (QA) - cache",
-    "uri": "urn:ld4p:qa:fast",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Topic (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:topic",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "topic",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Event Name (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:event",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "event",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Personal Name (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:person",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "person",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Corporate Name (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:organization",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "organization",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Geographic (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:place",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "place",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Meeting (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:meeting",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "meeting",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Period (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:period",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "period",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Form (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:genreform",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "genreform",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "OCLCFAST Uniform Title (QA) - cache",
-    "uri": "urn:ld4p:qa:fast:work",
-    "authority": "oclcfast_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
     "component": "lookup"
   },
   {
@@ -1960,14 +1112,6 @@
   },
   {
     "label": "RDA Registry aspect ratio designation (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:aspect_ratio",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "aspect_ratio",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry aspect ratio designation (QA)",
     "uri": "urn:qa:rda_aspect_ratio_designation",
     "authority": "local",
     "subauthority": "rda_aspect_ratio_designation",
@@ -1977,14 +1121,6 @@
   },
   {
     "label": "RDA Registry bibliographic format (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:bibliographic_format",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "bibliographic_format",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry bibliographic format (QA)",
     "uri": "urn:qa:rda_bibliographic_format",
     "authority": "local",
     "subauthority": "rda_bibliographic_format",
@@ -1994,14 +1130,6 @@
   },
   {
     "label": "RDA Registry broadcast standard (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:broadcast_standard",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "broadcast_standard",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry broadcast standard (QA)",
     "uri": "urn:qa:rda_broadcast_standard",
     "authority": "local",
     "subauthority": "rda_broadcast_standard",
@@ -2011,14 +1139,6 @@
   },
   {
     "label": "RDA Registry carrier type (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:carrier_type",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "carrier_type",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry carrier type (QA)",
     "uri": "urn:qa:rda_carrier_type",
     "authority": "local",
     "subauthority": "rda_carrier_type",
@@ -2027,7 +1147,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry carrier extent unit (QA)",
+    "label": "RDA Registry carrier extent unit (QA)",
     "uri": "urn:qa:rda_carrier_extent_unit",
     "authority": "local",
     "subauthority": "rda_carrier_extent_unit",
@@ -2037,14 +1157,6 @@
   },
   {
     "label": "RDA Registry cartographic data type (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:cartographic_data_type",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "cartographic_data_type",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry cartographic data type (QA)",
     "uri": "urn:qa:rda_cartographic_data_type",
     "authority": "local",
     "subauthority": "rda_cartographic_data_type",
@@ -2053,7 +1165,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry collection accrual method (QA)",
+    "label": "RDA Registry collection accrual method (QA)",
     "uri": "urn:qa:rda_collection_accrual_method",
     "authority": "local",
     "subauthority": "rda_collection_accrual_method",
@@ -2062,7 +1174,7 @@
     "nonldLookup": true
   },
    {
-    "label": "TEST (DO NOT USE YET) RDA Registry collection accrual policy (QA)",
+    "label": "RDA Registry collection accrual policy (QA)",
     "uri": "urn:qa:rda_collection_accrual_policy",
     "authority": "local",
     "subauthority": "rda_collection_accrual_policy",
@@ -2072,14 +1184,6 @@
   },
   {
     "label": "RDA Registry colour content (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:colour_content",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "colour_content",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry colour content (QA)",
     "uri": "urn:qa:rda_colour_content",
     "authority": "local",
     "subauthority": "rda_colour_content",
@@ -2089,14 +1193,6 @@
   },
   {
     "label": "RDA Registry configuration of playback channels (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:config_playback_channels",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "config_playback_channels",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry configuration of playback channels (QA)",
     "uri": "urn:qa:rda_configuration_of_playback_channels",
     "authority": "local",
     "subauthority": "rda_configuration_of_playback_channels",
@@ -2106,14 +1202,6 @@
   },
   {
     "label": "RDA Registry content type (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:content_type",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "content_type",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry content type (QA)",
     "uri": "urn:qa:rda_content_type",
     "authority": "local",
     "subauthority": "rda_content_type",
@@ -2122,7 +1210,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry extension plan (QA)",
+    "label": "RDA Registry extension plan (QA)",
     "uri": "urn:qa:rda_extension_plan",
     "authority": "local",
     "subauthority": "rda_extension_plan",
@@ -2132,14 +1220,6 @@
   },
   {
     "label": "RDA Registry file type (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:file_type",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "file_type",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry file type (QA)",
     "uri": "urn:qa:rda_file_type",
     "authority": "local",
     "subauthority": "rda_file_type",
@@ -2149,14 +1229,6 @@
   },
   {
     "label": "RDA Registry font size (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:font_size",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "font_size",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry font size (QA)",
     "uri": "urn:qa:rda_font_size",
     "authority": "local",
     "subauthority": "rda_font_size",
@@ -2166,14 +1238,6 @@
   },
   {
     "label": "RDA Registry form of musical notation (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_musical_notation",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "form_of_musical_notation",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry form of musical notation (QA)",
     "uri": "urn:qa:rda_form_of_musical_notation",
     "authority": "local",
     "subauthority": "rda_form_of_musical_notation",
@@ -2183,14 +1247,6 @@
   },
   {
     "label": "RDA Registry form of notated movement (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_notated_movement",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "form_of_notated_movement",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry form of notated movement (QA)",
     "uri": "urn:qa:rda_form_of_notated_movement",
     "authority": "local",
     "subauthority": "rda_form_of_notated_movement",
@@ -2200,14 +1256,6 @@
   },
   {
     "label": "RDA Registry form of tactile notation (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:form_of_tactile_notation",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "form_of_tactile_notation",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry form of tactile notation (QA)",
     "uri": "urn:qa:rda_form_of_tactile_notation",
     "authority": "local",
     "subauthority": "rda_form_of_tactile_notation",
@@ -2217,14 +1265,6 @@
   },
   {
     "label": "RDA Registry format of notated music (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:format_of_notated_music",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "format_of_notated_music",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry format of notated music (QA)",
     "uri": "urn:qa:rda_format_of_notated_music",
     "authority": "local",
     "subauthority": "rda_format_of_notated_music",
@@ -2234,14 +1274,6 @@
   },
   {
     "label": "RDA Registry frequency (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:frequency",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "frequency",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry frequency (QA)",
     "uri": "urn:qa:rda_frequency",
     "authority": "local",
     "subauthority": "rda_frequency",
@@ -2250,23 +1282,7 @@
     "nonldLookup": true
   },
   {
-    "label": "RDA Registry gender (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:gender",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "gender",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
     "label": "RDA Registry generation (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:generation",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "generation",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry generation (QA)",
     "uri": "urn:qa:rda_generation",
     "authority": "local",
     "subauthority": "rda_generation",
@@ -2276,14 +1292,6 @@
   },
   {
     "label": "RDA Registry groove pitch of an analog cylinder (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:groove_pitch",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "groove_pitch",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry groove pitch of an analog cylinder (QA)",
     "uri": "urn:qa:rda_groove_pitch_of_an_analog_cylinder",
     "authority": "local",
     "subauthority": "rda_groove_pitch_of_an_analog_cylinder",
@@ -2293,14 +1301,6 @@
   },
   {
     "label": "RDA Registry groove width of an analog disc (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:groove_width",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "groove_width",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry groove width of an analog disc (QA)",
     "uri": "urn:qa:rda_groove_width_of_an_analog_disc",
     "authority": "local",
     "subauthority": "rda_groove_width_of_an_analog_disc",
@@ -2310,14 +1310,6 @@
   },
   {
     "label": "RDA Registry illustrative content (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:illustrative_content",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "illustrative_content",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry illustrative content (QA)",
     "uri": "urn:qa:rda_illustrative_content",
     "authority": "local",
     "subauthority": "rda_illustrative_content",
@@ -2326,7 +1318,7 @@
     "nonldLookup": true
   },
     {
-    "label": "TEST (DO NOT USE YET) RDA Registry interactivity mode (QA)",
+    "label": "RDA Registry interactivity mode (QA)",
     "uri": "urn:qa:rda_interactivity_mode",
     "authority": "local",
     "subauthority": "rda_interactivity_mode",
@@ -2336,14 +1328,6 @@
   },
   {
     "label": "RDA Registry layout (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:layout",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "layout",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry layout (QA)",
     "uri": "urn:qa:rda_layout",
     "authority": "local",
     "subauthority": "rda_layout",
@@ -2352,7 +1336,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry linked data work (QA)",
+    "label": "RDA Registry linked data work (QA)",
     "uri": "urn:qa:rda_linked_data_work",
     "authority": "local",
     "subauthority": "rda_linked_data_work",
@@ -2362,14 +1346,6 @@
   },
   {
     "label": "RDA Registry material (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:material",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "material",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry material (QA)",
     "uri": "urn:qa:rda_material",
     "authority": "local",
     "subauthority": "rda_material",
@@ -2379,14 +1355,6 @@
   },
   {
     "label": "RDA Registry media type (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:media_type",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "media_type",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry media type (QA)",
     "uri": "urn:qa:rda_media_type",
     "authority": "local",
     "subauthority": "rda_media_type",
@@ -2396,14 +1364,6 @@
   },
   {
     "label": "RDA Registry mode of issuance (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:mode_of_issuance",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "mode_of_issuance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry mode of issuance (QA)",
     "uri": "urn:qa:rda_mode_of_issuance",
     "authority": "local",
     "subauthority": "rda_mode_of_issuance",
@@ -2413,14 +1373,6 @@
   },
   {
     "label": "RDA Registry polarity (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:polarity",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "polarity",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry polarity (QA)",
     "uri": "urn:qa:rda_polarity",
     "authority": "local",
     "subauthority": "rda_polarity",
@@ -2430,14 +1382,6 @@
   },
   {
     "label": "RDA Registry presentation format (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:presentation_format",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "presentation_format",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry presentation format (QA)",
     "uri": "urn:qa:rda_presentation_format",
     "authority": "local",
     "subauthority": "rda_presentation_format",
@@ -2447,14 +1391,6 @@
   },
   {
     "label": "RDA Registry production method (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:production_method",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "production_method",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry production method (QA)",
     "uri": "urn:qa:rda_production_method",
     "authority": "local",
     "subauthority": "rda_production_method",
@@ -2464,14 +1400,6 @@
   },
   {
     "label": "RDA Registry recording medium (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:recording_medium",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "recording_medium",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry recording medium (QA)",
     "uri": "urn:qa:rda_recording_medium",
     "authority": "local",
     "subauthority": "rda_recording_medium",
@@ -2481,14 +1409,6 @@
   },
   {
     "label": "RDA Registry recording sources (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:recording_sources",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "recording_sources",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry recording sources (QA)",
     "uri": "urn:qa:rda_recording_source",
     "authority": "local",
     "subauthority": "rda_recording_source",
@@ -2498,14 +1418,6 @@
   },
   {
     "label": "RDA Registry reduction ratio designation (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:reduction_ratio",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "reduction_ratio",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry reduction ratio designation (QA)",
     "uri": "urn:qa:rda_reduction_ratio_designation",
     "authority": "local",
     "subauthority": "rda_reduction_ratio_designation",
@@ -2515,14 +1427,6 @@
   },
   {
     "label": "RDA Registry regional encoding (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:regional_encoding",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "regional_encoding",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry regional encoding (QA)",
     "uri": "urn:qa:rda_regional_encoding",
     "authority": "local",
     "subauthority": "rda_regional_encoding",
@@ -2532,14 +1436,6 @@
   },
   {
     "label": "RDA Registry scale designation (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:scale_designation",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "scale_designation",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry scale designation (QA)",
     "uri": "urn:qa:rda_scale_designation",
     "authority": "local",
     "subauthority": "rda_scale_designation",
@@ -2549,14 +1445,6 @@
   },
   {
     "label": "RDA Registry sound content (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:sound_content",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "sound_content",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry sound content (QA)",
     "uri": "urn:qa:rda_sound_content",
     "authority": "local",
     "subauthority": "rda_sound_content",
@@ -2566,14 +1454,6 @@
   },
   {
     "label": "RDA Registry special playback characteristics (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:special_playback",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "special_playback",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry special playback characteristics (QA)",
     "uri": "urn:qa:rda_special_playback_characteristics",
     "authority": "local",
     "subauthority": "rda_special_playback_characteristics",
@@ -2583,14 +1463,6 @@
   },
   {
     "label": "RDA Registry status of identification (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:status_of_identification",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "status_of_identification",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry status of identification (QA)",
     "uri": "urn:qa:rda_status_of_identification",
     "authority": "local",
     "subauthority": "rda_status_of_identification",
@@ -2600,14 +1472,6 @@
   },
   {
     "label": "RDA Registry terms (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:terms",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "terms",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry terms (QA)",
     "uri": "urn:qa:rda_terms",
     "authority": "local",
     "subauthority": "rda_terms",
@@ -2617,14 +1481,6 @@
   },
   {
     "label": "RDA Registry track configuration (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:track_config",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "track_config",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry track configuration (QA)",
     "uri": "urn:qa:rda_track_configuration",
     "authority": "local",
     "subauthority": "rda_track_configuration",
@@ -2634,14 +1490,6 @@
   },
   {
     "label": "RDA Registry type of binding (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:type_of_binding",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "type_of_binding",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry type of binding (QA)",
     "uri": "urn:qa:rda_type_of_binding",
     "authority": "local",
     "subauthority": "rda_type_of_binding",
@@ -2651,14 +1499,6 @@
   },
   {
     "label": "RDA Registry type of recording (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:type_of_recording",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "type_of_recording",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry type of recording (QA)",
     "uri": "urn:qa:rda_type_of_recording",
     "authority": "local",
     "subauthority": "rda_type_of_recording",
@@ -2667,7 +1507,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry unit of time (QA)",
+    "label": "RDA Registry unit of time (QA)",
     "uri": "urn:qa:rda_unit_of_time",
     "authority": "local",
     "subauthority": "rda_unit_of_time",
@@ -2676,7 +1516,7 @@
     "nonldLookup": true
   },
   {
-    "label": "TEST (DO NOT USE YET) RDA Registry user task (QA)",
+    "label": "RDA Registry user task (QA)",
     "uri": "urn:qa:rda_user_tasks",
     "authority": "local",
     "subauthority": "rda_user_tasks",
@@ -2686,657 +1526,12 @@
   },
   {
     "label": "RDA Registry video format (QA)",
-    "uri": "urn:ld4p:qa:rda_registry_ld4l_cache:video_format",
-    "authority": "rda_registry_ld4l_cache",
-    "subauthority": "video_format",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "TEST (DO NOT USE YET) RDA Registry video format (QA)",
     "uri": "urn:qa:rda_video_format",
     "authority": "local",
     "subauthority": "rda_video_format",
     "language": "en",
     "component": "lookup",
     "nonldLookup": true
-  },
-  {
-    "label": "SHAREVDE PCC Opus (QA) - cache",
-    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:opus",
-    "authority": "sharevde_pcc_ld4l_cache",
-    "subauthority": "opus",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE PCC Work (QA) - cache",
-    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:work",
-    "authority": "sharevde_pcc_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE PCC Instance (QA) - cache",
-    "uri": "urn:ld4p:qa:sharevde_pcc_ld4l_cache:instance",
-    "authority": "sharevde_pcc_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE ALBERTA (QA)",
-    "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:all",
-    "authority": "sharevde_alberta_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE ALBERTA work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:work",
-    "authority": "sharevde_alberta_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE ALBERTA superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:superwork",
-    "authority": "sharevde_alberta_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE ALBERTA instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_alberta_ld4l_cache:instance",
-    "authority": "sharevde_alberta_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CHICAGO (QA)",
-    "uri": "urn:ld4p:qa:sharevde_chicago_ld4l_cache:all",
-    "authority": "sharevde_chicago_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CHICAGO work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_chicago_ld4l_cache:work",
-    "authority": "sharevde_chicago_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CHICAGO superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_chicago_ld4l_cache:superwork",
-    "authority": "sharevde_chicago_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CHICAGO instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_chicago_ld4l_cache:instance",
-    "authority": "sharevde_chicago_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CORNELL (QA)",
-    "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:all",
-    "authority": "sharevde_cornell_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CORNELL work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:work",
-    "authority": "sharevde_cornell_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CORNELL superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:superwork",
-    "authority": "sharevde_cornell_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CORNELL instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_cornell_ld4l_cache:instance",
-    "authority": "sharevde_cornell_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CU BOULDER (QA)",
-    "uri": "urn:ld4p:qa:sharevde_cuboulder_ld4l_cache:all",
-    "authority": "sharevde_cuboulder_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CU BOULDER work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_cuboulder_ld4l_cache:work",
-    "authority": "sharevde_cuboulder_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CU BOULDER superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_cuboulder_ld4l_cache:superwork",
-    "authority": "sharevde_cuboulder_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE CU BOULDER instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_cuboulder_ld4l_cache:instance",
-    "authority": "sharevde_cuboulder_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE DUKE (QA)",
-    "uri": "urn:ld4p:qa:sharevde_duke_ld4l_cache:all",
-    "authority": "sharevde_duke_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE DUKE work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_duke_ld4l_cache:work",
-    "authority": "sharevde_duke_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE DUKE superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_duke_ld4l_cache:superwork",
-    "authority": "sharevde_duke_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE DUKE instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_duke_ld4l_cache:instance",
-    "authority": "sharevde_duke_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE FRICK (QA)",
-    "uri": "urn:ld4p:qa:sharevde_frick_ld4l_cache:all",
-    "authority": "sharevde_frick_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE FRICK work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_frick_ld4l_cache:work",
-    "authority": "sharevde_frick_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE FRICK superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_frick_ld4l_cache:superwork",
-    "authority": "sharevde_frick_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE FRICK instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_frick_ld4l_cache:instance",
-    "authority": "sharevde_frick_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE HARRYRANSOM (QA)",
-    "uri": "urn:ld4p:qa:sharevde_harryransom_ld4l_cache:all",
-    "authority": "sharevde_harryransom_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE HARRYRANSOM work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_harryransom_ld4l_cache:work",
-    "authority": "sharevde_harryransom_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE HARRYRANSOM superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_harryransom_ld4l_cache:superwork",
-    "authority": "sharevde_harryransom_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE HARRYRANSOM instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_harryransom_ld4l_cache:instance",
-    "authority": "sharevde_harryransom_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE HARVARD (QA)",
-    "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:all",
-    "authority": "sharevde_harvard_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE HARVARD work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:work",
-    "authority": "sharevde_harvard_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE HARVARD superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:superwork",
-    "authority": "sharevde_harvard_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE HARVARD instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_harvard_ld4l_cache:instance",
-    "authority": "sharevde_harvard_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE MICHIGAN (QA)",
-    "uri": "urn:ld4p:qa:sharevde_michigan_ld4l_cache:all",
-    "authority": "sharevde_michigan_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE MICHIGAN work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_michigan_ld4l_cache:work",
-    "authority": "sharevde_michigan_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE MICHIGAN superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_michigan_ld4l_cache:superwork",
-    "authority": "sharevde_michigan_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE MICHIGAN instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_michigan_ld4l_cache:instance",
-    "authority": "sharevde_michigan_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE MINNESOTA (QA)",
-    "uri": "urn:ld4p:qa:sharevde_minnesota_ld4l_cache:all",
-    "authority": "sharevde_minnesota_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE MINNESOTA work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_minnesota_ld4l_cache:work",
-    "authority": "sharevde_minnesota_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE MINNESOTA superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_minnesota_ld4l_cache:superwork",
-    "authority": "sharevde_minnesota_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE MINNESOTA instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_minnesota_ld4l_cache:instance",
-    "authority": "sharevde_minnesota_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE NLM (QA)",
-    "uri": "urn:ld4p:qa:sharevde_nlm_ld4l_cache:all",
-    "authority": "sharevde_nlm_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE NLM work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_nlm_ld4l_cache:work",
-    "authority": "sharevde_nlm_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE NLM superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_nlm_ld4l_cache:superwork",
-    "authority": "sharevde_nlm_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE NLM instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_nlm_ld4l_cache:instance",
-    "authority": "sharevde_nlm_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE NORTHWESTERN (QA)",
-    "uri": "urn:ld4p:qa:sharevde_northwestern_ld4l_cache:all",
-    "authority": "sharevde_northwestern_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE NORTHWESTERN work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_northwestern_ld4l_cache:work",
-    "authority": "sharevde_northwestern_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE NORTHWESTERN superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_northwestern_ld4l_cache:superwork",
-    "authority": "sharevde_northwestern_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE NORTHWESTERN instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_northwestern_ld4l_cache:instance",
-    "authority": "sharevde_northwestern_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE PRINCETON (QA)",
-    "uri": "urn:ld4p:qa:sharevde_princeton_ld4l_cache:all",
-    "authority": "sharevde_princeton_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE PRINCETON work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_princeton_ld4l_cache:work",
-    "authority": "sharevde_princeton_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE PRINCETON superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_princeton_ld4l_cache:superwork",
-    "authority": "sharevde_princeton_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE PRINCETON instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_princeton_ld4l_cache:instance",
-    "authority": "sharevde_princeton_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE STANFORD (QA)",
-    "uri": "urn:ld4p:qa:sharevde_stanford_ld4l_cache:all",
-    "authority": "sharevde_stanford_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE STANFORD work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_stanford_ld4l_cache:work",
-    "authority": "sharevde_stanford_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE STANFORD superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_stanford_ld4l_cache:superwork",
-    "authority": "sharevde_stanford_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE STANFORD instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_stanford_ld4l_cache:instance",
-    "authority": "sharevde_stanford_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE TEXASAM (QA)",
-    "uri": "urn:ld4p:qa:sharevde_texasam_ld4l_cache:all",
-    "authority": "sharevde_texasam_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE TEXASAM work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_texasam_ld4l_cache:work",
-    "authority": "sharevde_texasam_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE TEXASAM superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_texasam_ld4l_cache:superwork",
-    "authority": "sharevde_texasam_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE TEXASAM instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_texasam_ld4l_cache:instance",
-    "authority": "sharevde_texasam_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UCDAVIS work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_ucdavis_ld4l_cache:work",
-    "authority": "sharevde_ucdavis_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UCDAVIS superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_ucdavis_ld4l_cache:superwork",
-    "authority": "sharevde_ucdavis_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UCDAVIS instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_ucdavis_ld4l_cache:instance",
-    "authority": "sharevde_ucdavis_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UCSD (QA)",
-    "uri": "urn:ld4p:qa:sharevde_ucsd_ld4l_cache:all",
-    "authority": "sharevde_ucsd_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UCSD work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_ucsd_ld4l_cache:work",
-    "authority": "sharevde_ucsd_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UCSD superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_ucsd_ld4l_cache:superwork",
-    "authority": "sharevde_ucsd_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UCSD instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_ucsd_ld4l_cache:instance",
-    "authority": "sharevde_ucsd_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UPENN (QA)",
-    "uri": "urn:ld4p:qa:sharevde_upenn_ld4l_cache:all",
-    "authority": "sharevde_upenn_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UPENN work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_upenn_ld4l_cache:work",
-    "authority": "sharevde_upenn_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UPENN superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_upenn_ld4l_cache:superwork",
-    "authority": "sharevde_upenn_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UPENN instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_upenn_ld4l_cache:instance",
-    "authority": "sharevde_upenn_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UWASHINGTON (QA)",
-    "uri": "urn:ld4p:qa:sharevde_uwashington_ld4l_cache:all",
-    "authority": "sharevde_uwashington_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UWASHINGTON work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_uwashington_ld4l_cache:work",
-    "authority": "sharevde_uwashington_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UWASHINGTON superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_uwashington_ld4l_cache:superwork",
-    "authority": "sharevde_uwashington_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE UWASHINGTON instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_uwashington_ld4l_cache:instance",
-    "authority": "sharevde_uwashington_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE YALE (QA)",
-    "uri": "urn:ld4p:qa:sharevde_yale_ld4l_cache:all",
-    "authority": "sharevde_yale_ld4l_cache",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE YALE work (QA)",
-    "uri": "urn:ld4p:qa:sharevde_yale_ld4l_cache:work",
-    "authority": "sharevde_yale_ld4l_cache",
-    "subauthority": "work",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE YALE superwork (QA)",
-    "uri": "urn:ld4p:qa:sharevde_yale_ld4l_cache:superwork",
-    "authority": "sharevde_yale_ld4l_cache",
-    "subauthority": "superwork",
-    "language": "en",
-    "component": "lookup"
-  },
-  {
-    "label": "SHAREVDE YALE instance (QA)",
-    "uri": "urn:ld4p:qa:sharevde_yale_ld4l_cache:instance",
-    "authority": "sharevde_yale_ld4l_cache",
-    "subauthority": "instance",
-    "language": "en",
-    "component": "lookup"
   },
   {
     "label": "Wikidata (QA)",

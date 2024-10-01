@@ -6,11 +6,11 @@
     "editor",
     "rdf"
   ],
-  "version": "3.17.69",
+  "version": "3.17.105",
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LD4P/sinopia_editor.git"
+    "url": "git+https://github.com/LD4P/sinopia_editor.git"
   },
   "engines": {
     "node": ">= 14.11.0 <=16.10.0"
@@ -95,6 +95,7 @@
     "react-bootstrap-icons": "^1.5.0",
     "react-bootstrap-typeahead": "^5.2.0",
     "react-dom": "^17.0.2",
+    "react-focus-lock": "^2.12.1",
     "react-helmet-async": "^1.1.2",
     "react-hot-loader": "^4.13.0",
     "react-multi-select-component": "^4.3.0",
@@ -213,5 +214,7 @@
   },
   "optionalDependencies": {
     "cypress": "^9.0.0"
-  }
+  },
+  "main": ".eslintrc.js",
+  "author": ""
 }

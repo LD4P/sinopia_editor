@@ -4,6 +4,7 @@ import {
   saveNewResource,
   saveResource,
   contractProperty,
+  addMainTitle,
 } from "actionCreators/resources"
 import mockConsole from "jest-mock-console"
 import * as sinopiaApi from "sinopiaApi"
@@ -222,5 +223,26 @@ describe("contractProperty", () => {
     await store.dispatch(contractProperty("JQEtq-vmq8"))
     const actions = store.getActions()
     expect(actions).toHaveAction("ADD_PROPERTY")
+  })
+})
+
+describe("addMainTitle", () => {
+  const store = mockStore(createState({ hasResourceWithMainTitle: true }))
+
+  it("add title value to state", async () => {
+    await store.dispatch(
+      addMainTitle("cqxLskA9kjAfMFDeuvzGq", {
+        literal: "Tang",
+        lang: "en",
+        propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
+      })
+    )
+    const actions = store.getActions()
+    expect(actions).toHaveAction("UPDATE_VALUE", {
+      valueKey: "JjUhYxaBo9nuIh8GKd9k5",
+      literal: "Tang",
+      lang: "en",
+      component: undefined,
+    })
   })
 })

@@ -195,3 +195,62 @@ export const selectPickSubject = (state, key, props) =>
 
 export const selectVersions = (state, resourceKey) =>
   state.entities.versions[resourceKey]
+
+export const selectMainTitleProperty = (state, key) => {
+  // Selects main title for a resource like:
+  //   <> <http://id.loc.gov/ontologies/bibframe/title> _:b206;
+  //   _:b1 a <http://id.loc.gov/ontologies/bibframe/Title>;
+  //      <http://id.loc.gov/ontologies/bibframe/mainTitle> "The main title"@en;
+  const subject = selectSubject(state, key)
+  if (_.isEmpty(subject)) return null
+
+  const titleValues = subject.properties.flatMap((property) => {
+    const propertyTemplate = selectPropertyTemplate(
+      state,
+      property.propertyTemplateKey
+    )
+    if (
+      propertyTemplate?.defaultUri !==
+      "http://id.loc.gov/ontologies/bibframe/title"
+    )
+      return []
+    return property.valueKeys.map((valueKey) =>
+      selectNormValue(state, valueKey)
+    )
+  })
+  if (_.isEmpty(titleValues)) return null
+
+  const titleValueSubjects = titleValues.map((titleValue) => {
+    if (!titleValue.valueSubjectKey) return null
+    const titleValueSubject = selectSubject(state, titleValue.valueSubjectKey)
+    if (
+      titleValueSubject.subjectTemplate.class !==
+      "http://id.loc.gov/ontologies/bibframe/Title"
+    )
+      return null
+    return titleValueSubject
+  })
+  const titleValueSubject = titleValueSubjects.find(
+    (titleValueSubject) => titleValueSubject
+  )
+  if (!titleValueSubject) return null
+
+  return titleValueSubject.properties.find((property) => {
+    const propertyTemplate = selectPropertyTemplate(
+      state,
+      property.propertyTemplateKey
+    )
+    return (
+      propertyTemplate?.defaultUri ===
+      "http://id.loc.gov/ontologies/bibframe/mainTitle"
+    )
+  })
+}
+
+export const selectMainTitleValue = (state, key) => {
+  const mainTitleProperty = selectMainTitleProperty(state, key)
+  if (!mainTitleProperty) return null
+  if (_.isEmpty(mainTitleProperty.valueKeys)) return null
+
+  return selectNormValue(state, mainTitleProperty.valueKeys[0])
+}
