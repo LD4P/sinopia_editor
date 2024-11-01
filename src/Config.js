@@ -157,6 +157,7 @@ class Config {
         memorial: "Catalog",
         jmu: "Catalog",
         brandeis: "Catalog",
+        puc: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
