@@ -156,6 +156,7 @@ class Config {
         leeds: "Catalog",
         memorial: "Catalog",
         jmu: "Catalog",
+        brandeis: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
