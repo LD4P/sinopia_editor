@@ -31,3 +31,4 @@ Confirm that credentials for the Sinopia / Alma integration can be provided upon
 - [ ] Create a Sinopia Editor PR to add group to src/Config.json [here](https://github.com/LD4P/sinopia_editor/blob/c06d7b49ab4475eafe63874daa8e6c94e5a05402/src/Config.js#L141-L151)
 - [ ] Create an ILS-Middleware PR to add group to the alma DAG [here](https://github.com/LD4P/ils-middleware/blob/a2f5206245163209355ddf74ea226a9a369dced1/ils_middleware/dags/alma.py#L48-L60)
 - [ ] Add group's credentials to ILS-Middleware
+- [ ] Add group's region variables to ILS-Middleware
