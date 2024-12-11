@@ -158,6 +158,7 @@ class Config {
         jmu: "Catalog",
         brandeis: "Catalog",
         PUC: "Catalog",
+        utoronto: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
