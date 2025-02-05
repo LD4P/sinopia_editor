@@ -159,6 +159,7 @@ class Config {
         brandeis: "Catalog",
         PUC: "Catalog",
         utoronto: "Catalog",
+        ucf: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
