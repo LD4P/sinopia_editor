@@ -21,7 +21,7 @@ const Footer = () => (
           Sinopia is a project of{" "}
           <a
             rel="grant noopener noreferrer"
-            href="http://www.ld4p.org"
+            href="https://searchworks.stanford.edu/view/qt361vf0063"
             target="_blank"
           >
             Linked Data for Production 2 (LD4P2)
