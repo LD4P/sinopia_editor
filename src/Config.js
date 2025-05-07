@@ -160,6 +160,7 @@ class Config {
         PUC: "Catalog",
         utoronto: "Catalog",
         ucf: "Catalog",
+        usf: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
