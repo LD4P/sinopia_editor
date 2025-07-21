@@ -1,6 +1,4 @@
 [![CircleCI](https://circleci.com/gh/LD4P/sinopia_editor.svg?style=svg)](https://circleci.com/gh/LD4P/sinopia_editor)
-[![Test Coverage Code Climate](https://api.codeclimate.com/v1/badges/27fe0fcbf342d0bca13b/test_coverage)](https://codeclimate.com/github/LD4P/sinopia_editor/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/27fe0fcbf342d0bca13b/maintainability)](https://codeclimate.com/github/LD4P/sinopia_editor/maintainability)
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/ld4p/sinopia_editor?sort=semver)](https://hub.docker.com/repository/docker/ld4p/sinopia_editor/tags?page=1&ordering=last_updated)
 
 
