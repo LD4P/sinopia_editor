@@ -161,7 +161,7 @@ class Config {
         utoronto: "Catalog",
         ucf: "Catalog",
         usf: "Catalog",
-        iowa-state: "Catalog",
+        iowa_state: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
