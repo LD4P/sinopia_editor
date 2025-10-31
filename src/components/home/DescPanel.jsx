@@ -30,7 +30,7 @@ const DescPanel = () => {
       </ul>
       <p>
         Sinopia is developed by the{" "}
-        <a href="https://wiki.lyrasis.org/display/LD4P2">
+        <a href="https://searchworks.stanford.edu/view/qt361vf0063">
           Linked Data for Production: Pathway to Implementation (LD4P2)
         </a>{" "}
         project, a collaboration among Cornell University, Harvard University,
@@ -42,7 +42,7 @@ const DescPanel = () => {
         The term <i>sinopia</i> refers to &quot;The preliminary drawing for a
         fresco or mural, named for the reddish-brown pigment traditionally used
         to draw or transfer it.&quot; (
-        <a href="http://www.lynnerutter.com/glossary.php#s">
+        <a href="https://web.archive.org/web/20240722180115/http://www.lynnerutter.com/glossary.php#s">
           Glossary of Esoteric Architectural and Design Terms by Lynne Rutter
         </a>
         ) LD4P&apos;s Sinopia is also a preliminary step, a sketch of
