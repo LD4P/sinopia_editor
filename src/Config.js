@@ -163,6 +163,7 @@ class Config {
         usf: "Catalog",
         iowa_state: "Catalog",
         beit_ariela: "Catalog",
+        upch: "Catalog",
       },
       // Can add additional transfer targets, e.g., discovery
     }
