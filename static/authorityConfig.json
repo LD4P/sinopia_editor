@@ -1767,6 +1767,11 @@
     "component": "list"
   },
   {
+    "label": "variant title type",
+    "uri": "https://id.loc.gov/vocabulary/vartitletype",
+    "component": "list"
+  },
+  {
     "label": "propertyAttribute",
     "uri": "file:/propertyAttribute.json",
     "component": "list"
