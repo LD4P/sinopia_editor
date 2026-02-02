@@ -1631,6 +1631,16 @@
     "uri": "https://id.loc.gov/vocabulary/mbroadstd",
     "component": "list"
   },
+   {
+    "label": "file type",
+    "uri": "https://id.loc.gov/vocabulary/mfiletype",
+    "component": "list"
+  },
+  {
+    "label": "ensemble size",
+    "uri": "https://id.loc.gov/vocabulary/ensemblesize",
+    "component": "list"
+  },
   {
     "label": "file type",
     "uri": "https://id.loc.gov/vocabulary/mfiletype",
