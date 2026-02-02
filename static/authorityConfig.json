@@ -1672,6 +1672,11 @@
     "component": "list"
   },
   {
+    "label": "medium component qualifier",
+    "uri": "https://id.loc.gov/vocabulary/medcompqual",
+    "component": "list"
+  },
+  {
     "label": "note type",
     "uri": "https://id.loc.gov/vocabulary/mnotetype",
     "component": "list"
