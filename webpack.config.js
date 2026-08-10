@@ -48,6 +48,15 @@ module.exports = {
           {
             // compiles Sass to CSS
             loader: "sass-loader",
+            options: {
+              // Prevent Dart Sass from prepending a UTF-8 BOM/@charset when
+              // compiled output contains non-ASCII characters (e.g. "❯" in
+              // main.scss) — a leading BOM corrupts the next selector, which
+              // dropped Bootstrap's :root custom properties in some builds.
+              sassOptions: {
+                charset: false,
+              },
+            },
           },
         ],
       },
