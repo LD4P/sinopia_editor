@@ -90,7 +90,7 @@ expect.extend({
         pass: false,
         message: () =>
           `Expected ${pretty(
-            property
+            property,
           )} to have subject with subjectTemplate property.`,
       }
     }

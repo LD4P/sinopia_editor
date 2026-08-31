@@ -8,7 +8,7 @@ const useNavTarget = (navObj) => {
   const dispatch = useDispatch()
 
   const isCurrentComponent = useSelector((state) =>
-    isCurrentComponentSelector(state, navObj.rootSubjectKey, navObj.key)
+    isCurrentComponentSelector(state, navObj.rootSubjectKey, navObj.key),
   )
 
   const navTargetId = `navTarget-${navObj.key}`
@@ -29,8 +29,8 @@ const useNavTarget = (navObj) => {
       setCurrentComponent(
         navObj.rootSubjectKey,
         navObj.rootPropertyKey,
-        navObj.key
-      )
+        navObj.key,
+      ),
     )
     event.stopPropagation()
   }

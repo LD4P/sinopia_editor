@@ -5,7 +5,7 @@ export const transfer =
   (resourceUri, group, target, errorKey) => (dispatch) => {
     postTransfer(resourceUri, group, target).catch((err) => {
       dispatch(
-        addError(errorKey, `Error requesting transfer: ${err.message || err}`)
+        addError(errorKey, `Error requesting transfer: ${err.message || err}`),
       )
     })
   }

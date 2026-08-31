@@ -9,7 +9,7 @@ import { selectLanguageLabel } from "selectors/languages"
 const LanguageButton = ({ value }) => {
   const dispatch = useDispatch()
   const langLabel = useSelector((state) =>
-    selectLanguageLabel(state, value.lang)
+    selectLanguageLabel(state, value.lang),
   )
 
   const handleClick = (event) => {

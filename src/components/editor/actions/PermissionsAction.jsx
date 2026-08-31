@@ -15,10 +15,10 @@ const PermissionsAction = () => {
   const uri = useSelector((state) => selectUri(state, resourceKey))
 
   const hasValidationErrors = useSelector((state) =>
-    hasValidationErrorsSelector(state, resourceKey)
+    hasValidationErrorsSelector(state, resourceKey),
   )
   const validationErrorsAreShowing = useSelector((state) =>
-    displayResourceValidations(state, resourceKey)
+    displayResourceValidations(state, resourceKey),
   )
 
   const dispatch = useDispatch()

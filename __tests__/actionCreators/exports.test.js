@@ -17,7 +17,7 @@ describe("export", () => {
 
     beforeEach(
       () =>
-        (global.fetch = jest.fn().mockImplementation(() => mockFetchPromise))
+        (global.fetch = jest.fn().mockImplementation(() => mockFetchPromise)),
     )
 
     it("dispatches actions", async () => {
@@ -41,7 +41,7 @@ describe("export", () => {
 
     beforeEach(
       () =>
-        (global.fetch = jest.fn().mockImplementation(() => mockFetchPromise))
+        (global.fetch = jest.fn().mockImplementation(() => mockFetchPromise)),
     )
 
     it("dispatches actions", async () => {

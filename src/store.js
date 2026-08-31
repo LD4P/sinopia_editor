@@ -92,7 +92,7 @@ if (process.env.NODE_ENV === "development") {
 const store = createStore(
   reducer,
   initialState,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk)),
 )
 
 export default store

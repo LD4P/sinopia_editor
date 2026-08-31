@@ -86,15 +86,15 @@ describe("<QASearchResults />", () => {
     // Rows
     screen.getByText(/These twain/)
     screen.getByText(
-      /http:\/\/share-vde.org\/sharevde\/rdfBibframe\/Work\/3107365/
+      /http:\/\/share-vde.org\/sharevde\/rdfBibframe\/Work\/3107365/,
     )
     screen.getByText(/Those twain/)
     screen.getByText("http://id.loc.gov/ontologies/bflc/Hub")
     expect(
-      screen.getAllByText("http://id.loc.gov/ontologies/bibframe/Work")
+      screen.getAllByText("http://id.loc.gov/ontologies/bibframe/Work"),
     ).toHaveLength(2)
     expect(
-      screen.getAllByText("Contributor", { selector: "strong" })
+      screen.getAllByText("Contributor", { selector: "strong" }),
     ).toHaveLength(2)
     screen.getByText(/Bennett, Arnold,1867-1931./)
     expect(screen.getAllByTitle("Copy")).toHaveLength(2)

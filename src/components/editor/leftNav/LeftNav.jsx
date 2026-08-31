@@ -9,7 +9,7 @@ import { hasRelationships as hasRelationshipsSelector } from "selectors/relation
 const LeftNav = ({ resource }) => {
   const [currentTab, setCurrentTab] = useState("nav")
   const hasRelationships = useSelector((state) =>
-    hasRelationshipsSelector(state, resource.key)
+    hasRelationshipsSelector(state, resource.key),
   )
 
   const handleTabClick = (event, tab) => {

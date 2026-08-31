@@ -30,7 +30,7 @@ export default class GraphBuilder {
   buildSubject(subject, subjectTerm) {
     this.addType(subjectTerm, subject.classes)
     subject.properties.forEach((property) =>
-      this.buildProperty(property, subjectTerm)
+      this.buildProperty(property, subjectTerm),
     )
   }
 
@@ -39,7 +39,7 @@ export default class GraphBuilder {
 
     if (property.propertyTemplate?.ordered) {
       const values = property.values.filter((value) =>
-        this.checkValueHasValue(value)
+        this.checkValueHasValue(value),
       )
       if (_.isEmpty(values)) return
 
@@ -49,8 +49,8 @@ export default class GraphBuilder {
           subjectTerm,
           // For ordered, get propertyUri from property.
           rdf.namedNode(property.propertyUri),
-          nextNode
-        )
+          nextNode,
+        ),
       )
       values.forEach((value, index) => {
         const thisNode = nextNode
@@ -62,19 +62,19 @@ export default class GraphBuilder {
           rdf.quad(
             thisNode,
             rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"),
-            nextNode
-          )
+            nextNode,
+          ),
         )
         this.buildValue(
           value,
           thisNode,
           rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"),
-          property
+          property,
         )
       })
     } else {
       const values = property.values.filter((value) =>
-        this.checkValueHasValue(value)
+        this.checkValueHasValue(value),
       )
 
       values.forEach((value) =>
@@ -82,8 +82,8 @@ export default class GraphBuilder {
           value,
           subjectTerm,
           rdf.namedNode(value.propertyUri),
-          property
-        )
+          property,
+        ),
       )
     }
   }
@@ -121,8 +121,8 @@ export default class GraphBuilder {
         rdf.quad(
           valueTerm,
           rdf.namedNode("http://www.w3.org/2000/01/rdf-schema#label"),
-          rdf.literal(value.label, value.lang)
-        )
+          rdf.literal(value.label, value.lang),
+        ),
       )
     }
   }
@@ -140,14 +140,14 @@ export default class GraphBuilder {
 
   buildSuppressedValueSubject(value, subjectTerm, propertyTerm) {
     const uriValues = value.valueSubject.properties[0].values.filter(
-      (value) => value.uri
+      (value) => value.uri,
     )
     uriValues.forEach((uriValue) => {
       this.buildUriValue(uriValue, subjectTerm, propertyTerm)
       this.addType(rdf.namedNode(uriValue.uri), value.valueSubject.classes)
     })
     const literalValues = value.valueSubject.properties[0].values.filter(
-      (value) => value.literal
+      (value) => value.literal,
     )
     if (!_.isEmpty(literalValues)) {
       const bnode = rdf.blankNode()
@@ -157,7 +157,7 @@ export default class GraphBuilder {
         this.buildLiteralValue(
           literalValue,
           bnode,
-          rdf.namedNode(literalValue.propertyUri)
+          rdf.namedNode(literalValue.propertyUri),
         )
       })
     }
@@ -174,7 +174,7 @@ export default class GraphBuilder {
 
   checkSubjectHasValue(subject) {
     return subject.properties.some((property) =>
-      this.checkPropertyHasValue(property)
+      this.checkPropertyHasValue(property),
     )
   }
 
@@ -199,8 +199,8 @@ export default class GraphBuilder {
       rdf.quad(
         baseURI,
         rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate"),
-        rdf.literal(resourceTemplateId)
-      )
+        rdf.literal(resourceTemplateId),
+      ),
     )
   }
 
@@ -210,8 +210,8 @@ export default class GraphBuilder {
         rdf.quad(
           subjectTerm,
           rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
-          rdf.namedNode(clazz)
-        )
+          rdf.namedNode(clazz),
+        ),
       )
     })
   }

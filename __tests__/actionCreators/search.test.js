@@ -52,8 +52,8 @@ describe("fetchSinopiaSearchResults", () => {
           sortField: "label",
           sortOrder: "desc",
         },
-        "testerrorkey"
-      )
+        "testerrorkey",
+      ),
     )
 
     const actions = store.getActions()
@@ -84,7 +84,7 @@ describe("fetchSinopiaSearchResults", () => {
       "Foo McBar",
       "search",
       "e983591a38cf0e7a8d9a2a1e3251a1b6",
-      '{"authorityUri":"urn:ld4p:sinopia","query":"*"}'
+      '{"authorityUri":"urn:ld4p:sinopia","query":"*"}',
     )
   })
 })
@@ -192,7 +192,7 @@ describe("fetchQASearchResults", () => {
         "Foo McBar",
         "search",
         "7c944f41fb8b8bba92311b4f4f48ceb3",
-        '{"authorityUri":"urn:ld4p:qa:oclc_fast:topic","query":"*"}'
+        '{"authorityUri":"urn:ld4p:qa:oclc_fast:topic","query":"*"}',
       )
     })
   })
@@ -259,7 +259,7 @@ describe("fetchTemplateGuessSearchResults", () => {
       await store.dispatch(
         fetchTemplateGuessSearchResults(query, "testerrorkey", {
           startOfRange: 0,
-        })
+        }),
       )
 
       const actions = store.getActions()
@@ -296,7 +296,7 @@ describe("fetchTemplateGuessSearchResults", () => {
       await store.dispatch(
         fetchTemplateGuessSearchResults(query, "testerrorkey", {
           startOfRange: 0,
-        })
+        }),
       )
 
       const actions = store.getActions()

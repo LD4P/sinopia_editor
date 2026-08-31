@@ -12,15 +12,15 @@ beforeEach(() => {
   fetchMock.mockReset()
   fetchMock.mock(
     "http://localhost:3000/groups",
-    '{"data":[{"id":"cornell","label":"Cornell"},{"id":"ld4p","label":"LD4P"},{"id":"other","label":"other"},{"id":"pcc","label":"Program for Cooperative Cataloging"},{"id":"stanford","label":"Stanford"}]}'
+    '{"data":[{"id":"cornell","label":"Cornell"},{"id":"ld4p","label":"LD4P"},{"id":"other","label":"other"},{"id":"pcc","label":"Program for Cooperative Cataloging"},{"id":"stanford","label":"Stanford"}]}',
   )
   fetchMock.mock(
     "https://sinopia-exports-development.s3-us-west-2.amazonaws.com",
-    '<?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Contents><Key>alberta_2020-09-06T00:01:18.798Z.zip</Key></Contents><Contents><Key>sinopia_export_all_2020-09-06T00:01:17.621Z.zip</Key></Contents></ListBucketResult>'
+    '<?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Contents><Key>alberta_2020-09-06T00:01:18.798Z.zip</Key></Contents><Contents><Key>sinopia_export_all_2020-09-06T00:01:17.621Z.zip</Key></Contents></ListBucketResult>',
   )
   fetchMock.mock(
     "https://ld4p.github.io/sinopia/help_and_resources/menu_content.html",
-    '<ul><li><a href="https://github.com/ld4p/sinopia/wiki" target="_blank" rel="noopener noreferrer" className="menu-item">Sinopia help site</a></li></ul>'
+    '<ul><li><a href="https://github.com/ld4p/sinopia/wiki" target="_blank" rel="noopener noreferrer" className="menu-item">Sinopia help site</a></li></ul>',
   )
 })
 
@@ -88,7 +88,7 @@ describe("<App />", () => {
   describe("when user is not authenticated", () => {
     beforeEach(() => {
       Auth.currentAuthenticatedUser.mockRejectedValue(
-        new Error("Not authenticated")
+        new Error("Not authenticated"),
       )
     })
 
@@ -137,7 +137,7 @@ describe("<App />", () => {
       renderApp(null, history)
 
       await waitFor(() =>
-        expect(history.location.pathname).toEqual("/templates")
+        expect(history.location.pathname).toEqual("/templates"),
       )
       await screen.findByText(/Error retrieving resourceTemplate:bf2:Notex/)
     })

@@ -14,7 +14,7 @@ const RelationshipResults = ({ uri }) => {
   const dispatch = useDispatch()
   const errorKey = useAlerts()
   const relationships = useSelector((state) =>
-    selectSearchRelationships(state, uri)
+    selectSearchRelationships(state, uri),
   )
   const { canEdit, canCreate } = usePermissions()
   const groupMap = useSelector((state) => selectGroupMap(state))
@@ -40,14 +40,14 @@ const RelationshipResults = ({ uri }) => {
           dispatch(
             addError(
               errorKey,
-              `Error getting relationships: ${searchResult.error}`
-            )
+              `Error getting relationships: ${searchResult.error}`,
+            ),
           )
           return
         }
         const newResourceRowMap = {}
         searchResult.results.forEach(
-          (row) => (newResourceRowMap[row.uri] = row)
+          (row) => (newResourceRowMap[row.uri] = row),
         )
         setResourceRowMap(newResourceRowMap)
       })

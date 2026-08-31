@@ -8,7 +8,7 @@ import _ from "lodash"
 const ResourceClass = ({ resource, readOnly }) => {
   const dispatch = useDispatch()
   const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplate(state, resource?.subjectTemplateKey)
+    selectSubjectTemplate(state, resource?.subjectTemplateKey),
   )
 
   const classLabel = (clazz) => {
@@ -29,12 +29,12 @@ const ResourceClass = ({ resource, readOnly }) => {
       dispatch(
         setClasses(
           resource.key,
-          _.without(resource.classes, event.target.value)
-        )
+          _.without(resource.classes, event.target.value),
+        ),
       )
     } else {
       dispatch(
-        setClasses(resource.key, [...resource.classes, event.target.value])
+        setClasses(resource.key, [...resource.classes, event.target.value]),
       )
     }
   }

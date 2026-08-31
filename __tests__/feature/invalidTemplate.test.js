@@ -39,19 +39,19 @@ describe("an invalid resource template", () => {
 
     // Search for a template
     const input = screen.getByPlaceholderText(
-      "Enter id, label, URI, remark, group, or author"
+      "Enter id, label, URI, remark, group, or author",
     )
     await fireEvent.change(input, { target: { value: "Not found" } })
 
     // try to open the template
     const link = await screen.findByTestId(
-      "Create resource for Not found value template refs"
+      "Create resource for Not found value template refs",
     )
     fireEvent.click(link)
 
     // check that the dismissable error message appears
     await screen.findByText(
-      /The following referenced resource templates are not available in Sinopia/
+      /The following referenced resource templates are not available in Sinopia/,
     )
   })
 })

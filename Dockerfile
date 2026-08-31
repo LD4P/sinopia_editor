@@ -1,4 +1,4 @@
-FROM cimg/node:16.8
+FROM cimg/node:22.16
 
 # Allow build-time arguments (for, environment variables that need to be encoded into the webpack distribution)
 ARG USE_FIXTURES

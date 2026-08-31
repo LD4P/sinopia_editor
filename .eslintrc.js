@@ -12,7 +12,7 @@ module.exports = {
   ],
   extends: [
     'eslint:recommended',
-    'plugin:node/recommended',
+    'plugin:n/recommended',
     'plugin:react/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
@@ -31,7 +31,7 @@ module.exports = {
     },
   },
   settings: {
-    node: {
+    n: {
       resolvePaths: ['src', '__tests__/testUtilities'],
       tryExtensions: ['.js', '.jsx', '.json', '.node'],
     },
@@ -42,7 +42,7 @@ module.exports = {
       },
     },
     react: {
-      version: '16.6',
+      version: '17',
     },
   },
   env: {
@@ -95,7 +95,10 @@ module.exports = {
     'new-cap': 'off',
     'newline-after-var': 'off', // deprecated rule, enabled by airbnb-base/whitespace
     'newline-before-return': 'off',
-    'node/no-extraneous-import': 'off', // turning off because objects to our imports
+    'n/no-extraneous-import': 'off', // turning off because objects to our imports
+    'n/no-missing-import': 'off', // handled by import/no-unresolved with webpack resolver
+    'n/no-missing-require': 'off', // handled by import/no-unresolved with webpack resolver
+    'n/no-unpublished-require': 'off', // dev tooling uses unpublished deps
     'no-alert': 'off',
     'no-await-in-loop': 'off',
     'no-console': ['warn', { allow: ['error', 'info'] }], // we want to see errors in the console
@@ -124,7 +127,9 @@ module.exports = {
     'no-useless-constructor': 'warn',
     'no-var': 'error',
     'no-warning-comments': 'off',
-    'node/no-unsupported-features/es-syntax': 'off',
+    'n/no-unsupported-features/es-syntax': 'off',
+    'n/no-unsupported-features/node-builtins': 'off', // this is a browser app, not a Node app
+    'default-param-last': 'off',
     'prefer-const': 'error',
     'prefer-destructuring': 'off',
     'prefer-reflect': 'off',
@@ -151,6 +156,9 @@ module.exports = {
         'arrow-body-style': 'off',
         'max-lines': 'off',
         'max-len': 'off',
+        'no-import-assign': 'off', // tests use import assignment for mocking
+        'testing-library/no-await-sync-events': 'off',
+        'testing-library/no-node-access': 'off',
       },
       extends: ['plugin:testing-library/react']
     },
@@ -170,7 +178,7 @@ module.exports = {
         'react-testing-library.setup.js'
       ],
       rules: {
-        'node/no-unpublished-import': 'off',
+        'n/no-unpublished-import': 'off',
       },
     },
     {

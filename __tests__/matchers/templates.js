@@ -17,7 +17,7 @@ expect.extend({
         pass: false,
         message: () =>
           `Expected ${pretty(
-            subjectTemplate
+            subjectTemplate,
           )} to be subject template ${subjectTemplateKey}`,
       }
     }
@@ -26,7 +26,7 @@ expect.extend({
       pass: true,
       message: () =>
         `Expected ${pretty(
-          subjectTemplate
+          subjectTemplate,
         )} not to be subject template ${subjectTemplateKey}`,
     }
   },
@@ -40,7 +40,7 @@ expect.extend({
         pass: false,
         message: () =>
           `Expected ${pretty(
-            propertyTemplate
+            propertyTemplate,
           )} to be property template ${propertyTemplateKey}`,
       }
     }
@@ -49,7 +49,7 @@ expect.extend({
       pass: true,
       message: () =>
         `Expected ${pretty(
-          propertyTemplate
+          propertyTemplate,
         )} not to be property template ${propertyTemplateKey}`,
     }
   },
@@ -70,14 +70,14 @@ expect.extend({
 
     if (
       !propertyTemplates.every((propertyTemplate, index) =>
-        equalsPropertyTemplate(propertyTemplate, propertyTemplateKeys[index])
+        equalsPropertyTemplate(propertyTemplate, propertyTemplateKeys[index]),
       )
     ) {
       return {
         pass: false,
         message: () =>
           `Expected ${pretty(
-            propertyTemplates
+            propertyTemplates,
           )} to be property templates ${propertyTemplateKeys}`,
       }
     }
@@ -86,7 +86,7 @@ expect.extend({
       pass: true,
       message: () =>
         `Expected ${pretty(
-          propertyTemplates
+          propertyTemplates,
         )} not to be property template ${propertyTemplateKeys}`,
     }
   },

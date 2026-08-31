@@ -36,7 +36,7 @@ const parseTransliterationSubtag = (splitLang) => {
     (pos) =>
       splitLang[pos] === "t" &&
       splitLang[pos + 2] === "m0" &&
-      !startsWithUpperCase(splitLang[pos + 3])
+      !startsWithUpperCase(splitLang[pos + 3]),
   )
   return matchPos ? splitLang[matchPos + 3] : null
 }

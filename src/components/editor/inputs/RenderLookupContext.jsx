@@ -60,7 +60,7 @@ class RenderLookupContext extends Component {
       } else {
         contextContent = this.generateDefaultContextView(
           context,
-          mainLabelProperty
+          mainLabelProperty,
         )
       }
       return (
@@ -98,7 +98,7 @@ class RenderLookupContext extends Component {
     // Map context to hash that allows for selection of specific properties
     const contextHash = context.reduce(
       (map, obj) => ((map[obj.property] = obj), map),
-      {}
+      {},
     )
     const propertyOrder = authorityToContextOrderMap[authURI]
     const contextContent = propertyOrder.map((property, index) => {
@@ -107,7 +107,7 @@ class RenderLookupContext extends Component {
         return this.displayValues(
           contextHash[property].values,
           innerDivKey,
-          property
+          property,
         )
       }
     })
@@ -120,7 +120,8 @@ class RenderLookupContext extends Component {
       return (
         <div className="details-container" key={innerDivKey}>
           {" "}
-          <span className="context-field">{property}</span>: {valuesDisplay}{" "}
+          <span className="context-field">{property}</span>:{" "}
+          {valuesDisplay}{" "}
         </div>
       )
     }

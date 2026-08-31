@@ -10,7 +10,7 @@ import ResourcesNavTab from "./ResourcesNavTab"
 
 const ResourcesNav = () => {
   const currentResourceKey = useSelector((state) =>
-    selectCurrentResourceKey(state)
+    selectCurrentResourceKey(state),
   )
   const resourceKeys = useSelector((state) => selectResourceKeys(state))
 

@@ -21,10 +21,10 @@ const SearchFilter = ({
   const errorKey = useAlerts()
   const query = useSelector((state) => selectSearchQuery(state, "resource"))
   const searchOptions = useSelector((state) =>
-    selectSearchOptions(state, "resource")
+    selectSearchOptions(state, "resource"),
   )
   const facetResults = useSelector((state) =>
-    selectSearchFacetResults(state, "resource", facet)
+    selectSearchFacetResults(state, "resource", facet),
   )
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedFilters, setSelectedFilters] = useState([])
@@ -45,8 +45,8 @@ const SearchFilter = ({
           startOfRange: 0,
           [filterSearchOption]: selectedFilters,
         },
-        errorKey
-      )
+        errorKey,
+      ),
     )
   }
 

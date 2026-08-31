@@ -26,7 +26,7 @@ describe("getLookupResult()", () => {
     })
     it("returns result", async () => {
       const authorityConfig = findAuthorityConfig(
-        "urn:ld4p:sinopia:bibframe:work"
+        "urn:ld4p:sinopia:bibframe:work",
       )
       const result = await getLookupResult("foo", authorityConfig, 10)
 
@@ -65,7 +65,7 @@ describe("getLookupResult()", () => {
       expect(sinopiaSearch.getLookupResult).toHaveBeenCalledWith(
         "foo",
         authorityConfig,
-        { startOfRange: 10 }
+        { startOfRange: 10 },
       )
     })
   })
@@ -91,7 +91,7 @@ describe("getLookupResult()", () => {
     })
     it("returns result", async () => {
       const authorityConfig = findAuthorityConfig(
-        "urn:ld4p:sinopia:resourceTemplate"
+        "urn:ld4p:sinopia:resourceTemplate",
       )
       const result = await getLookupResult("foo", authorityConfig, 10)
       expect(result).toEqual({
@@ -127,7 +127,7 @@ describe("getLookupResult()", () => {
       expect(sinopiaSearch.getLookupResult).toHaveBeenCalledWith(
         "foo",
         authorityConfig,
-        { startOfRange: 10 }
+        { startOfRange: 10 },
       )
     })
   })
@@ -168,7 +168,7 @@ describe("getLookupResult()", () => {
       expect(qaSearch.createLookupPromise).toHaveBeenCalledWith(
         "corn",
         authorityConfig,
-        { startOfRange: 5 }
+        { startOfRange: 5 },
       )
     })
   })
@@ -206,7 +206,7 @@ describe("getLookupResult()", () => {
       expect(qaSearch.createLookupPromise).toHaveBeenCalledWith(
         "corn",
         authorityConfig,
-        { startOfRange: 5 }
+        { startOfRange: 5 },
       )
     })
   })

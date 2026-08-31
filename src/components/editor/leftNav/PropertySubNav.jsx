@@ -11,21 +11,21 @@ import useNavLink from "hooks/useNavLink"
 
 const PropertySubNav = (props) => {
   const property = useSelector((state) =>
-    selectNormProperty(state, props.propertyKey)
+    selectNormProperty(state, props.propertyKey),
   )
   const propertyTemplate = useSelector((state) =>
-    selectPropertyTemplate(state, property?.propertyTemplateKey)
+    selectPropertyTemplate(state, property?.propertyTemplateKey),
   )
   const values = useSelector(
     (state) => selectNormValues(state, property?.valueKeys),
-    shallowEqual
+    shallowEqual,
   )
 
   const { navLinkId, handleNavLinkClick } = useNavLink(property)
 
   const hasError = !_.isEmpty(property.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
-    displayResourceValidations(state, property?.rootSubjectKey)
+    displayResourceValidations(state, property?.rootSubjectKey),
   )
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")

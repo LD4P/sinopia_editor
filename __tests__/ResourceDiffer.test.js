@@ -16,7 +16,7 @@ describe("ResourceDiffer", () => {
   it("diffs changed literal values", () => {
     const resource2 = newResource()
     resource2.properties.find(
-      (property) => property.key === "Ju0IwOIn3oFsbvgxNZxeI"
+      (property) => property.key === "Ju0IwOIn3oFsbvgxNZxeI",
     ).values[0].literal = "changed Uber template1, property2"
 
     const diff = new ResourceDiffer(resource, resource2).diff
@@ -26,11 +26,11 @@ describe("ResourceDiffer", () => {
     const propertyDiff = diff.changedPropertyDiffs[0]
     expect(propertyDiff.addedValues).toHaveLength(1)
     expect(propertyDiff.addedValues[0].literal).toEqual(
-      "changed Uber template1, property2"
+      "changed Uber template1, property2",
     )
     expect(propertyDiff.removedValues).toHaveLength(1)
     expect(propertyDiff.removedValues[0].literal).toEqual(
-      "Uber template1, property2"
+      "Uber template1, property2",
     )
     expect(propertyDiff.changedValues).toEqual([])
   })
@@ -38,7 +38,7 @@ describe("ResourceDiffer", () => {
   it("diffs changed literal languages", () => {
     const resource2 = newResource()
     resource2.properties.find(
-      (property) => property.key === "Ju0IwOIn3oFsbvgxNZxeI"
+      (property) => property.key === "Ju0IwOIn3oFsbvgxNZxeI",
     ).values[0].lang = "bhu"
 
     const diff = new ResourceDiffer(resource, resource2).diff
@@ -56,7 +56,7 @@ describe("ResourceDiffer", () => {
   it("diffs changed URIs", () => {
     const resource2 = newResource()
     resource2.properties.find(
-      (property) => property.key === "vD5j1BODY7KQnl4OGyCGa"
+      (property) => property.key === "vD5j1BODY7KQnl4OGyCGa",
     ).values[0].uri = "http://example.edu/ubertemplate1:property5#changed"
 
     const diff = new ResourceDiffer(resource, resource2).diff
@@ -66,11 +66,11 @@ describe("ResourceDiffer", () => {
     const propertyDiff = diff.changedPropertyDiffs[0]
     expect(propertyDiff.addedValues).toHaveLength(1)
     expect(propertyDiff.addedValues[0].uri).toEqual(
-      "http://example.edu/ubertemplate1:property5#changed"
+      "http://example.edu/ubertemplate1:property5#changed",
     )
     expect(propertyDiff.removedValues).toHaveLength(1)
     expect(propertyDiff.removedValues[0].uri).toEqual(
-      "http://example.edu/ubertemplate1:property5"
+      "http://example.edu/ubertemplate1:property5",
     )
     expect(propertyDiff.changedValues).toEqual([])
     expect(propertyDiff.changedSubjectValueDiffs).toEqual([])
@@ -79,7 +79,7 @@ describe("ResourceDiffer", () => {
   it("diffs changed URI labels", () => {
     const resource2 = newResource()
     resource2.properties.find(
-      (property) => property.key === "vD5j1BODY7KQnl4OGyCGa"
+      (property) => property.key === "vD5j1BODY7KQnl4OGyCGa",
     ).values[0].label = "ubertemplate1:property5 changed"
 
     const diff = new ResourceDiffer(resource, resource2).diff
@@ -91,10 +91,10 @@ describe("ResourceDiffer", () => {
     expect(propertyDiff.removedValues).toEqual([])
     expect(propertyDiff.changedValues).toHaveLength(1)
     expect(propertyDiff.changedValues[0][0].label).toEqual(
-      "ubertemplate1:property5"
+      "ubertemplate1:property5",
     )
     expect(propertyDiff.changedValues[0][1].label).toEqual(
-      "ubertemplate1:property5 changed"
+      "ubertemplate1:property5 changed",
     )
     expect(propertyDiff.changedSubjectValueDiffs).toEqual([])
   })
@@ -102,7 +102,7 @@ describe("ResourceDiffer", () => {
   it("diffs added values", () => {
     const resource2 = newResource()
     const property = resource2.properties.find(
-      (property) => property.key === "Ju0IwOIn3oFsbvgxNZxeI"
+      (property) => property.key === "Ju0IwOIn3oFsbvgxNZxeI",
     )
     property.values.push({
       key: "zaD077UWwRFvQN2vzbJFN",
@@ -127,7 +127,7 @@ describe("ResourceDiffer", () => {
     const propertyDiff = diff.changedPropertyDiffs[0]
     expect(propertyDiff.addedValues).toHaveLength(1)
     expect(propertyDiff.addedValues[0].literal).toEqual(
-      "Uber template1, property2, number2"
+      "Uber template1, property2, number2",
     )
     expect(propertyDiff.removedValues).toEqual([])
     expect(propertyDiff.changedValues).toEqual([])
@@ -137,7 +137,7 @@ describe("ResourceDiffer", () => {
   it("diffs removed values", () => {
     const resource2 = newResource()
     const property = resource2.properties.find(
-      (property) => property.key === "Ju0IwOIn3oFsbvgxNZxeI"
+      (property) => property.key === "Ju0IwOIn3oFsbvgxNZxeI",
     )
     property.values = []
     property.valueKeys = []
@@ -157,7 +157,7 @@ describe("ResourceDiffer", () => {
   it("diffs nested added values", () => {
     const resource2 = newResource()
     const property = resource2.properties.find(
-      (property) => property.key === "6uklDAA3TijzPsJNCsovJ"
+      (property) => property.key === "6uklDAA3TijzPsJNCsovJ",
     )
     property.values.push(addedValueSubject)
     property.valueKeys.push(addedValueSubject.key)
@@ -177,10 +177,10 @@ describe("ResourceDiffer", () => {
   it("diffs nested removed values", () => {
     const resource2 = newResource()
     const property = resource2.properties.find(
-      (property) => property.key === "6uklDAA3TijzPsJNCsovJ"
+      (property) => property.key === "6uklDAA3TijzPsJNCsovJ",
     )
     property.values = property.values.filter(
-      (value) => value.key !== "hPvpJz9nosea5BkXyrOou"
+      (value) => value.key !== "hPvpJz9nosea5BkXyrOou",
     )
     property.valueKeys = ["8y2K463pFNEE630Sgn3tW", "Jy-9cgAg07Za-eebn9aPN"]
 
@@ -202,7 +202,7 @@ describe("ResourceDiffer", () => {
       .find((property) => property.key === "6uklDAA3TijzPsJNCsovJ")
       .values.find((value) => value.key === "hPvpJz9nosea5BkXyrOou")
       .valueSubject.properties.find(
-        (property) => property.key === "SG0vRsmPIgL0Z6sOqd-w6"
+        (property) => property.key === "SG0vRsmPIgL0Z6sOqd-w6",
       )
     property.values.push({
       key: "EQYqd1xcBdX9R2efo7Qhx",

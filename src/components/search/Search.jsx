@@ -26,14 +26,14 @@ const Search = (props) => {
   const { fetchSearchResults } = useSearch()
 
   const searchOptions = useSelector((state) =>
-    selectSearchOptions(state, "resource")
+    selectSearchOptions(state, "resource"),
   )
   const uri = useSelector((state) => selectSearchUri(state, "resource"))
   const queryString = useSelector((state) =>
-    selectSearchQuery(state, "resource")
+    selectSearchQuery(state, "resource"),
   )
   const totalResults = useSelector((state) =>
-    selectSearchTotalResults(state, "resource")
+    selectSearchTotalResults(state, "resource"),
   )
 
   const changeSearchPage = (startOfRange) => {

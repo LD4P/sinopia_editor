@@ -13,14 +13,14 @@ describe("<PropertyLabelInfoTooltip />", () => {
     const store = createStore(state)
     const propertyTemplate = selectSubjectAndPropertyTemplates(
       state,
-      "resourceTemplate:testing:uber1"
+      "resourceTemplate:testing:uber1",
     )
     renderComponent(
       <PropertyLabelInfoTooltip propertyTemplate={propertyTemplate} />,
-      store
+      store,
     )
     expect(screen.getByRole("link").getAttribute("data-bs-content")).toBe(
-      "Template for testing purposes."
+      "Template for testing purposes.",
     )
   })
 
@@ -29,14 +29,14 @@ describe("<PropertyLabelInfoTooltip />", () => {
     const store = createStore(state)
     const propertyTemplate = selectSubjectAndPropertyTemplates(
       state,
-      "resourceTemplate:testing:uber2"
+      "resourceTemplate:testing:uber2",
     )
     renderComponent(
       <PropertyLabelInfoTooltip propertyTemplate={propertyTemplate} />,
-      store
+      store,
     )
     expect(screen.getByRole("link").getAttribute("data-bs-content")).toBe(
-      'Template for testing purposes with single repeatable literal with a link to Stanford at <a target="_blank" href="https://www.stanford.edu">https://www.stanford.edu</a>'
+      'Template for testing purposes with single repeatable literal with a link to Stanford at <a target="_blank" href="https://www.stanford.edu">https://www.stanford.edu</a>',
     )
   })
 })

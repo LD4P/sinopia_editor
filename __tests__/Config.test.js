@@ -35,13 +35,13 @@ describe("Config", () => {
 
     it("aws cognito domain has static value", () => {
       expect(Config.awsCognitoDomain).toEqual(
-        "https://sinopia-development.auth.us-west-2.amazoncognito.com"
+        "https://sinopia-development.auth.us-west-2.amazoncognito.com",
       )
     })
 
     it("sinopia help and resource menu content has a link to github pages", () => {
       expect(Config.sinopiaHelpAndResourcesMenuContent).toEqual(
-        "https://ld4p.github.io/sinopia/help_and_resources/menu_content.html"
+        "https://ld4p.github.io/sinopia/help_and_resources/menu_content.html",
       )
     })
 
@@ -52,13 +52,13 @@ describe("Config", () => {
     describe("interpolated links from default values", () => {
       it("produces the Cognito Forgot Password URL", () => {
         expect(Config.awsCognitoForgotPasswordUrl).toEqual(
-          `https://sinopia-development.auth.us-west-2.amazoncognito.com/forgotPassword?response_type=token&client_id=${Config.awsClientID}&redirect_uri=https://sinopia.io`
+          `https://sinopia-development.auth.us-west-2.amazoncognito.com/forgotPassword?response_type=token&client_id=${Config.awsClientID}&redirect_uri=https://sinopia.io`,
         )
       })
 
       it("produces the Cognito Reset Password URL", () => {
         expect(Config.awsCognitoResetPasswordUrl).toEqual(
-          `https://sinopia-development.auth.us-west-2.amazoncognito.com/signup?response_type=token&client_id=${Config.awsClientID}&redirect_uri=https://sinopia.io`
+          `https://sinopia-development.auth.us-west-2.amazoncognito.com/signup?response_type=token&client_id=${Config.awsClientID}&redirect_uri=https://sinopia.io`,
         )
       })
     })
@@ -105,7 +105,7 @@ describe("Config", () => {
 
     it("aws cognito domain overrides static value", () => {
       expect(Config.awsCognitoDomain).toEqual(
-        "https://sinopia-foo.amazoncognito.com"
+        "https://sinopia-foo.amazoncognito.com",
       )
     })
 
@@ -116,13 +116,13 @@ describe("Config", () => {
     describe("interpolated links from environmental overrides", () => {
       it("interpolates the forgot password url", () => {
         expect(Config.awsCognitoForgotPasswordUrl).toEqual(
-          "https://sinopia-foo.amazoncognito.com/forgotPassword?response_type=token&client_id=1a2b3c&redirect_uri=https://sinopia.foo"
+          "https://sinopia-foo.amazoncognito.com/forgotPassword?response_type=token&client_id=1a2b3c&redirect_uri=https://sinopia.foo",
         )
       })
 
       it("interpolates the reset password url", () => {
         expect(Config.awsCognitoResetPasswordUrl).toEqual(
-          "https://sinopia-foo.amazoncognito.com/signup?response_type=token&client_id=1a2b3c&redirect_uri=https://sinopia.foo"
+          "https://sinopia-foo.amazoncognito.com/signup?response_type=token&client_id=1a2b3c&redirect_uri=https://sinopia.foo",
         )
       })
     })

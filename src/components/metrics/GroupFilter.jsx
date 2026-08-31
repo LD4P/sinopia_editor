@@ -18,9 +18,9 @@ const GroupFilter = ({ params, setParams }) => {
           <option key={group} value={group}>
             {label}
           </option>
-        )
+        ),
       ),
-    [groupMap]
+    [groupMap],
   )
 
   const handleGroupChange = (event) => {

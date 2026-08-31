@@ -9,7 +9,7 @@ const TransferButton = ({ label, handleClick }) => {
     () => () => {
       if (timerRef.current) clearTimeout(timerRef.current)
     },
-    []
+    [],
   )
 
   const handleBtnClick = (event) => {

@@ -52,7 +52,7 @@ describe("relationships", () => {
 
       // Has a badge
       expect(
-        screen.getAllByText("INSTANCE", { selector: ".badge" })
+        screen.getAllByText("INSTANCE", { selector: ".badge" }),
       ).toHaveLength(2)
 
       fireEvent.click(screen.getByText("Relationships"))

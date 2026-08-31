@@ -56,8 +56,8 @@ describe("loadRelationships()", () => {
       loadRelationships(
         "7d7d-40ac-b38e",
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
-        "testerrorkey"
-      )
+        "testerrorkey",
+      ),
     )
     const actions = store.getActions()
 
@@ -80,7 +80,7 @@ describe("loadRelationships()", () => {
     })
 
     expect(sinopiaApi.fetchResourceRelationships).toHaveBeenCalledWith(
-      "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
     )
   })
 
@@ -98,8 +98,8 @@ describe("loadRelationships()", () => {
         loadRelationships(
           "7d7d-40ac-b38e",
           "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
-          "testerrorkey"
-        )
+          "testerrorkey",
+        ),
       )
       const actions = store.getActions()
 
@@ -129,8 +129,8 @@ describe("loadSearchRelationships()", () => {
     await store.dispatch(
       loadSearchRelationships(
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
-        "testerrorkey"
-      )
+        "testerrorkey",
+      ),
     )
     const actions = store.getActions()
 
@@ -150,7 +150,7 @@ describe("loadSearchRelationships()", () => {
     })
 
     expect(sinopiaApi.fetchResourceRelationships).toHaveBeenCalledWith(
-      "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+      "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
     )
   })
 
@@ -167,8 +167,8 @@ describe("loadSearchRelationships()", () => {
       await store.dispatch(
         loadSearchRelationships(
           "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
-          "testerrorkey"
-        )
+          "testerrorkey",
+        ),
       )
       const actions = store.getActions()
 

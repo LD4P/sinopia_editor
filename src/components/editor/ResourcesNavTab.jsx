@@ -12,7 +12,7 @@ const ResourcesNavTab = ({ resourceKey, active }) => {
   const dispatch = useDispatch()
 
   const resource = useSelector((state) =>
-    selectPickSubject(state, resourceKey, ["label", "classes"])
+    selectPickSubject(state, resourceKey, ["label", "classes"]),
   )
 
   const handleResourceNavClick = (event) => {

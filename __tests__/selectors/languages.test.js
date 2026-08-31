@@ -30,21 +30,21 @@ describe("selectLanguageLabel()", () => {
   it("returns Unknown script for unknown script", () => {
     const state = createState()
     expect(selectLanguageLabel(state, "en-Foo")).toEqual(
-      "English - Unknown script (Foo)"
+      "English - Unknown script (Foo)",
     )
   })
 
   it("returns transliteration label for transliteration", () => {
     const state = createState()
     expect(selectLanguageLabel(state, "en-t-en-m0-alaloc")).toEqual(
-      "English - American Library Association-Library of Congress"
+      "English - American Library Association-Library of Congress",
     )
   })
 
   it("returns Unknown script for unknown transliteration", () => {
     const state = createState()
     expect(selectLanguageLabel(state, "en-t-en-m0-foo")).toEqual(
-      "English - Unknown transliteration (foo)"
+      "English - Unknown transliteration (foo)",
     )
   })
 })

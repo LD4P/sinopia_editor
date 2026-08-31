@@ -124,7 +124,7 @@ describe("getSearchResults", () => {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
         method: "POST",
-      }
+      },
     )
   })
 
@@ -164,7 +164,7 @@ describe("getSearchResults", () => {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
         method: "POST",
-      }
+      },
     )
   })
 
@@ -353,7 +353,7 @@ describe("getSearchResultsWithFacets", () => {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
         method: "POST",
-      }
+      },
     )
   })
 
@@ -403,7 +403,7 @@ describe("getSearchResultsWithFacets", () => {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
         method: "POST",
-      }
+      },
     )
   })
 })
@@ -465,7 +465,7 @@ describe("getLookupResult", () => {
 
   describe("for a non-template authority with no results", () => {
     const lookupConfig = findAuthorityConfig(
-      "urn:ld4p:sinopia:bibframe:instance"
+      "urn:ld4p:sinopia:bibframe:instance",
     )
     const instanceResult = {
       took: 5,
@@ -487,7 +487,7 @@ describe("getLookupResult", () => {
       global.fetch = jest
         .fn()
         .mockImplementationOnce(() =>
-          Promise.resolve({ json: () => instanceResult })
+          Promise.resolve({ json: () => instanceResult }),
         )
 
       const result = await getLookupResult("foo", lookupConfig)
@@ -500,14 +500,14 @@ describe("getLookupResult", () => {
 
   describe("for template authority", () => {
     const lookupConfig = findAuthorityConfig(
-      "urn:ld4p:sinopia:resourceTemplate"
+      "urn:ld4p:sinopia:resourceTemplate",
     )
 
     it("performs a search and returns result", async () => {
       global.fetch = jest
         .fn()
         .mockImplementationOnce(() =>
-          Promise.resolve({ json: () => templateResult })
+          Promise.resolve({ json: () => templateResult }),
         )
 
       const result = await getLookupResult("foo", lookupConfig)
@@ -597,7 +597,7 @@ describe("getTemplateSearchResults", () => {
           "Content-Type": "application/json",
         },
         method: "POST",
-      }
+      },
     )
   })
 
@@ -611,7 +611,7 @@ describe("getTemplateSearchResults", () => {
     global.fetch = jest
       .fn()
       .mockImplementation(() =>
-        Promise.resolve({ json: () => searchDownResult })
+        Promise.resolve({ json: () => searchDownResult }),
       )
     const results = await getTemplateSearchResults("Palo Alto")
     expect(results).toEqual({
@@ -655,7 +655,7 @@ describe("getTemplateSearchResultsByIds", () => {
           "Content-Type": "application/json",
         },
         method: "POST",
-      }
+      },
     )
   })
 })
@@ -717,7 +717,7 @@ describe("getSearchResultsByUris", () => {
         body: '{"query":{"terms":{"uri":["http://localhost:3000/resource/3d831f47-e686-4b8f-9086-11383b2af762"]}},"size":1}',
         headers: { "Content-Type": "application/json" },
         method: "POST",
-      }
+      },
     )
   })
 })

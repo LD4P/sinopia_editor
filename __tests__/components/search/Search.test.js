@@ -239,8 +239,8 @@ describe("<Search />", () => {
 
     await waitFor(() =>
       expect(
-        screen.queryByText("Relevance", { selector: "button.active" })
-      ).not.toBeInTheDocument()
+        screen.queryByText("Relevance", { selector: "button.active" }),
+      ).not.toBeInTheDocument(),
     )
     screen.getByText("Modified date, newest first", {
       selector: "button.active",

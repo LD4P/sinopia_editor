@@ -8,7 +8,7 @@ describe("End-to-end test", () => {
   it("Opens the app", () => {
     cy.visit(Cypress.env("EDITOR_URL") || "http://localhost:8000/")
     cy.contains(
-      "The underdrawing for the new world of linked data in libraries"
+      "The underdrawing for the new world of linked data in libraries",
     )
   })
 
@@ -18,12 +18,12 @@ describe("End-to-end test", () => {
     cy.get("#username").type(Cypress.env("COGNITO_TEST_USER_NAME"))
     cy.get("#username").should(
       "have.value",
-      Cypress.env("COGNITO_TEST_USER_NAME")
+      Cypress.env("COGNITO_TEST_USER_NAME"),
     )
     cy.get("#password").type(Cypress.env("COGNITO_TEST_USER_PASS"))
     cy.get("#password").should(
       "have.value",
-      Cypress.env("COGNITO_TEST_USER_PASS")
+      Cypress.env("COGNITO_TEST_USER_PASS"),
     )
     cy.get('button[type="submit"]').contains("Login").click()
   })
@@ -41,7 +41,7 @@ describe("End-to-end test", () => {
     cy.get("#searchInput").type("resourceTemplate:bf2:WorkTitle")
     cy.get("#searchInput").should(
       "have.value",
-      "resourceTemplate:bf2:WorkTitle"
+      "resourceTemplate:bf2:WorkTitle",
     )
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
@@ -57,7 +57,7 @@ describe("End-to-end test", () => {
           // Type is to slow. See https://github.com/cypress-io/cypress/issues/1123
           cy.get("#resourceTextArea").paste(json)
           cy.get("#uriInput").type(
-            "http://localhost:3000/resource/resourceTemplate:bf2:WorkTitle"
+            "http://localhost:3000/resource/resourceTemplate:bf2:WorkTitle",
           )
           cy.get('button[type="submit"]:not(:disabled)')
             .contains("Submit")
@@ -89,7 +89,7 @@ describe("End-to-end test", () => {
 
           cy.get("#searchInput").should(
             "have.value",
-            "resourceTemplate:bf2:WorkTitle"
+            "resourceTemplate:bf2:WorkTitle",
           )
 
           // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -108,7 +108,7 @@ describe("End-to-end test", () => {
   it("Populates a resource template", { scrollBehavior: "center" }, () => {
     // Add a value for the Preferred Title
     cy.get('textarea[placeholder="Preferred Title for Work"]').type(
-      `${title}{enter}`
+      `${title}{enter}`,
     )
     cy.get('textarea[placeholder="Preferred Title for Work"]').contains(title)
   })
@@ -119,13 +119,13 @@ describe("End-to-end test", () => {
 
     cy.get("select#format").select("n-triples")
     cy.contains(
-      `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@en .`
+      `<> <http://id.loc.gov/ontologies/bibframe/mainTitle> "${title}"@en .`,
     )
     cy.contains(
-      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .'
+      '<> <http://sinopia.io/vocabulary/hasResourceTemplate> "resourceTemplate:bf2:WorkTitle" .',
     )
     cy.contains(
-      "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> ."
+      "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.loc.gov/ontologies/bibframe/Title> .",
     )
   })
 
@@ -171,12 +171,12 @@ describe("End-to-end test", () => {
     cy.get("#username").type(Cypress.env("COGNITO_TEST_USER_NAME"))
     cy.get("#username").should(
       "have.value",
-      Cypress.env("COGNITO_TEST_USER_NAME")
+      Cypress.env("COGNITO_TEST_USER_NAME"),
     )
     cy.get("#password").type(Cypress.env("COGNITO_TEST_USER_PASS"))
     cy.get("#password").should(
       "have.value",
-      Cypress.env("COGNITO_TEST_USER_PASS")
+      Cypress.env("COGNITO_TEST_USER_PASS"),
     )
     cy.get('button[type="submit"]').contains("Login").click()
   })

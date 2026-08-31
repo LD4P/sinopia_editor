@@ -19,13 +19,13 @@ import _ from "lodash"
 const NestedResource = ({ valueKey, readOnly }) => {
   const value = useSelector((state) => selectNormValue(state, valueKey))
   const valueSubject = useSelector((state) =>
-    selectNormSubject(state, value?.valueSubjectKey)
+    selectNormSubject(state, value?.valueSubjectKey),
   )
   const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplate(state, valueSubject?.subjectTemplateKey)
+    selectSubjectTemplate(state, valueSubject?.subjectTemplateKey),
   )
   const propertyTemplate = useSelector((state) =>
-    selectPropertyTemplateForProperty(state, value.propertyKey)
+    selectPropertyTemplateForProperty(state, value.propertyKey),
   )
 
   const { handleNavTargetClick, navTargetId } = useNavTarget(valueSubject)

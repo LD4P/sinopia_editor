@@ -8,13 +8,13 @@ import _ from "lodash"
 const DiffDisplay = ({ diff }) => {
   const displaySubjectDiff = (subjectDiff) => {
     const addedProperties = subjectDiff.addedProperties.map((property) =>
-      displayProperty(property, true)
+      displayProperty(property, true),
     )
     const removedProperties = subjectDiff.removedProperties.map((property) =>
-      displayProperty(property, false)
+      displayProperty(property, false),
     )
     const changedProperties = subjectDiff.changedPropertyDiffs.map(
-      (propertyDiff) => displayChangedPropertyDiff(propertyDiff)
+      (propertyDiff) => displayChangedPropertyDiff(propertyDiff),
     )
     if (
       _.isEmpty(addedProperties) &&
@@ -34,7 +34,7 @@ const DiffDisplay = ({ diff }) => {
 
   const displaySubject = (subject, isAdd) => {
     const properties = _.compact(
-      subject.properties.map((property) => displayProperty(property, isAdd))
+      subject.properties.map((property) => displayProperty(property, isAdd)),
     )
     if (_.isEmpty(properties))
       properties.push(<li key="nodiff">No differences</li>)
@@ -60,10 +60,10 @@ const DiffDisplay = ({ diff }) => {
 
   const displayChangedPropertyDiff = (propertyDiff) => {
     const removedValues = propertyDiff.removedValues.map((value) =>
-      displayValue(value, false)
+      displayValue(value, false),
     )
     const addedValues = propertyDiff.addedValues.map((value) =>
-      displayValue(value, true)
+      displayValue(value, true),
     )
     const changedValues = propertyDiff.changedValues.map(([value1, value2]) => (
       <li key={value1.key}>
@@ -82,7 +82,7 @@ const DiffDisplay = ({ diff }) => {
           {subjectDiff.subjectTemplate.label}
           {displaySubjectDiff(subjectDiff)}
         </li>
-      )
+      ),
     )
     return (
       <li key={propertyDiff.key}>

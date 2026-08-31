@@ -15,23 +15,23 @@ describe("editing a property URI", () => {
 
       screen.getByText(
         "Property: Property1 (http://sinopia.io/testing/Inputs/property1)",
-        { selectors: ".property-uri" }
+        { selectors: ".property-uri" },
       )
       screen.getByText(
         "Property: Property2 (http://sinopia.io/testing/Inputs/property2)",
-        { selectors: ".property-uri" }
+        { selectors: ".property-uri" },
       )
       screen.getByText(
         "Property: Property3 (http://sinopia.io/testing/Inputs/property3)",
-        { selectors: ".property-uri" }
+        { selectors: ".property-uri" },
       )
       screen.getByText(
         "Property: Property4 (http://sinopia.io/testing/Inputs/property4)",
-        { selectors: ".property-uri" }
+        { selectors: ".property-uri" },
       )
       screen.getByText(
         "Property: Property5 (http://sinopia.io/testing/Inputs/property5)",
-        { selectors: ".property-uri" }
+        { selectors: ".property-uri" },
       )
     })
   })
@@ -52,16 +52,16 @@ describe("editing a property URI", () => {
         selector: "select",
       })
       expect(input).toHaveValue(
-        "http://sinopia.io/testing/MultiplePropertyUris/property1"
+        "http://sinopia.io/testing/MultiplePropertyUris/property1",
       )
       const option1 = screen.getByText(
         "Property1 (http://sinopia.io/testing/MultiplePropertyUris/property1)",
-        { selector: "option" }
+        { selector: "option" },
       )
       expect(input).toContainElement(option1)
       const option2 = screen.getByText(
         "Property1b (http://sinopia.io/testing/MultiplePropertyUris/property1b)",
-        { selector: "option" }
+        { selector: "option" },
       )
       expect(input).toContainElement(option2)
 
@@ -72,7 +72,7 @@ describe("editing a property URI", () => {
         },
       })
       expect(input).toHaveValue(
-        "http://sinopia.io/testing/MultiplePropertyUris/property1b"
+        "http://sinopia.io/testing/MultiplePropertyUris/property1b",
       )
     })
   })

@@ -62,7 +62,7 @@ const InputListValue = ({
     const item = itemMap[event.target.value]
     if (item)
       dispatch(
-        updateURIValue(value.key, item.uri, item.label, null, "InputURIValue")
+        updateURIValue(value.key, item.uri, item.label, null, "InputURIValue"),
       )
     event.preventDefault()
   }
@@ -76,7 +76,7 @@ const InputListValue = ({
         newOptions.push(
           <option key={`${authority.uri}-${item.uri}`} value={item.uri}>
             {item.label}
-          </option>
+          </option>,
         )
       })
     })
@@ -88,7 +88,7 @@ const InputListValue = ({
     controlClasses.push("is-invalid")
 
   const authorityLabels = propertyTemplate.authorities.map(
-    (authority) => authority.label
+    (authority) => authority.label,
   )
 
   return (

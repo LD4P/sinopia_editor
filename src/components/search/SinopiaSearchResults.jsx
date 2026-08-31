@@ -13,7 +13,7 @@ import _ from "lodash"
 
 const SinopiaSearchResults = () => {
   const searchResults = useSelector((state) =>
-    selectSearchResults(state, "resource")
+    selectSearchResults(state, "resource"),
   )
 
   if (_.isEmpty(searchResults)) {

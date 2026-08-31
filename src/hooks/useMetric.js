@@ -27,8 +27,8 @@ const useMetric = (name, params = null, runMetric = true) => {
           dispatch(
             addError(
               metricsErrorKey,
-              `Error retrieving metrics: ${err.message || err}`
-            )
+              `Error retrieving metrics: ${err.message || err}`,
+            ),
           )
         }
       })

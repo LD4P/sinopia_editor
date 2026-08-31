@@ -11,7 +11,7 @@ const VocabChoice = (props) => {
       options.push(
         <option value={key} key={key}>
           {specialcharacters[key].label}
-        </option>
+        </option>,
       )
     })
     return options

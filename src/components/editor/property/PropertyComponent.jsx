@@ -15,7 +15,7 @@ const PropertyComponent = ({ property, propertyTemplate, readOnly }) => {
   const uri = useSelector((state) => selectUri(state, property.rootSubjectKey))
 
   const displayValidations = useSelector((state) =>
-    displayResourceValidations(state, property.rootSubjectKey)
+    displayResourceValidations(state, property.rootSubjectKey),
   )
 
   // Immutable properties cannot be changed once saved.

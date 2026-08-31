@@ -11,7 +11,7 @@ export const setSearchResults = (
   facetResults,
   query,
   options,
-  error
+  error,
 ) => ({
   type: "SET_SEARCH_RESULTS",
   payload: {

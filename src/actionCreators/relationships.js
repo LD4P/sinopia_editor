@@ -18,7 +18,7 @@ export const loadRelationships = (resourceKey, uri, errorKey) => (dispatch) => {
           bfItemRefs: relationships.bfItemInferredRefs,
           bfInstanceRefs: relationships.bfInstanceInferredRefs,
           bfWorkRefs: relationships.bfWorkInferredRefs,
-        })
+        }),
       )
       return true
     })
@@ -27,8 +27,8 @@ export const loadRelationships = (resourceKey, uri, errorKey) => (dispatch) => {
       dispatch(
         addError(
           errorKey,
-          `Error retrieving relationships for ${uri}: ${err.message || err}`
-        )
+          `Error retrieving relationships for ${uri}: ${err.message || err}`,
+        ),
       )
       return false
     })
@@ -42,7 +42,7 @@ export const loadSearchRelationships = (uri, errorKey) => (dispatch) =>
           bfItemRefs: relationships.bfItemAllRefs,
           bfInstanceRefs: relationships.bfInstanceAllRefs,
           bfWorkRefs: relationships.bfWorkAllRefs,
-        })
+        }),
       )
       return true
     })
@@ -51,8 +51,8 @@ export const loadSearchRelationships = (uri, errorKey) => (dispatch) =>
       dispatch(
         addError(
           errorKey,
-          `Error retrieving relationships for ${uri}: ${err.message || err}`
-        )
+          `Error retrieving relationships for ${uri}: ${err.message || err}`,
+        ),
       )
       return false
     })

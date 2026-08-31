@@ -46,7 +46,7 @@ export const templateIdFor = (resource) => {
   const resourceIdProperty = resource.properties.find(
     (property) =>
       property.propertyTemplate.defaultUri ===
-      "http://sinopia.io/vocabulary/hasResourceId"
+      "http://sinopia.io/vocabulary/hasResourceId",
   )
   return resourceIdProperty.values[0].literal
 }

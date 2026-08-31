@@ -4,7 +4,7 @@ import authorityConfig from "../../static/authorityConfig.json"
 
 const authorityConfigMap = {}
 authorityConfig.forEach(
-  (configItem) => (authorityConfigMap[configItem.uri] = configItem)
+  (configItem) => (authorityConfigMap[configItem.uri] = configItem),
 )
 
 export const findAuthorityConfig = (searchUri) => authorityConfigMap[searchUri]

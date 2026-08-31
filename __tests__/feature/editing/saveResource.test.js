@@ -8,7 +8,7 @@ featureSetup()
 jest
   .spyOn(sinopiaApi, "postResource")
   .mockResolvedValue(
-    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
   )
 
 describe("saving a resource", () => {
@@ -61,8 +61,8 @@ describe("saving a resource", () => {
       // URL changes
       await waitFor(() =>
         expect(history.location.pathname).toEqual(
-          "/editor/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-        )
+          "/editor/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+        ),
       )
 
       screen.getByText("Permissions")

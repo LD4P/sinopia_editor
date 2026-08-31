@@ -9,7 +9,7 @@ JSON.safeStringify = (obj, indent = 2) => {
           ? undefined // Duplicate reference found, discard key
           : cache.push(value) && value // Store value in our collection
         : value,
-    indent
+    indent,
   )
   cache = null
   return retVal

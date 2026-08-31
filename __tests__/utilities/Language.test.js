@@ -29,12 +29,12 @@ describe("Language", () => {
     })
     it("stringifies lang, script, and transliteration", () => {
       expect(stringifyLangTag("ja", "Latn", "alaloc")).toEqual(
-        "ja-Latn-t-ja-m0-alaloc"
+        "ja-Latn-t-ja-m0-alaloc",
       )
     })
     it("stringifies lang and transliteration", () => {
       expect(stringifyLangTag("ja", null, "alaloc")).toEqual(
-        "ja-t-ja-m0-alaloc"
+        "ja-t-ja-m0-alaloc",
       )
     })
   })

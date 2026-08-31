@@ -26,7 +26,7 @@ const baseUrlFromConfig = (nonldLookup, authority, subauthority) => {
 export const createLookupPromise = (
   query,
   { authority, subauthority, language, nonldLookup },
-  options = {}
+  options = {},
 ) => {
   const baseUrl = baseUrlFromConfig(nonldLookup, authority, subauthority)
   const urlParams = new URLSearchParams({
@@ -48,7 +48,7 @@ export const createLookupPromise = (
     .then((resp) => {
       if (!resp.ok)
         throw new Error(
-          `Questioning Authority service returned ${resp.statusText}`
+          `Questioning Authority service returned ${resp.statusText}`,
         )
       return resp
     })
@@ -66,7 +66,7 @@ export const createLookupPromise = (
     })
     .catch((err) => {
       console.error(
-        `Error in Questioning Authority lookup: ${err.message || err}`
+        `Error in Questioning Authority lookup: ${err.message || err}`,
       )
       // Return information along with the error in its own object
       return { isError: true, errorObject: err }

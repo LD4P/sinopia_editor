@@ -18,20 +18,24 @@ export const loadResourceTemplate =
     dispatch(
       loadResourceTemplateWithoutValidation(
         resourceTemplateId,
-        resourceTemplatePromises
-      )
+        resourceTemplatePromises,
+      ),
     )
       .then((subjectTemplate) =>
         dispatch(
-          validateTemplates(subjectTemplate, resourceTemplatePromises, errorKey)
-        ).then((isValid) => (isValid ? subjectTemplate : null))
+          validateTemplates(
+            subjectTemplate,
+            resourceTemplatePromises,
+            errorKey,
+          ),
+        ).then((isValid) => (isValid ? subjectTemplate : null)),
       )
       .catch((err) => {
         dispatch(
           addError(
             errorKey,
-            `Error retrieving ${resourceTemplateId}: ${err.message || err}`
-          )
+            `Error retrieving ${resourceTemplateId}: ${err.message || err}`,
+          ),
         )
         return null
       })
@@ -55,7 +59,7 @@ export const loadResourceTemplateWithoutValidation =
     // Try to get it from state.
     const subjectTemplate = selectSubjectAndPropertyTemplates(
       getState(),
-      resourceTemplateId
+      resourceTemplateId,
     )
     if (subjectTemplate) {
       return Promise.resolve(subjectTemplate)
@@ -73,7 +77,7 @@ export const loadResourceTemplateWithoutValidation =
         templateUri,
         user.username,
         response.group,
-        response.editGroups
+        response.editGroups,
       ).build()
       dispatch(addTemplates(subjectTemplate))
       return subjectTemplate

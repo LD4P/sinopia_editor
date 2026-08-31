@@ -11,7 +11,7 @@ import {
 const CopyToNewMessage = () => {
   const oldUri = useSelector((state) => selectCopyToNewMessageOldUri(state))
   const timestamp = useSelector((state) =>
-    selectCopyToNewMessageTimestamp(state)
+    selectCopyToNewMessageTimestamp(state),
   )
 
   return (

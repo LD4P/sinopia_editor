@@ -11,7 +11,7 @@ import { selectCurrentResourceKey } from "selectors/resources"
 // CopyToNewButton and PreviewButton are now called from ResourceComponent
 const EditorActions = () => {
   const currentResourceKey = useSelector((state) =>
-    selectCurrentResourceKey(state)
+    selectCurrentResourceKey(state),
   )
 
   return (

@@ -24,9 +24,9 @@ export const fetchExports = (errorKey) => (dispatch, getState) => {
       dispatch(
         addError(
           errorKey,
-          `Error retrieving list of exports: ${err.message || err}`
-        )
-      )
+          `Error retrieving list of exports: ${err.message || err}`,
+        ),
+      ),
     )
 }
 

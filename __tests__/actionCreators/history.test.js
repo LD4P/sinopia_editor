@@ -58,7 +58,7 @@ describe("loadSearchHistory()", () => {
           authorityUri: "urn:ld4p:qa:oclc_fast:topic",
           query: "leland",
         },
-      ])
+      ]),
     )
 
     expect(store.getActions()).toEqual([
@@ -124,8 +124,8 @@ describe("addResourceHistory()", () => {
         addResourceHistory(
           uri,
           "http://id.loc.gov/ontologies/bibframe/Work",
-          "stanford"
-        )
+          "stanford",
+        ),
       )
 
       expect(store.getActions()).toEqual([
@@ -152,8 +152,8 @@ describe("addResourceHistory()", () => {
         addResourceHistory(
           uri,
           "http://id.loc.gov/ontologies/bibframe/Work",
-          "stanford"
-        )
+          "stanford",
+        ),
       )
 
       expect(store.getActions()).toEqual([

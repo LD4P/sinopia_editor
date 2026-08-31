@@ -77,8 +77,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(true)
       expect(store.getActions()).toHaveAction("ADD_TEMPLATES")
       expect(store.getActions()).not.toHaveAction("ADD_ERROR")
@@ -103,8 +103,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload1 = {
         errorKey: "testerrorkey",
@@ -147,8 +147,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
@@ -184,8 +184,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload1 = {
         errorKey: "testerrorkey",
@@ -233,8 +233,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
@@ -284,8 +284,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
@@ -330,8 +330,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
@@ -376,8 +376,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(true)
     })
   })
@@ -418,8 +418,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
     })
   })
@@ -457,8 +457,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
     })
   })
@@ -500,8 +500,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
@@ -543,8 +543,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
@@ -590,8 +590,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(true)
       expect(store.getActions()).not.toHaveAction("ADD_ERROR")
     })
@@ -613,8 +613,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",
@@ -651,8 +651,8 @@ describe("validateTemplates()", () => {
 
       expect(
         await store.dispatch(
-          validateTemplates(subjectTemplate, {}, "testerrorkey")
-        )
+          validateTemplates(subjectTemplate, {}, "testerrorkey"),
+        ),
       ).toBe(false)
       const payload = {
         errorKey: "testerrorkey",

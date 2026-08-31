@@ -14,11 +14,11 @@ const useNavLink = (navObj) => {
     isCurrentPropertySelector(
       state,
       navObj.rootSubjectKey,
-      navObj.rootPropertyKey
-    )
+      navObj.rootPropertyKey,
+    ),
   )
   const isCurrentComponent = useSelector((state) =>
-    isCurrentComponentSelector(state, navObj.rootSubjectKey, navObj.key)
+    isCurrentComponentSelector(state, navObj.rootSubjectKey, navObj.key),
   )
   const navLinkId = `navLink-${navObj.key}`
   const navTargetId = `navTarget-${navObj.key}`
@@ -41,8 +41,8 @@ const useNavLink = (navObj) => {
       setCurrentComponent(
         navObj.rootSubjectKey,
         navObj.rootPropertyKey,
-        navObj.key
-      )
+        navObj.key,
+      ),
     )
   }
 

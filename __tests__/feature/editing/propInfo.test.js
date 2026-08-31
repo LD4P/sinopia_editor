@@ -32,7 +32,7 @@ describe("getting property related info from a resource", () => {
     })
     expect(infoIcon1).toHaveAttribute(
       "data-bs-content",
-      "Mandatory nested resource templates."
+      "Mandatory nested resource templates.",
     )
 
     // Finds the nested property info (tooltip remark is text)
@@ -41,7 +41,7 @@ describe("getting property related info from a resource", () => {
     })
     expect(nestedInfoIcons[0]).toHaveAttribute(
       "data-bs-content",
-      "A repeatable, required literal"
+      "A repeatable, required literal",
     )
   }, 15000)
 })

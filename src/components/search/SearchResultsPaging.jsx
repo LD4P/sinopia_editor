@@ -43,7 +43,7 @@ const SearchResultsPaging = (props) => {
   const endPos = currentPage + 5 < lastPage ? currentPage + 5 : lastPage
   const range = Array.from(
     { length: endPos - startPos + 1 },
-    (_, i) => startPos + i
+    (_, i) => startPos + i,
   )
   if (range[0] === 1) range.shift()
   if (range.slice(-1)[0] === lastPage) range.pop()
@@ -59,7 +59,7 @@ const SearchResultsPaging = (props) => {
   const startElipsis = startPos > 2 ? elipsis : ""
   const endElipsis = endPos < lastPage - 1 ? elipsis : ""
   const pageButtons = range.map((index) =>
-    pageButton(index, index, index, index === currentPage)
+    pageButton(index, index, index, index === currentPage),
   )
 
   return (

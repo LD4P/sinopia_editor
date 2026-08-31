@@ -18,8 +18,8 @@ const CanvasMenu = (props) => {
         console.error(
           `Error loading ${
             Config.sinopiaHelpAndResourcesMenuContent
-          }: ${error.toString()}`
-        )
+          }: ${error.toString()}`,
+        ),
       )
   }, [])
 

@@ -16,14 +16,14 @@ describe("transfer", () => {
       sinopiaApi.postTransfer = jest.fn().mockResolvedValue()
       const store = mockStore(createState())
       await store.dispatch(
-        transfer(resourceUri, "stanford", "ils", "testerrorkey")
+        transfer(resourceUri, "stanford", "ils", "testerrorkey"),
       )
 
       expect(store.getActions()).toHaveLength(0)
       expect(sinopiaApi.postTransfer).toHaveBeenCalledWith(
         resourceUri,
         "stanford",
-        "ils"
+        "ils",
       )
     })
   })
@@ -32,7 +32,7 @@ describe("transfer", () => {
       sinopiaApi.postTransfer = jest.fn().mockRejectedValue("Ooops!")
       const store = mockStore(createState())
       await store.dispatch(
-        transfer(resourceUri, "stanford", "ils", "testerrorkey")
+        transfer(resourceUri, "stanford", "ils", "testerrorkey"),
       )
 
       expect(store.getActions()).toHaveAction("ADD_ERROR", {

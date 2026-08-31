@@ -2,7 +2,7 @@
 
 import { datasetFromJsonld, jsonldFromDataset } from "utilities/Utilities"
 import Config from "Config"
-/* eslint-disable node/no-unpublished-import */
+/* eslint-disable n/no-unpublished-import */
 import {
   hasFixtureResource,
   getFixtureResource,
@@ -42,7 +42,7 @@ const baseTemplates = {
  */
 export const fetchResource = (
   uri,
-  { isTemplate = false, version = null } = {}
+  { isTemplate = false, version = null } = {},
 ) => {
   const fetchUri = encodeURI(version ? `${uri}/version/${version}` : uri)
 
@@ -68,7 +68,10 @@ export const fetchResource = (
 
   return fetchPromise
     .then((response) =>
-      Promise.all([datasetFromJsonld(response.data), Promise.resolve(response)])
+      Promise.all([
+        datasetFromJsonld(response.data),
+        Promise.resolve(response),
+      ]),
     )
     .catch((err) => {
       throw new Error(`Error parsing resource: ${err.message || err}`)
@@ -117,7 +120,7 @@ export const postResource = (resource, currentUser, group, editGroups) => {
   newResource.group = group
   newResource.editGroups = editGroups
   return putResource(newResource, currentUser, group, editGroups, "POST").then(
-    () => uri
+    () => uri,
   )
 }
 
@@ -133,8 +136,8 @@ export const putResource = (resource, currentUser, group, editGroups, method) =>
             Authorization: `Bearer ${jwt}`,
           },
           body,
-        }).then((resp) => checkResp(resp).then(() => true))
-      )
+        }).then((resp) => checkResp(resp).then(() => true)),
+      ),
   )
 
 export const postMarc = (resourceUri) => {
@@ -146,10 +149,10 @@ export const postMarc = (resourceUri) => {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      })
+      }),
     )
     .then((resp) =>
-      checkResp(resp).then(() => resp.headers.get("Content-Location"))
+      checkResp(resp).then(() => resp.headers.get("Content-Location")),
     )
 }
 
@@ -161,7 +164,7 @@ export const getMarcJob = (marcJobUrl) =>
       // which retrieves the MARC text.
       if (!resp.redirected) return [undefined, undefined]
       return resp.text().then((body) => [resp.url, body])
-    })
+    }),
   )
 
 export const getMarc = (marcUrl, asText) =>
@@ -188,17 +191,17 @@ const postUser = (userId) =>
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
-    }).then((resp) => checkResp(resp).then(() => resp.json()))
+    }).then((resp) => checkResp(resp).then(() => resp.json())),
   )
 
 export const putUserHistory = (
   userId,
   historyType,
   historyItemKey,
-  historyItemPayload
+  historyItemPayload,
 ) => {
   const url = `${userUrlFor(userId)}/history/${historyType}/${encodeURI(
-    historyItemKey
+    historyItemKey,
   )}`
   return getJwt().then((jwt) =>
     fetch(url, {
@@ -208,14 +211,14 @@ export const putUserHistory = (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ payload: historyItemPayload }),
-    }).then((resp) => checkResp(resp).then(() => resp.json()))
+    }).then((resp) => checkResp(resp).then(() => resp.json())),
   )
 }
 
 export const postTransfer = (resourceUri, group, target) => {
   const url = `${resourceUri.replace(
     "resource",
-    "transfer"
+    "transfer",
   )}/${group}/${target}`
   return getJwt()
     .then((jwt) =>
@@ -224,7 +227,7 @@ export const postTransfer = (resourceUri, group, target) => {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      })
+      }),
     )
     .then((resp) => checkResp(resp))
 }
@@ -248,7 +251,7 @@ const saveBodyForResource = (resource, user, group, editGroups) => {
       bfItemRefs: resource.bfItemRefs,
       bfInstanceRefs: resource.bfInstanceRefs,
       bfWorkRefs: resource.bfWorkRefs,
-    })
+    }),
   )
 }
 
@@ -271,6 +274,6 @@ export const detectLanguage = (text) => {
       body: text,
     })
       .then((resp) => checkResp(resp).then(() => resp.json()))
-      .then((json) => json.data)
+      .then((json) => json.data),
   )
 }

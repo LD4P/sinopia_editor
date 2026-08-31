@@ -18,8 +18,8 @@ describe("searching and view relationships for a resource", () => {
         .mockResolvedValue(
           resourceSearchResults(
             uri,
-            "http://id.loc.gov/ontologies/bibframe/Instance"
-          )
+            "http://id.loc.gov/ontologies/bibframe/Instance",
+          ),
         )
 
       jest.spyOn(sinopiaApi, "fetchResourceRelationships").mockResolvedValue({
@@ -59,13 +59,13 @@ describe("searching and view relationships for a resource", () => {
       screen.getByText("http://id.loc.gov/ontologies/bibframe/Instance")
 
       fireEvent.click(
-        await screen.findByTestId(`Show relationships for ${uri}`)
+        await screen.findByTestId(`Show relationships for ${uri}`),
       )
       await screen.findByTestId(`Hide relationships for ${uri}`)
 
       screen.getByText("Works", { selector: "h5" })
       screen.getByText(
-        /http:\/\/localhost:3000\/resource\/f6ee6410-5206-492b-8e48-3b6333010c33/
+        /http:\/\/localhost:3000\/resource\/f6ee6410-5206-492b-8e48-3b6333010c33/,
       )
       screen.getByText(/Work1/)
       screen.getByText("http://id.loc.gov/ontologies/bibframe/Work")

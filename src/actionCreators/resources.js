@@ -63,16 +63,16 @@ export const loadResource =
             resourceTemplateId,
             errorKey,
             asNewResource,
-            _.pick(response, ["group", "editGroups"])
-          )
+            _.pick(response, ["group", "editGroups"]),
+          ),
         )
           .then(([resource, usedDataset]) => {
             const unusedDataset = dataset.difference(usedDataset)
             dispatch(
               setUnusedRDF(
                 resource.key,
-                unusedDataset.size > 0 ? unusedDataset.toCanonical() : null
-              )
+                unusedDataset.size > 0 ? unusedDataset.toCanonical() : null,
+              ),
             )
             dispatch(loadRelationships(resource.key, uri, errorKey))
             return [response, resource, unusedDataset]
@@ -84,8 +84,8 @@ export const loadResource =
               dispatch(
                 addError(
                   errorKey,
-                  `Error retrieving ${uri}: ${err.message || err}`
-                )
+                  `Error retrieving ${uri}: ${err.message || err}`,
+                ),
               )
             }
             return false
@@ -94,7 +94,7 @@ export const loadResource =
       .catch((err) => {
         // console.error(err)
         dispatch(
-          addError(errorKey, `Error retrieving ${uri}: ${err.message || err}`)
+          addError(errorKey, `Error retrieving ${uri}: ${err.message || err}`),
         )
         return false
       })
@@ -104,7 +104,7 @@ export const loadResourceForEditor =
   (uri, errorKey, { asNewResource = false } = {}) =>
   (dispatch) =>
     dispatch(loadResource(uri, errorKey, { asNewResource })).then((result) =>
-      dispatch(dispatchResourceForEditor(result, uri, { asNewResource }))
+      dispatch(dispatchResourceForEditor(result, uri, { asNewResource })),
     )
 
 export const dispatchResourceForEditor =
@@ -116,8 +116,8 @@ export const dispatchResourceForEditor =
       setCurrentComponent(
         resource.key,
         resource.properties[0].key,
-        resource.properties[0].key
-      )
+        resource.properties[0].key,
+      ),
     )
     dispatch(setCurrentResource(resource.key))
     if (!asNewResource) {
@@ -127,8 +127,8 @@ export const dispatchResourceForEditor =
           resource.uri,
           resource.subjectTemplate.class,
           response.group,
-          response.timestamp
-        )
+          response.timestamp,
+        ),
       )
       dispatch(loadResourceFinished(resource.key))
     }
@@ -139,7 +139,7 @@ export const loadResourceForPreview =
   (uri, errorKey, { version = null } = {}) =>
   (dispatch) =>
     dispatch(loadResource(uri, errorKey, { version })).then((result) =>
-      dispatch(dispatchResourceForPreview(result))
+      dispatch(dispatchResourceForPreview(result)),
     )
 
 export const dispatchResourceForPreview = (result) => (dispatch) => {
@@ -174,8 +174,8 @@ export const newResource =
           setCurrentComponent(
             resource.key,
             resource.properties[0].key,
-            resource.properties[0].key
-          )
+            resource.properties[0].key,
+          ),
         )
         if (setCurrent) dispatch(setCurrentResource(resource.key))
         dispatch(setUnusedRDF(resource.key, null))
@@ -192,8 +192,8 @@ export const newResource =
           dispatch(
             addError(
               errorKey,
-              `Error creating new resource: ${err.message || err}`
-            )
+              `Error creating new resource: ${err.message || err}`,
+            ),
           )
         }
         return false
@@ -211,8 +211,8 @@ export const newResourceCopy = (resourceKey) => (dispatch) =>
         setCurrentComponent(
           newResource.key,
           newResource.properties[0].key,
-          newResource.properties[0].key
-        )
+          newResource.properties[0].key,
+        ),
       )
       dispatch(setCurrentResource(newResource.key))
       dispatch(setUnusedRDF(newResource.key, null))
@@ -241,16 +241,16 @@ export const newResourceFromDataset =
         uri,
         newResourceTemplateId,
         errorKey,
-        asNewResource
-      )
+        asNewResource,
+      ),
     )
       .then(([resource, usedDataset]) => {
         const unusedDataset = dataset.difference(usedDataset)
         dispatch(
           setUnusedRDF(
             resource.key,
-            unusedDataset.size > 0 ? unusedDataset.toCanonical() : null
-          )
+            unusedDataset.size > 0 ? unusedDataset.toCanonical() : null,
+          ),
         )
         dispatch(setCurrentResource(resource.key))
         if (!asNewResource) dispatch(loadResourceFinished(resource.key))
@@ -263,8 +263,8 @@ export const newResourceFromDataset =
           dispatch(
             addError(
               errorKey,
-              `Error retrieving ${resourceTemplateId}: ${err.message || err}`
-            )
+              `Error retrieving ${resourceTemplateId}: ${err.message || err}`,
+            ),
           )
         }
         return false
@@ -287,13 +287,20 @@ export const saveNewResource =
         dispatch(saveResourceFinished(resourceKey))
         dispatch(addUserResourceHistory(resourceUrl))
         dispatch(
-          addResourceHistory(resourceUrl, resource.subjectTemplate.class, group)
+          addResourceHistory(
+            resourceUrl,
+            resource.subjectTemplate.class,
+            group,
+          ),
         )
       })
       .catch((err) => {
         console.error(err)
         dispatch(
-          addError(errorKey, `Error saving new resource: ${err.message || err}`)
+          addError(
+            errorKey,
+            `Error saving new resource: ${err.message || err}`,
+          ),
         )
       })
   }
@@ -316,8 +323,8 @@ export const saveResource =
           addResourceHistory(
             resource.uri,
             resource.subjectTemplate.class,
-            resource.group
-          )
+            resource.group,
+          ),
         )
         dispatch(clearVersions(resourceKey))
       })
@@ -341,17 +348,17 @@ export const expandProperty =
           dispatch(newSubject(null, resourceTemplateId, {}, errorKey)).then(
             (subject) =>
               dispatch(
-                newPropertiesFromTemplates(subject, false, errorKey)
+                newPropertiesFromTemplates(subject, false, errorKey),
               ).then((properties) => {
                 subject.properties = properties
                 const newValue = newValueSubject(
                   property,
                   property.propertyTemplate.defaultUri,
-                  subject
+                  subject,
                 )
                 return dispatch(addValueAction(newValue))
-              })
-          )
+              }),
+          ),
       )
     } else {
       property.values = defaultValuesFor(property)
@@ -366,13 +373,13 @@ export const expandProperty =
               "propertyUri",
               "show",
               "values",
-            ])
-          )
+            ]),
+          ),
         ),
       ]
     }
     return Promise.all(promises).then(() =>
-      dispatch(showProperty(property.key))
+      dispatch(showProperty(property.key)),
     )
   }
 
@@ -393,7 +400,7 @@ export const addSiblingValueSubject =
   (valueKey, errorKey) => (dispatch, getState) => {
     const value = selectValue(getState(), valueKey)
     return dispatch(
-      newSubject(null, value.valueSubject.subjectTemplate.id, {}, errorKey)
+      newSubject(null, value.valueSubject.subjectTemplate.id, {}, errorKey),
     ).then((subject) =>
       dispatch(newPropertiesFromTemplates(subject, false, errorKey)).then(
         (properties) => {
@@ -401,11 +408,11 @@ export const addSiblingValueSubject =
           const newValue = newValueSubject(
             value.property,
             value.propertyUri,
-            subject
+            subject,
           )
           return dispatch(addValueAction(newValue, valueKey))
-        }
-      )
+        },
+      ),
     )
   }
 
@@ -419,7 +426,7 @@ export const addMainTitle =
         property,
         mainTitle.propertyUri,
         mainTitle.literal,
-        mainTitle.lang
+        mainTitle.lang,
       )
       return dispatch(addValueAction(value))
     }
@@ -428,7 +435,7 @@ export const addMainTitle =
       updateLiteralValue(
         property.valueKeys[0],
         mainTitle.literal,
-        mainTitle.lang
-      )
+        mainTitle.lang,
+      ),
     )
   }

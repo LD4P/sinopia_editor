@@ -19,13 +19,13 @@ describe("adding and removing properties", () => {
 
     // Input box removed.
     expect(
-      screen.queryAllByPlaceholderText("Uber template1, property2")
+      screen.queryAllByPlaceholderText("Uber template1, property2"),
     ).toHaveLength(0)
     // Add button displayed.
     screen.getByTestId("Add Uber template1, property2")
     // Remove button removed.
     expect(
-      screen.queryAllByTestId("Remove Uber template1, property2")
+      screen.queryAllByTestId("Remove Uber template1, property2"),
     ).toHaveLength(0)
 
     // Now add it.
@@ -36,7 +36,7 @@ describe("adding and removing properties", () => {
     await screen.findByPlaceholderText("Uber template1, property2")
     // Add button removed.
     expect(
-      screen.queryAllByTestId("Add Uber template1, property2")
+      screen.queryAllByTestId("Add Uber template1, property2"),
     ).toHaveLength(0)
   }, 15000)
 
@@ -62,7 +62,7 @@ describe("adding and removing properties", () => {
 
     // Two resource properties
     await waitFor(() =>
-      expect(screen.queryAllByText("Uber template2")).toHaveLength(2)
+      expect(screen.queryAllByText("Uber template2")).toHaveLength(2),
     )
     // Two remove buttons
     const removeBtns = screen.queryAllByTestId("Remove Uber template2")
@@ -98,7 +98,7 @@ describe("adding and removing properties", () => {
     expect(screen.queryAllByTestId("Remove Uber template2")).toHaveLength(0)
     // No add another
     expect(screen.queryAllByTestId("Add another Uber template2")).toHaveLength(
-      0
+      0,
     )
   }, 15000)
 
@@ -119,11 +119,11 @@ describe("adding and removing properties", () => {
 
     // Input box removed.
     expect(
-      screen.queryAllByPlaceholderText("Uber template2, property1")
+      screen.queryAllByPlaceholderText("Uber template2, property1"),
     ).toHaveLength(0)
     // Delete button removed
     expect(
-      screen.queryAllByTestId("Remove Uber template2, property1")
+      screen.queryAllByTestId("Remove Uber template2, property1"),
     ).toHaveLength(0)
   }, 15000)
 
@@ -157,7 +157,7 @@ describe("adding and removing properties", () => {
 
     // Remove button removed.
     expect(
-      screen.queryAllByTestId("Remove Uber template1, property7")
+      screen.queryAllByTestId("Remove Uber template1, property7"),
     ).toHaveLength(0)
 
     // Now add back property7.

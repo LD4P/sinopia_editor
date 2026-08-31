@@ -99,7 +99,7 @@ describe("fetchResource", () => {
 
     it("retrieves resource template", async () => {
       const result = await fetchResource(
-        "http://localhost:3000/resource/resourceTemplate:bf2:Note"
+        "http://localhost:3000/resource/resourceTemplate:bf2:Note",
       )
       expect(result).toBeTruthy()
       expect(result[1].id).toBe("resourceTemplate:bf2:Note")
@@ -108,9 +108,9 @@ describe("fetchResource", () => {
     it("errors if fixture does not exist", async () => {
       expect.assertions(1)
       await expect(
-        fetchResource("http://localhost:3000/resource/ld4p:RT:bf2:xxx")
+        fetchResource("http://localhost:3000/resource/ld4p:RT:bf2:xxx"),
       ).rejects.toThrow(
-        "Error parsing resource: Error retrieving resource: Not Found"
+        "Error parsing resource: Error retrieving resource: Not Found",
       )
     })
   })
@@ -124,13 +124,13 @@ describe("fetchResource", () => {
       })
 
       const result = await fetchResource(
-        "https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f"
+        "https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f",
       )
       expect(result[1].id).toBe("yale/61f2f457-31f5-432c-8acf-b4037f77541f")
       expect(result[1].user).toBe("tat2")
       expect(global.fetch).toHaveBeenCalledWith(
         "https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f",
-        { headers: { Accept: "application/json" } }
+        { headers: { Accept: "application/json" } },
       )
     })
 
@@ -143,13 +143,13 @@ describe("fetchResource", () => {
 
       const result = await fetchResource(
         "https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f",
-        { version: "2019-10-16T17:13:45.084Z" }
+        { version: "2019-10-16T17:13:45.084Z" },
       )
       expect(result[1].id).toBe("yale/61f2f457-31f5-432c-8acf-b4037f77541f")
       expect(result[1].user).toBe("tat2")
       expect(global.fetch).toHaveBeenCalledWith(
         "https://api.development.sinopia.io/resource/yale/61f2f457-31f5-432c-8acf-b4037f77541f/version/2019-10-16T17:13:45.084Z",
-        { headers: { Accept: "application/json" } }
+        { headers: { Accept: "application/json" } },
       )
     })
 
@@ -161,9 +161,9 @@ describe("fetchResource", () => {
       })
 
       await expect(
-        fetchResource("http://api.sinopia.io/resource/12334")
+        fetchResource("http://api.sinopia.io/resource/12334"),
       ).rejects.toThrow(
-        "Error parsing resource: Sinopia API returned failed to retrieve uri"
+        "Error parsing resource: Sinopia API returned failed to retrieve uri",
       )
     })
   })
@@ -211,7 +211,7 @@ describe("postResource", () => {
         "cornell",
       ])
       expect(result).toBe(
-        "http://localhost:3000/resource/resourceTemplate:bf2:Note"
+        "http://localhost:3000/resource/resourceTemplate:bf2:Note",
       )
     })
   })
@@ -236,7 +236,7 @@ describe("putResource", () => {
         statusText: "Cannot save resource",
       })
       await expect(putResource(resource, currentUser)).rejects.toThrow(
-        "Sinopia API returned Cannot save resource"
+        "Sinopia API returned Cannot save resource",
       )
     })
   })
@@ -399,7 +399,7 @@ describe("fetchUser", () => {
           headers: {
             Authorization: "Bearer Secret-Token",
           },
-        }
+        },
       )
     })
   })
@@ -413,7 +413,7 @@ describe("putUserHistory", () => {
     })
 
     expect(
-      await putUserHistory("tmann", "template", "abc123", "template1")
+      await putUserHistory("tmann", "template", "abc123", "template1"),
     ).toEqual(userData)
 
     expect(global.fetch).toHaveBeenCalledWith(
@@ -425,7 +425,7 @@ describe("putUserHistory", () => {
           "Content-Type": "application/json",
         },
         body: '{"payload":"template1"}',
-      }
+      },
     )
   })
 })
@@ -446,7 +446,7 @@ describe("postTransfer", () => {
           headers: {
             Authorization: "Bearer Secret-Token",
           },
-        }
+        },
       )
     })
   })
@@ -460,7 +460,7 @@ describe("fetchResourceRelationships", () => {
 
     it("retrieves relationships", async () => {
       const result = await fetchResourceRelationships(
-        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
       )
       expect(result).toEqual({
         bfAdminMetadataInferredRefs: [],
@@ -491,12 +491,12 @@ describe("fetchResourceRelationships", () => {
       })
 
       const result = await fetchResourceRelationships(
-        "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f"
+        "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f",
       )
       expect(result).toStrictEqual(refs)
       expect(global.fetch).toHaveBeenCalledWith(
         "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships",
-        { headers: { Accept: "application/json" }, method: "GET" }
+        { headers: { Accept: "application/json" }, method: "GET" },
       )
     })
 
@@ -516,10 +516,10 @@ describe("fetchResourceRelationships", () => {
 
       await expect(
         fetchResource(
-          "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships"
-        )
+          "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships",
+        ),
       ).rejects.toThrow(
-        "Error parsing resource: Not Found: not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships"
+        "Error parsing resource: Not Found: not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships",
       )
     })
   })
@@ -533,7 +533,7 @@ describe("fetchResourceVersions", () => {
 
     it("retrieves versions", async () => {
       const result = await fetchResourceVersions(
-        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+        "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
       )
       expect(result).toHaveLength(3)
     })
@@ -561,12 +561,12 @@ describe("fetchResourceVersions", () => {
       })
 
       const result = await fetchResourceVersions(
-        "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f"
+        "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f",
       )
       expect(result).toStrictEqual(resp.versions)
       expect(global.fetch).toHaveBeenCalledWith(
         "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/versions",
-        { headers: { Accept: "application/json" }, method: "GET" }
+        { headers: { Accept: "application/json" }, method: "GET" },
       )
     })
 
@@ -586,10 +586,10 @@ describe("fetchResourceVersions", () => {
 
       await expect(
         fetchResourceVersions(
-          "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships"
-        )
+          "http://localhost:3000/resource/61f2f457-31f5-432c-8acf-b4037f77541f/relationships",
+        ),
       ).rejects.toThrow(
-        "Not Found: not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/versions"
+        "Not Found: not found at /resource/61f2f457-31f5-432c-8acf-b4037f77541f/versions",
       )
     })
   })
@@ -640,7 +640,7 @@ describe("detectLanguage", () => {
             "Content-Type": "text/plain",
           },
           method: "POST",
-        }
+        },
       )
     })
 
@@ -658,7 +658,7 @@ describe("detectLanguage", () => {
       })
 
       await expect(
-        detectLanguage("Who am I and why am I here?")
+        detectLanguage("Who am I and why am I here?"),
       ).rejects.toThrow("Server error: Something went wrong")
     })
   })

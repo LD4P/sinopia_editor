@@ -82,7 +82,7 @@ describe("addTemplateHistory()", () => {
       "Foo McBar",
       "template",
       "5860e2660bd44eab2be5190cd2cafb8b",
-      "template1"
+      "template1",
     )
   })
 })
@@ -94,15 +94,15 @@ describe("addResourceHistory()", () => {
 
     await store.dispatch(
       addResourceHistory(
-        "https://api.development.sinopia.io/resource/3f90a592-5070-4244-a2d9-47f503329e39"
-      )
+        "https://api.development.sinopia.io/resource/3f90a592-5070-4244-a2d9-47f503329e39",
+      ),
     )
 
     expect(sinopiaApi.putUserHistory).toHaveBeenCalledWith(
       "Foo McBar",
       "resource",
       "b7d41ce2cdf71bd8dd3198b93d5bb7bd",
-      "https://api.development.sinopia.io/resource/3f90a592-5070-4244-a2d9-47f503329e39"
+      "https://api.development.sinopia.io/resource/3f90a592-5070-4244-a2d9-47f503329e39",
     )
   })
 })
@@ -118,7 +118,7 @@ describe("addSearchHistory()", () => {
       "Foo McBar",
       "search",
       "dd5b5cc7ca199ba76faf047ffb52575d",
-      '{"authorityUri":"sinopia","query":"ants"}'
+      '{"authorityUri":"sinopia","query":"ants"}',
     )
   })
 })

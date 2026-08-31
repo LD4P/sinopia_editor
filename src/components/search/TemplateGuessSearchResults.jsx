@@ -6,7 +6,7 @@ import ExpandingResourceTemplates from "../templates/ExpandingResourceTemplates"
 
 const TemplateGuessSearchResults = () => {
   const searchResults = useSelector((state) =>
-    selectSearchResults(state, "templateguess")
+    selectSearchResults(state, "templateguess"),
   )
 
   return (

@@ -31,7 +31,7 @@ const ResourceComponent = () => {
   useEffect(() => {
     const onScroll = () => {
       const currentlyInViewport = isInViewport(
-        document.querySelector("#sticky-beacon")
+        document.querySelector("#sticky-beacon"),
       )
       if (isHeaderInViewport !== currentlyInViewport) {
         setHeaderInViewport(currentlyInViewport)

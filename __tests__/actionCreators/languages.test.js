@@ -39,10 +39,10 @@ describe("fetchLanguages", () => {
     expect(scriptLookup).toContainEqual({ id: "Latn", label: "Latin (Latn)" })
 
     expect(transliterations.alaloc).toEqual(
-      "American Library Association-Library of Congress"
+      "American Library Association-Library of Congress",
     )
     expect(transliterations.buckwalt).toEqual(
-      "Buckwalter Arabic transliteration system"
+      "Buckwalter Arabic transliteration system",
     )
 
     expect(transliterationLookup).toContainEqual({

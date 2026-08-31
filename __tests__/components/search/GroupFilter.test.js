@@ -86,7 +86,7 @@ describe("<GroupFilter />", () => {
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(document.querySelector(".show")).not.toBeInTheDocument()
+      expect(document.querySelector(".show")).not.toBeInTheDocument(),
     )
 
     expect(mockGetSearchResults).toHaveBeenCalledWith("twain", {
@@ -141,7 +141,7 @@ describe("<GroupFilter />", () => {
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(document.querySelector(".show")).not.toBeInTheDocument()
+      expect(document.querySelector(".show")).not.toBeInTheDocument(),
     )
 
     fireEvent.click(screen.getByText("Filter by group"))

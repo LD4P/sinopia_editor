@@ -59,7 +59,7 @@ const mapStateToProps = (state, ourProps) => {
     property,
     propertyTemplate: selectPropertyTemplate(
       state,
-      property?.propertyTemplateKey
+      property?.propertyTemplateKey,
     ),
   }
 }

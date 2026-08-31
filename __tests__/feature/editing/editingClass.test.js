@@ -37,18 +37,18 @@ describe("editing a class for a resource", () => {
       // Default class is displayed
       screen.getByText(
         "Literal (http://sinopia.io/testing/MultipleClassLiteral)",
-        { selector: "div" }
+        { selector: "div" },
       )
 
       const checkbox = screen.getByLabelText(
-        "Literal subclass A (http://sinopia.io/testing/MultipleClassLiteral-subclassA)"
+        "Literal subclass A (http://sinopia.io/testing/MultipleClassLiteral-subclassA)",
       )
       expect(checkbox).not.toBeChecked()
       fireEvent.click(checkbox)
       expect(checkbox).toBeChecked()
 
       screen.getByLabelText(
-        "http://sinopia.io/testing/MultpleClassLiteral-subclassB"
+        "http://sinopia.io/testing/MultpleClassLiteral-subclassB",
       )
     })
   })

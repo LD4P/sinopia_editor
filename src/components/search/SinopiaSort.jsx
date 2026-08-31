@@ -10,7 +10,7 @@ const SinopiaSort = () => {
   const errorKey = useAlerts()
 
   const searchOptions = useSelector((state) =>
-    selectSearchOptions(state, "resource")
+    selectSearchOptions(state, "resource"),
   )
   const curSortField = searchOptions.sortField
   const curSortOrder = searchOptions.sortOrder
@@ -26,8 +26,8 @@ const SinopiaSort = () => {
           sortField,
           sortOrder,
         },
-        errorKey
-      )
+        errorKey,
+      ),
     )
 
   const getClasses = (sortField, sortOrder) =>

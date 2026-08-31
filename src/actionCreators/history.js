@@ -40,7 +40,11 @@ export const loadSearchHistory = (searches) => (dispatch) => {
     if (!authorityConfig) return
 
     dispatch(
-      addSearchHistory(search.authorityUri, authorityConfig.label, search.query)
+      addSearchHistory(
+        search.authorityUri,
+        authorityConfig.label,
+        search.query,
+      ),
     )
   })
 }
@@ -81,8 +85,8 @@ export const addResourceHistory =
               resourceUri,
               type,
               group,
-              modified || new Date().toISOString()
-            )
+              modified || new Date().toISOString(),
+            ),
           )
         } else {
           dispatch(addResourceHistoryByResult(response.results[0]))

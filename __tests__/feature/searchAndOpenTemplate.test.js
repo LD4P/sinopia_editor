@@ -42,14 +42,14 @@ describe("searching and opening a resource", () => {
 
     // Search for a template
     const input = screen.getByPlaceholderText(
-      "Enter id, label, URI, remark, group, or author"
+      "Enter id, label, URI, remark, group, or author",
     )
     await fireEvent.change(input, { target: { value: queryString } })
     await screen.findByText("resourceTemplate:bf2:Title:Note")
 
     // Has a create, view, and copy buttons
     const createBtn = await screen.findByTestId(
-      "Create resource for Title note"
+      "Create resource for Title note",
     )
     screen.getByTestId("View Title note")
     screen.getByTestId("Copy Title note")
@@ -69,17 +69,17 @@ describe("searching and opening a resource", () => {
 
     // Clear search button empties the search field
     fireEvent.click(
-      screen.getByTestId("Clear query string", { selector: "button" })
+      screen.getByTestId("Clear query string", { selector: "button" }),
     )
     expect(
       screen.getByPlaceholderText(
-        "Enter id, label, URI, remark, group, or author"
-      ).value
+        "Enter id, label, URI, remark, group, or author",
+      ).value,
     ).toEqual("")
 
     // see the recently used RTs
     const histTemplateBtn = await screen.findByText(
-      "Most recently used templates"
+      "Most recently used templates",
     )
     fireEvent.click(histTemplateBtn)
     const rtHeaders = screen.getAllByText("Label / ID")

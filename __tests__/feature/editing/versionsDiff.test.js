@@ -40,7 +40,7 @@ describe("versions", () => {
       fireEvent.click(screen.getByTestId("Close"))
 
       expect(
-        screen.queryByText(/foo/, { selector: ".add" })
+        screen.queryByText(/foo/, { selector: ".add" }),
       ).not.toBeInTheDocument()
     }, 15000)
   })

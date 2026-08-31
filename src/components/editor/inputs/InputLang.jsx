@@ -26,11 +26,11 @@ const InputLang = () => {
   const langOptions = useSelector((state) => selectLanguages(state))
   const scriptOptions = useSelector((state) => selectScripts(state))
   const transliterationOptions = useSelector((state) =>
-    selectTransliterations(state)
+    selectTransliterations(state),
   )
   const langLabels = useSelector((state) => selectLanguageLabels(state))
   const resourceDefaultLang = useSelector((state) =>
-    selectDefaultLang(state, value?.rootSubjectKey)
+    selectDefaultLang(state, value?.rootSubjectKey),
   )
   const textValue = value?.literal || value?.label || ""
   const [selectedLangOptions, setSelectedLanguageOptions] = useState([])
@@ -45,7 +45,7 @@ const InputLang = () => {
   const newTag = stringifyLangTag(
     newLangSubtag,
     _.first(selectedScriptOptions)?.id,
-    _.first(selectedTransliterationOptions)?.id
+    _.first(selectedTransliterationOptions)?.id,
   )
 
   const showDefaultLang = resourceDefaultLang !== newTag
@@ -56,7 +56,7 @@ const InputLang = () => {
     setIsDefaultLang(false)
     if (!value?.lang) return
     const [langSubtag, scriptSubtag, transliterationSubtag] = parseLangTag(
-      value.lang
+      value.lang,
     )
 
     const newLangOptions = findOptions(langSubtag, langOptions)
@@ -68,7 +68,7 @@ const InputLang = () => {
 
     const newTransliterationOptions = findOptions(
       transliterationSubtag,
-      transliterationOptions
+      transliterationOptions,
     )
     if (newTransliterationOptions)
       setSelectedTransliterationOptions(newTransliterationOptions)

@@ -74,8 +74,8 @@ const App = (props) => {
           dispatch(
             newResourceCreator(
               editorTemplateMatch.params.templateId,
-              templateErrorKey
-            )
+              templateErrorKey,
+            ),
           ).then((result) => {
             if (!result) history.push("/templates")
           })

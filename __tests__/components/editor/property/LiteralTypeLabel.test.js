@@ -17,7 +17,7 @@ describe("<LiteralTypeLabel />", () => {
       ]
     renderComponent(
       <LiteralTypeLabel propertyTemplate={propertyTemplate} />,
-      store
+      store,
     )
     screen.getByText("Enter a literal")
   })
@@ -34,7 +34,7 @@ describe("<LiteralTypeLabel />", () => {
       ]
     renderComponent(
       <LiteralTypeLabel propertyTemplate={propertyTemplate} />,
-      store
+      store,
     )
     screen.getByText("Enter an integer")
   })
@@ -51,7 +51,7 @@ describe("<LiteralTypeLabel />", () => {
       ]
     renderComponent(
       <LiteralTypeLabel propertyTemplate={propertyTemplate} />,
-      store
+      store,
     )
     screen.getByText('Enter a literal in the form "^Vinsky$"')
   })
@@ -69,7 +69,7 @@ describe("<LiteralTypeLabel />", () => {
       ]
     renderComponent(
       <LiteralTypeLabel propertyTemplate={propertyTemplate} />,
-      store
+      store,
     )
     screen.getByText('Enter a date time in the form "^Vinsky$"')
   })

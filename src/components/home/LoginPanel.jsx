@@ -15,7 +15,7 @@ const LoginPanel = () => {
   const [password, setPassword] = useState("")
 
   const error = _.first(
-    useSelector((state) => selectErrors(state, signInErrorKey))
+    useSelector((state) => selectErrors(state, signInErrorKey)),
   )
 
   const handleSubmit = (event) => {
