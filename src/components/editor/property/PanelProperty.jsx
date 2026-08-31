@@ -20,10 +20,10 @@ const PanelProperty = ({ propertyKey, readOnly, id, isTemplate }) => {
   const dispatch = useDispatch()
   const errorKey = useAlerts()
   const property = useSelector((state) =>
-    selectNormProperty(state, propertyKey)
+    selectNormProperty(state, propertyKey),
   )
   const propertyTemplate = useSelector((state) =>
-    selectPropertyTemplate(state, property?.propertyTemplateKey)
+    selectPropertyTemplate(state, property?.propertyTemplateKey),
   )
 
   // Null values indicates that can be added.

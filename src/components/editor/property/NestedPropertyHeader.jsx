@@ -124,7 +124,7 @@ const mapStateToProps = (state, ownProps) => ({
   collapsed: false,
   displayValidations: displayResourceValidations(
     state,
-    ownProps.property?.rootSubjectKey
+    ownProps.property?.rootSubjectKey,
   ),
   resourceKey: ownProps.property?.rootSubjectKey,
 })
@@ -137,10 +137,10 @@ const mapDispatchToProps = (dispatch) =>
       showProperty,
       hideProperty,
     },
-    dispatch
+    dispatch,
   )
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(NestedPropertyHeader)

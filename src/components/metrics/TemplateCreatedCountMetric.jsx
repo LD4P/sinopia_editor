@@ -18,7 +18,7 @@ const TemplateCreatedCountMetric = () => {
 
   const templateCreatedCountMetric = useMetric(
     "getTemplateCreatedCount",
-    params
+    params,
   )
 
   const footer = (

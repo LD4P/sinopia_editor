@@ -195,13 +195,13 @@ const addSubjectToNewState = (state, subject, valueSubjectOfKey) => {
   const oldPropertyKeys = oldSubject?.propertyKeys || []
   oldPropertyKeys.forEach(
     (propertyKey) =>
-      (newState = clearPropertyFromNewState(newState, propertyKey))
+      (newState = clearPropertyFromNewState(newState, propertyKey)),
   )
 
   // Add new properties
   if (newProperties) {
     newProperties.forEach(
-      (property) => (newState = addPropertyToNewState(newState, property))
+      (property) => (newState = addPropertyToNewState(newState, property)),
     )
   }
 
@@ -265,7 +265,7 @@ const addPropertyToNewState = (state, property) => {
   // Add new values
   if (newValues) {
     newValues.forEach(
-      (value) => (newState = addValueToNewState(newState, value))
+      (value) => (newState = addValueToNewState(newState, value)),
     )
   }
   // Add a blank first value if necessary.
@@ -281,14 +281,14 @@ export const addValue = (state, action) =>
   addValueToNewState(
     state,
     action.payload.value,
-    action.payload.siblingValueKey
+    action.payload.siblingValueKey,
   )
 
 const addValueToNewState = (
   state,
   value,
   siblingValueKey = null,
-  show = true
+  show = true,
 ) => {
   const newValue = { ...value }
   const oldValue = state.values[newValue.key]
@@ -404,7 +404,7 @@ export const removeValue = (state, action) => {
   // Remove from property
   const property = { ...state.properties[value.propertyKey] }
   const valueKeys = [...property.valueKeys].filter(
-    (valueKey) => valueKey !== value.key
+    (valueKey) => valueKey !== value.key,
   )
   let newState = mergePropertyPropsToNewState(state, property.key, {
     valueKeys,
@@ -493,7 +493,7 @@ export const setValueOrder = (state, action) => {
 
   const index = action.payload.index
   const filterValueKeys = newProperty.valueKeys.filter(
-    (key) => key !== valueKey
+    (key) => key !== valueKey,
   )
   newProperty.valueKeys = [
     ...filterValueKeys.slice(0, index - 1),
@@ -519,10 +519,10 @@ const addFirstValue = (state, propertyKey) => {
           property,
           propertyTemplate.languageSuppressed,
           defaultLang,
-          propertyTemplate.defaultUri
+          propertyTemplate.defaultUri,
         ),
         null,
-        propertyTemplate.required
+        propertyTemplate.required,
       )
     case "InputURI":
       return addValueToNewState(
@@ -531,24 +531,24 @@ const addFirstValue = (state, propertyKey) => {
           property,
           propertyTemplate.languageSuppressed,
           defaultLang,
-          propertyTemplate.defaultUri
+          propertyTemplate.defaultUri,
         ),
         null,
-        propertyTemplate.required
+        propertyTemplate.required,
       )
     case "InputLookup":
       return addValueToNewState(
         state,
         newBlankLookupValue(property, propertyTemplate.defaultUri),
         null,
-        propertyTemplate.required
+        propertyTemplate.required,
       )
     case "InputList":
       return addValueToNewState(
         state,
         newBlankListValue(property, propertyTemplate.defaultUri),
         null,
-        propertyTemplate.required
+        propertyTemplate.required,
       )
     default:
       return state

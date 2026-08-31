@@ -58,7 +58,7 @@ const responseToOptions = (json) => {
       const labels =
         item.value["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"]
       labels.forEach((label) =>
-        opts.push({ id: newId, label: label["@value"], uri })
+        opts.push({ id: newId, label: label["@value"], uri }),
       )
     } catch (err) {
       // Ignore

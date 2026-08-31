@@ -8,7 +8,7 @@ import { getLookupResult } from "utilities/Lookup"
 
 const LookupTabs = (props) => {
   const [currentAuthorityUri, setCurrentAuthorityUri] = useState(
-    props.authorityConfigs[0].uri
+    props.authorityConfigs[0].uri,
   )
   const [, setTriggerRender] = useState("")
   // Using a ref so that can append to current list of results.
@@ -20,7 +20,7 @@ const LookupTabs = (props) => {
     // Clear the results.
     // No re-render, so change not visible to user.
     props.authorityConfigs.forEach(
-      (authorityConfig) => delete results.current[authorityConfig.uri]
+      (authorityConfig) => delete results.current[authorityConfig.uri],
     )
 
     props.authorityConfigs.forEach((authorityConfig) => {
@@ -44,7 +44,7 @@ const LookupTabs = (props) => {
         results.current[authorityConfig.uri] = result
         // Changing state triggers re-render.
         setTriggerRender(result)
-      }
+      },
     )
   }
 
@@ -77,7 +77,7 @@ const LookupTabs = (props) => {
   /* eslint-enable jsx-a11y/anchor-is-valid */
 
   const authorityConfig = props.authorityConfigs.find(
-    (authorityConfig) => authorityConfig.uri === currentAuthorityUri
+    (authorityConfig) => authorityConfig.uri === currentAuthorityUri,
   )
 
   return (

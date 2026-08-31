@@ -13,12 +13,13 @@ export const selectLanguageLabel = (state, tag) => {
   ]
   if (scriptSubtag)
     labels.push(
-      state.entities.scripts[scriptSubtag] || `Unknown script (${scriptSubtag})`
+      state.entities.scripts[scriptSubtag] ||
+        `Unknown script (${scriptSubtag})`,
     )
   if (transliterationSubtag)
     labels.push(
       state.entities.transliterations[transliterationSubtag] ||
-        `Unknown transliteration (${transliterationSubtag})`
+        `Unknown transliteration (${transliterationSubtag})`,
     )
   return labels.join(" - ")
 }

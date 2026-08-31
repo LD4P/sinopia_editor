@@ -22,10 +22,10 @@ const InputLiteralOrURI = ({
 }) => {
   const dispatch = useDispatch()
   const fullProperty = useSelector((state) =>
-    selectProperty(state, property.key)
+    selectProperty(state, property.key),
   )
   const defaultLang = useSelector((state) =>
-    selectDefaultLang(state, property.rootSubjectKey)
+    selectDefaultLang(state, property.rootSubjectKey),
   )
 
   const inputValues = fullProperty.values.map((value) => {
@@ -57,7 +57,7 @@ const InputLiteralOrURI = ({
           property,
           propertyTemplate.languageSuppressed,
           defaultLang,
-          propertyTemplate.defaultUri
+          propertyTemplate.defaultUri,
         )
         break
       case "InputLookup":
@@ -71,7 +71,7 @@ const InputLiteralOrURI = ({
           property,
           propertyTemplate.languageSuppressed,
           defaultLang,
-          propertyTemplate.defaultUri
+          propertyTemplate.defaultUri,
         )
     }
     dispatch(addValueAction(newValue))

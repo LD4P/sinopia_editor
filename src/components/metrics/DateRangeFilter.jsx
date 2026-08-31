@@ -6,7 +6,7 @@ import { formatISODate } from "utilities/Utilities"
 
 // 30 days ago
 export const defaultStartDate = formatISODate(
-  new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+  new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
 )
 // Today
 export const defaultEndDate = formatISODate(new Date())

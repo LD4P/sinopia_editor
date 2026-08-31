@@ -61,7 +61,7 @@ const LoadByRDFForm = () => {
         // Determine if need to ask for resource template id.
         const resourceTemplateId = findRootResourceTemplateId(
           baseURI,
-          newDataset
+          newDataset,
         )
         if (resourceTemplateId) {
           setResourceTemplateId(resourceTemplateId)

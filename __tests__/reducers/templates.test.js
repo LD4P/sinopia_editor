@@ -38,16 +38,16 @@ describe("addTemplates", () => {
     const newSubjectTemplate =
       newState.subjectTemplates["ld4p:RT:bf2:Title:AbbrTitle"]
     expect(newSubjectTemplate).toBeSubjectTemplate(
-      "ld4p:RT:bf2:Title:AbbrTitle"
+      "ld4p:RT:bf2:Title:AbbrTitle",
     )
     expect(newSubjectTemplate.propertyTemplates).toBeUndefined()
 
     expect(
       newState.propertyTemplates[
         "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
-      ]
+      ],
     ).toBePropertyTemplate(
-      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+      "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
     )
   })
 })

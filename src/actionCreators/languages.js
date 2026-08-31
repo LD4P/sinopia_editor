@@ -56,10 +56,10 @@ export const fetchLanguages = () => (dispatch, getState) => {
           typeMap.script.map,
           typeMap.script.options,
           typeMap.transliteration.map,
-          typeMap.transliteration.options
-        )
+          typeMap.transliteration.options,
+        ),
       )
-    }
+    },
   )
 }
 
@@ -122,8 +122,8 @@ const fetchFixtureLanguages = (dispatch) => {
       scripts,
       scriptLookup,
       transliterations,
-      transliterationLookup
-    )
+      transliterationLookup,
+    ),
   )
 }
 

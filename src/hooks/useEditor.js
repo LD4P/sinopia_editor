@@ -8,7 +8,7 @@ const useEditor = (resourceKey) => {
   const history = useHistory()
 
   const resourceKeyCount = useSelector(
-    (state) => selectResourceKeys(state).length
+    (state) => selectResourceKeys(state).length,
   )
 
   const handleCloseResource = (event) => {

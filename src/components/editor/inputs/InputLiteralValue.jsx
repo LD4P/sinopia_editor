@@ -40,7 +40,7 @@ const InputLiteralValue = ({
     id,
     diacriticsId,
     diacriticsBtnId,
-    value.literal || ""
+    value.literal || "",
   )
   const handleKeyDownResourceHasChanged = useResourceHasChanged(value)
 

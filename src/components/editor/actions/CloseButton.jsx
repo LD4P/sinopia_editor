@@ -21,7 +21,7 @@ const CloseButton = (props) => {
   const { handleCloseResource } = useEditor(resourceKey)
 
   const resourceHasChanged = useSelector((state) =>
-    resourceHasChangesSinceLastSave(state, resourceKey)
+    resourceHasChangesSinceLastSave(state, resourceKey),
   )
 
   const handleClick = (event) => {

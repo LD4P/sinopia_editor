@@ -44,7 +44,7 @@ describe("expandProperty", () => {
   describe("expand a nested resource", () => {
     // const expectedAddValueAction = require("../__action_fixtures__/expandProperty-ADD_VALUE.json")
     const store = mockStore(
-      createState({ hasResourceWithContractedNestedResource: true })
+      createState({ hasResourceWithContractedNestedResource: true }),
     )
 
     it("dispatches actions", async () => {
@@ -53,11 +53,11 @@ describe("expandProperty", () => {
       const actions = store.getActions()
 
       const addValueAction = actions.find(
-        (action) => action.type === "ADD_VALUE"
+        (action) => action.type === "ADD_VALUE",
       )
 
       expect(safeAction(addValueAction)).toEqual(
-        expectedExpandPropertyAddValueAction
+        expectedExpandPropertyAddValueAction,
       )
 
       expect(actions).toHaveAction("ADD_TEMPLATES")
@@ -67,7 +67,7 @@ describe("expandProperty", () => {
 
   describe("expand a literal", () => {
     const store = mockStore(
-      createState({ hasResourceWithContractedLiteral: true })
+      createState({ hasResourceWithContractedLiteral: true }),
     )
 
     it("dispatches actions", async () => {
@@ -76,11 +76,11 @@ describe("expandProperty", () => {
       const actions = store.getActions()
 
       const addPropertyAction = actions.find(
-        (action) => action.type === "ADD_PROPERTY"
+        (action) => action.type === "ADD_PROPERTY",
       )
 
       expect(safeAction(addPropertyAction)).toEqual(
-        expectedExpandPropertyAddPropertyAction
+        expectedExpandPropertyAddPropertyAction,
       )
 
       expect(actions).toHaveAction("SHOW_PROPERTY", "JQEtq-vmq8")
@@ -113,7 +113,7 @@ describe("saveNewResource", () => {
     sinopiaApi.postResource = jest.fn().mockResolvedValue(uri)
 
     await store.dispatch(
-      saveNewResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
+      saveNewResource("t9zVwg2zO", "stanford", ["cornell"], "testerror"),
     )
 
     const actions = store.getActions()
@@ -134,7 +134,7 @@ describe("saveNewResource", () => {
     })
 
     const saveResourceFinishedAction = actions.find(
-      (action) => action.type === "SAVE_RESOURCE_FINISHED"
+      (action) => action.type === "SAVE_RESOURCE_FINISHED",
     )
     expect(saveResourceFinishedAction.payload.resourceKey).toEqual("t9zVwg2zO")
 
@@ -142,7 +142,7 @@ describe("saveNewResource", () => {
       "Foo McBar",
       "resource",
       "bf59d4921535b8f951f1db52584c6d6e",
-      "http://localhost:3000/resource/abcdeghij23455"
+      "http://localhost:3000/resource/abcdeghij23455",
     )
   })
 
@@ -151,7 +151,7 @@ describe("saveNewResource", () => {
     sinopiaApi.postResource.mockRejectedValue(new Error("Messed-up"))
 
     await store.dispatch(
-      saveNewResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
+      saveNewResource("t9zVwg2zO", "stanford", ["cornell"], "testerror"),
     )
 
     const actions = store.getActions()
@@ -176,7 +176,7 @@ describe("saveResource", () => {
     const store = mockStore(state)
 
     await store.dispatch(
-      saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
+      saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror"),
     )
     const actions = store.getActions()
 
@@ -198,7 +198,7 @@ describe("saveResource", () => {
       "Foo McBar",
       "resource",
       "3eb9f1444e9ec984fb165fc9c4de826a",
-      "https://api.sinopia.io/resource/0894a8b3"
+      "https://api.sinopia.io/resource/0894a8b3",
     )
   })
 
@@ -206,7 +206,7 @@ describe("saveResource", () => {
     sinopiaApi.putResource = jest.fn().mockRejectedValue(new Error("Messed-up"))
     const store = mockStore(createState({ hasResourceWithLiteral: true }))
     await store.dispatch(
-      saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror")
+      saveResource("t9zVwg2zO", "stanford", ["cornell"], "testerror"),
     )
     const actions = store.getActions()
     expect(actions).toHaveAction("ADD_ERROR", {
@@ -235,7 +235,7 @@ describe("addMainTitle", () => {
         literal: "Tang",
         lang: "en",
         propertyUri: "http://id.loc.gov/ontologies/bibframe/mainTitle",
-      })
+      }),
     )
     const actions = store.getActions()
     expect(actions).toHaveAction("UPDATE_VALUE", {

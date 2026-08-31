@@ -39,19 +39,19 @@ describe("loading new resource", () => {
     screen.getByPlaceholderText("Uber template1, property4")
     screen.getByPlaceholderText("Uber template1, property5")
     screen.getByPlaceholderText(
-      "Enter lookup query for Uber template1, property15"
+      "Enter lookup query for Uber template1, property15",
     )
     screen.getByPlaceholderText(
-      "Enter lookup query for Uber template1, property16"
+      "Enter lookup query for Uber template1, property16",
     )
     expect(
-      screen.getAllByText("Uber template4", { selector: "h5" })
+      screen.getAllByText("Uber template4", { selector: "h5" }),
     ).toHaveLength(2)
     expect(
-      screen.getAllByPlaceholderText("Uber template4, property1")
+      screen.getAllByPlaceholderText("Uber template4, property1"),
     ).toHaveLength(2)
     expect(
-      screen.getAllByText("Uber template2", { selector: "h5" })
+      screen.getAllByText("Uber template2", { selector: "h5" }),
     ).toHaveLength(2)
 
     // Save button is enabled (we have defaults)
@@ -59,12 +59,12 @@ describe("loading new resource", () => {
 
     // Expand the property in the menu
     fireEvent.click(
-      screen.getByTestId("Show navigation for Uber template1, property3")
+      screen.getByTestId("Show navigation for Uber template1, property3"),
     )
     screen.getByText("Uber template2", { selector: ".left-nav-header" })
     screen.getByText("Uber template3", { selector: ".left-nav-header" })
     expect(
-      screen.queryByText("Uber template4", { selector: ".left-nav-header" })
+      screen.queryByText("Uber template4", { selector: ".left-nav-header" }),
     ).not.toBeInTheDocument()
 
     // Expand next level of nav
@@ -78,16 +78,16 @@ describe("loading new resource", () => {
     expect(
       screen.queryByText("Uber template2, property1", {
         selector: ".left-nav-header",
-      })
+      }),
     ).not.toBeInTheDocument()
     fireEvent.click(
-      screen.getByTestId("Hide navigation for Uber template1, property3")
+      screen.getByTestId("Hide navigation for Uber template1, property3"),
     )
     expect(
-      screen.queryByText("Uber template2", { selector: ".left-nav-header" })
+      screen.queryByText("Uber template2", { selector: ".left-nav-header" }),
     ).not.toBeInTheDocument()
     expect(
-      screen.queryByText("Uber template3", { selector: ".left-nav-header" })
+      screen.queryByText("Uber template3", { selector: ".left-nav-header" }),
     ).not.toBeInTheDocument()
   }, 20000)
 })

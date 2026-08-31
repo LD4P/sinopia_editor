@@ -40,7 +40,7 @@ describe("editing a language", () => {
     fireEvent.click(scriptInput)
     fireEvent.change(scriptInput, { target: { value: "Latin (Latn)" } })
     fireEvent.click(
-      screen.getByText("Latin (Latn)", { selector: ".rbt-highlight-text" })
+      screen.getByText("Latin (Latn)", { selector: ".rbt-highlight-text" }),
     )
     within(newTagRow).getByText("en-Latn")
 
@@ -49,7 +49,7 @@ describe("editing a language", () => {
     within(newTagRow).getByText("en")
 
     const transliterationInput = screen.getByTestId(
-      "transliterationComponent-foo"
+      "transliterationComponent-foo",
     )
 
     // Select a transliteration
@@ -62,8 +62,8 @@ describe("editing a language", () => {
     fireEvent.click(
       screen.getByText(
         "American Library Association-Library of Congress (alaloc)",
-        { selector: ".rbt-highlight-text" }
-      )
+        { selector: ".rbt-highlight-text" },
+      ),
     )
     within(newTagRow).getByText("en-t-en-m0-alaloc")
 
@@ -77,7 +77,7 @@ describe("editing a language", () => {
     fireEvent.click(langInput)
     fireEvent.change(langInput, { target: { value: "Tai (taw)" } })
     fireEvent.click(
-      screen.getByText("Tai (taw)", { selector: ".rbt-highlight-text" })
+      screen.getByText("Tai (taw)", { selector: ".rbt-highlight-text" }),
     )
     within(newTagRow).getByText("taw")
 
@@ -110,7 +110,7 @@ describe("editing a language", () => {
     screen.getByRole("heading", { name: "Select language tag for foo" })
 
     expect(
-      screen.queryByText(/Make default for resource/)
+      screen.queryByText(/Make default for resource/),
     ).not.toBeInTheDocument()
 
     const langInput = screen.getByTestId("langComponent-foo")
@@ -119,7 +119,7 @@ describe("editing a language", () => {
     fireEvent.click(langInput)
     fireEvent.change(langInput, { target: { value: "Tai (taw)" } })
     fireEvent.click(
-      screen.getByText("Tai (taw)", { selector: ".rbt-highlight-text" })
+      screen.getByText("Tai (taw)", { selector: ".rbt-highlight-text" }),
     )
 
     fireEvent.click(screen.getByText(/Make default for resource/))
@@ -127,7 +127,7 @@ describe("editing a language", () => {
 
     await waitFor(() => {
       expect(
-        screen.queryByRole("heading", { name: "Select language tag for foo" })
+        screen.queryByRole("heading", { name: "Select language tag for foo" }),
       ).not.toBeInTheDocument()
     })
 
@@ -160,7 +160,7 @@ describe("editing a language", () => {
 
     // There is language button.
     const langBtn = screen.getByTestId(
-      "Change language for 這是正確的事情，也是一種美味的方法。"
+      "Change language for 這是正確的事情，也是一種美味的方法。",
     )
     expect(langBtn).toHaveTextContent("en")
 
@@ -181,7 +181,7 @@ describe("editing a language", () => {
     await within(newTagRow).findByText("zh")
 
     expect(
-      screen.queryByText(/Detected Chinese \(zh\)/)
+      screen.queryByText(/Detected Chinese \(zh\)/),
     ).not.toBeInTheDocument()
   }, 15000)
 })

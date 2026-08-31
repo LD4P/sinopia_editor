@@ -39,7 +39,7 @@ Cypress.Commands.add(
     $element.text(subString)
     $element.val(subString)
     cy.get($element).type(lastChar)
-  }
+  },
 )
 
 // See https://github.com/cypress-io/cypress/issues/877#issuecomment-490504922

@@ -13,7 +13,7 @@ export const showMarcModal = (state, action) =>
 const setModal = (
   state,
   name,
-  { currentLangModalValue = null, marc = null } = {}
+  { currentLangModalValue = null, marc = null } = {},
 ) => {
   let newCurrentModal
   if (name) {

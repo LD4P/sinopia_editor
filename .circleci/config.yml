@@ -7,7 +7,7 @@ orbs:
 parameters:
   node-version:
     type: string
-    default: "16.10.0"
+    default: "22.16.0"
 references:
   publish_params: &publish_params
     docker-password: DOCKER_PASS

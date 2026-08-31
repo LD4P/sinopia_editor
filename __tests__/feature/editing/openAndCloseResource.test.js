@@ -52,11 +52,11 @@ describe("switching between multiple resources", () => {
     fireEvent.click(
       await screen.findByText("Resource Templates", {
         selector: "a",
-      })
+      }),
     )
 
     fireEvent.click(
-      await screen.findByTestId("Create resource for BF Instance")
+      await screen.findByTestId("Create resource for BF Instance"),
     )
     await screen.findByText("BF Instance", {
       selector: resourceHeaderSelector,
@@ -99,7 +99,7 @@ describe("switching between multiple resources", () => {
     expect(
       await screen.findByText("Dashboard", {
         selector: "a",
-      })
+      }),
     ).toHaveClass("active")
   }, 15000)
 })

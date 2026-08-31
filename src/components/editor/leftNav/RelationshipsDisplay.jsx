@@ -40,14 +40,14 @@ const RelationshipsDisplay = ({ resourceKey, displayActions = true }) => {
           dispatch(
             addError(
               errorKey,
-              `Error getting relationships: ${searchResult.error}`
-            )
+              `Error getting relationships: ${searchResult.error}`,
+            ),
           )
           return
         }
         const newResourceRowMap = {}
         searchResult.results.forEach(
-          (row) => (newResourceRowMap[row.uri] = row)
+          (row) => (newResourceRowMap[row.uri] = row),
         )
         setResourceRowMaps((resourceRowMaps) => ({
           ...resourceRowMaps,

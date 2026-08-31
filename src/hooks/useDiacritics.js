@@ -5,7 +5,7 @@ const useDiacritics = (
   inputId,
   diacriticsId,
   diacriticsBtnId,
-  defaultContent
+  defaultContent,
 ) => {
   const [showDiacritics, setShowDiacritics] = useState(false)
   const [currentContent, setCurrentContent] = useState(defaultContent)
@@ -62,7 +62,7 @@ const useDiacritics = (
     setCurrentContent(
       currentContent.slice(0, currentPosition) +
         character +
-        currentContent.slice(currentPosition)
+        currentContent.slice(currentPosition),
     )
     setCurrentPosition(currentPosition + 1)
   }

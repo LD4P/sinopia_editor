@@ -2,7 +2,7 @@ describe("Looking at the Help gutter", () => {
   it("Opens the app", () => {
     cy.visit(Cypress.env("EDITOR_URL") || "http://localhost:8000/")
     cy.contains(
-      "The underdrawing for the new world of linked data in libraries"
+      "The underdrawing for the new world of linked data in libraries",
     )
   })
 
@@ -24,12 +24,12 @@ describe("Looking at the Help gutter", () => {
     cy.get("#username").type(Cypress.env("COGNITO_TEST_USER_NAME"))
     cy.get("#username").should(
       "have.value",
-      Cypress.env("COGNITO_TEST_USER_NAME")
+      Cypress.env("COGNITO_TEST_USER_NAME"),
     )
     cy.get("#password").type(Cypress.env("COGNITO_TEST_USER_PASS"))
     cy.get("#password").should(
       "have.value",
-      Cypress.env("COGNITO_TEST_USER_PASS")
+      Cypress.env("COGNITO_TEST_USER_PASS"),
     )
     cy.get('button[type="submit"]').contains("Login").click()
   })

@@ -111,14 +111,14 @@ describe("selectSearchFacetResults()", () => {
   describe("without search", () => {
     it("returns undefined", () => {
       expect(selectSearchFacetResults(state, "template", "types")).toEqual(
-        undefined
+        undefined,
       )
     })
   })
   describe("without facets", () => {
     it("returns undefined", () => {
       expect(selectSearchFacetResults(state, "resource", "groups")).toEqual(
-        undefined
+        undefined,
       )
     })
   })

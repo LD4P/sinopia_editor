@@ -22,7 +22,7 @@ const groupsToGroupValues = (groupIds, groupMap, ownerGroupId = null) =>
   groupIds
     .filter((groupId) => ownerGroupId !== groupId)
     .sort((groupId1, groupId2) =>
-      groupMap[groupId1]?.localeCompare(groupMap[groupId2])
+      groupMap[groupId1]?.localeCompare(groupMap[groupId2]),
     )
     .map((groupId) => ({
       value: groupId,
@@ -37,10 +37,10 @@ const GroupChoiceModal = () => {
   const userGroupIds = useSelector((state) => selectGroups(state))
   const groupMap = useSelector((state) => selectGroupMap(state))
   const [ownerGroupId, setOwnerGroupId] = useState(
-    resource.group || userGroupIds[0]
+    resource.group || userGroupIds[0],
   )
   const [editGroupValues, setEditGroupValues] = useState(
-    groupsToGroupValues(resource.editGroups, groupMap)
+    groupsToGroupValues(resource.editGroups, groupMap),
   )
   const initialInputRef = useRef()
 
@@ -61,7 +61,7 @@ const GroupChoiceModal = () => {
   const editGroupOptions = groupsToGroupValues(
     Object.keys(groupMap),
     groupMap,
-    ownerGroupId
+    ownerGroupId,
   )
 
   const handleOwnerChange = (event) => {
@@ -69,8 +69,8 @@ const GroupChoiceModal = () => {
     setOwnerGroupId(newOwnerGroupId)
     setEditGroupValues(
       editGroupValues.filter(
-        (groupValue) => groupValue.value !== newOwnerGroupId
-      )
+        (groupValue) => groupValue.value !== newOwnerGroupId,
+      ),
     )
     event.preventDefault()
   }
@@ -81,15 +81,15 @@ const GroupChoiceModal = () => {
 
   const saveAndClose = (event) => {
     const editGroupIds = editGroupValues.map(
-      (editGroupValue) => editGroupValue.value
+      (editGroupValue) => editGroupValue.value,
     )
     if (resource.uri) {
       dispatch(
-        saveResourceAction(resourceKey, ownerGroupId, editGroupIds, errorKey)
+        saveResourceAction(resourceKey, ownerGroupId, editGroupIds, errorKey),
       )
     } else {
       dispatch(
-        saveNewResource(resourceKey, ownerGroupId, editGroupIds, errorKey)
+        saveNewResource(resourceKey, ownerGroupId, editGroupIds, errorKey),
       )
     }
     dispatch(hideModal())

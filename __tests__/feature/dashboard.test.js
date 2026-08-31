@@ -123,7 +123,7 @@ describe("viewing the dashboard", () => {
       // The result
       screen.getByText(
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
-        { selector: "table.resource-list td" }
+        { selector: "table.resource-list td" },
       )
     })
   }, 10000)

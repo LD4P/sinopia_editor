@@ -118,7 +118,7 @@ export const findRootResourceTemplateId = (resourceURI, dataset) => {
   const rtQuads = dataset
     .match(
       rdf.namedNode(resourceURI),
-      rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate")
+      rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate"),
     )
     .toArray()
   if (rtQuads.length !== 1) {
@@ -173,7 +173,7 @@ export const isTopInViewport = (elem) => {
 
 export const stickyScrollIntoView = (
   targetSelector,
-  headerSelector = "#sticky-resource-header"
+  headerSelector = "#sticky-resource-header",
 ) => {
   const elem = document.querySelector(targetSelector)
   if (isTopInViewport(elem)) return

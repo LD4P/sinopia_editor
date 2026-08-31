@@ -16,19 +16,19 @@ const useSearch = (errorKey) => {
     queryString,
     uri,
     searchOptions,
-    startOfRange
+    startOfRange,
   ) =>
     dispatch(
       fetchQASearchResultsCreator(queryString, uri, errorKey, {
         ...searchOptions,
         startOfRange,
-      })
+      }),
     )
 
   const fetchSinopiaSearchResults = (
     queryString,
     searchOptions,
-    startOfRange
+    startOfRange,
   ) =>
     dispatch(
       fetchSinopiaSearchResultsCreator(
@@ -37,15 +37,15 @@ const useSearch = (errorKey) => {
           ...searchOptions,
           startOfRange,
         },
-        errorKey
-      )
+        errorKey,
+      ),
     )
 
   const fetchSearchResults = (
     queryString,
     uri,
     searchOptions,
-    startOfRange
+    startOfRange,
   ) => {
     if (uri === sinopiaSearchUri) {
       return fetchSinopiaSearchResults(queryString, searchOptions, startOfRange)
@@ -61,14 +61,14 @@ const useSearch = (errorKey) => {
 
   const fetchTemplateGuessSearchResults = (
     queryString,
-    searchOptions = { startOfRange: 0 }
+    searchOptions = { startOfRange: 0 },
   ) =>
     dispatch(
       fetchTemplateGuessSearchResultsCreator(
         queryString,
         errorKey,
-        searchOptions
-      )
+        searchOptions,
+      ),
     )
 
   const clearTemplateGuessSearchResults = () => {

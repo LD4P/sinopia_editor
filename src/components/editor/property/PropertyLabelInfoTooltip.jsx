@@ -20,7 +20,7 @@ const PropertyLabelInfoTooltip = (props) => {
       /(\b(https?):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi
     return remark.replace(
       urlRegex,
-      (match) => `<a target="_blank" href="${match}">${match}</a>`
+      (match) => `<a target="_blank" href="${match}">${match}</a>`,
     )
   }
 

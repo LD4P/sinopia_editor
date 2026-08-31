@@ -14,17 +14,17 @@ import useNavLink from "hooks/useNavLink"
 // This draws a link for the left side navbar
 const ActivePanelPropertyNav = (props) => {
   const property = useSelector((state) =>
-    selectNormProperty(state, props.propertyKey)
+    selectNormProperty(state, props.propertyKey),
   )
   const values = useSelector(
     (state) => selectNormValues(state, property.valueKeys),
-    shallowEqual
+    shallowEqual,
   )
   const propertyTemplate = useSelector((state) =>
-    selectPropertyTemplate(state, property?.propertyTemplateKey)
+    selectPropertyTemplate(state, property?.propertyTemplateKey),
   )
   const displayValidations = useSelector((state) =>
-    displayResourceValidations(state, property?.rootSubjectKey)
+    displayResourceValidations(state, property?.rootSubjectKey),
   )
 
   const { handleToggleClick, isExpanded } = useLeftNav(property)

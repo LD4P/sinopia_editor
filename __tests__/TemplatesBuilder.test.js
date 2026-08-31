@@ -47,7 +47,7 @@ describe("TemplatesBuilder", () => {
         suppressible: true,
         group: "stanford",
         editGroups: ["cornell"],
-      })
+      }),
     )
   })
 
@@ -101,7 +101,7 @@ _:b1_c14n0 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
         remarkUrlLabel: "Note on Manifestation",
         type: "literal",
         component: "InputLiteral",
-      })
+      }),
     )
   })
 
@@ -150,7 +150,7 @@ _:b2_c14n1 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://s
         validationDataType: "http://www.w3.org/2001/XMLSchema#integer",
         languageSuppressed: true,
         component: "InputLiteral",
-      })
+      }),
     )
   })
 
@@ -191,7 +191,7 @@ _:b2_c14n1 <http://sinopia.io/vocabulary/hasLiteralPropertyAttributes> <http://s
         type: "uri",
         component: "InputURI",
         labelSuppressed: true,
-      })
+      }),
     )
   })
 
@@ -235,7 +235,7 @@ _:b3_c14n3 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
         ],
         type: "uri",
         component: "InputURI",
-      })
+      }),
     )
   })
 
@@ -273,7 +273,7 @@ _:b4_c14n1 <http://www.w3.org/2000/01/rdf-schema#label> "Uber template1, propert
         ],
         component: "NestedResource",
         type: "resource",
-      })
+      }),
     )
   })
 
@@ -340,7 +340,7 @@ _:b5_c14n2 <http://www.w3.org/2000/01/rdf-schema#label> "URI1"@en .`
         ],
         type: "uri",
         component: "InputLookup",
-      })
+      }),
     )
   })
 })

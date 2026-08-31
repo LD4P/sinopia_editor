@@ -31,8 +31,8 @@ export const fetchSinopiaSearchResults =
             facetResponse || {},
             query,
             options,
-            response.error
-          )
+            response.error,
+          ),
         )
         if (response.results) {
           response.results
@@ -45,13 +45,13 @@ export const fetchSinopiaSearchResults =
           dispatch(
             addError(
               errorKey,
-              `An error occurred while searching: ${response.error.toString()}`
-            )
+              `An error occurred while searching: ${response.error.toString()}`,
+            ),
           )
           return false
         }
         return true
-      }
+      },
     )
   }
 
@@ -73,14 +73,14 @@ export const fetchQASearchResults =
             {},
             query,
             options,
-            response.errorObject.message
-          )
+            response.errorObject.message,
+          ),
         )
         dispatch(
           addError(
             errorKey,
-            `An error occurred while searching: ${response.errorObject.message}`
-          )
+            `An error occurred while searching: ${response.errorObject.message}`,
+          ),
         )
         return false
       }
@@ -94,8 +94,8 @@ export const fetchQASearchResults =
           response.response_header.total_records,
           {},
           query,
-          options
-        )
+          options,
+        ),
       )
       return true
     })
@@ -115,12 +115,15 @@ export const fetchTemplateGuessSearchResults =
           {},
           queryString,
           options,
-          response.error
-        )
+          response.error,
+        ),
       )
       if (response.error) {
         dispatch(
-          addError(errorKey, `Error searching for templates: ${response.error}`)
+          addError(
+            errorKey,
+            `Error searching for templates: ${response.error}`,
+          ),
         )
       }
     })

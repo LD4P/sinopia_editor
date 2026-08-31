@@ -192,7 +192,7 @@ describe("sinopia resource search", () => {
     global.fetch = jest
       .fn()
       .mockImplementation(() =>
-        Promise.resolve({ json: () => successResultResorted })
+        Promise.resolve({ json: () => successResultResorted }),
       )
 
     fireEvent.click(screen.getByText(/Sort by/, { selector: "button" }))
@@ -201,7 +201,7 @@ describe("sinopia resource search", () => {
     await screen.findByText(/Displaying 1 - 3 of 3/)
 
     const resourcesResorted = screen.getAllByText(
-      /http:\/\/platform:8080\/resource\//
+      /http:\/\/platform:8080\/resource\//,
     )
     expect(resourcesResorted).toHaveLength(3)
     within(resourcesResorted[0]).getByText(/baz/)
@@ -215,7 +215,7 @@ describe("sinopia resource search", () => {
     global.fetch = jest
       .fn()
       .mockImplementation(() =>
-        Promise.resolve({ json: () => successResultPage1 })
+        Promise.resolve({ json: () => successResultPage1 }),
       )
 
     renderApp()
@@ -235,7 +235,7 @@ describe("sinopia resource search", () => {
     global.fetch = jest
       .fn()
       .mockImplementation(() =>
-        Promise.resolve({ json: () => successResultPage2 })
+        Promise.resolve({ json: () => successResultPage2 }),
       )
 
     // confirm moving to the next page works
@@ -309,7 +309,7 @@ describe("sinopia resource search", () => {
 
     expect(screen.getByLabelText("Search")).toHaveValue("foo")
     expect(screen.getByTestId("Search type")).toHaveValue(
-      "urn:ld4p:sinopia/Instance"
+      "urn:ld4p:sinopia/Instance",
     )
 
     // Change the page
@@ -318,7 +318,7 @@ describe("sinopia resource search", () => {
 
     expect(screen.getByLabelText("Search")).toHaveValue("foo")
     expect(screen.getByTestId("Search type")).toHaveValue(
-      "urn:ld4p:sinopia/Instance"
+      "urn:ld4p:sinopia/Instance",
     )
   })
 })

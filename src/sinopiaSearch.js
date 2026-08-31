@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 import Config from "Config"
-/* eslint-disable node/no-unpublished-import */
+/* eslint-disable n/no-unpublished-import */
 import {
   getFixtureTemplateSearchResults,
   hasFixtureResource,
@@ -8,7 +8,7 @@ import {
 } from "../__tests__/testUtilities/fixtureLoaderHelper"
 import _ from "lodash"
 
-/* eslint-enable node/no-unpublished-import */
+/* eslint-enable n/no-unpublished-import */
 
 // Not using ES client because not intended for use in browser.
 /**
@@ -19,7 +19,7 @@ import _ from "lodash"
  */
 export const getSearchResults = async (query, options = {}) =>
   getSearchResultsWithFacets(query, { ...options, noFacetResults: true }).then(
-    ([results]) => results
+    ([results]) => results,
   )
 
 /**
@@ -176,7 +176,7 @@ export const getTemplateSearchResults = (query, options = {}) => {
       if (Config.useResourceTemplateFixtures) {
         const newResults = searchResults.results.filter(
           (hit) =>
-            [hit.id, hit.resourceURI].includes(query) || query.length === 0
+            [hit.id, hit.resourceURI].includes(query) || query.length === 0,
         )
         return {
           totalHits: newResults.length,
@@ -185,7 +185,7 @@ export const getTemplateSearchResults = (query, options = {}) => {
         }
       }
       return searchResults
-    }
+    },
   )
 }
 
@@ -226,7 +226,7 @@ export const getTemplateSearchResultsByIds = (templateIds) => {
     (searchResults) => {
       if (Config.useResourceTemplateFixtures) {
         const newResults = searchResults.results.filter((hit) =>
-          templateIds.includes(hit.id)
+          templateIds.includes(hit.id),
         )
         return {
           totalHits: newResults.length,
@@ -235,7 +235,7 @@ export const getTemplateSearchResultsByIds = (templateIds) => {
         }
       }
       return searchResults
-    }
+    },
   )
 }
 

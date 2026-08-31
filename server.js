@@ -28,7 +28,7 @@ app.use(
       return proxyReqOpts
     },
     filter: (req) => req.method === "POST",
-  })
+  }),
 )
 
 app.get("/", (req, res) => {

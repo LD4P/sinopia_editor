@@ -29,7 +29,7 @@ export const selectSubjectAndPropertyTemplates = (state, key) => {
   const newSubjectTemplate = { ...subjectTemplate }
   newSubjectTemplate.propertyTemplates =
     subjectTemplate.propertyTemplateKeys.map((propertyTemplateKey) =>
-      selectPropertyTemplate(state, propertyTemplateKey)
+      selectPropertyTemplate(state, propertyTemplateKey),
     )
 
   return newSubjectTemplate

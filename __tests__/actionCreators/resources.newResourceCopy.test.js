@@ -40,7 +40,7 @@ describe("newResourceCopy", () => {
       const actions = store.getActions()
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
 
       expect(safeAction(addSubjectAction)).toEqual(expectedAction)

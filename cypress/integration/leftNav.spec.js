@@ -6,7 +6,7 @@ describe("Left-nav test", () => {
   it("Opens the app", () => {
     cy.visit(Cypress.env("EDITOR_URL") || "http://localhost:8000/")
     cy.contains(
-      "The underdrawing for the new world of linked data in libraries"
+      "The underdrawing for the new world of linked data in libraries",
     )
   })
 
@@ -16,12 +16,12 @@ describe("Left-nav test", () => {
     cy.get("#username").type(Cypress.env("COGNITO_TEST_USER_NAME"))
     cy.get("#username").should(
       "have.value",
-      Cypress.env("COGNITO_TEST_USER_NAME")
+      Cypress.env("COGNITO_TEST_USER_NAME"),
     )
     cy.get("#password").type(Cypress.env("COGNITO_TEST_USER_PASS"))
     cy.get("#password").should(
       "have.value",
-      Cypress.env("COGNITO_TEST_USER_PASS")
+      Cypress.env("COGNITO_TEST_USER_PASS"),
     )
     cy.get('button[type="submit"]').contains("Login").click()
   })
@@ -45,19 +45,19 @@ describe("Left-nav test", () => {
       if (rtDiv.find("div#no-rt-warning").length > 0) {
         addResourceTemplate(
           "uber_template1.txt",
-          "http://localhost:3000/resource/resourceTemplate:testing:uber1"
+          "http://localhost:3000/resource/resourceTemplate:testing:uber1",
         )
         addResourceTemplate(
           "uber_template2.txt",
-          "http://localhost:3000/resource/resourceTemplate:testing:uber2"
+          "http://localhost:3000/resource/resourceTemplate:testing:uber2",
         )
         addResourceTemplate(
           "uber_template3.txt",
-          "http://localhost:3000/resource/resourceTemplate:testing:uber3"
+          "http://localhost:3000/resource/resourceTemplate:testing:uber3",
         )
         addResourceTemplate(
           "uber_template4.txt",
-          "http://localhost:3000/resource/resourceTemplate:testing:uber4"
+          "http://localhost:3000/resource/resourceTemplate:testing:uber4",
         )
 
         // Waiting for indexing. If this proves problematic, can try a different approach.
@@ -70,7 +70,7 @@ describe("Left-nav test", () => {
 
         cy.get("#searchInput").should(
           "have.value",
-          "resourceTemplate:testing:uber1"
+          "resourceTemplate:testing:uber1",
         )
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -99,23 +99,23 @@ describe("Left-nav test", () => {
       cy.get(".left-nav-header").should("not.contain", "Uber template3")
       cy.get(".left-nav-header").should(
         "not.contain",
-        "Uber template2, property1"
+        "Uber template2, property1",
       )
 
       cy.get(
-        'button[aria-label="Show navigation for Uber template1, property1"]'
+        'button[aria-label="Show navigation for Uber template1, property1"]',
       ).click()
 
       cy.get(".left-nav-header").should("contain", "Uber template2")
       cy.get(".left-nav-header").should("contain", "Uber template3")
       cy.get(".left-nav-header").should(
         "not.contain",
-        "Uber template2, property1"
+        "Uber template2, property1",
       )
 
       cy.get('button[aria-label="Show navigation for Uber template2"]').click()
       cy.get(".left-nav-header").should("contain", "Uber template2, property1")
-    }
+    },
   )
 
   it(
@@ -127,19 +127,19 @@ describe("Left-nav test", () => {
       cy.get(".left-nav-header").should("contain", "Uber template3")
       cy.get(".left-nav-header").should(
         "not.contain",
-        "Uber template2, property1"
+        "Uber template2, property1",
       )
 
       cy.get(
-        'button[aria-label="Hide navigation for Uber template1, property1"]'
+        'button[aria-label="Hide navigation for Uber template1, property1"]',
       ).click()
       cy.get(".left-nav-header").should("not.contain", "Uber template2")
       cy.get(".left-nav-header").should("not.contain", "Uber template3")
       cy.get(".left-nav-header").should(
         "not.contain",
-        "Uber template2, property1"
+        "Uber template2, property1",
       )
-    }
+    },
   )
 
   it(
@@ -163,7 +163,7 @@ describe("Left-nav test", () => {
       cy.get('a[data-testid="Uber template1, property20"]').click()
       // Ensure the viewport didn't shift to the top of the package
       cy.get('a[data-testid="Uber template1, property20"]').should("be.visible")
-    }
+    },
   )
 
   it("Marks properties with errors", { scrollBehavior: "center" }, () => {
@@ -172,7 +172,7 @@ describe("Left-nav test", () => {
     cy.get("button.editor-save").first().click({ force: true })
     cy.get(".left-nav-header.text-danger").should(
       "contain",
-      "Uber template1, property4"
+      "Uber template1, property4",
     )
   })
 
@@ -182,24 +182,24 @@ describe("Left-nav test", () => {
     () => {
       cy.get('textarea[placeholder="Uber template1, property4"]').type(
         "bar{enter}",
-        { force: true }
+        { force: true },
       )
       cy.get(".left-nav-header.text-danger").should(
         "not.contain",
-        "Uber template1, property4"
+        "Uber template1, property4",
       )
-    }
+    },
   )
 
   it("Highlights nav when panel clicked", { scrollBehavior: "center" }, () => {
     cy.get("button.current .left-nav-header").should(
       "not.contain",
-      "Uber template1, property6"
+      "Uber template1, property6",
     )
     cy.contains("button", "Uber template1, property6").click({ force: true })
     cy.get("button.current .left-nav-header").should(
       "contain",
-      "Uber template1, property6"
+      "Uber template1, property6",
     )
   })
 

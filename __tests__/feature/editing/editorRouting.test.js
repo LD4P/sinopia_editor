@@ -24,8 +24,8 @@ describe("routing in editor", () => {
 
       await waitFor(() =>
         expect(history.location.pathname).toEqual(
-          "/editor/resourceTemplate:testing:uber1"
-        )
+          "/editor/resourceTemplate:testing:uber1",
+        ),
       )
 
       await screen.findByText("Uber template1", {
@@ -44,7 +44,7 @@ describe("routing in editor", () => {
       renderApp(store, history)
 
       await waitFor(() =>
-        expect(history.location.pathname).toEqual("/dashboard")
+        expect(history.location.pathname).toEqual("/dashboard"),
       )
     })
   })
@@ -56,7 +56,7 @@ describe("routing in editor", () => {
       renderApp(null, history)
 
       await waitFor(() =>
-        expect(history.location.pathname).toEqual("/templates")
+        expect(history.location.pathname).toEqual("/templates"),
       )
 
       await screen.findByText(/Not found/, { selector: ".alert p" })
@@ -73,8 +73,8 @@ describe("routing in editor", () => {
 
       await waitFor(() =>
         expect(history.location.pathname).toEqual(
-          "/editor/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
-        )
+          "/editor/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
+        ),
       )
 
       await screen.findByText("Example Label", {
@@ -95,7 +95,7 @@ describe("routing in editor", () => {
       renderApp(store, history)
 
       await waitFor(() =>
-        expect(history.location.pathname).toEqual("/dashboard")
+        expect(history.location.pathname).toEqual("/dashboard"),
       )
 
       await screen.findByText("Preview Resource", { selector: "h4" })
@@ -109,7 +109,7 @@ describe("routing in editor", () => {
       renderApp(null, history)
 
       await waitFor(() =>
-        expect(history.location.pathname).toEqual("/dashboard")
+        expect(history.location.pathname).toEqual("/dashboard"),
       )
 
       await screen.findByText(/Not Found/, { selector: ".alert p" })

@@ -29,21 +29,21 @@ describe("searching and preview a resource", () => {
 
       await screen.findByText(uri)
       expect(
-        screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture")
+        screen.getByText("http://id.loc.gov/ontologies/bibframe/Fixture"),
       ).toBeInTheDocument()
 
       // Relationships toggle not shown since not VF
       expect(
-        screen.queryByTestId(`Show relationships for ${uri}`)
+        screen.queryByTestId(`Show relationships for ${uri}`),
       ).not.toBeInTheDocument()
 
       // Modal hasn't rendered yet
       expect(
-        screen.queryByRole("dialog", { name: "Preview Resource" })
+        screen.queryByRole("dialog", { name: "Preview Resource" }),
       ).not.toBeInTheDocument()
 
       expect(
-        screen.queryByTestId("view-resource-modal")
+        screen.queryByTestId("view-resource-modal"),
       ).not.toBeInTheDocument()
 
       // Click the view icon next to the search result row
@@ -68,7 +68,7 @@ describe("searching and preview a resource", () => {
       // Only properties with values are displayed.
       screen.getByText("Uber template1, property9")
       expect(
-        screen.queryByText("Uber template1, property7")
+        screen.queryByText("Uber template1, property7"),
       ).not.toBeInTheDocument()
 
       // URIs are rendered.
@@ -99,7 +99,7 @@ describe("searching and preview a resource", () => {
         target: { value: "turtle" },
       })
       await screen.findByText(
-        /<http:\/\/sinopia.io\/vocabulary\/hasResourceTemplate> "resourceTemplate:testing:uber1";/
+        /<http:\/\/sinopia.io\/vocabulary\/hasResourceTemplate> "resourceTemplate:testing:uber1";/,
       )
       screen.getByText(/Copy RDF/, { selector: "button" })
 
@@ -109,15 +109,15 @@ describe("searching and preview a resource", () => {
 
       // But no MARC and Export buttons
       expect(
-        screen.queryByText("MARC", { selector: "button" })
+        screen.queryByText("MARC", { selector: "button" }),
       ).not.toBeInTheDocument()
       expect(
-        screen.queryByText(/Export to/, { selector: "button" })
+        screen.queryByText(/Export to/, { selector: "button" }),
       ).not.toBeInTheDocument()
 
       // Edit button opens the editor with existing resource
       fireEvent.click(
-        screen.getByTestId("Edit Example Label", { selector: "button" })
+        screen.getByTestId("Edit Example Label", { selector: "button" }),
       )
       await screen.findByText("Example Label", {
         selector: resourceHeaderSelector,
@@ -126,7 +126,7 @@ describe("searching and preview a resource", () => {
       // Make sure nav panel didn't disappear
       fireEvent.click(screen.getByText("Resource Templates", { selector: "a" }))
       fireEvent.click(
-        await screen.findByTestId("Create resource for Title note")
+        await screen.findByTestId("Create resource for Title note"),
       )
       await screen.findByTestId("Go to Note Text", { selector: "button" })
 
@@ -161,10 +161,10 @@ describe("searching and preview a resource", () => {
 
       // Modal hasn't rendered yet
       expect(
-        screen.queryByRole("dialog", { name: "Preview Resource" })
+        screen.queryByRole("dialog", { name: "Preview Resource" }),
       ).not.toBeInTheDocument()
       expect(
-        screen.queryByTestId("view-resource-modal")
+        screen.queryByTestId("view-resource-modal"),
       ).not.toBeInTheDocument()
 
       // Click the view icon next to the search result row
@@ -176,7 +176,7 @@ describe("searching and preview a resource", () => {
       expect(
         await screen.findAllByText("Uber template1, property1", {
           selector: "h5 span",
-        })
+        }),
       ).toHaveLength(1)
 
       // Nested resource is suppressed
@@ -184,7 +184,7 @@ describe("searching and preview a resource", () => {
 
       // Empty value is suppressed
       expect(
-        screen.queryByText("Uber template1, property2")
+        screen.queryByText("Uber template1, property2"),
       ).not.toBeInTheDocument()
     }, 10000)
   })
@@ -228,10 +228,10 @@ describe("searching and preview a resource", () => {
 
       // Modal hasn't rendered yet
       expect(
-        screen.queryByRole("dialog", { name: "Preview Resource" })
+        screen.queryByRole("dialog", { name: "Preview Resource" }),
       ).not.toBeInTheDocument()
       expect(
-        screen.queryByTestId("view-resource-modal")
+        screen.queryByTestId("view-resource-modal"),
       ).not.toBeInTheDocument()
 
       // Click the view icon next to the search result row
@@ -242,7 +242,7 @@ describe("searching and preview a resource", () => {
       expect(
         await screen.findAllByText("Note", {
           selector: "span",
-        })
+        }),
       ).toHaveLength(1)
 
       screen.getByText("MARC", { selector: "button" })

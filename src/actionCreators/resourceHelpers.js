@@ -38,16 +38,16 @@ export const loadResource =
             resourceTemplateId,
             errorKey,
             asNewResource,
-            _.pick(response, ["group", "editGroups"])
-          )
+            _.pick(response, ["group", "editGroups"]),
+          ),
         )
           .then(([resource, usedDataset]) => {
             const unusedDataset = dataset.difference(usedDataset)
             dispatch(
               setUnusedRDF(
                 resource.key,
-                unusedDataset.size > 0 ? unusedDataset.toCanonical() : null
-              )
+                unusedDataset.size > 0 ? unusedDataset.toCanonical() : null,
+              ),
             )
             return [response, resource, unusedDataset]
           })
@@ -58,8 +58,8 @@ export const loadResource =
               dispatch(
                 addError(
                   errorKey,
-                  `Error retrieving ${uri}: ${err.message || err}`
-                )
+                  `Error retrieving ${uri}: ${err.message || err}`,
+                ),
               )
             }
             return false
@@ -68,7 +68,7 @@ export const loadResource =
       .catch((err) => {
         console.error(err)
         dispatch(
-          addError(errorKey, `Error retrieving ${uri}: ${err.message || err}`)
+          addError(errorKey, `Error retrieving ${uri}: ${err.message || err}`),
         )
         return false
       })
@@ -81,7 +81,7 @@ export const addResourceFromDataset =
     resourceTemplateId,
     errorKey,
     asNewResource,
-    otherResourceAttrs = {}
+    otherResourceAttrs = {},
   ) =>
   (dispatch) => {
     const subjectTerm = rdf.namedNode(chooseURI(dataset, uri))
@@ -95,8 +95,8 @@ export const addResourceFromDataset =
     context.usedDataset.addAll(
       context.dataset.match(
         subjectTerm,
-        rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate")
-      )
+        rdf.namedNode("http://sinopia.io/vocabulary/hasResourceTemplate"),
+      ),
     )
     return dispatch(
       recursiveResourceFromDataset(
@@ -104,8 +104,8 @@ export const addResourceFromDataset =
         newUri,
         resourceTemplateId,
         false,
-        context
-      )
+        context,
+      ),
     ).then((resource) => {
       // Do not copy group or editGroups (passed in via otherResourceAttrs) if resource is new (i.e., copied)
       const newResource = _.merge(resource, otherResourceAttrs)
@@ -128,7 +128,7 @@ export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) =>
     dispatch(newPropertiesFromTemplates(subject, false, errorKey)).then(
       (properties) => {
         const promises = properties.map((property) =>
-          dispatch(expandProperty(property, errorKey))
+          dispatch(expandProperty(property, errorKey)),
         )
         return Promise.all(promises)
           .then((expandedProperties) => {
@@ -136,8 +136,8 @@ export const addEmptyResource = (resourceTemplateId, errorKey) => (dispatch) =>
             return dispatch(addSubjectAction(subject))
           })
           .then(() => subject)
-      }
-    )
+      },
+    ),
   )
 
 const expandProperty = (property, errorKey) => (dispatch) => {
@@ -153,13 +153,13 @@ const expandProperty = (property, errorKey) => (dispatch) => {
                 const newValue = newValueSubject(
                   property,
                   property.propertyTemplate.defaultUri,
-                  subject
+                  subject,
                 )
                 property.values.push(newValue)
                 property.show = true
-              }
-            )
-        )
+              },
+            ),
+        ),
     )
     return Promise.all(promises).then(() => property)
   }
@@ -171,10 +171,10 @@ const expandProperty = (property, errorKey) => (dispatch) => {
 export const recursiveResourceFromDataset =
   (subjectTerm, uri, resourceTemplateId, suppress, context) => (dispatch) =>
     dispatch(
-      newSubjectFromDataset(subjectTerm, uri, resourceTemplateId, context)
+      newSubjectFromDataset(subjectTerm, uri, resourceTemplateId, context),
     ).then((subject) =>
       dispatch(
-        newPropertiesFromTemplates(subject, true, context.errorKey)
+        newPropertiesFromTemplates(subject, true, context.errorKey),
       ).then((properties) =>
         Promise.all(
           properties.map((property) =>
@@ -183,8 +183,8 @@ export const recursiveResourceFromDataset =
                 subjectTerm,
                 property,
                 suppress,
-                context
-              )
+                context,
+              ),
             ).then((values) => {
               const compactValues = _.compact(_.flatten(values))
               if (!_.isEmpty(compactValues)) {
@@ -195,13 +195,13 @@ export const recursiveResourceFromDataset =
               }
 
               return compactValues
-            })
-          )
+            }),
+          ),
         ).then(() => {
           subject.properties = properties
           return subject
-        })
-      )
+        }),
+      ),
     )
 
 const newSubjectFromDataset =
@@ -211,14 +211,14 @@ const newSubjectFromDataset =
         uri,
         resourceTemplateId,
         context.resourceTemplatePromises,
-        context.errorKey
-      )
+        context.errorKey,
+      ),
     ).then((subject) => {
       // Add classes
       const typeQuads = context.dataset
         .match(
           subjectTerm,
-          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+          rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
         )
         .toArray()
       context.usedDataset.addAll(typeQuads)
@@ -234,8 +234,8 @@ export const newSubject =
       loadResourceTemplate(
         resourceTemplateId,
         resourceTemplatePromises,
-        errorKey
-      )
+        errorKey,
+      ),
     ).then((subjectTemplate) => {
       // This handles if there was an error fetching resource template
       if (!subjectTemplate) {
@@ -258,8 +258,8 @@ export const newPropertiesFromTemplates =
   (subject, noDefaults, errorKey) => (dispatch) =>
     Promise.all(
       subject.subjectTemplate.propertyTemplates.map((propertyTemplate) =>
-        dispatch(newProperty(subject, propertyTemplate, noDefaults, errorKey))
-      )
+        dispatch(newProperty(subject, propertyTemplate, noDefaults, errorKey)),
+      ),
     )
 
 const newValuesFromDatasetByProperty =
@@ -272,10 +272,10 @@ const newValuesFromDatasetByProperty =
             property,
             propertyUri,
             suppress,
-            context
-          )
-        )
-      )
+            context,
+          ),
+        ),
+      ),
     )
 
 const newValuesFromDatasetByPropertyUri =
@@ -295,19 +295,19 @@ const newValuesFromDatasetByPropertyUri =
       const objPromises = _.compact(
         objects.map((obj) =>
           dispatch(
-            newNestedResourceFromObject(obj, property, propertyUri, context)
-          )
-        )
+            newNestedResourceFromObject(obj, property, propertyUri, context),
+          ),
+        ),
       )
       return Promise.all(objPromises).then((valuesFromObjs) => {
         if (_.isEmpty(valuesFromObjs)) return []
         const templatePromises = templatePromisesFor(
           property,
           context.errorKey,
-          dispatch
+          dispatch,
         )
         return Promise.all(templatePromises).then((valuesFromTemplates) =>
-          mergeValues(valuesFromTemplates, valuesFromObjs)
+          mergeValues(valuesFromTemplates, valuesFromObjs),
         )
       })
     }
@@ -316,12 +316,12 @@ const newValuesFromDatasetByPropertyUri =
         if (obj.termType === "NamedNode") {
           // URI
           return Promise.resolve(
-            newUriFromObject(obj, property, propertyUri, context)
+            newUriFromObject(obj, property, propertyUri, context),
           )
         }
         // Literal
         return Promise.resolve(newLiteralFromObject(obj, property, propertyUri))
-      })
+      }),
     )
   }
 
@@ -336,11 +336,11 @@ const templatePromisesFor = (property, errorKey, dispatch) =>
             return newValueSubject(
               property,
               property.propertyTemplate.defaultUri,
-              subject
+              subject,
             )
-          }
-        )
-    )
+          },
+        ),
+    ),
   )
 
 // Merge the values from the dataset and templates
@@ -353,7 +353,7 @@ const mergeValues = (valuesFromTemplates, valuesFromObjs) => {
     const key = valuesMapKeyFor(valueFromTemplate)
     if (valuesFromObjsMap[key]) {
       valuesFromObjsMap[key].forEach((valueFromObj) =>
-        newValues.push(valueFromObj)
+        newValues.push(valueFromObj),
       )
     } else {
       newValues.push(valueFromTemplate)
@@ -401,7 +401,7 @@ const recursiveOrderedObjects = (subjectTerm, objects, context) => {
   const firstQuad = context.dataset
     .match(
       subjectTerm,
-      rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
+      rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"),
     )
     .toArray()[0]
   if (!firstQuad) return
@@ -410,7 +410,7 @@ const recursiveOrderedObjects = (subjectTerm, objects, context) => {
   const restQuad = context.dataset
     .match(
       subjectTerm,
-      rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
+      rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"),
     )
     .toArray()[0]
   context.usedDataset.add(restQuad)
@@ -436,7 +436,7 @@ const newNestedResourceFromObject =
     const typeQuads = context.dataset
       .match(
         obj,
-        rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+        rdf.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
       )
       .toArray()
 
@@ -448,10 +448,10 @@ const newNestedResourceFromObject =
           selectResourceTemplateId(
             property.propertyTemplate,
             typeQuad.object.value,
-            context
-          )
-        )
-      )
+            context,
+          ),
+        ),
+      ),
     ).then((childRtIds) => {
       const compactChildRtIds = _.compact(_.flatten(childRtIds))
 
@@ -473,8 +473,8 @@ const newNestedResourceFromObject =
           null,
           compactChildRtIds[0],
           suppress,
-          context
-        )
+          context,
+        ),
       ).then((subject) => newValueSubject(property, propertyUri, subject))
     })
   }
@@ -489,12 +489,14 @@ const selectResourceTemplateId =
           loadResourceTemplate(
             resourceTemplateId,
             resourceTemplatePromises,
-            errorKey
-          )
+            errorKey,
+          ),
         ).then((subjectTemplate) =>
-          subjectTemplate.class === resourceURI ? resourceTemplateId : undefined
-        )
-      )
+          subjectTemplate.class === resourceURI
+            ? resourceTemplateId
+            : undefined,
+        ),
+      ),
     )
 
 const newLiteralFromObject = (obj, property, propertyUri) =>
@@ -511,7 +513,7 @@ const newUriFromObject = (obj, property, propertyUri, context) => {
     // First that doesn't start with http or first
     const labelQuad =
       labelQuads.find(
-        (labelQuad) => !labelQuad.object.value.startsWith("http")
+        (labelQuad) => !labelQuad.object.value.startsWith("http"),
       ) || labelQuads[0]
     label = labelQuad.object.value
     lang = labelQuad.object.language || null
@@ -545,7 +547,7 @@ const newProperty =
     if (propertyTemplate.required && !property.values) {
       property.show = true
       return dispatch(
-        valuesForExpandedProperty(property, noDefaults, errorKey)
+        valuesForExpandedProperty(property, noDefaults, errorKey),
       ).then((values) => {
         property.values = values
         return property
@@ -563,14 +565,14 @@ export function defaultValuesFor(property) {
         property.propertyTemplate.defaultUri,
         defaultValue.uri,
         defaultValue.label,
-        defaultValue.lang
+        defaultValue.lang,
       )
     }
     return newLiteralValue(
       property,
       property.propertyTemplate.defaultUri,
       defaultValue.literal,
-      defaultValue.lang
+      defaultValue.lang,
     )
   })
 }
@@ -584,17 +586,17 @@ const valuesForExpandedProperty =
             dispatch(newSubject(null, resourceTemplateId, {}, errorKey)).then(
               (subject) =>
                 dispatch(
-                  newPropertiesFromTemplates(subject, noDefaults, errorKey)
+                  newPropertiesFromTemplates(subject, noDefaults, errorKey),
                 ).then((properties) => {
                   subject.properties = properties
                   return newValueSubject(
                     property,
                     property.propertyTemplate.defaultUri,
-                    subject
+                    subject,
                   )
-                })
-            )
-        )
+                }),
+            ),
+        ),
       )
     }
     return Promise.resolve([])
@@ -614,8 +616,8 @@ export const newSubjectCopy = (subjectKey, value) => (dispatch, getState) => {
   // Add properties
   return Promise.all(
     subject.properties.map((property) =>
-      dispatch(newPropertyCopy(property.key, newSubject))
-    )
+      dispatch(newPropertyCopy(property.key, newSubject)),
+    ),
   ).then(() => newSubject)
 }
 
@@ -638,8 +640,8 @@ const newPropertyCopy = (propertyKey, subject) => (dispatch, getState) => {
   if (property.values) {
     return Promise.all(
       property.values.map((value) =>
-        dispatch(newValueCopy(value.key, newProperty))
-      )
+        dispatch(newValueCopy(value.key, newProperty)),
+      ),
     ).then(() => newProperty)
   }
   return newProperty
@@ -665,7 +667,7 @@ const newValueCopy = (valueKey, property) => (dispatch, getState) => {
 
   if (value.valueSubject) {
     return dispatch(newSubjectCopy(value.valueSubject.key, newValue)).then(
-      () => newValue
+      () => newValue,
     )
   }
 
@@ -676,7 +678,7 @@ export const resourceTemplateIdFromDataset = (uri, dataset) => {
   const resourceTemplateId = findRootResourceTemplateId(uri, dataset)
   if (!resourceTemplateId)
     throw new Error(
-      "A single resource template must be included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)"
+      "A single resource template must be included as a triple (http://sinopia.io/vocabulary/hasResourceTemplate)",
     )
   return resourceTemplateId
 }

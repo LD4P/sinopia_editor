@@ -20,7 +20,7 @@ import { useHistory } from "react-router-dom"
 
 const useResource = (
   errorKey,
-  { resourceTemplateId = null, resourceURI = null }
+  { resourceTemplateId = null, resourceURI = null },
 ) => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -52,7 +52,7 @@ const useResource = (
     if (event) event.preventDefault()
     setStatus("loading copy")
     dispatch(
-      loadResourceForEditor(resourceURI, errorKey, { asNewResource: true })
+      loadResourceForEditor(resourceURI, errorKey, { asNewResource: true }),
     ).then((result) => {
       setStatus("ready")
       if (result) setNavigateEditor(true)

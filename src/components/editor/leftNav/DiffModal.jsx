@@ -16,14 +16,14 @@ import DiffDisplay from "./DiffDisplay"
 const DiffModal = () => {
   const dispatch = useDispatch()
   const { compareFrom, compareTo } = useSelector((state) =>
-    selectCurrentDiffResourceKeys(state)
+    selectCurrentDiffResourceKeys(state),
   )
   const show = useSelector((state) => isCurrentModal(state, "DiffModal"))
   const compareFromResource = useSelector((state) =>
-    selectFullSubject(state, compareFrom)
+    selectFullSubject(state, compareFrom),
   )
   const compareToResource = useSelector((state) =>
-    selectFullSubject(state, compareTo)
+    selectFullSubject(state, compareTo),
   )
 
   let diff = null
@@ -36,7 +36,7 @@ const DiffModal = () => {
       setCurrentDiff({
         compareFromResourceKey: null,
         compareToResourceKey: null,
-      })
+      }),
     )
     event.preventDefault()
   }

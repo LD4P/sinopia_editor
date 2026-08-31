@@ -35,7 +35,7 @@ const Versions = ({ resource }) => {
     event.preventDefault()
     setLoadingView(timestamp)
     dispatch(
-      loadResourceForPreview(resource.uri, errorKey, { version: timestamp })
+      loadResourceForPreview(resource.uri, errorKey, { version: timestamp }),
     ).then((result) => {
       setLoadingView(false)
       if (result) dispatch(showModal("VersionPreviewModal"))
@@ -77,9 +77,9 @@ const Versions = ({ resource }) => {
             resource.uri,
             errorKey,
             "compareFromResourceKey",
-            { version: compareFrom }
-          )
-        )
+            { version: compareFrom },
+          ),
+        ),
       )
     }
 
@@ -90,8 +90,8 @@ const Versions = ({ resource }) => {
         dispatch(
           loadResourceForDiff(resource.uri, errorKey, "compareToResourceKey", {
             version: compareTo,
-          })
-        )
+          }),
+        ),
       )
     }
 
@@ -152,8 +152,8 @@ const Versions = ({ resource }) => {
       version.timestamp,
       `version ${versionIndex}`,
       `Version ${versionIndex} from ${timeAgo.format(
-        new Date(version.timestamp)
-      )} by ${version.user}`
+        new Date(version.timestamp),
+      )} by ${version.user}`,
     )
   })
   const rows = [

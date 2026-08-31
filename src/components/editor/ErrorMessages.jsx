@@ -12,7 +12,7 @@ const ErrorMessages = ({ resourceKey }) => {
   // Most changes in errors will change the length, but not all.
   const errors = useSelector(
     (state) => selectValidationErrors(state, resourceKey),
-    (obj1, obj2) => obj1?.length === obj2?.length && _.isEqual(obj1, obj2)
+    (obj1, obj2) => obj1?.length === obj2?.length && _.isEqual(obj1, obj2),
   )
   if (_.isEmpty(errors)) return null
 

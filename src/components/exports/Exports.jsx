@@ -15,7 +15,7 @@ const Exports = (props) => {
 
   const sortedExportFiles = useMemo(
     () => exportFiles.sort((a, b) => a.localeCompare(b)),
-    [exportFiles]
+    [exportFiles],
   )
 
   const exportFileList = sortedExportFiles.map((exportFile) => (

@@ -83,8 +83,8 @@ describe("hasSearchRelationships()", () => {
     expect(
       hasSearchRelationships(
         searchState,
-        "http://localhost:3000/resource/252b24cb-0b5f-4df6-88d2-cb9efdf3f376"
-      )
+        "http://localhost:3000/resource/252b24cb-0b5f-4df6-88d2-cb9efdf3f376",
+      ),
     ).toBe(true)
   })
 
@@ -94,14 +94,14 @@ describe("hasSearchRelationships()", () => {
     expect(
       hasSearchRelationships(
         state,
-        "http://localhost:3000/resource/032b24cb-0b5f-4df6-88d2-cb9efdf3f374"
-      )
+        "http://localhost:3000/resource/032b24cb-0b5f-4df6-88d2-cb9efdf3f374",
+      ),
     ).toBe(false)
     expect(
       hasSearchRelationships(
         state,
-        "http://localhost:3000/resource/xxxb24cb-0b5f-4df6-88d2-cb9efdf3f374"
-      )
+        "http://localhost:3000/resource/xxxb24cb-0b5f-4df6-88d2-cb9efdf3f374",
+      ),
     ).toBe(false)
   })
 })
@@ -111,8 +111,8 @@ describe("selectSearchRelationships()", () => {
     expect(
       selectSearchRelationships(
         searchState,
-        "http://localhost:3000/resource/252b24cb-0b5f-4df6-88d2-cb9efdf3f376"
-      )
+        "http://localhost:3000/resource/252b24cb-0b5f-4df6-88d2-cb9efdf3f376",
+      ),
     ).toStrictEqual({
       bfInstanceRefs: [
         "http://localhost:3000/resource/922b24cb-0b5f-4df6-88d2-cb9efdf3f373",

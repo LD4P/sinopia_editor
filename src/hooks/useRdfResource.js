@@ -34,8 +34,8 @@ const useRdfResource = (dataset, baseURI, resourceTemplateId, errorKey) => {
         baseURI,
         resourceTemplateId,
         errorKey,
-        true
-      )
+        true,
+      ),
     ).then((result) => {
       setNavigateEditor(result)
     })

@@ -18,7 +18,7 @@ const ResourceCreatedCountMetric = () => {
 
   const resourceCreatedCountMetric = useMetric(
     "getResourceCreatedCount",
-    params
+    params,
   )
 
   const footer = (

@@ -55,7 +55,7 @@ export default class ResourceBuilder {
     } else {
       template.propertyTemplates = propertyTemplates
       template.propertyTemplateKeys = propertyTemplates.map(
-        (template) => template.key
+        (template) => template.key,
       )
     }
     return template

@@ -14,7 +14,7 @@ const getSinopiaLookupResult = (query, authorityConfig, options) =>
       error: result.error,
       totalHits: result.totalHits,
       results: adaptSinopiaResults(result.results),
-    })
+    }),
   )
 
 // Adapt Sinopia results to QA format

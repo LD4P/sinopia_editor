@@ -111,7 +111,7 @@ describe("addProperty()", () => {
           show: false,
           rootPropertyKey: "vmq88891",
           labels: ["Abbreviated Title", "Abbreviated Title"],
-        })
+        }),
       )
       // New value added
       expect(newState.values.abc123).toStrictEqual(
@@ -122,7 +122,7 @@ describe("addProperty()", () => {
           lang: "en",
           component: "InputLiteralValue",
           rootSubjectKey: "t9zVwg2zO",
-        })
+        }),
       )
       expect(newState.subjects.t9zVwg2zO.propertyKeys).toContain("vmq88891")
       expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
@@ -160,7 +160,7 @@ describe("addProperty()", () => {
           lang: null,
           component: "InputLiteralValue",
           rootSubjectKey: "t9zVwg2zO",
-        })
+        }),
       )
     })
   })
@@ -249,7 +249,7 @@ describe("addProperty()", () => {
         labels: ["Testing sinopia lookup", "Instance of (lookup)"],
       })
       expect(newState.subjects["wihOjn-0Z"].propertyKeys).toContain(
-        "i0SAJP-Zhd"
+        "i0SAJP-Zhd",
       )
       expect(newState.values["s8-qt3-uu"]).toBeUndefined()
       expect(newState.subjects["wihOjn-0Z"].changed).toBe(true)
@@ -294,7 +294,7 @@ describe("addProperty()", () => {
       })
 
       expect(
-        newState.subjects["wihOjn-0Z"].descWithErrorPropertyKeys
+        newState.subjects["wihOjn-0Z"].descWithErrorPropertyKeys,
       ).toContain("vmq88891")
     })
   })
@@ -505,10 +505,10 @@ describe("addValue()", () => {
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
       expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys,
       ).toContain("DxGx7WMh3")
       expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
-        "DxGx7WMh3"
+        "DxGx7WMh3",
       )
     })
   })
@@ -569,16 +569,16 @@ describe("addValue()", () => {
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("DxGx7WMh3")
       expect(newState.properties["JQEtq-vmq8"].show).toBe(true)
       expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys,
       ).not.toContain("DxGx7WMh3")
       expect(
-        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
+        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys,
       ).not.toContain("DxGx7WMh3")
       expect(
-        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys,
       ).toContain("JQEtq-vmq8")
       expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
-        "JQEtq-vmq8"
+        "JQEtq-vmq8",
       )
     })
   })
@@ -656,20 +656,20 @@ describe("addValue()", () => {
         errors: ["URI required", "Label required"],
       })
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain(
-        "DxGx7WMh3"
+        "DxGx7WMh3",
       )
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.show).toBe(true)
       expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys,
       ).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
       expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys,
       ).not.toContain("RPaGmJ_8IQi8roZ1oj1uK")
       expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys,
       ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
       expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys,
       ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
     })
   })
@@ -797,7 +797,7 @@ describe("addValue()", () => {
       expect(newState.subjects["wihOjn-0Z"].bfInstanceRefs).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfItemRefs).toHaveLength(0)
       expect(
-        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs
+        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs,
       ).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfWorkRefs).toEqual([
         "http://localhost:3000/resource/74770f92-f8cf-48ee-970a-aefc97843738",
@@ -825,7 +825,7 @@ describe("addValue()", () => {
 
       expect(newState.subjects["wihOjn-0Z"].bfAdminMetadataRefs).toHaveLength(0)
       expect(
-        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs
+        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs,
       ).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfInstanceRefs).toEqual([
         "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
@@ -858,7 +858,7 @@ describe("addValue()", () => {
         "http://localhost:3000/resource/85770f92-f8cf-48ee-970a-aefc97843749",
       ])
       expect(
-        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs
+        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs,
       ).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfWorkRefs).toHaveLength(1)
     })
@@ -888,7 +888,7 @@ describe("addValue()", () => {
       expect(newState.subjects["wihOjn-0Z"].bfItemRefs).toHaveLength(0)
       expect(newState.subjects["wihOjn-0Z"].bfWorkRefs).toHaveLength(1)
       expect(
-        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs
+        newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs,
       ).toHaveLength(0)
     })
   })
@@ -1062,14 +1062,14 @@ describe("removeValue()", () => {
       const newState = reducer(oldState.entities, action)
       expect(newState.values.CxGx7WMh2).toBe(undefined)
       expect(newState.properties["JQEtq-vmq8"].valueKeys).not.toContain(
-        "CxGx7WMh2"
+        "CxGx7WMh2",
       )
       expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys,
       ).not.toContain("CxGx7WMh2")
       expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
       expect(
-        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
+        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys,
       ).not.toContain("CxGx7WMh2")
     })
   })
@@ -1090,7 +1090,7 @@ describe("removeValue()", () => {
       const newState = reducer(oldState.entities, action)
       expect(newState.values["s8-qt3-uu"]).toBe(undefined)
       expect(newState.subjects["wihOjn-0Z"].localAdminMetadataForRefs).toEqual(
-        []
+        [],
       )
     })
   })
@@ -1109,29 +1109,29 @@ describe("removeValue()", () => {
       }
 
       expect(
-        oldState.entities.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+        oldState.entities.properties["JQEtq-vmq8"].descWithErrorPropertyKeys,
       ).toContain("JQEtq-vmq8")
       expect(
-        oldState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys
+        oldState.entities.subjects.t9zVwg2zO.descWithErrorPropertyKeys,
       ).toContain("JQEtq-vmq8")
 
       const newState = reducer(oldState.entities, action)
       expect(newState.values.CxGx7WMh2).toBe(undefined)
       expect(newState.properties["JQEtq-vmq8"].valueKeys).not.toContain(
-        "CxGx7WMh2"
+        "CxGx7WMh2",
       )
       expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys,
       ).not.toContain("CxGx7WMh2")
       expect(newState.subjects.t9zVwg2zO.changed).toBe(true)
       expect(
-        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
+        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys,
       ).not.toContain("CxGx7WMh2")
       expect(
-        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys,
       ).not.toContain("JQEtq-vmq8")
       expect(
-        newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys
+        newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys,
       ).not.toContain("JQEtq-vmq8")
     })
   })
@@ -1196,7 +1196,7 @@ describe("setBaseURL()", () => {
     }
     const newState = reducer(oldState.entities, action)
     expect(newState.subjects.t9zVwg2zO.uri).toEqual(
-      "https://sinopia.io/stanford/456hkl"
+      "https://sinopia.io/stanford/456hkl",
     )
     expect(newState.subjects.t9zVwg2zO.changed).toEqual(false)
   })
@@ -1302,7 +1302,7 @@ describe("setUnusedRDF()", () => {
 
     const newState = editorReducer(oldState.editor, action)
     expect(newState.unusedRDF.t9zVwg2zO).toBe(
-      "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 'abcde' ."
+      "<> <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 'abcde' .",
     )
   })
 })
@@ -1472,10 +1472,10 @@ describe("updateValue()", () => {
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys,
       ).toContain("CxGx7WMh2")
       expect(newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys).toContain(
-        "CxGx7WMh2"
+        "CxGx7WMh2",
       )
     })
   })
@@ -1514,16 +1514,16 @@ describe("updateValue()", () => {
       })
       expect(newState.properties["JQEtq-vmq8"].valueKeys).toContain("CxGx7WMh2")
       expect(
-        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys
+        newState.properties["JQEtq-vmq8"].descUriOrLiteralValueKeys,
       ).not.toContain("CxGx7WMh2")
       expect(
-        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys
+        newState.subjects.t9zVwg2zO.descUriOrLiteralValueKeys,
       ).not.toContain("CxGx7WMh2")
       expect(
-        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys
+        newState.properties["JQEtq-vmq8"].descWithErrorPropertyKeys,
       ).toContain("JQEtq-vmq8")
       expect(newState.subjects.t9zVwg2zO.descWithErrorPropertyKeys).toContain(
-        "JQEtq-vmq8"
+        "JQEtq-vmq8",
       )
     })
   })
@@ -1612,13 +1612,13 @@ describe("updateValue()", () => {
           "http://id.loc.gov/ontologies/bibframe/uber/template5/property1",
       })
       expect(newState.properties.RPaGmJ_8IQi8roZ1oj1uK.valueKeys).toContain(
-        "a_-Jp0pY6pH6ytCtfr-mx"
+        "a_-Jp0pY6pH6ytCtfr-mx",
       )
       expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descUriOrLiteralValueKeys,
       ).toContain("a_-Jp0pY6pH6ytCtfr-mx")
       expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descUriOrLiteralValueKeys,
       ).toContain("a_-Jp0pY6pH6ytCtfr-mx")
       expect(newState.subjects.FYPd18JgfhSGaeviY7NNu.changed).toBe(true)
     })
@@ -1657,10 +1657,10 @@ describe("updateValue()", () => {
       })
 
       expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys,
       ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
       expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys,
       ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
     })
   })
@@ -1698,10 +1698,10 @@ describe("updateValue()", () => {
       })
 
       expect(
-        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys
+        newState.properties.RPaGmJ_8IQi8roZ1oj1uK.descWithErrorPropertyKeys,
       ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
       expect(
-        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys
+        newState.subjects.FYPd18JgfhSGaeviY7NNu.descWithErrorPropertyKeys,
       ).toContain("RPaGmJ_8IQi8roZ1oj1uK")
     })
   })
@@ -1888,7 +1888,7 @@ describe("setValuePropertyURI()", () => {
     const newState = reducer(oldState.entities, action)
 
     expect(newState.values.CxGx7WMh2.propertyUri).toEqual(
-      "http://id.loc.gov/ontologies/bibframe/alternateTitle"
+      "http://id.loc.gov/ontologies/bibframe/alternateTitle",
     )
   })
 })
@@ -1908,7 +1908,7 @@ describe("setPropertyPropertyURI()", () => {
     const newState = reducer(oldState.entities, action)
 
     expect(newState.properties["JQEtq-vmq8"].propertyUri).toEqual(
-      "http://id.loc.gov/ontologies/bibframe/alternateTitle"
+      "http://id.loc.gov/ontologies/bibframe/alternateTitle",
     )
   })
 })

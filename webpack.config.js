@@ -1,6 +1,6 @@
 // Copyright 2019 Stanford University see LICENSE for license
 
-/* eslint node/no-unpublished-require: ["off"] */
+/* eslint n/no-unpublished-require: ["off"] */
 const path = require("path")
 const webpack = require("webpack")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
@@ -114,8 +114,11 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     port: 8888,
-    proxy: {
-      "/api/search": "http://localhost:8000",
-    },
+    proxy: [
+      {
+        context: ["/api/search"],
+        target: "http://localhost:8000",
+      },
+    ],
   },
 }

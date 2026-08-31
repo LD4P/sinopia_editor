@@ -13,7 +13,7 @@ const TemplateUsageCountMetric = () => {
   const templateUsageCountMetric = useMetric(
     "getTemplateUsageCount",
     params,
-    !!params.templateId // this prevents the metric API call from firing if there is no templateId
+    !!params.templateId, // this prevents the metric API call from firing if there is no templateId
   )
 
   const footer = (

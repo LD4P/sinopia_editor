@@ -13,7 +13,7 @@ const ExpiringMessage = ({ timestamp, children, scroll = true }) => {
         if (timer !== undefined) {
           clearInterval(timer)
         }
-      }
+      },
   )
 
   useLayoutEffect(() => {

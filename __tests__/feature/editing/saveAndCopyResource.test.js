@@ -8,7 +8,7 @@ featureSetup()
 jest
   .spyOn(sinopiaApi, "postResource")
   .mockResolvedValue(
-    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
+    "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f",
   )
 
 describe("saving a resource", () => {
@@ -23,7 +23,7 @@ describe("saving a resource", () => {
 
       const saveBtn = screen.getAllByText("Save", { selector: "button" })[0] // there are multiple save buttons, grab the first
       const copyBtn = await screen.getAllByTestId(
-        "Copy this resource to a new resource"
+        "Copy this resource to a new resource",
       )[0]
 
       expect(saveBtn).toBeDisabled()
@@ -37,7 +37,7 @@ describe("saving a resource", () => {
       screen.getByTestId("Remove foo")
       // There is language button.
       expect(screen.getByTestId("Change language for foo")).toHaveTextContent(
-        "en"
+        "en",
       )
 
       expect(saveBtn).not.toBeDisabled()

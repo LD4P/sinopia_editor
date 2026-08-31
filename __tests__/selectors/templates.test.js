@@ -11,7 +11,7 @@ describe("selectSubjectAndPropertyTemplates()", () => {
     const state = createState({ hasResourceWithLiteral: true })
     const subjectTemplate = selectSubjectAndPropertyTemplates(
       state,
-      "ld4p:RT:bf2:Title:AbbrTitle"
+      "ld4p:RT:bf2:Title:AbbrTitle",
     )
     expect(subjectTemplate).toBeSubjectTemplate("ld4p:RT:bf2:Title:AbbrTitle")
     expect(subjectTemplate.propertyTemplates).toBePropertyTemplates([

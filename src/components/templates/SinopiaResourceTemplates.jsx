@@ -13,10 +13,10 @@ import _ from "lodash"
  */
 const SinopiaResourceTemplates = () => {
   const searchResults = useSelector((state) =>
-    selectSearchResults(state, "template")
+    selectSearchResults(state, "template"),
   )
   const historicalTemplates = useSelector((state) =>
-    selectHistoricalTemplates(state)
+    selectHistoricalTemplates(state),
   )
 
   return (

@@ -27,17 +27,17 @@ const NestedResourceActionButtons = ({ value }) => {
   const errorKey = useAlerts()
 
   const property = useSelector((state) =>
-    selectNormProperty(state, value.propertyKey)
+    selectNormProperty(state, value.propertyKey),
   )
   const propertyTemplate = useSelector((state) =>
-    selectPropertyTemplate(state, property.propertyTemplateKey)
+    selectPropertyTemplate(state, property.propertyTemplateKey),
   )
   const siblingValues = useSelector(
     (state) => selectSiblingValues(state, value.key),
-    shallowEqual
+    shallowEqual,
   )
   const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplateForSubject(state, value.valueSubjectKey)
+    selectSubjectTemplateForSubject(state, value.valueSubjectKey),
   )
   const index = property.valueKeys.indexOf(value.key) + 1
 

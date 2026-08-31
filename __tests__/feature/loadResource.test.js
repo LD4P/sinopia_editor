@@ -19,7 +19,7 @@ describe("loading saved resource", () => {
       const uri =
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f"
       sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-        resourceSearchResults(uri)
+        resourceSearchResults(uri),
       )
 
       renderApp()
@@ -62,11 +62,11 @@ describe("loading saved resource", () => {
       screen.getByTestId("Hide Uber template3, property1")
       screen.getByTestId("Hide Uber template3, property2")
       expect(
-        screen.getAllByTestId("Hide Uber template2, property1")
+        screen.getAllByTestId("Hide Uber template2, property1"),
       ).toHaveLength(2)
       screen.getByPlaceholderText("Uber template3, property1")
       expect(
-        screen.getAllByPlaceholderText("Uber template3, property2")
+        screen.getAllByPlaceholderText("Uber template3, property2"),
       ).toHaveLength(2)
       screen.getByPlaceholderText("Uber template1, property2")
 
@@ -86,7 +86,7 @@ describe("loading saved resource", () => {
       const uri =
         "http://localhost:3000/resource/c7db5404-7d7d-40ac-b38e-c821d2c3ae3f-invalid"
       sinopiaSearch.getSearchResultsWithFacets.mockResolvedValue(
-        resourceSearchResults(uri)
+        resourceSearchResults(uri),
       )
 
       renderApp()
@@ -109,7 +109,7 @@ describe("loading saved resource", () => {
 
       // Error displayed and remain on search page.
       await screen.findByText(
-        /property template may not use the same property URI/
+        /property template may not use the same property URI/,
       )
     })
   })

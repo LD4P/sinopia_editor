@@ -20,7 +20,7 @@ const QASearchResults = () => {
   const errorKey = useAlerts()
 
   const searchResults = useSelector((state) =>
-    selectSearchResults(state, "resource")
+    selectSearchResults(state, "resource"),
   )
   const searchUri = useSelector((state) => selectSearchUri(state, "resource"))
 
@@ -33,7 +33,7 @@ const QASearchResults = () => {
     dataset,
     resourceURI,
     resourceTemplateId,
-    searchQARetrieveErrorKey
+    searchQARetrieveErrorKey,
   )
 
   // Retrieve N3 from QA
@@ -50,15 +50,18 @@ const QASearchResults = () => {
             dispatch(
               addError(
                 errorKey,
-                `Error parsing resource: ${err.message || err}`
-              )
-            )
+                `Error parsing resource: ${err.message || err}`,
+              ),
+            ),
           )
       })
       .catch((err) =>
         dispatch(
-          addError(errorKey, `Error retrieving resource: ${err.message || err}`)
-        )
+          addError(
+            errorKey,
+            `Error retrieving resource: ${err.message || err}`,
+          ),
+        ),
       )
   }, [dispatch, resourceId, resourceURI, searchUri, errorKey])
 
@@ -166,7 +169,7 @@ const QASearchResults = () => {
             {contextFormatter(row.contexts)}
           </td>
           <td>{actionFormatter(row.uri, row.id)}</td>
-        </tr>
+        </tr>,
       )
     })
     return rows

@@ -15,12 +15,12 @@ describe("loadResourceTemplate()", () => {
       const store = mockStore(createState())
 
       const subjectTemplate = await store.dispatch(
-        loadResourceTemplate("ld4p:RT:bf2:Title:AbbrTitle", {}, "testerrorkey")
+        loadResourceTemplate("ld4p:RT:bf2:Title:AbbrTitle", {}, "testerrorkey"),
       )
       expect(subjectTemplate).toBeSubjectTemplate("ld4p:RT:bf2:Title:AbbrTitle")
       expect(subjectTemplate.propertyTemplates).toHaveLength(1)
       expect(subjectTemplate.propertyTemplates[0]).toBePropertyTemplate(
-        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       )
 
       expect(store.getActions()).toEqual([
@@ -37,12 +37,12 @@ describe("loadResourceTemplate()", () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
       const subjectTemplate = await store.dispatch(
-        loadResourceTemplate("ld4p:RT:bf2:Title:AbbrTitle", {}, "testerrorkey")
+        loadResourceTemplate("ld4p:RT:bf2:Title:AbbrTitle", {}, "testerrorkey"),
       )
       expect(subjectTemplate).toBeSubjectTemplate("ld4p:RT:bf2:Title:AbbrTitle")
       expect(subjectTemplate.propertyTemplates).toHaveLength(1)
       expect(subjectTemplate.propertyTemplates[0]).toBePropertyTemplate(
-        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle"
+        "ld4p:RT:bf2:Title:AbbrTitle > http://id.loc.gov/ontologies/bibframe/mainTitle",
       )
 
       expect(store.getActions()).toHaveLength(0)
@@ -57,8 +57,8 @@ describe("loadResourceTemplate()", () => {
         loadResourceTemplate(
           "rt:repeated:propertyURI:propertyLabel",
           {},
-          "testerrorkey"
-        )
+          "testerrorkey",
+        ),
       )
       expect(subjectTemplate).toBeNull()
 
@@ -66,7 +66,7 @@ describe("loadResourceTemplate()", () => {
         {
           type: "ADD_TEMPLATES",
           payload: expect.toBeSubjectTemplate(
-            "rt:repeated:propertyURI:propertyLabel"
+            "rt:repeated:propertyURI:propertyLabel",
           ),
         },
         {
@@ -86,7 +86,7 @@ describe("loadResourceTemplate()", () => {
       const store = mockStore(createState({ hasResourceWithLiteral: true }))
 
       const subjectTemplate = await store.dispatch(
-        loadResourceTemplate("ld4p:RT:bf2:xxx", {}, "testerrorkey")
+        loadResourceTemplate("ld4p:RT:bf2:xxx", {}, "testerrorkey"),
       )
       expect(subjectTemplate).toBeNull()
 

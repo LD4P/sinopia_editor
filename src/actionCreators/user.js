@@ -11,15 +11,15 @@ export const loadUserData = (userId) => (dispatch) =>
   fetchUser(userId)
     .then((userData) => {
       const templateIds = userData.data.history.template.map(
-        (historyItem) => historyItem.payload
+        (historyItem) => historyItem.payload,
       )
       dispatch(loadTemplateHistory(templateIds))
       const searches = userData.data.history.search.map((historyItem) =>
-        JSON.parse(historyItem.payload)
+        JSON.parse(historyItem.payload),
       )
       dispatch(loadSearchHistory(searches))
       const resourceUris = userData.data.history.resource.map(
-        (historyItem) => historyItem.payload
+        (historyItem) => historyItem.payload,
       )
       dispatch(loadResourceHistory(resourceUris))
     })
@@ -32,7 +32,7 @@ const addHistory = (historyType, payload) => (dispatch, getState) => {
     user.username,
     historyType,
     md5(payload).toString(),
-    payload
+    payload,
   ).catch((err) => console.error(err))
 }
 

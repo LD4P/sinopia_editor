@@ -78,7 +78,7 @@ describe("<TypeFilter />", () => {
     fireEvent.click(screen.getByText("Filter by class"))
     expect(document.querySelector(".show")).toBeInTheDocument()
     fireEvent.click(
-      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
+      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)"),
     )
 
     // 3 checked with unselect (also clears Select/Deselect All)
@@ -88,7 +88,7 @@ describe("<TypeFilter />", () => {
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(document.querySelector(".show")).not.toBeInTheDocument()
+      expect(document.querySelector(".show")).not.toBeInTheDocument(),
     )
 
     expect(mockGetSearchResults).toHaveBeenCalledWith("twain", {
@@ -140,7 +140,7 @@ describe("<TypeFilter />", () => {
 
     fireEvent.click(screen.getByText("Filter by class"))
     fireEvent.click(
-      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
+      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)"),
     )
 
     // 3 checked with clear (also clears Select/Deselect All)
@@ -150,7 +150,7 @@ describe("<TypeFilter />", () => {
     fireEvent.click(screen.getByText("Go"))
 
     await waitFor(() =>
-      expect(document.querySelector(".show")).not.toBeInTheDocument()
+      expect(document.querySelector(".show")).not.toBeInTheDocument(),
     )
 
     fireEvent.click(screen.getByText("Filter by class"))
@@ -181,7 +181,7 @@ describe("<TypeFilter />", () => {
 
     // Deselect individual filter
     fireEvent.click(
-      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
+      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)"),
     )
 
     // 3 checked with deselect (also clears Select/Deselect All)
@@ -189,7 +189,7 @@ describe("<TypeFilter />", () => {
 
     // Reselect individual filter
     fireEvent.click(
-      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)")
+      screen.getByText("http://id.loc.gov/ontologies/bibframe/Title (5)"),
     )
 
     // all checked (includes Select/Deselect All)

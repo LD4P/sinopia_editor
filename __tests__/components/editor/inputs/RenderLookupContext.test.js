@@ -122,12 +122,12 @@ describe("<RenderLookupContext />", () => {
     expect(label).toHaveTextContent("Twain, Mark, 1835-1910")
     const dateDetails = detailsContainer[1]
     expect(dateDetails.querySelector(".context-field")).toHaveTextContent(
-      "Birth date"
+      "Birth date",
     )
     expect(dateDetails).toHaveTextContent("(edtf) 1835-11-30")
     const details = detailsContainer[2]
     expect(details.querySelector(".context-field")).toHaveTextContent(
-      "Occupation"
+      "Occupation",
     )
     expect(details).toHaveTextContent("Lecturers, Humorists, Authors")
   })
@@ -141,7 +141,7 @@ describe("<RenderLookupContext />", () => {
     expect(genericLabel).toHaveTextContent("Biology")
     const genericDetails = genericContainer[1]
     expect(genericDetails.querySelector(".context-field")).toHaveTextContent(
-      "Additional Info"
+      "Additional Info",
     )
     expect(genericDetails).toHaveTextContent("Additional Information")
   })
@@ -151,7 +151,7 @@ describe("<RenderLookupContext />", () => {
 
     expect(document.querySelector("img")).toHaveAttribute(
       "src",
-      "https://imageurl.jpg"
+      "https://imageurl.jpg",
     )
     const discogsDetailsContainers =
       document.querySelectorAll(".details-container")
@@ -167,7 +167,7 @@ describe("<RenderLookupContext />", () => {
     const genreContainer = document.querySelectorAll(".details-container")
     const genreDetails = genreContainer[1]
     expect(genreDetails.querySelector(".context-field")).toHaveTextContent(
-      "Broader"
+      "Broader",
     )
     expect(genreDetails).toHaveTextContent("Animated films")
   })

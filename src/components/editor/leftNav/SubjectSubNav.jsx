@@ -13,10 +13,10 @@ import useNavLink from "hooks/useNavLink"
 
 const SubjectSubNav = (props) => {
   const subject = useSelector((state) =>
-    selectNormSubject(state, props.subjectKey)
+    selectNormSubject(state, props.subjectKey),
   )
   const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplate(state, subject?.subjectTemplateKey)
+    selectSubjectTemplate(state, subject?.subjectTemplateKey),
   )
 
   const { handleToggleClick, isExpanded } = useLeftNav(subject)
@@ -24,7 +24,7 @@ const SubjectSubNav = (props) => {
 
   const hasError = !_.isEmpty(subject.descWithErrorPropertyKeys)
   const displayValidations = useSelector((state) =>
-    displayResourceValidations(state, subject?.rootSubjectKey)
+    displayResourceValidations(state, subject?.rootSubjectKey),
   )
   const headingClassNames = ["left-nav-header"]
   if (displayValidations && hasError) headingClassNames.push("text-danger")

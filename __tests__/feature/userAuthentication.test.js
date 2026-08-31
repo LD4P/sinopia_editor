@@ -64,7 +64,7 @@ describe("user authentication", () => {
 
     // confirm that it appears user is not logged in
     expect(
-      screen.queryByText("Logout", { selector: "a" })
+      screen.queryByText("Logout", { selector: "a" }),
     ).not.toBeInTheDocument()
     screen.getByText(/Latest news/)
     screen.getByText(/Sinopia Version \d+.\d+.\d+ highlights/)

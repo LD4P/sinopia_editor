@@ -56,7 +56,7 @@ describe("createLookupPromise()", () => {
       const authorityConfig = findAuthorityConfig("urn:ld4p:qa:oclc_fast:topic")
       await createLookupPromise("Artic Sea", authorityConfig)
       expect(global.fetch).toHaveBeenCalledWith(
-        "https://lookup.ld4l.org/authorities/search/linked_data/oclcfast_direct/topic?q=Artic+Sea&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1"
+        "https://lookup.ld4l.org/authorities/search/linked_data/oclcfast_direct/topic?q=Artic+Sea&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1",
       )
     })
   })
@@ -66,7 +66,7 @@ describe("createLookupPromise()", () => {
       const authorityConfig = findAuthorityConfig("urn:discogs:release")
       await createLookupPromise("twain", authorityConfig)
       expect(global.fetch).toHaveBeenCalledWith(
-        "https://lookup.ld4l.org/authorities/search/discogs/release?q=twain&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1"
+        "https://lookup.ld4l.org/authorities/search/discogs/release?q=twain&maxRecords=20&lang=en&context=true&response_header=true&startRecord=1",
       )
     })
   })
@@ -88,7 +88,7 @@ describe("createLookupPromise()", () => {
               },
             ]
           },
-        })
+        }),
       )
     })
 
@@ -107,7 +107,7 @@ describe("createLookupPromise()", () => {
           ok: false,
           status: 500,
           statusText: "Server error",
-        })
+        }),
       )
     })
 
@@ -116,7 +116,7 @@ describe("createLookupPromise()", () => {
       const response = await createLookupPromise("twain", authorityConfig)
       expect(response.isError).toBe(true)
       expect(response.errorObject.message).toEqual(
-        "Questioning Authority service returned Server error"
+        "Questioning Authority service returned Server error",
       )
     })
   })
@@ -148,7 +148,7 @@ describe("getTerm", () => {
     const term = await getTerm(
       "https://sws.geonames.org/3023622/",
       undefined,
-      "urn:ld4p:qa:geonames_direct"
+      "urn:ld4p:qa:geonames_direct",
     )
     expect(term).toBe("n3")
 
@@ -165,7 +165,7 @@ describe("getTerm", () => {
     const term = await getTerm(
       "https://www.discogs.com/Shania-Twain-Shania-Twain/master/132553",
       "132553",
-      "urn:discogs:master"
+      "urn:discogs:master",
     )
     expect(term).toBe("n3")
 

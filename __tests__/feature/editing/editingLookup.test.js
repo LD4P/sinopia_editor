@@ -163,7 +163,7 @@ describe("selecting a value from lookup", () => {
     })
 
     const input = screen.getByPlaceholderText(
-      "Enter lookup query for Instance of (lookup)"
+      "Enter lookup query for Instance of (lookup)",
     )
 
     fireEvent.change(input, { target: { value: "test" } })
@@ -204,7 +204,7 @@ describe("selecting a value from lookup", () => {
     fireEvent.keyDown(uriInput, { key: "Enter", code: 13, charCode: 13 })
 
     const labelInput = screen.getByPlaceholderText(
-      "Label for Instance of (lookup)"
+      "Label for Instance of (lookup)",
     )
     fireEvent.change(labelInput, {
       target: { value: "Wittgenstein, Ludwig, 1889-1951" },
@@ -213,10 +213,10 @@ describe("selecting a value from lookup", () => {
 
     // There is uri text.
     expect(
-      screen.getByText("http://id.loc.gov/authorities/names/n79032058")
+      screen.getByText("http://id.loc.gov/authorities/names/n79032058"),
     ).toHaveClass("form-control")
     expect(screen.getByText("Wittgenstein, Ludwig, 1889-1951")).toHaveClass(
-      "form-control"
+      "form-control",
     )
   })
 
@@ -229,7 +229,7 @@ describe("selecting a value from lookup", () => {
 
     // Add a value
     const input = screen.getByPlaceholderText(
-      "Enter lookup query for Instance of (lookup)"
+      "Enter lookup query for Instance of (lookup)",
     )
 
     // Yeah, these fireEvent's seem odd but they produce the desired effect.
@@ -321,7 +321,7 @@ describe("selecting a value from lookup", () => {
     })
 
     const input = screen.getByPlaceholderText(
-      "Enter lookup query for Instance of (lookup)"
+      "Enter lookup query for Instance of (lookup)",
     )
 
     fireEvent.change(input, { target: { value: "twain" } })
@@ -334,7 +334,7 @@ describe("selecting a value from lookup", () => {
 
     // Pagination only appears for 1 tab.
     await waitFor(() =>
-      expect(screen.queryAllByTestId("pagination")).toHaveLength(1)
+      expect(screen.queryAllByTestId("pagination")).toHaveLength(1),
     )
 
     // Click next page
@@ -355,7 +355,7 @@ describe("selecting a value from lookup", () => {
     screen.getByText("Lookup with: Discogs, Discogs Releases, Discogs Masters")
 
     const input = screen.getByPlaceholderText(
-      "Enter lookup query for Instance of (lookup)"
+      "Enter lookup query for Instance of (lookup)",
     )
 
     fireEvent.change(input, { target: { value: "twain" } })
@@ -372,7 +372,7 @@ describe("selecting a value from lookup", () => {
 
     // Add the lookup
     fireEvent.click(
-      screen.getByText("Shania Twain", { selector: ".context-heading" })
+      screen.getByText("Shania Twain", { selector: ".context-heading" }),
     )
 
     // Lookup closes
@@ -380,15 +380,15 @@ describe("selecting a value from lookup", () => {
 
     // There is uri text.
     expect(
-      screen.getByText("https://www.discogs.com/artist/130060-Shania-Twain")
+      screen.getByText("https://www.discogs.com/artist/130060-Shania-Twain"),
     ).toHaveClass("form-control")
     expect(screen.getByText("Shania Twain")).toHaveClass("form-control")
 
     // Now remove it
     fireEvent.click(
       screen.getByTestId(
-        "Remove https://www.discogs.com/artist/130060-Shania-Twain"
-      )
+        "Remove https://www.discogs.com/artist/130060-Shania-Twain",
+      ),
     )
 
     // Value removed
@@ -398,14 +398,16 @@ describe("selecting a value from lookup", () => {
           "https://www.discogs.com/artist/130060-Shania-Twain",
           {
             selector: ".form-control",
-          }
-        )
-      ).not.toBeInTheDocument()
+          },
+        ),
+      ).not.toBeInTheDocument(),
     )
 
     // Blank lookup
     expect(
-      screen.getByPlaceholderText("Enter lookup query for Instance of (lookup)")
+      screen.getByPlaceholderText(
+        "Enter lookup query for Instance of (lookup)",
+      ),
     ).toHaveValue("")
   })
 })
@@ -423,18 +425,18 @@ describe("adding a template from Sinopia lookup", () => {
     // Add title
     fireEvent.click(
       await screen.findByTestId(
-        "Add Title Proper (RDA 2.3.2) (BIBFRAME: Main title)"
-      )
+        "Add Title Proper (RDA 2.3.2) (BIBFRAME: Main title)",
+      ),
     )
     const input = await screen.findByPlaceholderText(
-      "Title Proper (RDA 2.3.2) (BIBFRAME: Main title)"
+      "Title Proper (RDA 2.3.2) (BIBFRAME: Main title)",
     )
     fireEvent.change(input, { target: { value: "twain" } })
     fireEvent.keyDown(input, { key: "Enter", code: 13, charCode: 13 })
 
     // There is twain text.
     await waitFor(() =>
-      expect(screen.getByText("twain")).toHaveClass("form-control")
+      expect(screen.getByText("twain")).toHaveClass("form-control"),
     )
 
     // Click Create New button
@@ -444,7 +446,7 @@ describe("adding a template from Sinopia lookup", () => {
     fireEvent.click(
       await screen.getAllByRole("button", {
         name: /BF Work \(resourceTemplate:bf2:Work\)/i,
-      })[0]
+      })[0],
     )
 
     // New tab with template is now present
@@ -453,7 +455,7 @@ describe("adding a template from Sinopia lookup", () => {
     })
 
     const input2 = await screen.findByPlaceholderText(
-      "Preferred Title for Work (RDA 6.2.2, RDA 6.14.2) (BIBFRAME: Main title)"
+      "Preferred Title for Work (RDA 6.2.2, RDA 6.14.2) (BIBFRAME: Main title)",
     )
     await waitFor(() => expect(input2).toHaveValue("twain"))
   }, 25000)

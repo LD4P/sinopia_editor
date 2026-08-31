@@ -9,7 +9,7 @@ export const languagesReceived = (
   scripts,
   scriptLookup,
   transliterations,
-  transliterationLookup
+  transliterationLookup,
 ) => ({
   type: "LANGUAGES_RECEIVED",
   payload: {

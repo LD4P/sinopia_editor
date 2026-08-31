@@ -32,16 +32,16 @@ const SaveAndPublishButton = (props) => {
   const resource = useSelector(
     (state) =>
       selectPickSubject(state, resourceKey, ["group", "editGroups", "uri"]),
-    shallowEqual
+    shallowEqual,
   )
   const resourceHasChanged = useSelector((state) =>
-    resourceHasChangesSinceLastSave(state)
+    resourceHasChangesSinceLastSave(state),
   )
   const hasValidationErrors = useSelector((state) =>
-    hasValidationErrorsSelector(state, resourceKey)
+    hasValidationErrorsSelector(state, resourceKey),
   )
   const validationErrorsAreShowing = useSelector((state) =>
-    displayResourceValidations(state, resourceKey)
+    displayResourceValidations(state, resourceKey),
   )
 
   const isSaved = !!resource.uri
@@ -66,8 +66,8 @@ const SaveAndPublishButton = (props) => {
             resourceKey,
             resource.group,
             resource.editGroups,
-            errorKey
-          )
+            errorKey,
+          ),
         )
       } else {
         // Show group chooser

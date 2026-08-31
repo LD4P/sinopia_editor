@@ -26,15 +26,15 @@ const PreviewModal = () => {
 
   // Ensure there is a current resource before attempting to render a resource component
   const currentResourceKey = useSelector((state) =>
-    selectCurrentPreviewResourceKey(state)
+    selectCurrentPreviewResourceKey(state),
   )
   const currentResource = useSelector((state) =>
-    selectNormSubject(state, currentResourceKey)
+    selectNormSubject(state, currentResourceKey),
   )
 
   const { handleEdit, handleCopy, isLoadingEdit, isLoadingCopy } = useResource(
     errorKey,
-    { resourceURI: currentResource?.uri }
+    { resourceURI: currentResource?.uri },
   )
 
   const close = (event) => {

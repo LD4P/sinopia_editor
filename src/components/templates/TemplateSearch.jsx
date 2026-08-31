@@ -29,13 +29,13 @@ const TemplateSearch = (props) => {
   const tokens = useRef([])
 
   const lastQueryString = useSelector((state) =>
-    selectSearchQuery(state, "template")
+    selectSearchQuery(state, "template"),
   )
   const searchOptions = useSelector((state) =>
-    selectSearchOptions(state, "template")
+    selectSearchOptions(state, "template"),
   )
   const totalResults = useSelector((state) =>
-    selectSearchTotalResults(state, "template")
+    selectSearchTotalResults(state, "template"),
   )
 
   const [queryString, setQueryString] = useState(lastQueryString || "")
@@ -43,7 +43,7 @@ const TemplateSearch = (props) => {
 
   const clearSearchResults = useCallback(
     () => dispatch(clearSearchResultsAction("template")),
-    [dispatch]
+    [dispatch],
   )
 
   useEffect(() => {
@@ -71,15 +71,15 @@ const TemplateSearch = (props) => {
             {},
             queryString,
             { startOfRange },
-            response.error
-          )
+            response.error,
+          ),
         )
         if (response.error) {
           dispatch(
             addError(
               errorKey,
-              `Error searching for templates: ${response.error}`
-            )
+              `Error searching for templates: ${response.error}`,
+            ),
           )
         }
       }

@@ -37,7 +37,7 @@ const NewResourceTemplateButton = (props) => {
     dispatch(newResource(Config.rootResourceTemplateId, errorKey)).then(
       (result) => {
         setNavigateEditor(result)
-      }
+      },
     )
   }
 

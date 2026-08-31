@@ -24,7 +24,7 @@ export default class ResourceDiffer {
     subject1.properties.forEach((property) => {
       const matchedProperty = this.findMatchedProperty(
         subject2,
-        property.propertyTemplateKey
+        property.propertyTemplateKey,
       )
       if (!matchedProperty || (property.values && !matchedProperty.values)) {
         removedProperties.push(property)
@@ -35,7 +35,7 @@ export default class ResourceDiffer {
     subject2.properties.forEach((property) => {
       const matchedProperty = this.findMatchedProperty(
         subject1,
-        property.propertyTemplateKey
+        property.propertyTemplateKey,
       )
       if (!matchedProperty || (property.values && !matchedProperty.values)) {
         addedProperties.push(property)
@@ -74,7 +74,7 @@ export default class ResourceDiffer {
 
   findMatchedProperty(subject, propertyTemplateKey) {
     return subject.properties.find(
-      (property) => property.propertyTemplateKey === propertyTemplateKey
+      (property) => property.propertyTemplateKey === propertyTemplateKey,
     )
   }
 
@@ -108,7 +108,7 @@ export default class ResourceDiffer {
       if (value1.valueSubject) {
         const subjectDiff = this.diffSubject(
           value1.valueSubject,
-          value2.valueSubject
+          value2.valueSubject,
         )
         if (
           !_.isEmpty(subjectDiff.addedProperties) ||
@@ -145,7 +145,7 @@ export default class ResourceDiffer {
       if (matchValue.valueSubject) {
         const subjectDiff = this.diffSubject(
           value.valueSubject,
-          matchValue.valueSubject
+          matchValue.valueSubject,
         )
         return (
           value.valueSubject.subjectTemplateKey ===

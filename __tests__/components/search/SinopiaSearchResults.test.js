@@ -12,7 +12,7 @@ describe("<SinopiaSearchResults />", () => {
 
     it("does not contain the main div", () => {
       expect(
-        screen.queryByTestId("sinopia-search-results")
+        screen.queryByTestId("sinopia-search-results"),
       ).not.toBeInTheDocument()
       expect(screen.queryByText("Filter by class")).not.toBeInTheDocument()
     })

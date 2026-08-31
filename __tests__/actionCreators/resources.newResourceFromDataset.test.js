@@ -59,7 +59,7 @@ describe("newResourceFromDataset", () => {
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(true)
 
@@ -68,7 +68,7 @@ describe("newResourceFromDataset", () => {
       expect(actions).toHaveAction("ADD_TEMPLATES")
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
       expect(addSubjectAction).not.toBeNull()
       expect(safeAction(addSubjectAction)).toEqual(expectedAction)
@@ -78,7 +78,7 @@ describe("newResourceFromDataset", () => {
 
       // As a bonus check, roundtrip to RDF.
       const actualRdf = new GraphBuilder(
-        addSubjectAction.payload
+        addSubjectAction.payload,
       ).graph.toCanonical()
       const expectedGraph = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const expectedRdf = expectedGraph.toCanonical()
@@ -106,7 +106,7 @@ describe("newResourceFromDataset", () => {
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(true)
 
@@ -115,7 +115,7 @@ describe("newResourceFromDataset", () => {
       expect(actions).toHaveAction("ADD_TEMPLATES")
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
       expect(addSubjectAction).not.toBeNull()
       // safeStringify is used because it removes circular references
@@ -126,7 +126,7 @@ describe("newResourceFromDataset", () => {
 
       // Roundtripped RDF should match.
       const actualRdf = new GraphBuilder(
-        addSubjectAction.payload
+        addSubjectAction.payload,
       ).graph.toCanonical()
       const expectedGraph = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const expectedRdf = expectedGraph.toCanonical()
@@ -155,7 +155,7 @@ describe("newResourceFromDataset", () => {
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(true)
 
@@ -164,7 +164,7 @@ describe("newResourceFromDataset", () => {
       expect(actions).toHaveAction("ADD_TEMPLATES")
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
       expect(addSubjectAction).not.toBeNull()
       // safeStringify is used because it removes circular references
@@ -175,7 +175,7 @@ describe("newResourceFromDataset", () => {
 
       // Roundtripped RDF should NOT match.
       const actualRdf = new GraphBuilder(
-        addSubjectAction.payload
+        addSubjectAction.payload,
       ).graph.toCanonical()
       const expectedGraph = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const expectedRdf = expectedGraph.toCanonical()
@@ -197,14 +197,14 @@ describe("newResourceFromDataset", () => {
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3)
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
       expect(safeAction(addSubjectAction)).toEqual(expectedAction)
     })
@@ -219,14 +219,14 @@ describe("newResourceFromDataset", () => {
 `
       const dataset = await datasetFromN3(n3 + extraRdf)
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
       expect(safeAction(addSubjectAction)).toEqual(expectedAction)
 
@@ -245,14 +245,14 @@ describe("newResourceFromDataset", () => {
 
       const dataset = await datasetFromN3(n3 + extraRdf)
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
       expect(safeAction(addSubjectAction)).toEqual(expectedAction)
 
@@ -282,14 +282,14 @@ describe("newResourceFromDataset", () => {
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3)
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
 
       // console.log(JSON.safeStringify(addSubjectAction))
@@ -314,14 +314,14 @@ describe("newResourceFromDataset", () => {
 `
       const dataset = await datasetFromN3(n3)
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
       expect(safeAction(addSubjectAction)).toEqual(expectedBadOrderedAction)
 
@@ -340,14 +340,14 @@ _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/tes
     it("dispatches actions", async () => {
       const dataset = await datasetFromN3(n3.replace(/<>/g, `<${uri}>`))
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey", true)
+        newResourceFromDataset(dataset, uri, null, "testerrorkey", true),
       )
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
 
       // URI should not be set for resource.
@@ -369,18 +369,23 @@ _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/tes
       // Change the hasResourceTemplate triple.
       const fixtureRdf = n3.replace(
         resourceTemplateId,
-        `${resourceTemplateId}x`
+        `${resourceTemplateId}x`,
       )
       const dataset = await datasetFromN3(fixtureRdf)
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, resourceTemplateId, "testerrorkey")
+        newResourceFromDataset(
+          dataset,
+          uri,
+          resourceTemplateId,
+          "testerrorkey",
+        ),
       )
       expect(result).toBe(true)
 
       const actions = store.getActions()
 
       const addSubjectAction = actions.find(
-        (action) => action.type === "ADD_SUBJECT"
+        (action) => action.type === "ADD_SUBJECT",
       )
       expect(safeAction(addSubjectAction)).toEqual(expectedAction)
     })
@@ -392,11 +397,11 @@ _:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sinopia.io/tes
     it("dispatches actions", async () => {
       const fixtureRdf = n3.replace(
         resourceTemplateId,
-        "rt:repeated:propertyURI:propertyLabel"
+        "rt:repeated:propertyURI:propertyLabel",
       )
       const dataset = await datasetFromN3(fixtureRdf)
       const result = await store.dispatch(
-        newResourceFromDataset(dataset, uri, null, "testerrorkey")
+        newResourceFromDataset(dataset, uri, null, "testerrorkey"),
       )
       expect(result).toBe(false)
 

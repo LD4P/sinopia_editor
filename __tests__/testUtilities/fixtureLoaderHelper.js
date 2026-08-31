@@ -65,7 +65,7 @@ export const hasFixtureResource = (uri) => {
     !!resourceFilenames[resourceToName(uri)] ||
     !!templateFilenames[resourceToName(uri)] ||
     ["http://error", "http://localhost:3000/resource/ld4p:RT:bf2:xxx"].includes(
-      uri
+      uri,
     )
   )
 }
@@ -111,7 +111,9 @@ export const getFixtureTemplateSearchResults = () => {
 
   return Promise.all(
     Object.keys(templateFilenames).map((id) => {
-      const jsonld = require(`../__template_fixtures__/${templateFilenames[id]}`)
+      const jsonld = require(
+        `../__template_fixtures__/${templateFilenames[id]}`,
+      )
       return datasetFromJsonld(jsonld).then((dataset) => {
         const uri = `http://localhost:3000/resource/${id}`
         const template = new TemplatesBuilder(dataset, uri).build()
@@ -129,14 +131,14 @@ export const getFixtureTemplateSearchResults = () => {
         fixtureTemplateSearchResults[result.id] = result
         return result
       })
-    })
+    }),
   )
 }
 
 // These are used as fake resource search results
 export const resourceSearchResults = (
   uri,
-  type = "http://id.loc.gov/ontologies/bibframe/Fixture"
+  type = "http://id.loc.gov/ontologies/bibframe/Fixture",
 ) => {
   return [
     {

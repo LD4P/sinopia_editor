@@ -34,18 +34,18 @@ const Editor = (props) => {
   const resourceKey = useSelector((state) => selectCurrentResourceKey(state))
   // Resource ID is extracted from the URI. Presence indicates the resource has been saved.
   const resourceId = useSelector((state) =>
-    selectResourceId(state, resourceKey)
+    selectResourceId(state, resourceKey),
   )
   const subjectTemplate = useSelector((state) =>
-    selectSubjectTemplateForSubject(state, resourceKey)
+    selectSubjectTemplateForSubject(state, resourceKey),
   )
   const subjectTemplateKey = subjectTemplate?.key
 
   const displayErrors = useSelector((state) =>
-    displayResourceValidations(state, resourceKey)
+    displayResourceValidations(state, resourceKey),
   )
   const hasValidationErrors = useSelector((state) =>
-    hasValidationErrorsSelector(state, resourceKey)
+    hasValidationErrorsSelector(state, resourceKey),
   )
 
   useEffect(() => {

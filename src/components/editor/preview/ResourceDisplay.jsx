@@ -19,7 +19,7 @@ const ResourceDisplay = ({
   const errorKey = useAlerts()
   const resource = useSelector((state) => selectFullSubject(state, resourceKey))
   const hasRelationships = useSelector((state) =>
-    hasRelationshipsSelector(state, resourceKey)
+    hasRelationshipsSelector(state, resourceKey),
   )
   const dataset = useMemo(() => new GraphBuilder(resource).graph, [resource])
   const [format, setFormat] = useState(defaultFormat)

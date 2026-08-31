@@ -18,7 +18,7 @@ describe("creating new resource template ", () => {
       {
         selector: resourceHeaderSelector,
       },
-      { timeout: 15000 }
+      { timeout: 15000 },
     )
   }, 20000)
 })

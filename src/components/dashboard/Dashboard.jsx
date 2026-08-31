@@ -21,13 +21,13 @@ import MarcModal from "../editor/actions/MarcModal"
 
 const Dashboard = (props) => {
   const historicalTemplates = useSelector((state) =>
-    selectHistoricalTemplates(state)
+    selectHistoricalTemplates(state),
   )
   const historicalSearches = useSelector((state) =>
-    selectHistoricalSearches(state)
+    selectHistoricalSearches(state),
   )
   const historicalResources = useSelector((state) =>
-    selectHistoricalResources(state)
+    selectHistoricalResources(state),
   )
 
   const showWelcome =
