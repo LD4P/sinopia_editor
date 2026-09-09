@@ -6,7 +6,7 @@
     "editor",
     "rdf"
   ],
-  "version": "3.17.203",
+  "version": "3.17.204",
   "homepage": "http://github.com/LD4P/sinopia_editor/",
   "repository": {
     "type": "git",
@@ -188,7 +188,7 @@
       "jest-prop-type-error",
       "dotenv/config"
     ],
-    "testEnvironment": "jsdom",
+    "testEnvironment": "<rootDir>/jest.environment.js",
     "testMatch": [
       "**/__tests__/**/*.test.[jt]s?(x)"
     ],
