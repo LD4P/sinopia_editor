@@ -33,6 +33,18 @@ const vocabulary = {
     description: "Date associated with the template",
     url: "http://sinopia.io/vocabulary/hasDate",
   },
+  createdDate: {
+    description: "Create date of the template",
+    url: "http://sinopia.io/vocabulary/createdDate",
+  },
+  lastModified: {
+    description: "Date the template was last modified",
+    url: "http://sinopia.io/vocabulary/lastModified",
+  },
+  bfVersion: {
+    description: "Ontology version associated with the descriptive resource",
+    url: "http://sinopia.io/vocabulary/bfVersion",
+  },
   hasDefault: {
     description: "Default value(s) specific to a property",
     url: "http://sinopia.io/vocabulary/hasDefault",
